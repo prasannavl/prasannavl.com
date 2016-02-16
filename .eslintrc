@@ -1,0 +1,50 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true,
+        "commonjs": true
+    },
+    "ecmaFeatures": {
+        "jsx": true,
+        "experimentalObjectRestSpread": true,
+        "modules": true
+    },
+    "extends": "eslint:recommended",
+    "plugins": [
+        "react",
+        "import",
+        "babel"
+    ],
+    "rules": {
+        "no-unused-vars": 1,
+        "camelcase": [
+            2,
+            {
+                "properties": "always"
+            }
+        ],
+        "strict": 0,
+        "comma-dangle": 0,
+        "quotes": [
+            0,
+            "double",
+            "avoid-escape"
+        ],
+        "babel/new-cap": 0,
+        "object-curly-spacing": [
+            1,
+            "always"
+        ],
+        "babel/object-curly-spacing": [
+            0,
+            "always"
+        ],
+        "babel/object-shorthand": 1,
+        "babel/arrow-parens": 0,
+        "babel/no-await-in-loop": 0,
+        "react/jsx-uses-react": 1,
+        "react/jsx-uses-vars": 1
+    }
+}
