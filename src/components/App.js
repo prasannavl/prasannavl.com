@@ -1,12 +1,12 @@
 import React from "react";
 
-export default class Hello extends React.Component {
+export default class App extends React.Component {
   constructor() {
     super();
     this.state = {};
   }
   
   render() {
-    return (<div>Hello world!</div>);    
+      return this.props.children;
   }
 }

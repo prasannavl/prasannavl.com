@@ -1,16 +1,19 @@
 import React from "react";
-import { Router, Route } from "react-router";
+import { Router, Route, IndexRoute } from "react-router";
 import history from "./modules/core/history";
-import Hello from "./Hello";
+import App from "./components/App";
+import Expose from "./components/Expose";
 
-let Hello2 = () => (<div>Hello there from Static Markup 2222!</div>);
-let Hello3 = () => (<div>Hello there from Static Markup 3333!</div>);
+let Hello2 = () => (<div>Hello 2222!</div>);
+let Hello3 = () => (<div>Hello 3333!</div>);
 
 let routes = (
     <Router history={history}>
-    <Route path="/" component= { Hello } />
-        <Route path="/hello2" component={Hello2} />
-        <Route path="/hello3" component={Hello3} />
+    <Route path="/" component= { App } >
+        <IndexRoute component={ Expose } />
+        <Route path="hello2" component= { Hello2 } />
+        <Route path="hello3" component={Hello3} />
+    </Route>
     </Router>);
 
 export default routes;

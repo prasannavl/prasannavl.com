@@ -56,10 +56,6 @@ function useReactRenderer(req, res) {
             res.status(404).send('Not found')
         }
     });
-    match({ routes, location: req.url }, (err, redirect, props) => {
-        const appHtml = renderToString(<RouterContext {...props}/>)
-        res.send(renderPage(appHtml))
-    });
 
     function renderPage(body) {
         if (htmlConfig === null)
