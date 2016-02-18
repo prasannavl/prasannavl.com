@@ -1,7 +1,7 @@
 import React from "react";
 import { renderToString, renderToStaticMarkup } from "react-dom/server";
 import { HeadBuilder } from "../src/modules/core/docHead";
-import guards from "../src/modules/core/guards";
+import guard from "../src/modules/core/guard";
 import * as path from "path";
 
 class HtmlRenderer {
@@ -11,18 +11,18 @@ class HtmlRenderer {
         
         let builder = new HeadBuilder();
         
-        if (guards.checkString(titleTemplate)) {
+        if (guard.checkString(titleTemplate)) {
             builder.setTitleTemplate(titleTemplate);        
         }
         
-        if (guards.checkString(title)) {
+        if (guard.checkString(title)) {
             builder.setTitle(title);
         }
 
-        if (guards.checkString(charset))
+        if (guard.checkString(charset))
             builder.setCharset(charset);
 
-        if (guards.checkString(description))
+        if (guard.checkString(description))
             builder.setDescription(description);
 
         if (typeof (tags) === "string") {

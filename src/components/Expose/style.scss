@@ -1,0 +1,105 @@
+#expose {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #0096d6;
+    display: block;
+    color: #fff;
+    #content {
+        position: relative;
+        max-width: 750px;
+        margin-left: 15%;
+        margin-top: 10%;
+        margin-right: 10%;
+        margin-bottom: 10%;
+        & ::selection {
+            color: black;
+            background: #fff;
+        }
+        h1 {
+            font-weight: 900;
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 20px;
+            color: #b3dff2;
+        }
+        h3 {
+            font-size: 18px;
+            color: #82cae8;
+        }
+        a {
+            color: #ffffff;
+            text-decoration: none;
+            &:hover {
+                text-decoration: none;
+                border-bottom: 2px solid #fff;
+            }
+            &:active {
+                color: darkslategray;
+                border-bottom: 2px solid darkslategray;
+                transition: all 0.1s;
+            }
+        }
+        section:first-of-type {
+            .info {
+                margin-top: 30px;
+                font-size: 18px;
+            }
+            #arrow {
+                float: right;
+                display: block;
+                $size: 92px;
+                border-radius: 50%;
+                width: $size;
+                height: $size;
+                margin: -110px 28px 0 0;
+                border: 2px solid #fff;
+                color: #fff;
+                text-align: center;
+                font-size: $size - 4px;
+                transition: all 0.5s;
+                user-select: none;
+                &:hover {
+                    transform: scale(1.2);
+                    transition: all 0.3s;
+                }
+                &:active {
+                    color: darkslategray;
+                    border: 2px solid darkslategray;
+                    transition: all 0.1s;
+                }
+            }
+            address {
+                a {
+                    $marginTop: 85px;
+                    margin-top: $marginTop;
+                    border-bottom: none;
+                    position: relative;
+                    font-size: 46px;
+                    margin-right: 18px;
+                    transition: all 0.3s;
+                    &:hover {
+                        transform: scale(1.2);
+                        transition: all 0.1s;
+                        text-decoration: none;
+                        border-bottom: none;
+                    }
+                    &:active {
+                        color: darkslategray;
+                        transition: all 0.1s;
+                    }
+                    &.email {
+                        position: absolute;
+                        margin-top: $marginTop - 1px;
+                        margin-left: 3px;
+                    }
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+}

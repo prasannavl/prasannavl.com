@@ -3,33 +3,70 @@
 import chalk from "chalk";
 import webpack from "webpack";
 import utils from "./utils";
+import * as path from "path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import htmlRenderer from "./htmlRenderer";
 
 class WebpackUtils {
-    
+
     constructor() {
         this.logItems = [];
     }
-    
-    checkIsProduction(config)
-    {
+
+    checkIsProduction(config) {
         return config.app.isProduction;
     }
-    
-    run(config, staticAssetsPath) {
-        if (this.checkIsProduction(config))
+
+    run(config, artifactsPath, statsFileName, staticAssetsPath, htmlConfigPath, htmlConfigArtifactPath) {
+
+        let isProduction = this.checkIsProduction(config);
+        utils.initEnvironment(isProduction);
+
+        if (isProduction)
             console.log(chalk.cyan("Mode: Production"));
         else
             console.log(chalk.cyan("Mode: Development"));
 
+        utils.ensureDirectoryExists(artifactsPath);
         console.log();
 
         if (this.logItems.length > 0) {
             this.logItems.forEach(x => console.log(x));
             console.log();
         }
+
+        let htmlConfig = utils.getFromJsonFile(htmlConfigPath);
+        this.updateHtmlConfigForExternals(htmlConfig, config.app.externals);
+
+        let htmlPlugin = new HtmlWebpackPlugin({
+            fileName: "index.html",
+            templateContent: htmlRenderer.render(htmlConfig),
+            inject: "head",
+            minify: isProduction ? config.htmlMinifyOpts : false,
+        });
+
+        config.plugins.push(htmlPlugin);
+        let statsPath = path.join(artifactsPath, statsFileName)
+        config.plugins.push(this.getStatsPlugin(statsPath));
+        
+        utils.writeToFileAsJson(htmlConfigArtifactPath, htmlConfig);
+
         utils.copyAssets(staticAssetsPath, config.output.path);
         console.log();
         return config;
+    }
+    
+    getStatsPlugin(statsPath) {
+        return function () {
+            this.plugin("done", function (stats) {
+                utils.writeToFileAsJson(statsPath, stats.toJson({ chunkModules: true, source: false, cached: false, reasons: false }));
+            });
+        }
+    }
+
+    updateHtmlConfigForExternals(config, externals) {
+        config.js = [...config.js, ...externals.filter(x => x.endsWith(".js"))];
+        config.css = [...config.css, ...externals.filter(x => x.endsWith(".css"))];
     }
 
     createConfiguration(config, devConfig, productionConfig) {
@@ -47,7 +84,7 @@ class WebpackUtils {
         }
         return config;
     }
-    
+
     applyPlugins(config, commonPlugins, devPlugins, productionPlugins) {
         config.plugins.push(...commonPlugins);
         if (this.checkIsProduction(config)) {
@@ -56,8 +93,8 @@ class WebpackUtils {
             config.plugins.push(...devPlugins);
         }
     }
-    
-    
+
+
     addExternalDependency(config, moduleName, externalAddress, importName) {
         let states = [];
 

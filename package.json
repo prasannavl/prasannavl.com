@@ -19,8 +19,7 @@
   },
   "author": "Prasanna V. Loganathar",
   "license": "Apache-2.0",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^6.3.2",
     "babel-eslint": "^4.1.8",
@@ -48,6 +47,7 @@
     "history": "^2.0.0",
     "html-webpack-plugin": "^2.8.1",
     "image-webpack-loader": "^1.6.3",
+    "isomorphic-style-loader": "0.0.10",
     "json-loader": "^0.5.4",
     "loader-utils": "^0.2.12",
     "lodash": "^4.3.0",
@@ -73,6 +73,7 @@
     "webpack-dev-middleware": "^1.5.1",
     "webpack-dev-server": "^1.14.1",
     "webpack-hot-middleware": "^2.7.1",
+    "webpack-require": "0.0.16",
     "webpack-stats-plugin": "^0.1.1",
     "yargs": "^3.32.0"
   },

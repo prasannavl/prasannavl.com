@@ -4,6 +4,7 @@
 import chalk from "chalk";
 import path from "path";
 import copyDir from "copy-dir";
+import fs from "fs";
 
 class Utils {
 
@@ -26,6 +27,18 @@ class Utils {
 
     getNpmLifecycleEvent() {
         return process.env.npm_lifecycle_event;
+    }
+    
+    ensureDirectoryExists(path) {
+        if (!fs.existsSync(path)) fs.mkdirSync(path);
+    }
+
+    getFromJsonFile(path) {
+        return JSON.parse(fs.readFileSync(path));
+    }
+
+    writeToFileAsJson(path, obj, flag = "w+") {
+        fs.writeFile(path, JSON.stringify(obj), { flag });
     }
 
     createResolverForPath(pathRoot) {

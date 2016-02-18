@@ -11,6 +11,9 @@
         "<meta name=\"msapplication-TileImage\" content=\"\">",
         "<link rel=\"apple-touch-icon-precomposed\" href=\"\">"
     ],
-    "css": [],        
+    "css": [
+        "https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100",
+        "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css",
+        "https://fonts.googleapis.com/icon?family=Material+Icons"],        
     "js": []
 }

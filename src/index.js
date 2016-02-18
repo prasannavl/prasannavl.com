@@ -1,9 +1,14 @@
+import React from "react";  
 import ReactDOM from "react-dom";
+import { Router, match } from "react-router";
 import routes from "./routes";
+import history from "./modules/core/history";
+import style from "./style.scss"; // eslint-disable-line no-unused-vars
+import executionEnvironment from "fbjs/lib/ExecutionEnvironment";
 
-if (__DEV__) //eslint-disable-line 
+if (__DEV__ && executionEnvironment.canUseDOM)
 {
-    require("normalize.css");
+    require("normalize.css")._insertCss();
 }
 
 function init() {
@@ -13,9 +18,17 @@ function init() {
     let handler = () => {
         document.removeEventListener(contentLoadedEvent, handler);
         let outlet = document.getElementById(outletElementId);
-        ReactDOM.render(routes, outlet);
+        
+        match({ history, routes }, (error, redirectLocation, renderProps) => {
+            ReactDOM.render(<Router {...renderProps} />, outlet)
+        });
     };
     document.addEventListener(contentLoadedEvent, handler);
 }
 
-init();
+if (executionEnvironment.canUseDOM) {
+    style._insertCss();
+    init();
+}
+
+export default routes;

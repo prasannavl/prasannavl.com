@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "name": "expose",
+  "main": "./index.jsx"
+}

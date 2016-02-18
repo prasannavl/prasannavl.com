@@ -1,0 +1,49 @@
+import React from "react";
+import style from "./style.scss"; // eslint-disable-line no-unused-vars
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+
+class Expose extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+  
+  getLinkIcon(classNames, linkSrc) {
+      return (<a href={ linkSrc } className={ classNames }></a>);
+  }
+  
+  forward(ev) {
+      ev.preventDefault();
+  }
+  
+  render() {
+      return (
+        <div id="expose">
+            <div id="content">
+                <header>
+                    <h1>Prasanna V. Loganathar</h1>
+                    <h2>A <a href="https://xkcd.com/242/">mad-man</a> with a computer, walking the grove between <a href="http://what-if.xkcd.com/">Science</a> and <a href="https://xkcd.com/387/">Technology</a>.</h2>
+                </header>
+
+                <section>
+                    <address className="icons">
+                    { this.getLinkIcon("fa fa-twitter", "https://www.twitter.com/prasannavl") }
+                    { this.getLinkIcon("fa fa-github", "https://www.github.com/prasannavl") }
+                    { this.getLinkIcon("fa fa-facebook-square", "https://www.facebook.com/prasannavl") }
+                    { this.getLinkIcon("fa fa-envelope email", "mailto:Prasanna V. Loganathar <pvl@prasannavl.com>") }
+                    </address>
+                    
+                    <div className="info">
+                        And I write stuff <b><a href="">here</a></b>.
+                    </div>
+                    
+                    <a href="" id="arrow" className="material-icons" onClick={this.forward.bind(this)}>arrow_forward</a>
+                    
+                </section>
+            </div>
+        </div>
+      );
+  }
+}
+
+export default withStyles(Expose, style);
