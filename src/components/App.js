@@ -1,25 +1,27 @@
-import React from "react";
-import executionEnvironment from "fbjs/lib/ExecutionEnvironment";
+import React, { PropTypes } from "react";
 
 class App extends React.Component {
+    static propTypes = {
+        applyCss: PropTypes.func.isRequired
+    };
+
+    static childContextTypes = {
+        applyCss: PropTypes.func.isRequired
+    };
+
     constructor() {
         super();
         this.state = {};
     }
-  
-  render() {
-      return this.props.children;
-  }
-}
 
-if (executionEnvironment.canUseDOM) {
-    App.childContextTypes = {
-        insertCss: React.PropTypes.func
-    };
+    getChildContext() {
+        return { applyCss: this.props.applyCss };
+    }
 
-    App.prototype.getChildContext = function () {
-        return { insertCss: (styles) => styles._insertCss(styles) };
+    render() {
+        return this.props.children;
     }
 }
+
 
 export default App;

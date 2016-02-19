@@ -7,7 +7,7 @@ import * as path from "path";
 class HtmlRenderer {
 
     getHtmlHead(htmlConfig) {
-        let { title, titleTemplate, charset, description, tags, js, css } = htmlConfig;
+        let { title, titleTemplate, charset, description, tags, js, css, tagsEnd } = htmlConfig;
         
         let builder = new HeadBuilder();
         
@@ -34,6 +34,13 @@ class HtmlRenderer {
 
         if (css) { css.forEach(x => builder.addCss(x)); }
         if (js) { js.forEach(x => builder.addJs(x)); }
+        
+        if (typeof (tagsEnd) === "string") {
+            builder.add(tags);
+        }
+        else if (tagsEnd.constructor === Array) {
+            tagsEnd.forEach(x => builder.add(x));
+        }
 
         let head = builder.toString();
         return head;

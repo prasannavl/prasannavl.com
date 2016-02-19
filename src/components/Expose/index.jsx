@@ -1,6 +1,7 @@
 import React from "react";
-import style from "./style.scss"; // eslint-disable-line no-unused-vars
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import style from "./style.scss";
+import styled from "../../modules/styled";
+import { Link } from "react-router";
 
 class Expose extends React.Component {
   constructor() {
@@ -38,7 +39,8 @@ class Expose extends React.Component {
                     </div>
                     
                     <a href="" id="arrow" className="material-icons" onClick={this.forward.bind(this)}>arrow_forward</a>
-                    
+                    <Link to="/hello2" style={{ display: "block"}}>Go to static 2</Link>
+                    <Link to="/hello3" style={{ display: "block"}}>Go to static 3</Link>                    
                 </section>
             </div>
         </div>
@@ -46,4 +48,4 @@ class Expose extends React.Component {
   }
 }
 
-export default withStyles(Expose, style);
+export default styled(Expose, style);

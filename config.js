@@ -77,6 +77,9 @@ let config = {
         alias: {},
         extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx"]
     },
+    resolveLoader: {
+        alias: { "styled": resolve("./src/modules/styled/loader.js") },
+    },
     module: {
         noParse: [],
         loaders: [
@@ -89,10 +92,10 @@ let config = {
                 loader: "json"
             }, {
                 test: /\.css$/i,
-                loader: "isomorphic-style-loader!css!postcss"
+                loader: "styled!css!postcss"
             }, {
                 test: /\.scss$/i,
-                loaders: ["isomorphic-style-loader", "css?-autoprefixer", "postcss", "sass"]
+                loaders: ["styled", "css?-autoprefixer", "postcss", "sass"]
             }, {
                 test: /\.(gif|png|jpe?g|svg)$/i,
                 loaders: [
