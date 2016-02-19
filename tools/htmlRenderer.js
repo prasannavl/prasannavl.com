@@ -28,7 +28,7 @@ class HtmlRenderer {
         if (typeof (tags) === "string") {
             builder.add(tags);
         }
-        else if (tags.constructor === Array) {
+        else if (tags && tags.constructor === Array) {
             tags.forEach(x => builder.add(x));
         }
 
@@ -38,7 +38,7 @@ class HtmlRenderer {
         if (typeof (tagsEnd) === "string") {
             builder.add(tags);
         }
-        else if (tagsEnd.constructor === Array) {
+        else if (tags && tagsEnd.constructor === Array) {
             tagsEnd.forEach(x => builder.add(x));
         }
 
