@@ -19,7 +19,7 @@ function insertCss(styles, options) {
      */
 
     function removeCss(ids) {
-        ids.forEach(id => {
+        ids.forEach(function (id) {
             if (--inserted[id] <= 0) {
                 const elem = document.getElementById(prefix + id);
                 if (elem) {
@@ -32,9 +32,9 @@ function insertCss(styles, options) {
     // Base64 encoding and decoding - The "Unicode Problem"
     // https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding#The_Unicode_Problem
     function b64EncodeUnicode(str) {
-        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) =>
-            String.fromCharCode(`0x${p1}`)
-            ));
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, p1) {
+            String.fromCharCode("0x" + p1);
+        }));
     }
 
     const opts = Object.assign({
@@ -46,7 +46,7 @@ function insertCss(styles, options) {
     const prepend = opts.prepend;
     
     const ids = [];
-    for (let i = 0; i < styles.length; i++) {
+    for (var i = 0; i < styles.length; i++) {
         //const [moduleId, css, media, sourceMap] = styles[i];
         const currentStyle = styles[i];
         
@@ -55,7 +55,7 @@ function insertCss(styles, options) {
         const media = currentStyle[2];
         const sourceMap = currentStyle[3];
         
-        const id = `${moduleId}-${i}`;
+        const id = moduleId + "-" + i;
 
         if (inserted[id]) {
             if (!replace) {
@@ -67,8 +67,8 @@ function insertCss(styles, options) {
         inserted[id] = 1;
         ids.push(id);
 
-        let elem = document.getElementById(prefix + id);
-        let create = false;
+        var elem = document.getElementById(prefix + id);
+        var create = false;
 
         if (!elem) {
             create = true;
@@ -82,11 +82,10 @@ function insertCss(styles, options) {
             }
         }
 
-        let cssText = css;
+        var cssText = css;
         if (sourceMap) {
-            cssText += `\n/*# sourceMappingURL=data:application/json;base64,${
-            b64EncodeUnicode(JSON.stringify(sourceMap)) }*/`;
-            cssText += `\n/*# sourceURL=${sourceMap.file}*/`;
+            cssText += "\n/*# sourceMappingURL=data:application/json;base64," + b64EncodeUnicode(JSON.stringify(sourceMap)) + "*/";
+            cssText += "\n/*# sourceURL=" + sourceMap.file + "*/";
         }
 
         if ('textContent' in elem) {
