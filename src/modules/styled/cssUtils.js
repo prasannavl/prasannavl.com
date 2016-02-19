@@ -19,7 +19,7 @@ function insertCss(styles, options) {
      */
 
     function removeCss(ids) {
-        for (const id of ids) {
+        for (var id of ids) {
             if (--inserted[id] <= 0) {
                 const elem = document.getElementById(prefix + id);
                 if (elem) {
