@@ -19,14 +19,14 @@ function insertCss(styles, options) {
      */
 
     function removeCss(ids) {
-        for (var id of ids) {
+        ids.forEach(id => {
             if (--inserted[id] <= 0) {
                 const elem = document.getElementById(prefix + id);
                 if (elem) {
                     elem.parentNode.removeChild(elem);
                 }
             }
-        }
+        });
     }
 
     // Base64 encoding and decoding - The "Unicode Problem"
