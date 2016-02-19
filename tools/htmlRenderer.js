@@ -38,7 +38,7 @@ class HtmlRenderer {
         if (typeof (tagsEnd) === "string") {
             builder.add(tags);
         }
-        else if (tags && tagsEnd.constructor === Array) {
+        else if (tagsEnd && tagsEnd.constructor === Array) {
             tagsEnd.forEach(x => builder.add(x));
         }
 
