@@ -53,9 +53,11 @@ class Utils {
     }
 
     copyAssets(src, dest, assetDisplayName = "assets") {
-        process.stdout.write(chalk.yellow("Copying " + assetDisplayName + ".."));
-        copyDir.sync(src, dest);
-        process.stdout.write("done" + require("os").EOL);
+        if (fs.existsSync(src)) {
+            process.stdout.write(chalk.yellow("Copying " + assetDisplayName + ".."));
+            copyDir.sync(src, dest);
+            process.stdout.write("done" + require("os").EOL);
+        }
     }
 }
 
