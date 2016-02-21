@@ -7,9 +7,17 @@ import * as executionEnvironment from "fbjs/lib/ExecutionEnvironment";
 
 let style = require("./style.scss") as ParsedCss;
 
-if (__DEV__ && executionEnvironment.canUseDOM)
+if (__DEV__)
 {
-    (require("normalize.css") as ParsedCss).insertIntoDom();
+    if (executionEnvironment.canUseDOM) {
+        (require("normalize.css") as ParsedCss).insertIntoDom();
+        style.insertIntoDom();
+    }
+}
+
+if (executionEnvironment.canUseDOM)
+{
+    init();
 }
 
 function init() {
@@ -29,9 +37,4 @@ function init() {
         });
     };
     document.addEventListener(contentLoadedEvent, handler);
-}
-
-if (executionEnvironment.canUseDOM) {
-    style.insertIntoDom();
-    init();
 }

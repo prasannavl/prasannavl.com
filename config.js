@@ -78,7 +78,7 @@ let config = {
         extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".ts", ".tsx"]
     },
     resolveLoader: {
-        alias: { "styled": resolve("./src/modules/styled/loader.js") },
+        alias: { "styled": resolve("./src/modules/styled/loader.js"), "log": resolve("./tools/webpack_loaders/log.js") },
     },
     module: {
         noParse: [],
@@ -95,11 +95,17 @@ let config = {
             }, {
                 test: /\.json$/i,
                 loader: "json"
-            }, {
+            },
+            {
+                test: resolve("./src/style.scss"), 
+                loader: TextPlugins.globalStyles.extract(["styled"], ["css?-autoprefixer", "postcss", "sass"])
+            },
+            {
                 test: /\.css$/i,
                 loader: "styled!css!postcss"
             }, {
                 test: /\.scss$/i,
+                exclude: resolve("./src/style.scss"),
                 loaders: ["styled", "css?-autoprefixer", "postcss", "sass"]
             }, {
                 test: /\.(gif|png|jpe?g|svg)$/i,
@@ -111,7 +117,6 @@ let config = {
                 test: /\.ico$/i,
                 loader: "file?name=" + OUTPUT_IMAGES_FILENAME_PATTERN
             },
-            { test: /\style.scss$/, loader: TextPlugins.globalStyles.extract(["css?-autoprefixer", "postcss", "sass"]) }
         ]
     },
     plugins: [],
