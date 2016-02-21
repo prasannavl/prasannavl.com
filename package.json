@@ -15,6 +15,7 @@
     "serve:p": "node ./tools/babelHost.js --run ./server.js",
     "start": "npm run build && npm run serve",
     "start:p": "npm run build:p && npm run serve:p",
+    "displace-sourcemaps": "node ./tools/babelHost.js --run ./displaceSourceMaps.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Prasanna V. Loganathar",
@@ -51,6 +52,7 @@
     "json-loader": "^0.5.4",
     "loader-utils": "^0.2.12",
     "lodash": "^4.3.0",
+    "map-stream": "0.0.6",
     "md5": "^2.0.0",
     "node-sass": "^3.4.2",
     "normalize.css": "^3.0.3",
@@ -75,6 +77,7 @@
     "typescript": "^1.8.0",
     "url-loader": "^0.5.7",
     "velocity-animate": "^1.2.3",
+    "vinyl-fs": "^2.3.1",
     "webpack": "^1.12.13",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-dev-server": "^1.14.1",

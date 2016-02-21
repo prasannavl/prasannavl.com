@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+- '5.5'
+cache:
+  directories:
+  - node_modules
+before_install:
+- openssl aes-256-cbc -K $encrypted_6f6183083e10_key -iv $encrypted_6f6183083e10_iv
+  -in ./tools/deploy_key.enc -out ./tools/deploy_key -d
+after_success:
+- eval "$(ssh-agent -s)"
+- chmod 600 ./tools/deploy_key
+- ssh-add ./tools/deploy_key
+- npm run build:p
+- npm run displace-sourcemaps
+- cd build
+- git init
+- git config user.name "Travis CI"
+- git config user.email "ci-bot@prasannavl.com"
+- git add .
+- git commit -m "Auto deployment"
+- git remote add deploy git@github.com:prasannavl/prasannavl.com.git
+- git push --force deploy master:gh-pages
