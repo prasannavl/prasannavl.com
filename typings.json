@@ -1,0 +1,11 @@
+{
+  "name": "prasannavl.com",
+  "dependencies": {},
+  "devDependencies": {},
+  "ambientDependencies": {
+    "history": "github:DefinitelyTyped/DefinitelyTyped/react-router/history.d.ts#99f6493ffb1ef5479c6154ec9f82a47178bbf8b6",
+    "react": "github:DefinitelyTyped/DefinitelyTyped/react/react.d.ts#f407264835650f5f38d4bb2c515a79e7a835916b",
+    "react-dom": "github:DefinitelyTyped/DefinitelyTyped/react/react-dom.d.ts#ca5bfe76d2d9bf6852cbc712d9f3e0047c93486e",
+    "react-router": "github:DefinitelyTyped/DefinitelyTyped/react-router/react-router.d.ts#07feae11780495b90145451d48d4a50923762ef1"
+  }
+}

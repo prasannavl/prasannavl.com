@@ -65,7 +65,7 @@ let config = {
     app,
     context: CONTEXT_PATH,
     entry: {
-        main: "./index.js"
+        main: "./index.ts"
     },
     output: {
         filename: OUTPUT_FILENAME_PATTERN,
@@ -75,7 +75,7 @@ let config = {
     },
     resolve: {
         alias: {},
-        extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx"]
+        extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".ts", ".tsx"]
     },
     resolveLoader: {
         alias: { "styled": resolve("./src/modules/styled/loader.js") },
@@ -84,8 +84,13 @@ let config = {
         noParse: [],
         loaders: [
             {
+                test: /\.ts[x]?$/i,
+                loader: "babel!ts",
+                exclude: /node_modules/  
+            },
+            {
                 test: /\.js[x]?$/i,
-                loader: "babel?compact=" + IS_PRODUCTION,
+                loader: "babel",
                 exclude: /node_modules/
             }, {
                 test: /\.json$/i,

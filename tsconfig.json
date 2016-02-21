@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "jsx": "react",
+        "target": "es2015",
+        "outDir": "./artifacts/",
+        "noImplicitAny": true,
+        "noImplicitReturns": true
+    },
+    "exclude": [
+        "node_modules",
+        "build",
+        "artifacts",
+        "tools",
+        "typings"
+    ]
+}

@@ -1,19 +1,20 @@
-import React from "react";
-import style from "./style.scss";
-import styled from "../../modules/styled";
+import * as React from "react";
 import { Link } from "react-router";
+import styled from "../../modules/styled/index";
 
-class Expose extends React.Component {
+const style = require("./style.scss") as ParsedCss; 
+
+class Expose extends React.Component<{}, {}> {
   constructor() {
     super();
     this.state = {};
   }
   
-  getLinkIcon(classNames, linkSrc) {
+  getLinkIcon(classNames: string, linkSrc: string) {
       return (<a href={ linkSrc } className={ classNames }></a>);
   }
   
-  forward(ev) {
+  forward(ev: React.SyntheticEvent) {
       ev.preventDefault();
   }
   

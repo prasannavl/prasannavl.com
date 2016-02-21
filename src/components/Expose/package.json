@@ -1,5 +1,5 @@
 {
   "private": true,
   "name": "expose",
-  "main": "./index.jsx"
+  "main": "./index.tsx"
 }

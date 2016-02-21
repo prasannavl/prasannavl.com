@@ -1,14 +1,15 @@
-import React from "react";  
-import ReactDOM from "react-dom";
+import * as React from "react";  
+import * as ReactDOM from "react-dom";
 import { Router, match } from "react-router";
 import routes from "./routes";
 import history from "./modules/core/history";
-import style from "./style.scss";
-import executionEnvironment from "fbjs/lib/ExecutionEnvironment";
+import * as executionEnvironment from "fbjs/lib/ExecutionEnvironment";
+
+let style = require("./style.scss") as ParsedCss;
 
 if (__DEV__ && executionEnvironment.canUseDOM)
 {
-    require("normalize.css").insertIntoDom();
+    (require("normalize.css") as ParsedCss).insertIntoDom();
 }
 
 function init() {
@@ -19,10 +20,10 @@ function init() {
         document.removeEventListener(contentLoadedEvent, handler);
         
         const outlet = document.getElementById(outletElementId);
-        const applyCss = styles => styles.insertIntoDom();        
-        const createElement = (comp, props) => { return React.createElement(comp, { ...props, applyCss }); };
+        const applyCss = (styles: ParsedCss) => styles.insertIntoDom();        
+        const createElement = (comp: any, props:any) => { props.applyCss = applyCss; return React.createElement(comp, props); };
         
-        match({ history, routes }, (error, redirectLocation, renderProps) => {
+        match({ history, routes }, (error:any, redirectLocation:any, renderProps:any) => {
             renderProps.createElement = createElement;
             ReactDOM.render(React.createElement(Router, renderProps), outlet);
         });

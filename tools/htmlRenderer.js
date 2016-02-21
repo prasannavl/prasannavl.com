@@ -1,6 +1,6 @@
-import React from "react";
-import { renderToString, renderToStaticMarkup } from "react-dom/server";
-import { HeadBuilder } from "../src/modules/core/docHead";
+import React from "react"; //eslint-disable-line
+import { renderToStaticMarkup } from "react-dom/server";
+import HeadBuilder from "./HeadBuilder";
 import guard from "../src/modules/core/guard";
 import * as path from "path";
 

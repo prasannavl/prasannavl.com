@@ -24,7 +24,7 @@ function styled(InnerComponent, ...styles) {
         }
 
         render() {
-            return <InnerComponent {...this.props } />;
+            return React.createElement(InnerComponent, this.props);
         }
     };
 }
