@@ -12,6 +12,7 @@ after_success:
 - chmod 600 ./tools/deploy_key
 - ssh-add ./tools/deploy_key
 - mkdir build
+- ./node_modules/.bin/typings install
 - npm run build:p
 - npm run displace-sourcemaps
 - cd build

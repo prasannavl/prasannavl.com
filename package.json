@@ -73,8 +73,8 @@
     "sprintf-js": "^1.0.3",
     "style-loader": "^0.13.0",
     "ts-loader": "^0.8.1",
-    "tsd": "^0.6.5",
     "typescript": "^1.8.0",
+    "typings": "^0.6.8",
     "url-loader": "^0.5.7",
     "velocity-animate": "^1.2.3",
     "vinyl-fs": "^2.3.1",
@@ -83,7 +83,6 @@
     "webpack-dev-server": "^1.14.1",
     "webpack-hot-middleware": "^2.7.1",
     "webpack-require": "0.0.16",
-    "webpack-stats-plugin": "^0.1.1",
     "yargs": "^3.32.0"
   },
   "keywords": []
