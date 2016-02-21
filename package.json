@@ -16,7 +16,7 @@
     "start": "npm run build && npm run serve",
     "start:p": "npm run build:p && npm run serve:p",
     "displace-sourcemaps": "node ./tools/babelHost.js --run ./displaceSourceMaps.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Nothing to test\" && exit 0"
   },
   "author": "Prasanna V. Loganathar",
   "license": "Apache-2.0",
