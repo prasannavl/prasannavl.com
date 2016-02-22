@@ -34,7 +34,7 @@ class Utils {
     }
 
     getFromJsonFile(path) {
-        return JSON.parse(fs.readFileSync(path));
+        return JSON.parse(fs.readFileSync(path), "utf-8");
     }
 
     writeToFileAsJson(path, obj, flag = "w+") {
