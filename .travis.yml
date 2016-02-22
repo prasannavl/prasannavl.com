@@ -13,7 +13,7 @@ after_success:
 - ssh-add ./tools/deploy_key
 - mkdir build
 - ./node_modules/.bin/typings install
-- npm run build:p
+- npm run build-static:p
 - npm run displace-sourcemaps
 - cd build
 - git init

@@ -1,9 +1,9 @@
 "use strict";
 /* eslint-disable no-console */
 require("babel-register");
-var args = require("yargs").argv;
-if (args.run) {  
-    require(args.run);
+var args = process.argv;
+if (args.length > 2) {  
+    require(args[2]);
 } else {
-    console.log("BabelHost: No input");
+    console.log("BabelHost: No valid input");
 }

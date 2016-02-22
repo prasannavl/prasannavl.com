@@ -7,7 +7,9 @@ import compression from "compression";
 import * as path from "path";
 import ReactRenderer from "./ReactRenderer";
 import utils from "./utils";
+import { argv } from "yargs";
 
+let shouldRun = argv.run ? true : false;
 let app = express();
 app.use(compression());
 
@@ -27,18 +29,24 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use(express.static(rootPath + "/"));
+if (shouldRun) {
+    app.use(express.static(rootPath + "/"));    
+}
 
 app.get("*", function (req, res) {
     //useStaticFile(req, res);
     reactRenderer.run(req, res);
 });
 
-app.listen(port, function () {
-    console.log(`Server listening on http://${host}:${port}`);
-    let open = require("open");
-    open(`http://${host}:${port}/`);
-});
+export var listen = app.listen.bind(app, port);
+
+if (shouldRun) {
+    listen(() => {
+        console.log(`Server listening on http://${host}:${port}`);
+        let open = require("open");
+        open(`http://${host}:${port}/`);
+    });
+}
 
 function useStaticFile(req, res) {
     res.sendFile(rootPath + DEVSERVER_INDEX_PATH_RELATIVE);
