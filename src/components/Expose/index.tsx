@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router";
-import styled from "../../modules/styled/index";
+import styled from "../../modules/core/styled";
 
 const style = require("./style.scss") as ParsedCss; 
 

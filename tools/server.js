@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 "use strict";
 
-import config, { OUTPUT_PATH, DEVSERVER_HOST, DEVSERVER_PORT, DEVSERVER_INDEX_PATH_RELATIVE, HTML_CONFIG_ARTIFACT_PATH, ARTIFACTS_PATH, WEBPACK_STATS_FILENAME } from "../config";
+import config, { OUTPUT_PATH, DEVSERVER_HOST, DEVSERVER_PORT, DEVSERVER_PUBLIC_PATH, DEVSERVER_INDEX_PATH_RELATIVE, HTML_CONFIG_ARTIFACT_PATH, ARTIFACTS_PATH, WEBPACK_STATS_FILENAME } from "../config";
 import express from "express";
 import compression from "compression";
 import * as path from "path";
@@ -29,7 +29,7 @@ app.use(function (req, res, next) {
 
 app.use(express.static(rootPath + "/"));
 
-app.get("/*", function (req, res) {
+app.get("*", function (req, res) {
     //useStaticFile(req, res);
     reactRenderer.run(req, res);
 });
@@ -50,8 +50,13 @@ function getWebpackStats() {
 
 function getHtmlConfig(webpackStats) {
     let htmlConfig = utils.getFromJsonFile(HTML_CONFIG_ARTIFACT_PATH); 
-    // remove source maps.
-    let webpackJs = [].concat(webpackStats.assetsByChunkName.main).filter(x => x.endsWith(".js"));
+
+    let addendum = DEVSERVER_PUBLIC_PATH.endsWith("/") ? DEVSERVER_PUBLIC_PATH : DEVSERVER_PUBLIC_PATH + "/";
+    let webpackJs = [].concat(webpackStats.assetsByChunkName.main).filter(x => x.endsWith(".js")).map(x => addendum + x);
+    let webpackCss = [].concat(webpackStats.assetsByChunkName.main).filter(x => x.endsWith(".css")).map(x => addendum + x);
+    
     htmlConfig.js = htmlConfig.js.concat(webpackJs);
+    htmlConfig.css = htmlConfig.css.concat(webpackCss);
+    
     return htmlConfig;
 }

@@ -4,7 +4,7 @@ import App from "./components/App";
 import Expose from "./components/Expose/index";
 
 import s2 from "./style2.scss";
-import styled from "./modules/styled";
+import styled from "./modules/core/styled";
 
 let Hello2 = () => (<div className="h2">Hello 2222!<div><Link to="/">Go back home</Link></div></div>);
 Hello2 = styled(Hello2, s2);

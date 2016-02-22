@@ -1,6 +1,6 @@
 "use strict";
 
-const prefix = '__css_';
+const prefix = '_s';
 const inserted = {};
 
 /**
@@ -47,7 +47,7 @@ function insertCss(styles, options) {
     
     const ids = [];
     for (var i = 0; i < styles.length; i++) {
-        //const [moduleId, css, media, sourceMap] = styles[i];
+        //const [moduleId, css, media, sourceMap, moduleName] = styles[i];
         const currentStyle = styles[i];
         
         const moduleId = currentStyle[0];

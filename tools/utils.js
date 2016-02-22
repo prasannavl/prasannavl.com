@@ -9,6 +9,7 @@ import fs from "fs";
 class Utils {
 
     getIsProduction() {
+        if (process.env["NODE_ENV"] === "production") return true;
         var npmEvent = this.getNpmLifecycleEvent();
         if (npmEvent && npmEvent.toLowerCase().endsWith(":p")) return true;
         return false;

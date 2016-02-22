@@ -3,7 +3,6 @@ import webpack from "webpack";
 import autoprefixer from "autoprefixer";
 import OpenBrowserPlugin from "open-browser-webpack-plugin";
 import * as path from "path";
-import fs from "fs";
 
 import utils from "./tools/utils";
 import webpackUtils from "./tools/webpackUtils";
@@ -24,10 +23,14 @@ export const OUTPUT_CHUNK_FILENAME_PATTERN = "js/[name].[chunkhash].js";
 export const OUTPUT_CSS_FILENAME_PATTERN = "css/[name].[contenthash].css";
 export const OUTPUT_IMAGES_FILENAME_PATTERN = "images/[hash].[ext]";
 
-export const ARTIFACTS_PATH = resolve("./artifacts");
 export const HTML_CONFIG_PATH = resolve("./htmlConfig.json");
+
+// Artifact constants
+
+export const ARTIFACTS_PATH = resolve("./artifacts");
 export const HTML_CONFIG_ARTIFACT_PATH = path.join(ARTIFACTS_PATH, path.basename(HTML_CONFIG_PATH));
 export const WEBPACK_STATS_FILENAME = "stats.json";
+export const ROUTES_FILENAME = "routes.json";
 
 // Dev server constants
 
@@ -78,7 +81,10 @@ let config = {
         extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".ts", ".tsx"]
     },
     resolveLoader: {
-        alias: { "styled": resolve("./src/modules/styled/loader.js"), "log": resolve("./tools/webpack_loaders/log.js") },
+        alias: {
+            "style": resolve("./tools/loaders/style/loader.js"),
+            "log": resolve("./tools/loaders/log.js"),
+        },
     },
     module: {
         noParse: [],
@@ -98,15 +104,15 @@ let config = {
             },
             {
                 test: resolve("./src/style.scss"), 
-                loader: TextPlugins.globalStyles.extract(["styled"], ["css?-autoprefixer", "postcss", "sass"])
+                loader: TextPlugins.globalStyles.extract(["style"], ["css?-autoprefixer", "postcss", "sass"])
             },
             {
                 test: /\.css$/i,
-                loader: "styled!css!postcss"
+                loader: "style!css!postcss"
             }, {
                 test: /\.scss$/i,
                 exclude: resolve("./src/style.scss"),
-                loaders: ["styled", "css?-autoprefixer", "postcss", "sass"]
+                loaders: ["style", "css?-autoprefixer", "postcss", "sass"]
             }, {
                 test: /\.(gif|png|jpe?g|svg)$/i,
                 loaders: [

@@ -22,4 +22,4 @@ function displaceSourceMaps(src, dest) {
         .pipe(map(del));
 }
 
-displaceSourceMaps("../build", "../artifacts");
+displaceSourceMaps("./build", "./artifacts");

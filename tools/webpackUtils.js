@@ -38,14 +38,16 @@ class WebpackUtils {
         let htmlConfig = utils.getFromJsonFile(htmlConfigPath);
         this.updateHtmlConfigForExternals(htmlConfig, config.app.externals);
 
-        let htmlPlugin = new HtmlWebpackPlugin({
-            fileName: "index.html",
-            templateContent: htmlRenderer.render(htmlConfig),
-            inject: "head",
-            minify: isProduction ? config.htmlMinifyOpts : false,
-        });
+        if (!isProduction) {
+            let htmlPlugin = new HtmlWebpackPlugin({
+                fileName: "index.html",
+                templateContent: htmlRenderer.render(htmlConfig),
+                inject: "head",
+                minify: isProduction ? config.htmlMinifyOpts : false,
+            });
+            config.plugins.push(htmlPlugin);
+        }
 
-        config.plugins.push(htmlPlugin);
         let statsPath = path.join(artifactsPath, statsFileName)
         config.plugins.push(this.getStatsPlugin(statsPath));
         

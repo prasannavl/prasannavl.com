@@ -33,7 +33,10 @@ function init() {
         
         match({ history, routes }, (error:any, redirectLocation:any, renderProps:any) => {
             renderProps.createElement = createElement;
-            ReactDOM.render(React.createElement(Router, renderProps), outlet);
+            ReactDOM.render(React.createElement(Router, renderProps), outlet, (el) => {
+                // Remove all the styles that were inlined during static server side render
+                Array.from(document.head.getElementsByClassName("_svx")).forEach(x => x.remove());
+            });
         });
     };
     document.addEventListener(contentLoadedEvent, handler);
