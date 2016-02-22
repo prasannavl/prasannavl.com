@@ -57,6 +57,7 @@ let app = {
     isProduction: IS_PRODUCTION,
     externals: [], // This is used by the util to populate used external libs that are to be added to index template.
     externalLibs: EXTERNAL_LIBS,
+    shouldInlineLibs: utils.shouldInlineLibs(),
 };
 
 
@@ -199,6 +200,9 @@ let commonPlugins = [
 
 let devPlugins = [
     new webpack.NoErrorsPlugin(),
+    new OpenBrowserPlugin({
+        url: `http://${DEVSERVER_HOST}:${DEVSERVER_PORT}`
+    }),
 ];
 
 let productionPlugins = [
@@ -215,13 +219,6 @@ let productionPlugins = [
 // Apply plugins
 
 webpackUtils.applyPlugins(config, commonPlugins, devPlugins, productionPlugins);
-
-// Post setup configurations
-config.plugins.push(
-    new OpenBrowserPlugin({
-        url: `http://${DEVSERVER_HOST}:${DEVSERVER_PORT}`
-    }),
-    );
 
 export function run() {
     return webpackUtils.run(config, ARTIFACTS_PATH, WEBPACK_STATS_FILENAME, STATIC_PATH, HTML_CONFIG_PATH, HTML_CONFIG_ARTIFACT_PATH);

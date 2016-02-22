@@ -74,13 +74,15 @@ class WebpackUtils {
     createConfiguration(config, devConfig, productionConfig) {
         if (this.checkIsProduction(config)) {
             config = Object.assign(config, productionConfig);
-            config.app.externalLibs.forEach(x => {
-                let moduleName = x[0];
-                let externalAddress = x[1];
-                let importName = x[2] || x[0];
-                let res = this.addExternalDependency(config, moduleName, externalAddress, importName);
-                if (res) this.logItems.push(res);
-            });
+            if (!config.app.shouldInlineLibs) {
+                config.app.externalLibs.forEach(x => {
+                    let moduleName = x[0];
+                    let externalAddress = x[1];
+                    let importName = x[2] || x[0];
+                    let res = this.addExternalDependency(config, moduleName, externalAddress, importName);
+                    if (res) this.logItems.push(res);
+                });
+            }
         } else {
             config = Object.assign(config, devConfig);
         }

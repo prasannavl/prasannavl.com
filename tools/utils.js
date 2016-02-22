@@ -5,14 +5,12 @@ import chalk from "chalk";
 import path from "path";
 import copyDir from "copy-dir";
 import fs from "fs";
+import { argv } from "yargs";
 
 class Utils {
 
     getIsProduction() {
-        if (process.env["NODE_ENV"] === "production") return true;
-        var npmEvent = this.getNpmLifecycleEvent();
-        if (npmEvent && npmEvent.toLowerCase().endsWith(":p")) return true;
-        return false;
+        return argv.production ? true : false;
     }
 
     initEnvironment(isProduction) {
@@ -22,8 +20,14 @@ class Utils {
             if (this.getNpmLifecycleEvent() === "dev") {
                 // react-hmre is configured to run only under the interactive-dev session. 
                 process.env["NODE_ENV"] = "interactive-dev";
+            } else {
+                process.env["NODE_ENV"] = "development";
             }
         }
+    }
+    
+    shouldInlineLibs() {
+        return argv.inlineLibs ? true : false;
     }
 
     getNpmLifecycleEvent() {
