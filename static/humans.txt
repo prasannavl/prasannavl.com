@@ -7,3 +7,5 @@
 /* SITE */
 	Language: English
 	Doctype:HTML5
+    Standards: HTML5, CSS3, Javascript ES 2015
+    Components: React, Webpack
