@@ -51,6 +51,8 @@ const EXTERNAL_LIBS = [
 
 // Core configuration
 
+const GLOBAL_STYLE_PATH = resolve("./src/styles/global.scss");
+
 
 // App specific. Everthing that's used by webpackUtil that's not webpack's or it's plugin specific config is here.
 let app = {
@@ -104,7 +106,7 @@ let config = {
                 loader: "json"
             },
             {
-                test: resolve("./src/style.scss"), 
+                test: GLOBAL_STYLE_PATH, 
                 loader: TextPlugins.globalStyles.extract(["style"], ["css?-autoprefixer", "postcss", "sass"])
             },
             {
@@ -112,9 +114,11 @@ let config = {
                 loader: "style!css!postcss"
             }, {
                 test: /\.scss$/i,
-                exclude: resolve("./src/style.scss"),
+                exclude: GLOBAL_STYLE_PATH,
                 loaders: ["style", "css?-autoprefixer", "postcss", "sass"]
-            }, {
+            },
+            { test: /\.(woff|woff2|eot|ttf)$/i, loader: 'url-loader?limit=100000' },
+            {
                 test: /\.(gif|png|jpe?g|svg)$/i,
                 loaders: [
                     "url?limit=8192&name=" + OUTPUT_IMAGES_FILENAME_PATTERN,

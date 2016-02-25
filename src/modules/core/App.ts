@@ -14,7 +14,7 @@ export class App {
     }
 
     hintRequisites() {
-        let style = require("../../style.scss");
+        let style = require("../../styles/global.scss");
 
         if (__DEV__) {
             if (env.canUseDOM) {
