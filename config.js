@@ -62,14 +62,14 @@ let app = {
 
 
 let TextPlugins = {
-    globalStyles: new ExtractTextPlugin("css/[name].[contenthash].css", { disable: !IS_PRODUCTION })
+    globalStyles: new ExtractTextPlugin(OUTPUT_CSS_FILENAME_PATTERN, { disable: !IS_PRODUCTION })
 }
 
 let config = {
     app,
     context: CONTEXT_PATH,
     entry: {
-        main: "./index.ts"
+        main: "./main.ts"
     },
     output: {
         filename: OUTPUT_FILENAME_PATTERN,
@@ -163,13 +163,13 @@ let productionConfig = {
     htmlMinifyOpts: {
         removeComments: true,
         collapseWhitespace: true,
-        conservativeCollapse: false,
-        removeRedundantAttributes: true,
-        removeAttributeQuotes: true,
-        collapseBooleanAttributes: true,
+        conservativeCollapse: true,
+        removeRedundantAttributes: false,
+        removeAttributeQuotes: false,
+        collapseBooleanAttributes: false,
         useShortDoctype: true,
-        removeScriptTypeAttributes: true,
-        removeStyleLinkTypeAttributes: true,
+        removeScriptTypeAttributes: false,
+        removeStyleLinkTypeAttributes: false,
         minifyJS: true,
         minifyCSS: true
     },

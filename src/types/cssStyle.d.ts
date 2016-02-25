@@ -1,9 +1,13 @@
-declare interface ParsedCss {
-    getCssModule: () => CssModule;
-    insertIntoDom: () => () => void;
+interface StyleWrapper {
+    getCssModule(): CssModule;
+    insertIntoDom(): () => void;
 }
 
-declare interface CssModule {
+interface ApplyStyleFunction {
+    (styles: StyleWrapper): void;
+}
+
+interface CssModule {
     id: string,
     content: string,
 }

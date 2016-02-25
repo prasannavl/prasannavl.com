@@ -10,8 +10,8 @@
     "exclude": [
         "node_modules",
         "build",
-        "artifacts",
         "tools",
+        "artifacts",
         "typings"
     ]
 }

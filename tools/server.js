@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 "use strict";
 
-import config, { OUTPUT_PATH, DEVSERVER_HOST, DEVSERVER_PORT, DEVSERVER_PUBLIC_PATH, DEVSERVER_INDEX_PATH_RELATIVE, HTML_CONFIG_ARTIFACT_PATH, ARTIFACTS_PATH, WEBPACK_STATS_FILENAME } from "../config";
+import config, { OUTPUT_PATH, DEVSERVER_HOST, DEVSERVER_PORT, DEVSERVER_PUBLIC_PATH, HTML_CONFIG_ARTIFACT_PATH, ARTIFACTS_PATH, WEBPACK_STATS_FILENAME } from "../config";
 import express from "express";
 import compression from "compression";
 import * as path from "path";
-import ReactRenderer from "./ReactRenderer";
+import AppRenderer from "./app/AppRenderer";
 import utils from "./utils";
 import { argv } from "yargs";
 
@@ -18,7 +18,7 @@ const port = process.env.PORT || DEVSERVER_PORT;
 const rootPath = OUTPUT_PATH;
 
 let webPackStats = getWebpackStats();
-let reactRenderer = new ReactRenderer(
+let appRenderer = new AppRenderer(
     config,
     webPackStats,
     getHtmlConfig(webPackStats)
@@ -35,7 +35,7 @@ if (shouldRun) {
 
 app.get("*", function (req, res) {
     //useStaticFile(req, res);
-    reactRenderer.run(req, res);
+    appRenderer.run(req, res);
 });
 
 export var listen = app.listen.bind(app, port);
@@ -48,9 +48,9 @@ if (shouldRun) {
     });
 }
 
-function useStaticFile(req, res) {
-    res.sendFile(rootPath + DEVSERVER_INDEX_PATH_RELATIVE);
-}
+// function useStaticFile(req, res) {
+//     res.sendFile(rootPath + DEVSERVER_INDEX_PATH_RELATIVE);
+// }
 
 function getWebpackStats() {
     return utils.getFromJsonFile(path.join(ARTIFACTS_PATH, WEBPACK_STATS_FILENAME))

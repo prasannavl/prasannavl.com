@@ -2,9 +2,9 @@
 /* eslint-disable no-console */
 
 import chalk from "chalk";
-import path from "path";
+import * as path from "path";
 import copyDir from "copy-dir";
-import fs from "fs";
+import * as fs from "fs";
 import { argv } from "yargs";
 
 class Utils {
@@ -61,7 +61,7 @@ class Utils {
         if (fs.existsSync(src)) {
             process.stdout.write(chalk.yellow("Copying " + assetDisplayName + ".."));
             copyDir.sync(src, dest);
-            process.stdout.write("done" + require("os").EOL);
+            process.stdout.write(" Done." + require("os").EOL);
         }
     }
 }

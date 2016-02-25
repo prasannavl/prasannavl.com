@@ -1,18 +1,7 @@
 {
-    "templatePath": "./src/templates/index.js",
-    "charset": "utf8",
+    "templatePath": "./src/templates/index.jsx",
     "description": "Prasanna V. Loganathar's Weblog",
     "title": "Prasanna V. Loganthar",
-    "tags": [
-        "<link rel=\"icon\" href=\"favicon.ico\">",
-        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
-        "<meta httpEquiv=\"X-UA-Compatible\" content=\"IE=edge\">",
-        "<meta name=\"msapplication-TileColor\" content=\"\">",
-        "<meta name=\"msapplication-TileImage\" content=\"\">",
-        "<link rel=\"apple-touch-icon-precomposed\" href=\"\">"
-    ],
-    "css": [
-        "https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100"
-        ],  
+    "css": ["https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100"],  
     "js": []
 }

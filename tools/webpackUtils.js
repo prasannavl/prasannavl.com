@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 
 import chalk from "chalk";
-import webpack from "webpack";
+import * as webpack from "webpack";
 import utils from "./utils";
 import * as path from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import htmlRenderer from "./htmlRenderer";
+import { HtmlRenderer } from "./app/HtmlRenderer";
 
 class WebpackUtils {
 
@@ -41,7 +41,7 @@ class WebpackUtils {
         if (!isProduction) {
             let htmlPlugin = new HtmlWebpackPlugin({
                 fileName: "index.html",
-                templateContent: htmlRenderer.render(htmlConfig),
+                templateContent: HtmlRenderer.render(htmlConfig),
                 inject: "head",
                 minify: isProduction ? config.htmlMinifyOpts : false,
             });

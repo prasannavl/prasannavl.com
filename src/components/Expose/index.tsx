@@ -1,13 +1,12 @@
 import * as React from "react";
 import { Link } from "react-router";
-import styled from "../../modules/core/styled";
+import createStyled from "../../modules/core/createStyled";
 
-const style = require("./style.scss") as ParsedCss; 
+const style = require("./style.scss") as StyleWrapper; 
 
-class Expose extends React.Component<{}, {}> {
+class Expose extends React.Component<any, any> {
   constructor() {
     super();
-    this.state = {};
   }
   
   getLinkIcon(classNames: string, linkSrc: string) {
@@ -49,4 +48,4 @@ class Expose extends React.Component<{}, {}> {
   }
 }
 
-export default styled(Expose, style);
+export default createStyled(Expose, style);
