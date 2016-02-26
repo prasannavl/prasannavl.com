@@ -80,7 +80,9 @@ let config = {
         pathInfo: !IS_PRODUCTION
     },
     resolve: {
-        alias: {},
+        alias: {
+            TweenMax: resolve("./node_modules/gsap/src/uncompressed/TweenMax.js"),                                                                      
+        },
         extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".ts", ".tsx"]
     },
     resolveLoader: {
@@ -136,7 +138,7 @@ let config = {
         aggregateTimeout: 100
     },
     debug: !IS_PRODUCTION,
-    devtool: IS_PRODUCTION ? "source-map" : "cheap-module-eval-source-map",
+    devtool: "source-map",
     devServer: {
         contentBase: DEVSERVER_CONTENT_BASE,
         host: DEVSERVER_HOST,
@@ -198,6 +200,10 @@ let commonPlugins = [
         "__DEV__": !IS_PRODUCTION
     }),
     TextPlugins.globalStyles,
+    new webpack.ProvidePlugin({
+         _: "lodash", 
+         TweenMax: "TweenMax",
+    })
 ];
 
 // Conditional plugins
