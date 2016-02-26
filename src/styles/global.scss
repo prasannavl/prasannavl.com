@@ -1,15 +1,29 @@
+@import "../../node_modules/normalize.css/normalize.css";
+
 html {
     box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", "Optima", "Roboto Light", "Open Sans", "Arial", "sans-serif";
+}
+
+h1 {
+    font-weight: 100;
+}
+
+h2 {
+    font-weight: 500;
+}
+
+h3 {
+    font-weight: 400;
 }
 
 *,
 *:before,
 *:after {
     box-sizing: inherit;
-}
-
-body {
-    font-family: "Roboto", "Segoe UI";
 }
 
 #outlet {

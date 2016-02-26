@@ -2,6 +2,6 @@
     "templatePath": "./src/templates/index.jsx",
     "description": "Prasanna V. Loganathar's Weblog",
     "title": "Prasanna V. Loganthar",
-    "css": ["https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100"],  
+    "css": [],  
     "js": []
 }

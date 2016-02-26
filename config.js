@@ -45,7 +45,6 @@ export const DEVSERVER_INDEX_PATH_RELATIVE = "/index.html";
 const EXTERNAL_LIBS = [
     ["react", "https://fb.me/react-0.14.7.min.js", "React"],
     ["react-dom", "https://fb.me/react-dom-0.14.7.min.js", "ReactDOM"],
-    ["noramlize.css", "https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"],
     ["react-router", "https://npmcdn.com/react-router/umd/ReactRouter.min.js", "ReactRouter"],
 ];
 
