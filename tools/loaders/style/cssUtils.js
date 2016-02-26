@@ -1,4 +1,5 @@
 "use strict";
+const _ = require("lodash");
 
 const prefix = '_s';
 const inserted = {};
@@ -37,7 +38,7 @@ function insertCss(styles, options) {
         }));
     }
 
-    const opts = Object.assign({
+    const opts = _.extend({ 
         replace: false,
         prepend: false,
     }, options);
