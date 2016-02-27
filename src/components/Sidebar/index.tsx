@@ -1,8 +1,10 @@
 import * as React from "react";
 import Address from "../Address/index";
 import Header from "../Header/index";
+import createStyled from "../../modules/core/createStyled";
 
 let style = require("./style.scss") as any;
+
 
 class Sidebar extends React.Component<any, any> {
 
@@ -21,4 +23,4 @@ class Sidebar extends React.Component<any, any> {
     }
 }
 
-export default Sidebar;
+export default createStyled(Sidebar, style);
