@@ -1,5 +1,5 @@
 {
-    "templatePath": "./src/templates/index.jsx",
+    "templatePath": "./src/components/Html",
     "description": "Prasanna V. Loganathar's Weblog",
     "title": "Prasanna V. Loganthar",
     "css": [],  

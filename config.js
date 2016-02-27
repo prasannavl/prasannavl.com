@@ -45,7 +45,7 @@ export const DEVSERVER_INDEX_PATH_RELATIVE = "/index.html";
 const EXTERNAL_LIBS = [
     ["react", "https://fb.me/react-0.14.7.min.js", "React"],
     ["react-dom", "https://fb.me/react-dom-0.14.7.min.js", "ReactDOM"],
-    ["react-router", "https://npmcdn.com/react-router/umd/ReactRouter.min.js", "ReactRouter"],
+    ["react-router", "https://npmcdn.com/react-router@2.0.0/umd/ReactRouter.min.js", "ReactRouter"],
 ];
 
 // Core configuration

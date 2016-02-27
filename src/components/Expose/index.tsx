@@ -1,21 +1,18 @@
 import * as React from "react";
 import { Link } from "react-router";
+import Base from "../Base";
 import createStyled from "../../modules/core/createStyled";
+import Header from "../Header/index";
+import Address from "../Address/index";
+import { IAppContext } from "../../modules/core/AppContext";
 
 const style = require("./style.scss") as StyleWrapper;
 
-class Expose extends React.Component<any, any> {
+class Expose extends Base<any, any> {
 
     constructor() {
         super();
-    }
-
-    componentWillUnMount() {
-    }
-
-    getLinkIcon(classNames: string, linkSrc: string) {
-        return (<a href={ linkSrc } className={ classNames }></a>);
-    }
+    }    
 
     createCastAway(element: HTMLElement): TimelineMax {
         const t = new TimelineMax();
@@ -26,33 +23,23 @@ class Expose extends React.Component<any, any> {
     forward(ev: React.SyntheticEvent) {
         ev.preventDefault();
         const exposeElement = this.refs["expose"] as HTMLElement;
-        const castAwayTimeline = this.createCastAway(exposeElement);
-        castAwayTimeline.play();
-        setTimeout(() => castAwayTimeline.reverse(), 2000);
+        // const castAwayTimeline = this.createCastAway(exposeElement);
+        // castAwayTimeline.play();
+        // setTimeout(() => castAwayTimeline.reverse(), 2000);
+        this.navigateTo("/overview");
     }
 
     render() {
         return (
             <div id="expose" ref="expose">
                 <div id="content">
-                    <header>
-                        <h1>Prasanna V. Loganathar</h1>
-                        <h2>A <a href="https://xkcd.com/242/">mad-man</a> with a computer, walking the grove between <a href="http://what-if.xkcd.com/">Science</a> and <a href="https://xkcd.com/387/">Technology</a>.</h2>
-                    </header>
-
+                    <Header />
                     <section>
-                        <address className="icons">
-                            { this.getLinkIcon("icon-twitter", "https://www.twitter.com/prasannavl") }
-                            { this.getLinkIcon("icon-mark-github", "https://www.github.com/prasannavl") }
-                            { this.getLinkIcon("icon-facebook-square", "https://www.facebook.com/prasannavl") }
-                            { this.getLinkIcon("icon-envelope email", "mailto:Prasanna V. Loganathar <pvl@prasannavl.com>") }
-                        </address>
-
+                        <Address />
                         <div className="info">
                             And I write stuff <b><a href="">here</a></b>.
                         </div>
-
-                        <a href="" id="arrow" className="icon-arrow_forward" onClick={this.forward.bind(this) }></a>
+                        <a href="/overview" id="arrow" className="icon-arrow_forward" onClick={this.forward.bind(this) }></a>
                     </section>
                 </div>
             </div>

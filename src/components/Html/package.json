@@ -1,0 +1,5 @@
+{
+    "name": "html",
+    "private": true,
+    "main": "./index.tsx"
+}

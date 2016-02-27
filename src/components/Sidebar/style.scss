@@ -1,0 +1,33 @@
+address {
+    a {
+        display: inline-block;
+        $marginTop: 85px;
+        margin-top: $marginTop;
+        border-bottom: none;
+        position: relative;
+        font-size: 42px;
+        margin-right: 18px;
+        transition: all 0.3s;
+        &:hover {
+            transform: scale(1.2);
+            transition: all 0.2s;
+            text-decoration: none;
+            border-bottom: none;
+        }
+        &:active {
+            color: darkslategray;
+            transition: all 0.1s;
+        }
+        &.icon-envelope {
+            position: absolute;
+            margin-top: $marginTop - 1px;
+            margin-left: 3px;
+        }
+        &.icon-mark-github {
+            font-size: 40px;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}

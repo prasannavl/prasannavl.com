@@ -16,9 +16,9 @@ function Html(options) {
                 <meta name="msapplication-TileColor" content="" />
                 <meta name="msapplication-TileImage" content="" />
                 <link rel="apple-touch-icon-precomposed" href="" />
-                {isArray(js) ? js.map(x => <script src={x} defer></script>) : null}                
                 {isArray(css) ? css.map(x => <link rel="stylesheet" href={x} />) : null}
-                {isArray(inlineCss) ? inlineCss.map(x => <style type="text/css" {...(x.attributes)} dangerouslySetInnerHTML={{ __html: x.content }}></style>) : null}
+                {isArray(js) ? js.map(x => <script src={x} defer></script>) : null}     
+                {isArray(inlineCss) ? inlineCss.map(x => <style type="text/css" {...(x.attributes)} dangerouslySetInnerHTML={{ __html: x.content }}></style>) : null}           
             </head>
             <body>
                 {isArray(inlineScripts) ? inlineScripts.map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) : null}
