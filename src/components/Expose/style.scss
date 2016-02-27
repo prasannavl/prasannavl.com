@@ -1,4 +1,4 @@
-#expose {
+:local(.root) {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -14,7 +14,7 @@
         margin-bottom: 10%;
         & ::selection {
             color: black;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.7);
         }
         h1 {
             font-size: 40px;

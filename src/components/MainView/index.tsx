@@ -1,5 +1,6 @@
 import * as React from "react";
 import Sidebar from "../Sidebar/index";
+let style = require("./style.scss") as any;
 
 class MainView extends React.Component<any, any> {
 
@@ -9,7 +10,7 @@ class MainView extends React.Component<any, any> {
 
     render() {
         const c = (
-            <div>
+            <div style={style.root}>
                 <Sidebar />
                 <div>Hello there!</div>
             </div>

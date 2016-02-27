@@ -108,7 +108,7 @@ let config = {
             },
             {
                 test: GLOBAL_STYLE_PATH, 
-                loader: TextPlugins.globalStyles.extract(["style"], ["css?-autoprefixer", "postcss", "sass"])
+                loader: TextPlugins.globalStyles.extract(["style"], ["css?-autoprefixer-import", "postcss", "sass"])
             },
             {
                 test: /\.css$/i,
@@ -116,7 +116,7 @@ let config = {
             }, {
                 test: /\.scss$/i,
                 exclude: GLOBAL_STYLE_PATH,
-                loaders: ["style", "css?-autoprefixer", "postcss", "sass"]
+                loaders: ["style", "css?-autoprefixer-import", "postcss", "sass"]
             },
             { test: /\.(woff|woff2|eot|ttf)$/i, loader: 'url-loader?limit=100000' },
             {
