@@ -3,10 +3,6 @@ import Base from "../Base";
 
 class Header extends Base<any, any> {
 
-    constructor() {
-        super();
-    }
-
     render() {
         const c = (
             <header>

@@ -18,10 +18,6 @@ class AppContainer extends React.Component<Props, any> implements React.ChildCon
         state: PropTypes.object,
     }
 
-    constructor(props : Props, context: any) {
-        super(props, context);
-    }
-
     getChildContext() {
         return this.props.context;
     }

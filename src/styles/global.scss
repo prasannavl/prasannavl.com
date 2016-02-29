@@ -1,5 +1,4 @@
 @import "../../node_modules/normalize.css/normalize.css";
-
 html {
     box-sizing: border-box;
 }
@@ -26,9 +25,8 @@ h3 {
     box-sizing: inherit;
 }
 
-#outlet {
-    display: flex;
-    flex-flow: column;
+.clear {
+    clear: both;
 }
 
 @import "./icomoon/style";

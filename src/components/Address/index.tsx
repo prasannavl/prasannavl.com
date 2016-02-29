@@ -2,11 +2,6 @@ import * as React from "react";
 import View from "../../modules/View";
 
 class Address extends React.Component<any, any> {
-
-    constructor() {
-        super();
-    }
-
     render() {
         const c = (
             <address className="icons">

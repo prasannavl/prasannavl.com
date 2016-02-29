@@ -1,23 +1,23 @@
 import * as React from "react";
+
 import Sidebar from "../Sidebar/index";
+import ContentView from "../ContentView/index";
+import LoremFragment from "../LoremFragment/index";
 import createStyled from "../../modules/core/createStyled";
 
 let style = require("./style.scss") as any;
 
 class MainView extends React.Component<any, any> {
-
-    constructor() {
-        super();
-    }
-
     render() {
+
         const c = (
-            <div style={style.root}>
-                <Sidebar />
-                <div>Hello there!</div>
+            <div className={style.root}>
+                <Sidebar id="sidebar" />
+                <ContentView id="content" />
+                <div className="clear"></div>
             </div>
         );
-        return c;        
+        return c;
     }
 }
 

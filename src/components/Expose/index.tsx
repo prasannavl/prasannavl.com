@@ -10,10 +10,6 @@ const style = require("./style.scss") as any;
 
 class Expose extends Base<any, any> {
 
-    constructor() {
-        super();
-    }    
-
     createCastAway(element: HTMLElement): TimelineMax {
         const t = new TimelineMax();
         t.to(element, 0.3, { x: -window.innerWidth + 300, opacity: 0.4 });
