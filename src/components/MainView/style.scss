@@ -1,20 +1,3 @@
-@import "./vars";
-
 :local(.root) {
     position: relative;
-    width: 100%;
-    margin: 0 auto;
-    
-    #sidebar {
-        position: fixed;
-        width: $sidebarWidth;
-        height: 100%;
-    }
-    
-    #content {
-        float: left;
-        min-height: 100vh;
-        margin-left: $sidebarWidth;
-        width: calc(100% - $sidebarWidth);
-    }
 }

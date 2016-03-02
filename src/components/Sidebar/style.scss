@@ -3,7 +3,18 @@
 :local(.root) {
     $fontColorBase: rgba(#fff, 0.9);
     $fontColorBright: #fff;
-    
+    $fontActiveColor: lightgreen;
+
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    position: fixed;
+    height:100%;
+    width: $sidebarWidth;
+    overflow: auto;
+
     background: #3f5660;    
     color: $fontColorBase;
     
@@ -14,13 +25,12 @@
         color: $fontColorBase;
         
         &:hover {
-            text-decoration: none;
             border-bottom: 1px solid $fontColorBase;
         }
         
         &:active {
-            color: #0096d6;
-            border-bottom: 1px solid #0096d6;
+            color: $activeLinkColor;
+            border-bottom: 1px solid $activeLinkColor;
             transition: 0.2s;
         }
     }
@@ -33,26 +43,24 @@
             text-align: left;
 
             & > a {
-                
                 text-decoration: none;
                 font-weight: 100;
                 transition: 0.3s;
                 color: $fontColorBase;
                 
-                &:hover {
-                    color: lightgreen;
+                &:hover, &:focus {
+                    color: $fontActiveColor;
                     transition: 0.3s;
-                    text-decoration: none;
                 }
                 
                 &:active {
-                    color: #0096d6;
-                    border-bottom: none;
+                    color: $activeLinkColor;
                     transition: 0.2s;
                 }
             }
         }
     }
+    
     .tagline {
         font-size: 16px;
         margin: 40px 20px 60px 30px;
@@ -65,30 +73,34 @@
             @include white-link;
         }
     }
+    
     address {
-        width: $sidebarWidth;
-        position: fixed;
-        bottom: 40px;
-        text-align: center;
+        margin: 30px auto;
+        align-self: center;
         
         a {
-            color: rgba($fontColorBright, 0.5);
-            display: inline-block;
             $fontSize: 28px;
-            border-bottom: none;
-            text-decoration: none;
+            
+            display: inline-block;            
             position: relative;
-            font-size: $fontSize;
             margin-right: 18px;
+
+            border-bottom: none;
+            
+            font-size: $fontSize;            
+            color: rgba($fontColorBright, 0.5);
+            text-decoration: none;
+            
             transition: all 0.3s;
-            &:hover {
+            user-select: none;
+            
+            &:hover, &:focus {
                 color: $fontColorBright;
                 transition: 0.2s;
-                text-decoration: none;
-                border-bottom: none;
             }
             &:active {
-                transition: all 0.1s;
+                color: $activeLinkColor;                
+                transition: all 0.2s;
             }
             &.icon-envelope {
                 margin-left: 3px;
@@ -101,14 +113,33 @@
             }
         }
     }
+
     nav {
-        margin-top: 10px;
+        flex: 1 0 auto;
+        margin: 10px 0 20px 0;
         list-style-type: none;
         & > li {
             padding: 10px 30px;
             font-weight: 400;
-            &:hover {
+            cursor: pointer;
+            transition: 0.2s;
+            
+            &:hover, &:focus {
+                background: rgba(#000, 0.4);
+                transition: 0.2s;                
+            }
+            
+            &:active {
+                color: $activeLinkColor;
+                transition: 0.2s;                   
+            }
+            
+            &.highlight {
                 background: rgba($fontColorBright, 0.1);
+                color: $fontActiveColor;                
+                cursor: default;
+                font-weight: 500;
+                transition: 0.2s;  
             }
         }
     }

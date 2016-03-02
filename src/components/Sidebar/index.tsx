@@ -17,17 +17,17 @@ class Sidebar extends Base<any, any> {
                      <Tagline className="tagline" />
                 </header>
                 <nav>
-                    <li>overview</li>
+                    <li className="highlight">overview</li>
                     <li>archives</li>
                     <li>about</li>
                     <li>feedback</li>
                 </nav>
-                 <address className="icons">
+                <address className="icons">
                         <a href="https://www.twitter.com/prasannavl" className="icon-twitter" target="_blank"></a>
                         <a href="https://www.github.com/prasannavl" className="icon-mark-github" target="_blank"></a>
                         <a href="https://www.facebook.com/prasannavl" className="icon-facebook-square" target="_blank"></a>
                         <a href="mailto:Prasanna V. Loganathar <pvl@prasannavl.com>" className="icon-envelope"></a>
-                 </address>                
+                </address>
             </div>
         );
         return c; 

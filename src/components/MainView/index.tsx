@@ -12,8 +12,8 @@ class MainView extends React.Component<any, any> {
 
         const c = (
             <div className={style.root}>
-                <Sidebar id="sidebar" />
-                <ContentView id="content" />
+                <Sidebar />
+                <ContentView />
                 <div className="clear"></div>
             </div>
         );

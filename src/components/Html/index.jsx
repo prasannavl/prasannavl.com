@@ -37,7 +37,7 @@ function Html(options) {
             </head>
             <body>
                 {isArray(inlineScripts) ? inlineScripts.map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) : null}
-                <span id="outlet" dangerouslySetInnerHTML= {{ __html: content }}></span>
+                <div id="outlet" dangerouslySetInnerHTML= {{ __html: content }}></div>
             </body>
         </html>
     );
