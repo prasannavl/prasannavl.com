@@ -1,3 +1,5 @@
+@import "../MainView/vars";
+
 :local(.root) {
     $fontColorBase: rgba(#fff, 0.9);
     $fontColorBright: #fff;
@@ -64,11 +66,11 @@
         }
     }
     address {
-        margin: 30px auto;
+        width: $sidebarWidth;
         position: fixed;
-        bottom: 20px;
-        left: 50px;
+        bottom: 40px;
         text-align: center;
+        
         a {
             color: rgba($fontColorBright, 0.5);
             display: inline-block;

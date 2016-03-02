@@ -1,8 +1,9 @@
+@import "./vars";
+
 :local(.root) {
     position: relative;
     width: 100%;
     margin: 0 auto;
-    $sidebarWidth: 270px;
     
     #sidebar {
         position: fixed;

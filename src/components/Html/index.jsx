@@ -26,7 +26,7 @@ function Html(options) {
                 <link rel="icon" type="image/png" href="/icons/favicon-16x16.png" sizes="16x16"/>
                 <link rel="manifest" href="/icons/manifest.json"/>
                 <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#0096d6"/>
-                <link rel="shortcut icon" href="/favicon.ico"/>
+                <link rel="shortcut icon" href="/favicon.ico?1"/>
                 <meta name="msapplication-TileColor" content="#0096d6"/>
                 <meta name="msapplication-TileImage" content="/icons/mstile-144x144.png"/>
                 <meta name="msapplication-config" content="/icons/browserconfig.xml"/>
@@ -37,7 +37,7 @@ function Html(options) {
             </head>
             <body>
                 {isArray(inlineScripts) ? inlineScripts.map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) : null}
-                <div id="outlet" dangerouslySetInnerHTML= {{ __html: content }}></div>
+                <span id="outlet" dangerouslySetInnerHTML= {{ __html: content }}></span>
             </body>
         </html>
     );

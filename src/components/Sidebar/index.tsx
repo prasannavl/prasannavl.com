@@ -30,7 +30,7 @@ class Sidebar extends Base<any, any> {
                  </address>                
             </div>
         );
-        return c;        
+        return c; 
     }
 }
 
