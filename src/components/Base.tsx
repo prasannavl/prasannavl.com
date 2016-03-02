@@ -13,9 +13,9 @@ class Base<P, S> extends React.Component<P, S> {
         title: PropTypes.object,
         applyCss: PropTypes.func,
         routeHandlerDescriptor: PropTypes.object,
-        routeProcessor: PropTypes.object, 
+        routeProcessor: PropTypes.object,
         state: PropTypes.object,
-    }
+    };
 
     navigateTo(path: string, event: React.SyntheticEvent = null, replaceCurrent: boolean = false) {
         if (event !== null) event.preventDefault();

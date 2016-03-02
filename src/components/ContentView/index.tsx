@@ -6,7 +6,7 @@ import LoremSegment from "../fragments/Lorem";
 let style = require("./style.scss") as any;
 
 class ContentView extends React.Component<any, any> {
-    render() {            
+    render() {
         const c = (
             <div className={style.root} {...this.props}>
                 <LoremSegment count={3} />

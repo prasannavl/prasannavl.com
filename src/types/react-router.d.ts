@@ -1,4 +1,4 @@
 declare module "react-router/lib/createRouterHistory" {
-    var createRouterHistory: any;
+    const createRouterHistory: any;
     export default createRouterHistory;
 }

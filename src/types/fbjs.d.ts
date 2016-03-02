@@ -1,3 +1,3 @@
 declare module "fbjs/lib/ExecutionEnvironment" {
-    export var canUseDOM : boolean;
+    export var canUseDOM: boolean;
 }

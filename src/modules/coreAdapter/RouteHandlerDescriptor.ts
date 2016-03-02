@@ -6,14 +6,14 @@ import { Router } from "react-router";
 
 export class RouteHandlerDescriptor implements IRouteHandlerDescriptor {
     errorHandler(ctx: IAppContext, err: any) {
-        
+
     }
     renderHandler(ctx: IAppContext, state: ReactRouter.MatchState) {
 
         const createElement = (comp: any, props: any) => { props.context = ctx; return React.createElement(comp, props); }
         (state as any)["createElement"] = createElement;
 
-        const clientState = ctx.state as IClientPartialState;        
+        const clientState = ctx.state as IClientPartialState;
         const renderSurface = clientState.renderSurface;
 
         ReactDOM.render(React.createElement(Router as any, state), renderSurface as HTMLElement, (el) => {

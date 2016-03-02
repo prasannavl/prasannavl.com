@@ -1,4 +1,4 @@
-import createBrowserHistory from 'history/lib/createBrowserHistory'
+import createBrowserHistory from "history/lib/createBrowserHistory";
 import createRouterHistory from "react-router/lib/createRouterHistory";
 
 export class HistoryFactory {

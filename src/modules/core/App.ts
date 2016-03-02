@@ -16,7 +16,7 @@ export class App {
     hintRequisites() {
         let style = require("../../styles/global.scss");
         let lodash = require("lodash");
-        
+
         let tweenMax = require("gsap/src/uncompressed/TweenMax");
 
         if (__DEV__) {
