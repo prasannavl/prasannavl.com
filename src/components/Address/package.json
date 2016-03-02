@@ -1,5 +1,0 @@
-{
-    "name": "address",
-    "private": true,
-    "main": "./index.tsx"
-}

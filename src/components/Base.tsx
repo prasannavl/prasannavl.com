@@ -13,11 +13,12 @@ class Base<P, S> extends React.Component<P, S> {
         title: PropTypes.object,
         applyCss: PropTypes.func,
         routeHandlerDescriptor: PropTypes.object,
-        routeProcessor: PropTypes.object,
+        routeProcessor: PropTypes.object, 
         state: PropTypes.object,
     }
 
-    navigateTo(path: string, replaceCurrent: boolean = false) {
+    navigateTo(path: string, event: React.SyntheticEvent = null, replaceCurrent: boolean = false) {
+        if (event !== null) event.preventDefault();
         if (replaceCurrent) this.context.history.replace(path);
         else this.context.history.push(path);
     }

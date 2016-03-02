@@ -12,7 +12,7 @@
         margin-top: 10%;
         margin-right: 10%;
         margin-bottom: 10%;
-        & ::selection {
+        ::selection {
             color: black;
             background: rgba(255, 255, 255, 0.7);
         }
@@ -31,6 +31,8 @@
         a {
             color: #ffffff;
             text-decoration: none;
+            transition: 0.1s;
+            
             &:hover {
                 text-decoration: none;
                 border-bottom: 1px solid #fff;
@@ -38,7 +40,7 @@
             &:active {
                 color: darkslategray;
                 border-bottom: 1px solid darkslategray;
-                transition: all 0.1s;
+                transition: 0.1s;
             }
         }
         section:first-of-type {
@@ -59,16 +61,16 @@
                 text-align: center;
                 font-size: $size - 2px;
                 line-height: 0.965;
-                transition: all 0.5s;
+                transition: 0.5s;
                 user-select: none;
                 &:hover {
                     transform: scale(1.3);
-                    transition: all 0.3s;
+                    transition: 0.3s;
                 }
                 &:active {
                     color: darkslategray;
                     border: 2px solid darkslategray;
-                    transition: all 0.1s;
+                    transition: 0.1s;
                 }
             }
             address {
@@ -80,16 +82,16 @@
                     position: relative;
                     font-size: 42px;
                     margin-right: 18px;
-                    transition: all 0.3s;
+                    transition: 0.3s;
                     &:hover {
                         transform: scale(1.2);
-                        transition: all 0.2s;
+                        transition: 0.2s;
                         text-decoration: none;
                         border-bottom: none;
                     }
                     &:active {
                         color: darkslategray;
-                        transition: all 0.1s;
+                        transition: 0.1s;
                     }
                     &.icon-envelope {
                         position: absolute;

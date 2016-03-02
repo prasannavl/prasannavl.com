@@ -1,7 +1,4 @@
 import webpack from "webpack";
-
-import autoprefixer from "autoprefixer";
-import OpenBrowserPlugin from "open-browser-webpack-plugin";
 import * as path from "path";
 
 import utils from "./tools/utils";
@@ -35,7 +32,7 @@ export const ROUTES_FILENAME = "routes.json";
 // Dev server constants
 
 export const DEVSERVER_PUBLIC_PATH = "/";
-export const DEVSERVER_CONTENT_BASE = "";
+export const DEVSERVER_CONTENT_BASE = resolve("./static");
 export const DEVSERVER_HOST = "localhost";
 export const DEVSERVER_PORT = "8000";
 export const DEVSERVER_INDEX_PATH_RELATIVE = "/index.html";
@@ -112,11 +109,11 @@ let config = {
             },
             {
                 test: /\.css$/i,
-                loader: "style!css!postcss"
+                loader: "style!css-autoprefixer!postcss"
             }, {
                 test: /\.scss$/i,
                 exclude: GLOBAL_STYLE_PATH,
-                loaders: ["style", "css?-autoprefixer-import", "postcss", "sass"]
+                loaders: ["style", "css?-autoprefixer", "postcss", "sass"]
             },
             { test: /\.(woff|woff2|eot|ttf)$/i, loader: 'url-loader?limit=100000' },
             {
@@ -155,8 +152,19 @@ let config = {
             colors: true
         }
     },
-    postcss: () => {
-        return [autoprefixer];
+    postcss: function () {
+        return {
+            defaults: [
+                require("postcss-discard-comments")(IS_PRODUCTION ? { removeAll: true } : false),
+                require("postcss-calc"),
+                require("postcss-reduce-transforms"),
+                require("postcss-reduce-idents"),
+                require("postcss-merge-rules"),
+                require("postcss-merge-idents"),
+                require("postcss-discard-duplicates"),                
+                require("autoprefixer"),
+            ],
+        };  
     }
 };
 
@@ -206,6 +214,8 @@ let commonPlugins = [
 ];
 
 // Conditional plugins
+
+const OpenBrowserPlugin = require("open-browser-webpack-plugin");
 
 let devPlugins = [
     new webpack.NoErrorsPlugin(),

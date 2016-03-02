@@ -1,6 +1,6 @@
 import * as React from "react";
 
-interface LoremProps extends React.Props<LoremFragment> {
+interface LoremProps extends React.Props<any> {
     count: number;
 }
 
@@ -8,7 +8,7 @@ function getRestProps(prop: LoremProps) {
     return _.omit(prop, "count");
 }
 
-export default class LoremFragment extends React.Component<LoremProps, any> {
+export default class LoremSegment extends React.Component<LoremProps, any> {
 
     render() {
         const rest = getRestProps(this.props);

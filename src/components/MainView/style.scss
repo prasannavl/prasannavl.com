@@ -2,13 +2,11 @@
     position: relative;
     width: 100%;
     margin: 0 auto;
-    
-    $sidebarWidth: 260px;
+    $sidebarWidth: 270px;
     
     #sidebar {
         position: fixed;
         width: $sidebarWidth;
-        background: cornflowerblue;
         height: 100%;
     }
     

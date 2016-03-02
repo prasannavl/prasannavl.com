@@ -1,18 +1,23 @@
-@import "../../node_modules/normalize.css/normalize.css";
+@import "~normalize.css";
+
+// Global modifiers
+
 html {
     box-sizing: border-box;
 }
 
 body {
-    font-family: "Segoe UI", "Optima", "Roboto Light", "Open Sans", "Arial", "sans-serif";
+    font-family: "Segoe UI", "Helvetica Neue", "Helvetica", "Roboto", "Open Sans", "Arial", "sans-serif";
 }
 
 h1 {
     font-weight: 100;
+    margin: 10px 0;    
 }
 
 h2 {
     font-weight: 500;
+    margin: 12px 0;
 }
 
 h3 {
@@ -23,6 +28,10 @@ h3 {
 *:before,
 *:after {
     box-sizing: inherit;
+}
+
+p {
+    margin:16px 0;
 }
 
 .clear {

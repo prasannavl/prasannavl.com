@@ -25,9 +25,49 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-linkedin-with-circle {
+    &:before {
+        content: $icon-linkedin-with-circle;
+    }
+}
+.icon-paper-plane {
+    &:before {
+        content: $icon-paper-plane;
+    }
+}
+.icon-email {
+    &:before {
+        content: $icon-email;
+    }
+}
+.icon-twitter-with-circle {
+    &:before {
+        content: $icon-twitter-with-circle;
+    }
+}
+.icon-facebook-with-circle {
+    &:before {
+        content: $icon-facebook-with-circle;
+    }
+}
 .icon-mark-github {
     &:before {
         content: $icon-mark-github;
+    }
+}
+.icon-settings {
+    &:before {
+        content: $icon-settings;
+    }
+}
+.icon-menu {
+    &:before {
+        content: $icon-menu;
+    }
+}
+.icon-arrow_forward {
+    &:before {
+        content: $icon-arrow_forward;
     }
 }
 .icon-twitter {
@@ -35,9 +75,29 @@
         content: $icon-twitter;
     }
 }
-.icon-arrow_forward {
+.icon-linkedin-square {
     &:before {
-        content: $icon-arrow_forward;
+        content: $icon-linkedin-square;
+    }
+}
+.icon-linkedin {
+    &:before {
+        content: $icon-linkedin;
+    }
+}
+.icon-rss-square {
+    &:before {
+        content: $icon-rss-square;
+    }
+}
+.icon-feed {
+    &:before {
+        content: $icon-feed;
+    }
+}
+.icon-paper-plane2 {
+    &:before {
+        content: $icon-paper-plane2;
     }
 }
 .icon-envelope {

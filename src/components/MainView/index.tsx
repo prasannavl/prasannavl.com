@@ -2,7 +2,7 @@ import * as React from "react";
 
 import Sidebar from "../Sidebar/index";
 import ContentView from "../ContentView/index";
-import LoremFragment from "../LoremFragment/index";
+import LoremSegment from "../fragments/Lorem";
 import createStyled from "../../modules/core/createStyled";
 
 let style = require("./style.scss") as any;
