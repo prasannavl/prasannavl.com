@@ -33,7 +33,7 @@ class Sidebar extends Base<any, any> {
                     <li><NavLink to="/overview">overview</NavLink></li>
                     <li><NavLink to="/archives">archives</NavLink></li>
                     <li><NavLink to="/about">about</NavLink></li>
-                    <li><a href={getFeedbackLink()}>feedback</a></li>
+                    <li><a href={getFeedbackLink()} target="_blank">feedback</a></li>
                 </nav>
                 <address className="icons">
                         <a href="https://www.twitter.com/prasannavl" className="icon-twitter" target="_blank"></a>
