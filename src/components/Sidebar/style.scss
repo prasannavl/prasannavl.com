@@ -3,8 +3,8 @@
 :local(.root) {
     $fontColorBase: rgba(#fff, 0.9);
     $fontColorBright: #fff;
-    $fontActiveColor: lightgreen;
-
+    $fontActiveColor: palegreen;
+    
     display: flex;
     flex-flow: column;
     align-items: stretch;
@@ -118,11 +118,16 @@
         flex: 1 0 auto;
         margin: 10px 0 20px 0;
         list-style-type: none;
-        & > li {
+        
+        & > li > a {
+            display: block;
             padding: 10px 30px;
             font-weight: 400;
             cursor: pointer;
             transition: 0.2s;
+            color: $fontColorBase;
+            text-decoration: none;
+            font-weight: 400;
             
             &:hover, &:focus {
                 background: rgba(#000, 0.4);
@@ -138,8 +143,7 @@
                 background: rgba($fontColorBright, 0.1);
                 color: $fontActiveColor;                
                 cursor: default;
-                font-weight: 500;
-                transition: 0.2s;  
+                transition: 0.9s;  
             }
         }
     }

@@ -61,5 +61,5 @@ export class App {
             document.removeEventListener(contentLoadedEvent, handler);
         };
         document.addEventListener(contentLoadedEvent, handler);
-    } 
+    }
 }
