@@ -24,8 +24,6 @@ export default class AppRenderer {
     setupContext(context, routeFactory, req) {
         context.routeFactory = routeFactory;
         const htmlConfig = _.cloneDeep(this.htmlConfig);
-        console.log(JSON.stringify(htmlConfig, null, 2));
-        console.log(req);
         htmlConfig.canonical += req.url;
         context.state.htmlConfig = htmlConfig;
     }
