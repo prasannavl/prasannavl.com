@@ -77,6 +77,7 @@ let config = {
     resolve: {
         alias: {
             TweenMax: resolve("./node_modules/gsap/src/uncompressed/TweenMax.js"),
+            "react-router-component": resolve("./src/modules/react-router-component")
         },
         extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".ts", ".tsx"]
     },
@@ -97,7 +98,7 @@ let config = {
             {
                 test: /\.js[x]?$/i,
                 loader: "babel",
-                exclude: /node_modules/
+                exclude: [/node_modules/, resolve("./src/modules/react-router-component")]
             }, {
                 test: /\.json$/i,
                 loader: "json"

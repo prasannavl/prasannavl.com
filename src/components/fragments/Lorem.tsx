@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as _ from "lodash";
 
 interface LoremProps extends React.Props<any> {
     count: number;
