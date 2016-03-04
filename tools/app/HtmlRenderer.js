@@ -5,12 +5,12 @@ import path from "path";
 export class HtmlRenderer {
       
     static render(htmlConfig) {
-        let { templatePath, title, description, js, css, content, inlineCss } = htmlConfig;
+        let { templatePath, title, description, js, css, content, inlineCss, canonical } = htmlConfig;
                 
         templatePath = "./" + path.relative(__dirname, templatePath);
         let templateFactory = require(templatePath).default;
 
-        let templateComponent = templateFactory({ title, description, css, js, content, inlineCss });
+        let templateComponent = templateFactory({ title, description, css, js, content, inlineCss, canonical });
         let html = renderToStaticMarkup(templateComponent);
         
         html = "<!doctype html>" + html;

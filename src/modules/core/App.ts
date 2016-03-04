@@ -1,6 +1,6 @@
 import { IAppContext, AppContext, IClientPartialState, IContextManager, IServerState } from "./AppContext";
 import * as env from "fbjs/lib/ExecutionEnvironment";
-import { ContextManager } from "../coreAdapter/ContextManager";
+import { ContextManager } from "../core-adapter/ContextManager";
 
 export class App {
     private contextManager: IContextManager = null;
@@ -26,7 +26,7 @@ export class App {
         }
     }
 
-    private startInternal(renderTargetId: string, url?:string) {
+    private startInternal(renderTargetId: string, url?: string) {
         const cm = new ContextManager();
         this.contextManager = cm;
         const context = cm.createContext();

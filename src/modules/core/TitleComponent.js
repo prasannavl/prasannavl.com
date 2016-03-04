@@ -7,7 +7,7 @@ export class TitleComponent {
         this.template = null;
     }
 
-    setTemplate(value: string) {
+    setTemplate(value) {
         this.template = value;
     }
     

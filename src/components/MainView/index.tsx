@@ -4,10 +4,11 @@ import Sidebar from "../Sidebar/index";
 import ContentView from "../ContentView/index";
 import LoremSegment from "../fragments/Lorem";
 import createStyled from "../../modules/core/createStyled";
+import Base from "../Base";
 
 let style = require("./style.scss") as any;
 
-class MainView extends React.Component<any, any> {
+class MainView extends Base<any, any> {
     render() {
 
         const c = (

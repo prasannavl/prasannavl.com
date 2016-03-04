@@ -1,7 +1,7 @@
 import * as React from "react";
 
 function Html(options) {
-    const { title, description, css, js, content, inlineCss, inlineScripts } = options;
+    const { title, description, css, js, content, inlineCss, inlineScripts, canonical } = options;
     const isArray = Array.isArray;
 
     const html = (
@@ -11,6 +11,7 @@ function Html(options) {
                 <meta httpEquiv="X-UA-Compatible" content= "IE=edge" />
                 <title>{title}</title>
                 <meta name="description" content={description} />
+                {canonical ? <link rel="canonical" href={canonical} /> : null }
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png"/>
                 <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png"/>

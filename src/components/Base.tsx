@@ -8,19 +8,21 @@ class Base<P, S> extends React.Component<P, S> {
     context: IAppContext;
 
     static contextTypes: React.ValidationMap<IAppContext> = {
-        history: PropTypes.object,
-        routes: PropTypes.object,
+        router: PropTypes.any,
+        routeFactory: PropTypes.func,
         title: PropTypes.object,
         applyCss: PropTypes.func,
-        routeHandlerDescriptor: PropTypes.object,
         routeProcessor: PropTypes.object,
         state: PropTypes.object,
     };
 
     navigateTo(path: string, event: React.SyntheticEvent = null, replaceCurrent: boolean = false) {
         if (event !== null) event.preventDefault();
-        if (replaceCurrent) this.context.history.replace(path);
-        else this.context.history.push(path);
+        try {
+        (this.context as any).router.navigate(path, { replace: replaceCurrent });
+        } catch (err) {
+            console.log("err: " + err);
+        }
     }
 }
 

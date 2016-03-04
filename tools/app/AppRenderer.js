@@ -12,18 +12,20 @@ export default class AppRenderer {
     }
 
     run(req, res) {
-        this.getRoutes(routes => {
+        this.getRouteFactory(routeFactory => {
             const cm = this.contextManager;
             const context = cm.createContext();
-            this.setupContext(context, routes);
+            this.setupContext(context, routeFactory, res);
             cm.render(context, req.url);
             this.handleContextOutput(context, res);
         });
     }
     
-    setupContext(context, routes) {
-        context.routes = routes;
-        context.state.htmlConfig = _.cloneDeep(this.htmlConfig);
+    setupContext(context, routeFactory, req) {
+        context.routeFactory = routeFactory;
+        const htmlConfig = _.cloneDeep(this.htmlConfig);
+        htmlConfig.canonical += req.url;
+        context.state.htmlConfig = htmlConfig;
     }
     
     handleContextOutput(context, res) {
@@ -43,13 +45,13 @@ export default class AppRenderer {
         }
     }
 
-    getRoutes(cb) {
-        if (!this.routes) {
-            webpackRequire(this.config, require.resolve("../../src/routes"), (err, factory, stats, fs) => {
-                let routes = factory().default;
-                this.routes = routes;
-                cb(routes);
+    getRouteFactory(cb) {
+        if (!this.routeFactory) {
+            webpackRequire(this.config, require.resolve("../../src/routeFactory"), (err, factory) => {
+                let routeFactory = factory().default;
+                this.routeFactory = routeFactory;
+                cb(routeFactory);
             });
-        } else { cb(this.routes); }
+        } else { cb(this.routeFactory); }
     }
 }

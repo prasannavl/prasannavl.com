@@ -9,11 +9,9 @@ interface Props extends React.Props<AppContainer> {
 class AppContainer extends React.Component<Props, any> implements React.ChildContextProvider<IAppContext> {
 
     static childContextTypes: React.ValidationMap<IAppContext> = {
-        history: PropTypes.object,
-        routes: PropTypes.object,
+        routeFactory: PropTypes.func,
         title: PropTypes.object,
         applyCss: PropTypes.func,
-        routeHandlerDescriptor: PropTypes.object,
         routeProcessor: PropTypes.object,
         state: PropTypes.object,
     };

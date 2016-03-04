@@ -2,12 +2,11 @@ import * as React from "react";
 import Base from "../Base";
 import Tagline from "../fragments/Tagline";
 import createStyled from "../../modules/core/createStyled";
-import { IndexLink, Link } from "react-router";
+import Link from "react-router-component/lib/Link";
 
 let style = require("./style.scss") as any;
 
-class NavLink extends React.Component<any, any>
-{
+class NavLink extends React.Component<any, any> {
   render() {
       return <Link {...this.props} activeClassName="highlight"/>;
   }
@@ -25,14 +24,14 @@ class Sidebar extends Base<any, any> {
             <div className={style.root} {...this.props}>
                 <header>
                     <h1>
-                        <IndexLink to="/">Prasanna V. Loganathar</IndexLink>
+                        <NavLink href="/">Prasanna V. Loganathar</NavLink>
                     </h1>
                      <Tagline className="tagline" />
                 </header>
                 <nav>
-                    <li><NavLink to="/overview">overview</NavLink></li>
-                    <li><NavLink to="/archives">archives</NavLink></li>
-                    <li><NavLink to="/about">about</NavLink></li>
+                    <li><NavLink href="/overview">overview</NavLink></li>
+                    <li><NavLink href="/archives">archives</NavLink></li>
+                    <li><NavLink href="/about">about</NavLink></li>
                     <li><a href={getFeedbackLink()} target="_blank">feedback</a></li>
                 </nav>
                 <address className="icons">

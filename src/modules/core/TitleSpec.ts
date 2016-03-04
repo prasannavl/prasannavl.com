@@ -7,7 +7,7 @@ export interface ITitleComponent {
 
 export interface ITitleTarget {
     get(): string;
-    set(value: string): void; 
+    set(value: string): void;
 }
 
 export interface ITitleComponentFactory {

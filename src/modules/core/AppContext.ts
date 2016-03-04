@@ -1,4 +1,4 @@
-import { IRouteHandlerDescriptor, IRouteProcessor } from "./RoutingSpec";
+import { IRouteProcessor } from "./RoutingSpec";
 import { ITitleComponent } from "./TitleSpec";
 
 export interface IClientPartialState {
@@ -14,11 +14,9 @@ export interface IServerState {
 }
 
 export interface IAppContext {
-    history: HistoryModule.History;
-    routes: any;
+    routeFactory: (props: any) => any;
     title: ITitleComponent;
     applyCss: ApplyStyleFunction;
-    routeHandlerDescriptor: IRouteHandlerDescriptor;
     routeProcessor: IRouteProcessor;
     state: IClientPartialState | IServerState;
 }
@@ -30,29 +28,23 @@ export interface IContextManager {
 
 export class AppContext implements IAppContext {
 
-    history: HistoryModule.History;
     title: ITitleComponent;
     applyCss: ApplyStyleFunction;
-    routes: any;
-    routeHandlerDescriptor: IRouteHandlerDescriptor;
+    routeFactory: (props: any) => any;
     routeProcessor: IRouteProcessor;
     state: IClientPartialState | IServerState;
 
     constructor(
-        history: HistoryModule.History,
         titleComponent: ITitleComponent,
-        routes: any,
+        routeFactory: (props: any) => any,
         applyCss: ApplyStyleFunction,
         routeProcessor: IRouteProcessor,
-        routeHandlerDescriptor: IRouteHandlerDescriptor,
         state: IClientPartialState | IServerState) {
 
-        this.history = history;
         this.title = titleComponent;
-        this.routes = routes;
+        this.routeFactory = routeFactory;
         this.applyCss = applyCss;
         this.routeProcessor = routeProcessor;
-        this.routeHandlerDescriptor = routeHandlerDescriptor;
         this.state = state;
     }
 }

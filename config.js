@@ -40,9 +40,8 @@ export const DEVSERVER_INDEX_PATH_RELATIVE = "/index.html";
 // Libraries 
 
 const EXTERNAL_LIBS = [
-    ["react", "https://fb.me/react-0.14.7.min.js", "React"],
-    ["react-dom", "https://fb.me/react-dom-0.14.7.min.js", "ReactDOM"],
-    ["react-router", "https://npmcdn.com/react-router@2.0.0/umd/ReactRouter.min.js", "ReactRouter"],
+    ["react", "https://fb.me/react-with-addons-0.14.7.js", "React"],
+    ["react-dom", "https://fb.me/react-dom-0.14.7.js", "ReactDOM"],
 ];
 
 // Core configuration
@@ -77,7 +76,7 @@ let config = {
     },
     resolve: {
         alias: {
-            TweenMax: resolve("./node_modules/gsap/src/uncompressed/TweenMax.js"),                                                                      
+            TweenMax: resolve("./node_modules/gsap/src/uncompressed/TweenMax.js"),
         },
         extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".ts", ".tsx"]
     },
@@ -152,7 +151,7 @@ let config = {
             colors: true
         }
     },
-    postcss: function () {
+    postcss: () => {
         return {
             defaults: [
                 require("postcss-discard-comments")(IS_PRODUCTION ? { removeAll: true } : false),
@@ -208,7 +207,6 @@ let commonPlugins = [
     }),
     TextPlugins.globalStyles,
     new webpack.ProvidePlugin({
-         _: "lodash", 
          TweenMax: "TweenMax",
     })
 ];

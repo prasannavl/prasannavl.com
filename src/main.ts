@@ -1,3 +1,4 @@
+require("babel-polyfill");
 import { App } from "./modules/core/App";
 
 let app = new App();

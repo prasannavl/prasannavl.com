@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Link } from "react-router";
 import Base from "../Base";
 import createStyled from "../../modules/core/createStyled";
 import Tagline from "../fragments/Tagline";
