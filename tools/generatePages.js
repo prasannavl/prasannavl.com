@@ -7,7 +7,7 @@ import mkdirp from "mkdirp";
 import { ARTIFACTS_PATH, ROUTES_FILENAME, OUTPUT_PATH, DEVSERVER_PORT, DEVSERVER_HOST, DEVSERVER_PUBLIC_PATH } from "../config";
 import { listen } from "./server";
 
-console.log("Generating routes..");
+console.log("Generating pages..");
 
 let routeArtifactPath = path.join(ARTIFACTS_PATH, ROUTES_FILENAME);
 let routes = utils.getFromJsonFile(routeArtifactPath);

@@ -15,7 +15,7 @@ export default class AppRenderer {
         this.getRouteFactory(routeFactory => {
             const cm = this.contextManager;
             const context = cm.createContext();
-            this.setupContext(context, routeFactory, res);
+            this.setupContext(context, routeFactory, req);
             cm.render(context, req.url);
             this.handleContextOutput(context, res);
         });
@@ -24,6 +24,8 @@ export default class AppRenderer {
     setupContext(context, routeFactory, req) {
         context.routeFactory = routeFactory;
         const htmlConfig = _.cloneDeep(this.htmlConfig);
+        console.log(JSON.stringify(htmlConfig, null, 2));
+        console.log(req);
         htmlConfig.canonical += req.url;
         context.state.htmlConfig = htmlConfig;
     }
