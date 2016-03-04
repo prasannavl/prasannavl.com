@@ -1,11 +1,16 @@
 import * as React from "react";
 import { IAppContext } from "../modules/core/AppContext";
+import { Router } from "react-router-component";
 
 const PropTypes = React.PropTypes;
 
 class Base<P, S> extends React.Component<P, S> {
 
     context: IAppContext;
+
+    get router(): Router {
+        return (this.context as any).router;
+    }
 
     static contextTypes: React.ValidationMap<IAppContext> = {
         router: PropTypes.any,
@@ -16,13 +21,17 @@ class Base<P, S> extends React.Component<P, S> {
         state: PropTypes.object,
     };
 
-    navigateTo(path: string, event: React.SyntheticEvent = null, replaceCurrent: boolean = false) {
+    getPath() {
+        return this.router.getPath();
+    }
+
+    makeHref(path: string) {
+        return this.router.makeHref(path);
+    }
+
+    navigateTo(path: string, replaceCurrent: boolean = false, event: React.SyntheticEvent = null) {
         if (event !== null) event.preventDefault();
-        try {
-        (this.context as any).router.navigate(path, { replace: replaceCurrent });
-        } catch (err) {
-            console.log("err: " + err);
-        }
+        this.router.navigate(path, { replace: replaceCurrent });
     }
 }
 
