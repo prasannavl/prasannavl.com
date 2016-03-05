@@ -6,7 +6,7 @@ import Link from "../fragments/Link";
 
 let style = require("./style.scss") as any;
 
-class NavLink extends StatelessComponent<any> {
+class NavLink extends React.Component<any, any> {
   render() {
       return <Link {...this.props} activeClassName="highlight"/>;
   }

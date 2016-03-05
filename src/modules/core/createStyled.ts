@@ -1,5 +1,4 @@
 import * as React from "react";
-import { StatelessComponent } from "../../components/Base";
 
 function getDisplayName(component: any) {
     let name = component.displayName || "Component";
@@ -7,7 +6,7 @@ function getDisplayName(component: any) {
 }
 
 export default function createStyled<T>(InnerComponent: T, ...styles: any[]) {
-    class StyleComponent extends StatelessComponent<any> {
+    class StyleComponent extends React.Component<any, any> {
         static displayName = getDisplayName(InnerComponent);
 
         static contextTypes: any = {

@@ -1,13 +1,17 @@
 import * as React from "react";
-import { StatelessBase } from "../Base";
+import { Base } from "../Base";
 import shallowCompare from "react-addons-shallow-compare";
 
-export default class Link extends StatelessBase<any, any> {
+export default class Link extends Base<any, any> {
     displayName = "Link";
 
     constructor() {
         super();
         this.onClick = this.onClick.bind(this);
+    }
+
+    isActive() {
+        return this.getPath() === this.props.href;
     }
 
     onClick(e: any) {
@@ -20,13 +24,20 @@ export default class Link extends StatelessBase<any, any> {
         if (!e.defaultPrevented) {
             e.preventDefault();
             this.navigateTo(this.props.href);
+            this.forceUpdate();
         }
     }
 
     render() {
+        let classNames = this.props.className;
+        const href = this.makeHref(this.props.href);
+        if (this.props.activeClassName && this.isActive()) {
+            classNames += " " + this.props.activeClassName;
+        }
         const props = Object.assign({}, this.props, {
             onClick: this.onClick,
-            href: this.makeHref(this.props.href)
+            href: href,
+            className: classNames
         });
         return React.DOM.a(props, this.props.children);
     }

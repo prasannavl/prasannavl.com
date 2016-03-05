@@ -9,7 +9,6 @@ let style = require("./style.scss") as any;
 
 class MainView extends Base<any, any> {
     render() {
-
         const c = (
             <div className={style.root}>
                 <Sidebar />
