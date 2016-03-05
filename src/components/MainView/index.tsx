@@ -1,10 +1,9 @@
 import * as React from "react";
-
 import Sidebar from "../Sidebar/index";
 import ContentView from "../ContentView/index";
 import LoremSegment from "../fragments/Lorem";
 import createStyled from "../../modules/core/createStyled";
-import Base from "../Base";
+import { Base } from "../Base";
 
 let style = require("./style.scss") as any;
 

@@ -1,10 +1,11 @@
 import * as React from "react";
 import { IAppContext } from "../modules/core/AppContext";
 import { Router } from "react-router-component";
+import shallowCompare from "react-addons-shallow-compare";
 
 const PropTypes = React.PropTypes;
 
-class Base<P, S> extends React.Component<P, S> {
+export class Base<P, S> extends React.Component<P, S> {
 
     context: IAppContext;
 
@@ -35,4 +36,14 @@ class Base<P, S> extends React.Component<P, S> {
     }
 }
 
-export default Base;
+export class StatelessBase<P, S> extends Base<P, S> {
+    shouldComponentUpdate(nextProps: any, nextState: any) {
+        return shallowCompare(this, nextProps, nextState);
+    }
+}
+
+export class StatelessComponent<P> extends React.Component<P, any> {
+    shouldComponentUpdate(nextProps: any, nextState: any) {
+        return shallowCompare(this, nextProps, nextState);
+    }
+}

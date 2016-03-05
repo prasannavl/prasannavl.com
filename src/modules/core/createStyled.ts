@@ -1,18 +1,23 @@
 import * as React from "react";
-import Base from "../../components/Base";
+import { StatelessComponent } from "../../components/Base";
 
 function getDisplayName(component: any) {
     let name = component.displayName || "Component";
     return `Styled(${name})`;
 }
 
-export default function createStyled<T>(InnerComponent:T, ...styles:any[]) {
-    class StyleComponent extends Base<any, any> {
+export default function createStyled<T>(InnerComponent: T, ...styles: any[]) {
+    class StyleComponent extends StatelessComponent<any> {
         static displayName = getDisplayName(InnerComponent);
+
+        static contextTypes: any = {
+            applyCss: React.PropTypes.func,
+        };
+
         private removeCss: () => void;
 
         componentWillMount() {
-            const applyCss = this.context.applyCss;
+            const applyCss = (this.context as any).applyCss;
             if (applyCss)
                 this.removeCss = applyCss.apply(null, styles);
         }

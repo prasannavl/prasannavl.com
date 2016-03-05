@@ -1,5 +1,5 @@
 import * as React from "react";
-import Base from "../Base";
+import { Base } from "../Base";
 import createStyled from "../../modules/core/createStyled";
 import Tagline from "../fragments/Tagline";
 import { IAppContext } from "../../modules/core/AppContext";

@@ -1,12 +1,12 @@
 import * as React from "react";
-import Base from "../Base";
+import { Base, StatelessComponent } from "../Base";
 import Tagline from "../fragments/Tagline";
 import createStyled from "../../modules/core/createStyled";
-import Link from "react-router-component/lib/Link";
+import Link from "../fragments/Link";
 
 let style = require("./style.scss") as any;
 
-class NavLink extends React.Component<any, any> {
+class NavLink extends StatelessComponent<any> {
   render() {
       return <Link {...this.props} activeClassName="highlight"/>;
   }
