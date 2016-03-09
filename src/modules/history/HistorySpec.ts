@@ -2,8 +2,8 @@ export interface IHistory {
     context: IHistoryContext;
     length: number;
     go(delta?: any): Promise<boolean>;
-    replace(url: string, state: any): Promise<boolean>;
-    push(url: string, state: any): Promise<boolean>;
+    replace(url: string, state?: any): Promise<boolean>;
+    push(url: string, state?: any): Promise<boolean>;
     listen(listener: HistoryListener): () => void;
     listenBeforeChange(listener: HistoryBeforeChangeListener): () => void;
     start(): void;
@@ -13,7 +13,7 @@ export interface IHistory {
 export interface IHistoryContext {
     // The full url
     url: string;
-    // The resource path. No scheme, host or port is included. Path never includes the first "/".
+    // The resource path. No scheme, host or port is included.
     pathname: string;
     /*
     Raw query string including after "?" (Does not include the question mark). Parsed qs 

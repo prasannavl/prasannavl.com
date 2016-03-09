@@ -34,8 +34,8 @@ export class BrowserHistory extends HistoryCore {
         });
     }
 
-    replace(path: string, state: any) {
-        return this._processBeforeChange(null).then(change => {
+    replace(path: string, state?: any) {
+        return this._processBeforeChange(HistoryContext.createFromPath(path, state)).then(change => {
             if (change) {
                 window.history.replaceState(state, null, path);
                 return this._process(BrowserHistory.createContext()).then(() => true);
@@ -44,8 +44,8 @@ export class BrowserHistory extends HistoryCore {
         });
     }
 
-    push(path: string, state: any) {
-        return this._processBeforeChange(null).then(change => {
+    push(path: string, state?: any) {
+        return this._processBeforeChange(HistoryContext.createFromPath(path, state)).then(change => {
             if (change) {
                 window.history.pushState(state, null, path);
                 return this._process(BrowserHistory.createContext()).then(() => true);

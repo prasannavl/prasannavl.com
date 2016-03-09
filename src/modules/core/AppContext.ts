@@ -1,5 +1,6 @@
 import { IRouteProcessor } from "./RoutingSpec";
 import { ITitleComponent } from "./TitleSpec";
+import { IHistory } from "../history/index";
 
 export interface IClientPartialState {
     renderSurface: HTMLElement | string;
@@ -14,7 +15,7 @@ export interface IServerState {
 }
 
 export interface IAppContext {
-    routeFactory: (props: any) => any;
+    history: IHistory;
     title: ITitleComponent;
     applyCss: ApplyStyleFunction;
     routeProcessor: IRouteProcessor;
@@ -27,22 +28,21 @@ export interface IContextManager {
 }
 
 export class AppContext implements IAppContext {
-
+    history: IHistory;
     title: ITitleComponent;
     applyCss: ApplyStyleFunction;
-    routeFactory: (props: any) => any;
     routeProcessor: IRouteProcessor;
     state: IClientPartialState | IServerState;
 
     constructor(
         titleComponent: ITitleComponent,
-        routeFactory: (props: any) => any,
+        history: IHistory,
         applyCss: ApplyStyleFunction,
         routeProcessor: IRouteProcessor,
         state: IClientPartialState | IServerState) {
 
         this.title = titleComponent;
-        this.routeFactory = routeFactory;
+        this.history = history;
         this.applyCss = applyCss;
         this.routeProcessor = routeProcessor;
         this.state = state;

@@ -1,4 +1,5 @@
 import { IHistoryContext } from "./HistorySpec";
+import { getQueryString, getPath, getHash } from "./utils";
 
 export class HistoryContext implements IHistoryContext {
     url: string;
@@ -12,6 +13,10 @@ export class HistoryContext implements IHistoryContext {
 
     static createEmpty() {
         return new HistoryContext(null, null, null, null, null);
+    }
+
+    static createFromPath(path: string, state: any = null) {
+        return new HistoryContext(path, getPath(path), getQueryString(path), getHash(path), state);
     }
 
     constructor(url: string, pathname: string, queryString: string, hash: string, state: any) {

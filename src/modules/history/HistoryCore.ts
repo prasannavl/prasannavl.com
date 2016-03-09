@@ -19,8 +19,8 @@ export abstract class HistoryCore implements IHistory {
     abstract start(): void;
     abstract dispose(): void;
     abstract go(delta?: any): Promise<boolean>;
-    abstract replace(url: string, state: any): Promise<boolean>;
-    abstract push(url: string, state: any): Promise<boolean>;
+    abstract replace(url: string, state?: any): Promise<boolean>;
+    abstract push(url: string, state?: any): Promise<boolean>;
 
     listen(listener: HistoryListener) {
         const disposable = () => {
@@ -53,7 +53,7 @@ export abstract class HistoryCore implements IHistory {
     protected _processBeforeChange(context: IHistoryContext): Promise<boolean> {
         if (this._cachedBeforeChangeListenerPipelineFunc === null) {
             const cachedResult = Promise.resolve(true);
-            this._cachedBeforeChangeListenerPipelineFunc = this._buildPipeline(this._beforeChangeListeners, () => cachedResult, "HistoryBeforeChangeListener");
+            this._cachedBeforeChangeListenerPipelineFunc = this._buildPipeline(this._beforeChangeListeners.reverse(), () => cachedResult, "HistoryBeforeChangeListener");
         }
         return this._cachedBeforeChangeListenerPipelineFunc(context);
     }

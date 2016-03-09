@@ -1,13 +1,13 @@
 import { TitleComponentFactory } from "./TitleComponent";
 import { AppContext, IClientPartialState } from "../core/AppContext";
 import { RouteProcessor } from "./RouteProcessor";
-import routeFactory from "../../routeFactory";
+import { BrowserHistory } from "../history/index";
 
 export class ContextManager {
     createContext() {
         return new AppContext(
             TitleComponentFactory.create(),
-            routeFactory,
+            new BrowserHistory(),
             (styleWrapper) => styleWrapper.insertIntoDom(),
             new RouteProcessor(),
             { renderSurface: null });
