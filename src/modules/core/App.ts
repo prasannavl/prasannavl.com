@@ -1,6 +1,7 @@
 import { IAppContext, AppContext, IClientPartialState, IContextManager, IServerState } from "./AppContext";
 import * as env from "fbjs/lib/ExecutionEnvironment";
 import { ContextManager } from "../core-adapter/ContextManager";
+import { BrowserHistory } from "../history/index";
 
 export class App {
     private contextManager: IContextManager = null;
@@ -16,12 +17,12 @@ export class App {
     hintRequisites() {
         let style = require("../../styles/global.scss");
         let lodash = require("lodash");
-
         let tweenMax = require("gsap/src/uncompressed/TweenMax");
 
         if (__DEV__) {
             if (env.canUseDOM) {
                 style.insertIntoDom();
+                (window as any)["hist"] = new BrowserHistory();
             }
         }
     }

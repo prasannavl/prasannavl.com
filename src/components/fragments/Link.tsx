@@ -24,7 +24,6 @@ export default class Link extends Base<any, any> {
         if (!e.defaultPrevented) {
             e.preventDefault();
             this.navigateTo(this.props.href);
-            this.forceUpdate();
         }
     }
 

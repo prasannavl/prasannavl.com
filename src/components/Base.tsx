@@ -36,7 +36,7 @@ export class Base<P, S> extends React.Component<P, S> {
     }
 }
 
-export class StatelessBase<P, S> extends Base<P, S> {
+export class StatelessBase<P> extends Base<P, any> {
     shouldComponentUpdate(nextProps: any, nextState: any) {
         return shallowCompare(this, nextProps, nextState);
     }

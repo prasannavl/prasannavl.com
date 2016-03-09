@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Base, StatelessComponent } from "../Base";
+import { Base } from "../Base";
 import Tagline from "../fragments/Tagline";
 import createStyled from "../../modules/core/createStyled";
 import Link from "../fragments/Link";
@@ -18,6 +18,7 @@ function getFeedbackLink() {
 }
 
 class Sidebar extends Base<any, any> {
+    static displayName = "Sidebar";
 
     render() {
         const c = (

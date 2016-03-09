@@ -1,6 +1,7 @@
 import * as React from "react";
+import { StatelessBase } from "../Base";
 
-class Header extends React.Component<any, any> {
+export default class Header extends StatelessBase<any> {
 
     render() {
         const c = (
@@ -9,5 +10,3 @@ class Header extends React.Component<any, any> {
         return c;
     }
 }
-
-export default Header;
