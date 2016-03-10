@@ -22,22 +22,22 @@ export abstract class HistoryCore implements IHistory {
     abstract replace(url: string, state?: any): Promise<boolean>;
     abstract push(url: string, state?: any): Promise<boolean>;
 
-    listen(listener: HistoryListener) {
+    listen(listener: HistoryListener, frontline: boolean = false) {
         const disposable = () => {
             const index = this._listeners.indexOf(listener);
             this._listeners.splice(index, 1);
         };
-        this._listeners.push(listener);
+        frontline ? this._listeners.unshift(listener) : this._listeners.push(listener);
         this._cachedListenerPipelineFunc = null;
         return disposable;
     }
 
-    listenBeforeChange(listener: HistoryBeforeChangeListener) {
+    listenBeforeChange(listener: HistoryBeforeChangeListener, frontline: boolean = true) {
         const disposable = () => {
             const index = this._beforeChangeListeners.indexOf(listener);
             this._beforeChangeListeners.splice(index, 1);
         };
-        this._beforeChangeListeners.push(listener);
+        frontline ? this._beforeChangeListeners.unshift(listener) : this._beforeChangeListeners.push(listener);
         this._cachedBeforeChangeListenerPipelineFunc = null;
         return disposable;
     }

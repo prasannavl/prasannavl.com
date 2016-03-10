@@ -4,8 +4,8 @@ export interface IHistory {
     go(delta?: any): Promise<boolean>;
     replace(url: string, state?: any): Promise<boolean>;
     push(url: string, state?: any): Promise<boolean>;
-    listen(listener: HistoryListener): () => void;
-    listenBeforeChange(listener: HistoryBeforeChangeListener): () => void;
+    listen(listener: HistoryListener, frontline?: boolean): () => void;
+    listenBeforeChange(listener: HistoryBeforeChangeListener, frontline?: boolean): () => void;
     start(): void;
     dispose(): void;
 }
