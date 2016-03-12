@@ -21,7 +21,7 @@ class MainView extends Base<any, any> {
 
     componentWillMount() {
         this.subscriptions.push(this.intents.showExposeStream
-            .startWith(this.getInitialValue())
+            .startWith(this.getInitialExposeStreamState())
             .distinctUntilChanged()
             .subscribe(x => {
                 this.setState({
@@ -34,7 +34,7 @@ class MainView extends Base<any, any> {
         this.subscriptions.forEach(x => x.unsubscribe());
     }
 
-    getInitialValue() {
+    getInitialExposeStreamState() {
         return this.context.historyContext.pathname === "/";
     }
 

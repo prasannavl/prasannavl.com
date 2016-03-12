@@ -2,7 +2,14 @@ import * as React from "react";
 import { Base } from "../Base";
 import shallowCompare from "react-addons-shallow-compare";
 
-export default class Link extends Base<any, any> {
+export interface LinkProps extends React.Props<Link> {
+    href: string;
+    activeClassName?: string;
+    className?: string;
+    onClick?: (ev: React.SyntheticEvent) => void;
+}
+
+export default class Link extends Base<LinkProps, any> {
     displayName = "Link";
 
     constructor() {
@@ -31,7 +38,11 @@ export default class Link extends Base<any, any> {
         let classNames = this.props.className;
         const href = this.props.href;
         if (this.props.activeClassName && this.isActive()) {
-            classNames += " " + this.props.activeClassName;
+            if (classNames) {
+                classNames += " " + this.props.activeClassName;
+            } else {
+                classNames = this.props.activeClassName;
+            }
         }
         const props = Object.assign({}, this.props, {
             onClick: this.onClick,
