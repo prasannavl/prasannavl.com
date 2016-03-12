@@ -3,14 +3,14 @@ export function getQueryString(path: string): string {
     return index > -1 && index < path.length ? path.slice(index + 1) : "";
 }
 
-export function getPath(path: string): string {
-    const match = path.match(/^(https?:\/\/.*?)?(\/[^#\?]*?)/i);
+export function getPathName(path: string): string {
+    if (!path) path = "";
+    const match = path.match(/^((https?:)?\/\/.*?)?\/([^#\?]*)?/i);
     if (match) {
-        return match[2];
+        const pathname = match[3];
+        return "/" + (pathname || "");
     }
-    else {
-        throw new Error("Path invalid");
-    }
+    return "/" + path;
 }
 
 export function getHash(path: string): string {
@@ -26,17 +26,4 @@ export function getHashIndex(path: string) {
         index = path.indexOf("#", index);
     }
     return -1;
-}
-
-export function parseLocation(path: string) {
-    const match = path.match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)(\/[^?#]*)(\?[^#]*|)(#.*|)$/);
-    return match && {
-        protocol: match[1],
-        host: match[2],
-        hostname: match[3],
-        port: match[4],
-        pathname: match[5],
-        search: match[6],
-        hash: match[7]
-    };
 }

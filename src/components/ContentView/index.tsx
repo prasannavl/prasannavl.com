@@ -1,21 +1,20 @@
-// import * as React from "react";
-// import { Locations, Location } from "react-router-component";
-// import Sidebar from "../Sidebar/index";
-// import createStyled from "../../modules/core/createStyled";
-// import LoremSegment from "../fragments/Lorem";
+import * as React from "react";
+import Sidebar from "../Sidebar/index";
+import createStyled from "../../modules/core/createStyled";
+import LoremSegment from "../fragments/Lorem";
 
-// let style = require("./style.scss") as any;
+let style = require("./style.scss") as any;
 
-// class LoremContent extends React.Component<any, any> {
-//      render() {
-//         const c = (
-//             <div className={style.root} {...this.props}>
-//                 <LoremSegment count={3} />
-//             </div>
-//         );
-//         return c;
-//     }
-// }
+class LoremContent extends React.Component<any, any> {
+     render() {
+        const c = (
+            <div className={style.root} {...this.props}>
+                <LoremSegment count={3} />
+            </div>
+        );
+        return c;
+    }
+}
 
 // class ContentView extends React.Component<any, any> {
 //     render() {
@@ -27,4 +26,4 @@
 //     }
 // }
 
-// export default createStyled(ContentView, style);
+export default createStyled(LoremContent, style);

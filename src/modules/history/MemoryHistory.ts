@@ -2,6 +2,10 @@ import { HistoryCore } from "./HistoryCore";
 import { IHistoryContext } from "./HistorySpec";
 import { HistoryContext } from "./HistoryContext";
 
+/*
+    MemoryHistory - currently only provides just enough support for server-side rendering.
+    Does not provide anything that requires actual navigation for now. 
+*/
 export class MemoryHistory extends HistoryCore {
 
     go(delta?: any): any {
@@ -16,6 +20,14 @@ export class MemoryHistory extends HistoryCore {
         throwNotImplemented();
     }
 
+    replaceContext(context: IHistoryContext): any {
+        throwNotImplemented();
+    }
+
+    pushContext(context: IHistoryContext): any {
+        throwNotImplemented();
+    }
+
     start() { }
     dispose() { }
 
@@ -25,5 +37,5 @@ export class MemoryHistory extends HistoryCore {
 }
 
 function throwNotImplemented() {
-    throw new Error("go, replace, and push are not implemented for memory history.");
+    throw new Error("Navigational methods are not implemented for memory history.");
 }

@@ -1,6 +1,6 @@
 import { IRouteProcessor } from "./RoutingSpec";
 import { ITitleComponent } from "./TitleSpec";
-import { IHistory } from "../history/index";
+import { IHistory, IHistoryContext } from "../history/index";
 
 export interface IClientPartialState {
     renderSurface: HTMLElement | string;
@@ -16,6 +16,7 @@ export interface IServerState {
 
 export interface IAppContext {
     history: IHistory;
+    historyContext: IHistoryContext;
     title: ITitleComponent;
     applyCss: ApplyStyleFunction;
     routeProcessor: IRouteProcessor;
@@ -29,6 +30,7 @@ export interface IContextManager {
 
 export class AppContext implements IAppContext {
     history: IHistory;
+    historyContext: IHistoryContext;
     title: ITitleComponent;
     applyCss: ApplyStyleFunction;
     routeProcessor: IRouteProcessor;

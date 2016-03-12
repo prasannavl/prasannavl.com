@@ -12,6 +12,7 @@
         "build",
         "tools",
         "artifacts",
-        "typings"
+        "typings",
+        "tests"
     ]
 }

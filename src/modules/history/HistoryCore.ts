@@ -21,6 +21,8 @@ export abstract class HistoryCore implements IHistory {
     abstract go(delta?: any): Promise<boolean>;
     abstract replace(url: string, state?: any): Promise<boolean>;
     abstract push(url: string, state?: any): Promise<boolean>;
+    abstract replaceContext(context: IHistoryContext): Promise<boolean>;
+    abstract pushContext(context: IHistoryContext): Promise<boolean>;
 
     listen(listener: HistoryListener, frontline: boolean = false) {
         const disposable = () => {
