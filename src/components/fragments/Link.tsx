@@ -7,6 +7,7 @@ export interface LinkProps extends React.Props<Link> {
     activeClassName?: string;
     className?: string;
     onClick?: (ev: React.SyntheticEvent) => void;
+    replaceState?: boolean;
 }
 
 export default class Link extends Base<LinkProps, any> {
@@ -23,15 +24,13 @@ export default class Link extends Base<LinkProps, any> {
         return historyContext.pathname === this.props.href;
     }
 
-    onClick(e: any) {
+    onClick(e: React.MouseEvent) {
         if (this.props.onClick) {
             this.props.onClick(e);
         }
 
-        if (!e.defaultPrevented || e.button !== 0 || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
-            e.preventDefault();
-            this.navigateTo(this.props.href);
-        }
+        if (e.defaultPrevented || e.button !== 0 || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+        this.navigateTo(this.props.href, this.props.replaceState, e);
     }
 
     render() {

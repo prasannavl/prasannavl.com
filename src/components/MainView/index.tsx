@@ -1,47 +1,11 @@
 import * as React from "react";
 import Sidebar from "../Sidebar/index";
 import ContentView from "../ContentView/index";
-import LoremSegment from "../fragments/Lorem";
 import createStyled from "../../modules/core/createStyled";
-import { Base } from "../Base";
-import Intents from "./Intents";
-import * as Rx from "rxjs";
-import Expose from "../Expose/index";
 
 let style = require("./style.scss") as any;
 
-class MainView extends Base<any, any> {
-
-    private intents = new Intents();
-    private subscriptions: Rx.Subscription[] = [];
-
-    constructor() {
-        super();
-    }
-
-    componentWillMount() {
-        this.subscriptions.push(this.intents.showExposeStream
-            .startWith(this.getInitialExposeStreamState())
-            .distinctUntilChanged()
-            .subscribe(x => {
-                this.setState({
-                    showExpose: x
-                });
-            }));
-    }
-
-    componentWillUnmount() {
-        this.subscriptions.forEach(x => x.unsubscribe());
-    }
-
-    getInitialExposeStreamState() {
-        return this.context.historyContext.pathname === "/";
-    }
-
-    renderExpose() {
-        const view = (<Expose/>);
-        return view;
-    }
+class MainView extends React.Component<any, any> {
 
     renderNormalView() {
          const view = (
@@ -55,7 +19,7 @@ class MainView extends Base<any, any> {
     }
 
     render() {
-        return this.state.showExpose ? this.renderExpose() : this.renderNormalView();
+        return this.renderNormalView();
     }
 }
 

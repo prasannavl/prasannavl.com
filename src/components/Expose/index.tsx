@@ -8,21 +8,6 @@ const style = require("./style.scss") as any;
 
 class Expose extends Base<any, any> {
 
-    createCastAway(element: HTMLElement): TimelineMax {
-        const t = new TimelineMax();
-        t.to(element, 0.3, { x: -window.innerWidth + 300, opacity: 0.4 });
-        return t;
-    }
-
-    forward(ev: React.SyntheticEvent) {
-        ev.preventDefault();
-        const exposeElement = this.refs["expose"] as HTMLElement;
-        // const castAwayTimeline = this.createCastAway(exposeElement);
-        // castAwayTimeline.play();
-        // setTimeout(() => castAwayTimeline.reverse(), 2000);
-        this.navigateTo("/overview");
-    }
-
     render() {
         return (
             <div className={style.root} ref="expose">
@@ -41,7 +26,7 @@ class Expose extends Base<any, any> {
                         <div className="info">
                             And I write stuff <b><a href="">here</a></b>.
                         </div>
-                        <a href="/overview" id="arrow" className="icon-arrow_forward" onClick={this.forward.bind(this) }></a>
+                        <a href="/overview" id="arrow" className="icon-arrow_forward" onClick={(ev) => this.navigateTo.call(this, "/overview", false, ev) }></a>
                     </section>
                 </div>
             </div>

@@ -130,7 +130,7 @@
             font-weight: 400;
             
             &:hover, &:focus {
-                background: rgba(#000, 0.4);
+                background: rgba($fontColorBright, 0.1);                
                 transition: 0.2s;                
             }
             
@@ -140,8 +140,7 @@
             }
             
             &.highlight {
-                background: rgba($fontColorBright, 0.1);
-                color: $fontActiveColor;                
+                background: rgba(#000, 0.4);                
                 cursor: default;
                 transition: 0.9s;  
             }

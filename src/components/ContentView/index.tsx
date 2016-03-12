@@ -2,28 +2,46 @@ import * as React from "react";
 import Sidebar from "../Sidebar/index";
 import createStyled from "../../modules/core/createStyled";
 import LoremSegment from "../fragments/Lorem";
+import { BaseWithHistoryContext, IHistoryContext } from "../Base";
+import Link from "../fragments/Link";
 
 let style = require("./style.scss") as any;
 
 class LoremContent extends React.Component<any, any> {
      render() {
-        const c = (
-            <div className={style.root} {...this.props}>
-                <LoremSegment count={3} />
-            </div>
-        );
+        const c = <LoremSegment count={3} />;
         return c;
     }
 }
 
-// class ContentView extends React.Component<any, any> {
-//     render() {
-//         const locations = (
-//             <Locations contextual component={null}>
-//                 <Location path="/*" handler={ LoremContent } />
-//             </Locations>);
-//         return locations;
-//     }
-// }
+class ContentView extends BaseWithHistoryContext<any, any> {
 
-export default createStyled(LoremContent, style);
+    componentWillMount() {
+        super.componentWillMount();
+        this.setup(this.context.historyContext);
+    }
+
+    getComponent(pathname: string) {
+        if (pathname === "/overview") return <LoremContent/>;
+        const contentRegex = /\/(\d{4})\/(.*)/i;
+        const match = contentRegex.exec(pathname);
+        if (match) return <div>{match[1]} - {match[2]}</div>;
+        else return <div>Oops.Nothing here.</div>;
+    }
+
+    setup(context: IHistoryContext) {
+         this.setState({
+            component: this.getComponent(context.pathname)
+        });
+    }
+
+    onHistoryChange(context: IHistoryContext) {
+        this.setup(context);
+    }
+
+    render() {
+        return <div className={style.root}>{this.state.component}</div>;
+    }
+}
+
+export default createStyled(ContentView, style);

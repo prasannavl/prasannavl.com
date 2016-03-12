@@ -2,6 +2,7 @@ import * as React from "react";
 import { PropTypes } from "react";
 import { IAppContext } from "../modules/core/AppContext";
 import { IHistoryContext } from "../modules/history/index";
+import Expose from "./Expose/index";
 import MainView from "./MainView/index";
 
 interface Props extends React.Props<AppContainer> {
@@ -24,7 +25,7 @@ class AppContainer extends React.Component<Props, any> implements React.ChildCon
     }
 
     getComponentForContext(context: IHistoryContext) {
-        return MainView;
+        return context.pathname === "/" ? Expose : MainView;
     }
 
     setHistoryContext(context: IHistoryContext) {
@@ -32,8 +33,8 @@ class AppContainer extends React.Component<Props, any> implements React.ChildCon
     }
 
     setup(context: IHistoryContext) {
-        const component = this.getComponentForContext(context);
         this.setHistoryContext(context);
+        const component = this.getComponentForContext(context);
         this.setState({ component: component });
     }
 

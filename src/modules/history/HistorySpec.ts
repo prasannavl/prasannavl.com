@@ -37,9 +37,9 @@ export interface IHistoryContext {
     */
     hash: string;
     state: any;
-    getRoot(): IHistoryContext,
-    getParent(): IHistoryContext,
-    createChild(): IHistoryContext,
+    getRoot(): IHistoryContext;
+    getParent(): IHistoryContext;
+    createChild(): IHistoryContext;
 }
 
 export interface HistoryListenerDelegate {
