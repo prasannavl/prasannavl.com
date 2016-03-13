@@ -77,7 +77,6 @@ let config = {
     resolve: {
         alias: {
             TweenMax: resolve("./node_modules/gsap/src/uncompressed/TweenMax.js"),
-            "react-router-component": resolve("./src/modules/react-router-component")
         },
         extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".ts", ".tsx"]
     },
@@ -98,7 +97,7 @@ let config = {
             {
                 test: /\.js[x]?$/i,
                 loader: "babel",
-                exclude: [/node_modules/, resolve("./src/modules/react-router-component")]
+                exclude: [/node_modules/]
             }, {
                 test: /\.json$/i,
                 loader: "json"
@@ -207,9 +206,9 @@ let commonPlugins = [
         "__DEV__": !IS_PRODUCTION
     }),
     TextPlugins.globalStyles,
-    new webpack.ProvidePlugin({
-         TweenMax: "TweenMax",
-    })
+    // new webpack.ProvidePlugin({
+    //      TweenMax: "TweenMax",
+    // })
 ];
 
 // Conditional plugins

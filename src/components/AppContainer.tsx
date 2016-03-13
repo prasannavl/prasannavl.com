@@ -56,4 +56,6 @@ class AppContainer extends React.Component<Props, any> implements React.ChildCon
     }
 }
 
+export const ReactElement = React.createElement(AppContainer);
+
 export default AppContainer;

@@ -5,20 +5,24 @@ import chalk from "chalk";
 import request from "request";
 import mkdirp from "mkdirp";
 import { ARTIFACTS_PATH, ROUTES_FILENAME, OUTPUT_PATH, DEVSERVER_PORT, DEVSERVER_HOST, DEVSERVER_PUBLIC_PATH } from "../config";
-import { listen } from "./server";
+import http from "http";
+import { app } from "./server";
 
 console.log("Generating pages..");
+
+const port = process.env.PORT || DEVSERVER_PORT;
 
 let routeArtifactPath = path.join(ARTIFACTS_PATH, ROUTES_FILENAME);
 let routes = utils.getFromJsonFile(routeArtifactPath);
 
 if (routes.length > 0) {
-    let root = routes[0];
+    let firstRequest = routes[0];
     
     let appListener;
     let endListen = function () {
         if (appListener) appListener.close();
         console.log(chalk.green("Done."));
+        process.exit();
     };
     
     let listeners = 0;
@@ -28,11 +32,11 @@ if (routes.length > 0) {
         if (listeners === 0) endListen();
     }
     
-    appListener = listen(() => {
-        generate(root, () => {
-            if (routes.length === 1) { endListen(); return; }
+    appListener = http.createServer(app).listen(port, () => {
+        generate(firstRequest, (err) => {
+            if (err !== undefined || routes.length === 1) { endListen(); return; }
             routes.forEach(x => {
-                if (x != root) {
+                if (x != firstRequest) {
                     startOne();
                     generate(x, () => doneOne());
                 }
@@ -42,9 +46,13 @@ if (routes.length > 0) {
 }
 
 function generate(p, cb) {
+    // Setup index.html as default
     let innerPath = p.endsWith("/") ? p + "index.html" : p + "/index.html";
 
-    let url = `http://${DEVSERVER_HOST}:${DEVSERVER_PORT}${DEVSERVER_PUBLIC_PATH}${p}`.trim("/");
+    // Strip the first "/", if it exists.
+    const webPath = (p.indexOf("/") === 0) ? p.substring(1) : p;
+
+    let url = `http://${DEVSERVER_HOST}:${DEVSERVER_PORT}${DEVSERVER_PUBLIC_PATH}${webPath}`.trim("/");
     let dest = path.join(OUTPUT_PATH, innerPath);
     console.log(p + " => " + innerPath);
 
@@ -54,8 +62,8 @@ function generate(p, cb) {
         });
     }
     
-    function end() {
-        if (cb) cb();
+    function end(err) {
+        if (cb) cb(err);
     }
 
     request(url, function (error, response, body) {
@@ -73,7 +81,7 @@ function generate(p, cb) {
         }
         else {
             console.log(chalk.red(`Code: ${ response ? response.statusCode : "none"}, ${error}`));
-            end();            
+            end(error);            
         }
     });
 }

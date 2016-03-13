@@ -10,7 +10,7 @@ import utils from "./utils";
 import { argv } from "yargs";
 
 let shouldRun = argv.run ? true : false;
-let app = express();
+export let app = express();
 app.use(compression());
 
 const host = process.env.HOST || DEVSERVER_HOST;
@@ -38,10 +38,8 @@ app.get("*", function (req, res) {
     appRenderer.run(req, res);
 });
 
-export var listen = app.listen.bind(app, port);
-
 if (shouldRun) {
-    listen(() => {
+    app.listen(port, () => {
         console.log(`Server listening on http://${host}:${port}`);
         let open = require("open");
         open(`http://${host}:${port}/`);

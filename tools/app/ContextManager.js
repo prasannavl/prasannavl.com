@@ -6,6 +6,7 @@ export class ContextManager {
     createContext() {
         let state = { data: null, error: null, statusCode: 0, cssModules: [], htmlConfig: null };
         return {
+            appContainer: null,
             title: TitleComponentFactory.create(),
             history: new MemoryHistory(),
             applyCss: (styleWrapper) => state.cssModules.push(styleWrapper.getCssModule()),

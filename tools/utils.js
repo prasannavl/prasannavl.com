@@ -5,12 +5,15 @@ import chalk from "chalk";
 import * as path from "path";
 import copyDir from "copy-dir";
 import * as fs from "fs";
-import { argv } from "yargs";
 
 class Utils {
 
+    hasCommandLineArg(str) {
+        return process.argv.some(x => x === "--" + str);
+    }
+        
     getIsProduction() {
-        return argv.production ? true : false;
+        return this.hasCommandLineArg("production");
     }
 
     initEnvironment(isProduction) {
@@ -27,7 +30,7 @@ class Utils {
     }
     
     shouldInlineLibs() {
-        return argv.inlineLibs ? true : false;
+        return this.hasCommandLineArg("inlineLibs");
     }
 
     getNpmLifecycleEvent() {
