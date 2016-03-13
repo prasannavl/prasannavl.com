@@ -1,5 +1,6 @@
 import { TitleComponentFactory } from "./TitleComponent";
 import { RouteProcessor } from "./RouteProcessor";
+import { MemoryHistory } from "../../src/modules/history";
 
 export class ContextManager {
     createContext() {

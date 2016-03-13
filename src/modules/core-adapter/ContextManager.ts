@@ -1,7 +1,7 @@
 import { TitleComponentFactory } from "./TitleComponent";
 import { AppContext, IClientPartialState } from "../core/AppContext";
 import { RouteProcessor } from "./RouteProcessor";
-import { BrowserHistory } from "../history/index";
+import { BrowserHistory } from "history-next/lib/BrowserHistory";
 
 export class ContextManager {
     createContext() {

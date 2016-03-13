@@ -2,8 +2,9 @@ import * as React from "react";
 import Sidebar from "../Sidebar/index";
 import createStyled from "../../modules/core/createStyled";
 import LoremSegment from "../fragments/Lorem";
-import { BaseWithHistoryContext, IHistoryContext } from "../Base";
+import { BaseWithHistoryContext } from "../Base";
 import Link from "../fragments/Link";
+import { IHistoryContext } from "history-next";
 
 let style = require("./style.scss") as any;
 

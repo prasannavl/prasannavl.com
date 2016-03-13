@@ -1,9 +1,9 @@
 import * as React from "react";
 import { PropTypes } from "react";
 import { IAppContext } from "../modules/core/AppContext";
-import { IHistoryContext } from "../modules/history/index";
 import Expose from "./Expose/index";
 import MainView from "./MainView/index";
+import { IHistoryContext } from "history-next";
 
 interface Props extends React.Props<AppContainer> {
     context: IAppContext;

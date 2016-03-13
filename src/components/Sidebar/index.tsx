@@ -27,7 +27,7 @@ class Sidebar extends Base<any, any> {
                     <h1>
                         <NavLink href="/">Prasanna V. Loganathar</NavLink>
                     </h1>
-                     <Tagline className="tagline" />
+                    <Tagline className="tagline" />
                 </header>
                 <nav>
                     <li><NavLink href="/overview">overview</NavLink></li>

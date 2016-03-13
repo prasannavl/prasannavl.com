@@ -1,11 +1,10 @@
 import * as React from "react";
 import { IAppContext } from "../modules/core/AppContext";
 import shallowCompare from "react-addons-shallow-compare";
-import { IHistoryContext } from "../modules/history/index";
 import * as Rx from "rxjs";
+import { IHistoryContext, HistoryContext } from "history-next";
 
 const PropTypes = React.PropTypes;
-
 export class Base<P, S> extends React.Component<P, S> {
 
     context: IAppContext;
@@ -46,7 +45,6 @@ export class Base<P, S> extends React.Component<P, S> {
     }
 }
 
-export { IHistoryContext } from "../modules/history/index";
 export class BaseWithHistoryContext<P, S> extends Base<P, S> {
 
     private childContext = { historyContext: this.context.historyContext };

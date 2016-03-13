@@ -4,7 +4,7 @@
   "description": "Personal website",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf build/*",
+    "clean": "./node_modules/.bin/rimraf build/*",
     "build": "npm run clean && npm run webpack",
     "build:p": "npm run clean && npm run webpack:p",
     "webpack": "webpack --colors --display-chunks --progress",
@@ -58,6 +58,7 @@
     "fbjs": "^0.7.2",
     "file-loader": "^0.8.5",
     "gsap": "^1.18.2",
+    "history-next": "^1.0.6",
     "html-webpack-plugin": "^2.8.1",
     "image-webpack-loader": "^1.6.3",
     "isomorphic-style-loader": "0.0.10",

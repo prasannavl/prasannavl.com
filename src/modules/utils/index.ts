@@ -8,7 +8,7 @@ export function displayNameFixup<T>(Component: T) {
 }
 
 export function reverseArray(arr: any[]) {
-    let res: any = [];
+    let res: any = Array(arr.length);
     for (let i = arr.length - 1; i >= 0; i--) {
         res.push(arr[i]);
     }

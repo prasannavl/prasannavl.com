@@ -3,11 +3,14 @@
   "dependencies": {},
   "devDependencies": {
     "chalk": "github:typed-typings/npm-chalk#a7e422c5455e70292e5675a727d43a7b05fc3e58",
+    "es6-promise": "registry:npm/es6-promise#3.0.0+20160211003958",
+    "history-next": "npm:history-next",
     "lodash": "github:typed-typings/npm-lodash#65781ee6b25562ee9b5913043a3ba249acfcee17",
     "rxjs": "npm:rxjs",
     "tape": "github:typed-typings/npm-tape#054c1ab7d30611088537c066c44af2095c75e3a8"
   },
-  "ambientDependencies": {
+  "ambientDependencies": {},
+  "ambientDevDependencies": {
     "express": "github:DefinitelyTyped/DefinitelyTyped/express/express.d.ts#dd638012d63e069f2c99d06ef4dcc9616a943ee4",
     "form-data": "github:DefinitelyTyped/DefinitelyTyped/form-data/form-data.d.ts#bb1b99052bf1d697f0368fbff56898bc1f5a525c",
     "greensock": "github:DefinitelyTyped/DefinitelyTyped/greensock/greensock.d.ts#4de74cb527395c13ba20b438c3a7a419ad931f1c",
@@ -17,6 +20,5 @@
     "react-dom": "github:DefinitelyTyped/DefinitelyTyped/react/react-dom.d.ts#ca5bfe76d2d9bf6852cbc712d9f3e0047c93486e",
     "request": "github:DefinitelyTyped/DefinitelyTyped/request/request.d.ts#90c7b5653c973cbc8c568ba33c8a04fb478525ee",
     "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#0fa4e9e61385646ea6a4cba2aef357353d2ce77f"
-  },
-  "ambientDevDependencies": {}
+  }
 }

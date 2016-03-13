@@ -1,6 +1,6 @@
 import { IRouteProcessor } from "./RoutingSpec";
 import { ITitleComponent } from "./TitleSpec";
-import { IHistory, IHistoryContext } from "../history/index";
+import { IHistory, IHistoryContext } from "history-next";
 
 export interface IClientPartialState {
     renderSurface: HTMLElement | string;
