@@ -206,9 +206,9 @@ let commonPlugins = [
         "__DEV__": !IS_PRODUCTION
     }),
     TextPlugins.globalStyles,
-    // new webpack.ProvidePlugin({
-    //      TweenMax: "TweenMax",
-    // })
+    new webpack.ProvidePlugin({
+         TweenMax: "TweenMax",
+    })
 ];
 
 // Conditional plugins

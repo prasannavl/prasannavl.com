@@ -67,9 +67,10 @@ export default class AppRenderer {
             if (!this._appContainerLoadInProgress) {
                 this._appContainerLoadInProgress = true;
                 try {                                        
-                    webpackRequire(this.config, require.resolve("../../src/components/AppContainer.tsx"), (err, factory, stats, fs) => {
+                    webpackRequire(this.config, require.resolve("../../src/components/AppContainer.tsx"), (err, factory) => {
                         if (err) { error.call(this, err); return; }
-                        let appContainer = factory().ReactElement;
+                        const initFact = factory();
+                        let appContainer = initFact.default;
                         this.appContainer = appContainer;
                         delete this._appContainerLoadInProgress;
                         cb(appContainer);

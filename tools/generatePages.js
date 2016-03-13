@@ -34,11 +34,11 @@ if (routes.length > 0) {
     
     appListener = http.createServer(app).listen(port, () => {
         generate(firstRequest, (err) => {
-            if (err !== undefined || routes.length === 1) { endListen(); return; }
+            if (!(err === undefined || err === null) || routes.length === 1) { endListen(); return; }
             routes.forEach(x => {
                 if (x != firstRequest) {
                     startOne();
-                    generate(x, () => doneOne());
+                    generate(x, (err) => { if (err) { console.log(chalk.red(err)); } doneOne(); });
                 }
             });
         });
@@ -58,7 +58,7 @@ function generate(p, cb) {
 
     function writeResult(filePath, content) {
         fs.writeFile(filePath, content, err => {
-            if (err) throw err;
+            end(err);
         });
     }
     
@@ -72,12 +72,10 @@ function generate(p, cb) {
             if (!fs.existsSync(dir)) {
                 mkdirp(dir, () => {
                     writeResult(dest, body);
-                    end();
                 });
                 return;
             }
             writeResult(dest, body);
-            end();            
         }
         else {
             console.log(chalk.red(`Code: ${ response ? response.statusCode : "none"}, ${error}`));

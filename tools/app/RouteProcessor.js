@@ -16,7 +16,7 @@ export class RouteProcessor {
 
         const historyContext = HistoryContext.createFromPath(getPathName(url));
         ctx.history.setContext(historyContext);
-        const element = React.cloneElement(ctx.appContainer, { path: url, context: ctx });
+        const element = React.createElement(ctx.appContainer, { path: url, context: ctx });
         console.log("rendering: " + url);
         const content = ReactDOM.renderToString(element);
 

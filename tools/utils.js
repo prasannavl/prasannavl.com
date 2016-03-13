@@ -30,7 +30,7 @@ class Utils {
     }
     
     shouldInlineLibs() {
-        return this.hasCommandLineArg("inlineLibs");
+       return this.hasCommandLineArg("inlineLibs");
     }
 
     getNpmLifecycleEvent() {
