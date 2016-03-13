@@ -15,6 +15,7 @@ export interface IServerState {
 }
 
 export interface IAppContext {
+    appContainer: any;
     history: IHistory;
     historyContext: IHistoryContext;
     title: ITitleComponent;
@@ -29,6 +30,7 @@ export interface IContextManager {
 }
 
 export class AppContext implements IAppContext {
+    appContainer: any;
     history: IHistory;
     historyContext: IHistoryContext;
     title: ITitleComponent;
@@ -37,12 +39,14 @@ export class AppContext implements IAppContext {
     state: IClientPartialState | IServerState;
 
     constructor(
+        appContainer: any,
         titleComponent: ITitleComponent,
         history: IHistory,
         applyCss: ApplyStyleFunction,
         routeProcessor: IRouteProcessor,
         state: IClientPartialState | IServerState) {
 
+        this.appContainer = appContainer;
         this.title = titleComponent;
         this.history = history;
         this.applyCss = applyCss;

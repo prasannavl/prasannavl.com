@@ -1,13 +1,13 @@
 import { TitleComponentFactory } from "./TitleComponent";
 import { RouteProcessor } from "./RouteProcessor";
-import { MemoryHistory } from "../../src/modules/history";
+import { MemoryHistory } from "history-next/lib/MemoryHistory";
 
 export class ContextManager {
     createContext() {
         let state = { data: null, error: null, statusCode: 0, cssModules: [], htmlConfig: null };
         return {
             title: TitleComponentFactory.create(),
-            routeFactory: null,
+            history: new MemoryHistory(),
             applyCss: (styleWrapper) => state.cssModules.push(styleWrapper.getCssModule()),
             routeProcessor: new RouteProcessor(),
             state
