@@ -6,7 +6,6 @@ import createStyled from "../../modules/core/createStyled";
 let style = require("./style.scss") as any;
 
 class MainView extends React.Component<any, any> {
-
     renderNormalView() {
          const view = (
             <div className={style.root}>
@@ -16,14 +15,6 @@ class MainView extends React.Component<any, any> {
             </div>
         );
         return view;
-    }
-
-    componentWillMount() {
-        console.log("Mount-MainView");
-    }
-
-    componentWillUnmount() {
-        console.log("Unmount-MainView");
     }
 
     render() {

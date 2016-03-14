@@ -10,8 +10,10 @@ export class RouteProcessor {
         const htmlConfig = serverState.htmlConfig;
         const titleTemplate = htmlConfig.titleTemplate;
         const title = htmlConfig.title;
+        const titleOnEmpty = htmlConfig.titleOnEmpty;
         
         if (titleTemplate !== null && titleTemplate !== undefined) ctx.title.setTemplate(titleTemplate);
+        if (titleOnEmpty !== null && titleOnEmpty !== undefined) ctx.title.setTitleOnEmpty(titleOnEmpty);
         if (title !== null && title !== undefined) ctx.title.set(title);
 
         const historyContext = HistoryContext.createFromPath(getPathName(url));

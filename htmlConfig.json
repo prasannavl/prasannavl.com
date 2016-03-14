@@ -1,7 +1,8 @@
 {
     "templatePath": "./src/components/Html",
     "description": "Prasanna V. Loganathar's Weblog",
-    "title": "Prasanna V. Loganthar",
+    "titleTemplate": "%s | Prasanna V. Loganthar",
+    "titleOnEmpty": "Prasanna V. Loganathar",
     "canonical": "https://www.prasannavl.com",
     "css": [],
     "js": []

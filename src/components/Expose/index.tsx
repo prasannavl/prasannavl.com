@@ -7,6 +7,12 @@ import { IAppContext } from "../../modules/core/AppContext";
 const style = require("./style.scss") as any;
 
 class Expose extends Base<any, any> {
+
+    componentWillMount() {
+        super.componentWillMount();
+        this.context.title.set();
+    }
+
     render() {
         return (
             <div className={style.root} ref="expose">

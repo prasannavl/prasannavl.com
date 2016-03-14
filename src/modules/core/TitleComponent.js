@@ -3,25 +3,36 @@ import { sprintf } from "sprintf-js";
 export class TitleComponent {
     
     constructor(target) {
-        this.target = target;
-        this.template = null;
+        this._target = target;
+        this._template = null;
+        this._titleOnEmpty = null;
     }
 
     setTemplate(value) {
-        this.template = value;
+        this._template = value;
+    }
+
+    setTitleOnEmpty(value) {
+        if (value === null) value = null;
+        this._titleOnEmpty = value;
     }
     
     getTemplate() {
-        return this.template || "%s";
+        return this._template || "%s";
     }
 
     set(...values) {
+        if (values.length === 0 && this._titleOnEmpty !== null) { 
+            this._target.set(this._titleOnEmpty); 
+            return;
+        }
+
         let template = this.getTemplate();
         let text = sprintf(template, ...values);
-        this.target.set(text);
+        this._target.set(text);
     }
     
     get() {
-        return this.target.get();
+        return this._target.get();
     }
 }

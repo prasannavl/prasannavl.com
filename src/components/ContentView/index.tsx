@@ -26,19 +26,18 @@ class ContentView extends BaseWithHistoryContext<any, any> {
     }
 
     getComponent(pathname: string) {
-        if (pathname === "/overview") { this.context.title.set("oviary"); return <LoremContent/> };
+        if (pathname === "/overview") { this.context.title.set("Overview"); return <LoremContent/>; };
         const contentRegex = /\/(\d{4})\/(.*)/i;
         const match = contentRegex.exec(pathname);
         if (match) {
             this.context.title.set("Matchyman");
             return <div>{match[1]} - {match[2]}</div>; }
         else {
-            this.context.title.set("Not foundy");
+            this.context.title.set("Not found");
             return  <div>Oops.Nothing here.</div>; }
     }
 
     setup(context: IHistoryContext) {
-        console.log("ContentView: on change");
          this.setState({
             component: this.getComponent(context.pathname)
         });
