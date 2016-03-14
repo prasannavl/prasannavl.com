@@ -27,7 +27,8 @@ export class Base<P, S> extends React.Component<P, S> {
         this.subscriptions.splice(this.subscriptions.indexOf(subscription), 1);
     }
 
-    componentWillMount() { }
+    componentWillMount() {
+    }
 
     componentWillUnmount() {
         this.subscriptions.forEach(x => x.unsubscribe());
@@ -48,7 +49,7 @@ export class Base<P, S> extends React.Component<P, S> {
 export class BaseWithHistoryContext<P, S> extends Base<P, S> {
 
     private childContext = { historyContext: this.context.historyContext };
-    private unlisten: () => void = null;
+    private disposeHistoryListener: () => void = null;
 
     static childContextTypes = {
         historyContext: PropTypes.object,
@@ -64,16 +65,21 @@ export class BaseWithHistoryContext<P, S> extends Base<P, S> {
 
     componentWillMount() {
         super.componentWillMount();
-        this.unlisten = this.context.history.listen((ctx, next) => {
-            this.setHistoryContext(ctx);
-            this.onHistoryChange(ctx);
+        this.disposeHistoryListener = this.context.history.listen((ctx, next) => {
+            // Make sure this isn't run if it was already unmounted.
+            if (this.disposeHistoryListener !== null) {
+                this.setHistoryContext(ctx);
+                this.onHistoryChange(ctx);
+            }
             return next(ctx);
         });
     }
 
     componentWillUnmount() {
+        this.disposeHistoryListener();
+        // Set this to null as an indication that it has already been unmounted.
+        this.disposeHistoryListener = null;
         super.componentWillUnmount();
-        this.unlisten();
     }
 
     onHistoryChange(context: IHistoryContext) { }

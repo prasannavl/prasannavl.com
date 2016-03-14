@@ -7,13 +7,12 @@ import { IAppContext } from "../../modules/core/AppContext";
 const style = require("./style.scss") as any;
 
 class Expose extends Base<any, any> {
-
     render() {
         return (
             <div className={style.root} ref="expose">
                 <div id="content">
                 <header>
-                        <h1>Prasanna V. Loganathar</h1>
+                    <h1>Prasanna V. Loganathar</h1>
                     <Tagline />
                 </header>
                     <section>

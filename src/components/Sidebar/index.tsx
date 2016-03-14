@@ -18,8 +18,6 @@ function getFeedbackLink() {
 }
 
 class Sidebar extends Base<any, any> {
-    static displayName = "Sidebar";
-
     render() {
         const c = (
             <div className={style.root} {...this.props}>

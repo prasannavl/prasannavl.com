@@ -18,6 +18,14 @@ class MainView extends React.Component<any, any> {
         return view;
     }
 
+    componentWillMount() {
+        console.log("Mount-MainView");
+    }
+
+    componentWillUnmount() {
+        console.log("Unmount-MainView");
+    }
+
     render() {
         return this.renderNormalView();
     }

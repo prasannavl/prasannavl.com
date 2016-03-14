@@ -1,7 +1,6 @@
 import * as React from "react";
 
 class Footer extends React.Component<any, any> {
-
     render() {
         // TODO: Add styles, and add appropriate links.
         // CC Link: http://creativecommons.org/licenses/by/2.5/

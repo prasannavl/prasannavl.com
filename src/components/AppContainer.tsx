@@ -20,6 +20,7 @@ class AppContainer extends React.Component<Props, any> implements React.ChildCon
         routeProcessor: PropTypes.object,
         state: PropTypes.object,
     };
+    private disposeHistoryListener: () => void = null;
 
     getChildContext() {
         return this.props.context;
@@ -42,13 +43,17 @@ class AppContainer extends React.Component<Props, any> implements React.ChildCon
     componentWillMount() {
         const history = this.props.context.history;
 
-        history.listen((ctx, next) => {
+        history.start();
+        this.setup(history.context);
+
+        this.disposeHistoryListener = history.listen((ctx, next) => {
             this.setup(ctx);
             return next(ctx);
         });
+    }
 
-        history.start();
-        this.setup(history.context);
+    componentWillUnmount() {
+        this.disposeHistoryListener();
     }
 
     render() {

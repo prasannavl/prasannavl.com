@@ -16,21 +16,29 @@ class LoremContent extends React.Component<any, any> {
 }
 
 class ContentView extends BaseWithHistoryContext<any, any> {
-
     componentWillMount() {
         super.componentWillMount();
         this.setup(this.context.historyContext);
     }
 
+    componentWillUnmount() {
+        super.componentWillUnmount();
+    }
+
     getComponent(pathname: string) {
-        if (pathname === "/overview") return <LoremContent/>;
+        if (pathname === "/overview") { this.context.title.set("oviary"); return <LoremContent/> };
         const contentRegex = /\/(\d{4})\/(.*)/i;
         const match = contentRegex.exec(pathname);
-        if (match) return <div>{match[1]} - {match[2]}</div>;
-        else return <div>Oops.Nothing here.</div>;
+        if (match) {
+            this.context.title.set("Matchyman");
+            return <div>{match[1]} - {match[2]}</div>; }
+        else {
+            this.context.title.set("Not foundy");
+            return  <div>Oops.Nothing here.</div>; }
     }
 
     setup(context: IHistoryContext) {
+        console.log("ContentView: on change");
          this.setState({
             component: this.getComponent(context.pathname)
         });
