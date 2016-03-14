@@ -28,6 +28,8 @@ export const ARTIFACTS_PATH = resolve("./artifacts");
 export const HTML_CONFIG_ARTIFACT_PATH = path.join(ARTIFACTS_PATH, path.basename(HTML_CONFIG_PATH));
 export const WEBPACK_STATS_FILENAME = "stats.json";
 export const ROUTES_FILENAME = "routes.json";
+export const TITLE_SET_DATA_FILENAME = "titleSet.json";
+export const TITLE_SET_DATA_PATH = path.join(ARTIFACTS_PATH, TITLE_SET_DATA_FILENAME);
 
 // Dev server constants
 
@@ -77,6 +79,7 @@ let config = {
     resolve: {
         alias: {
             TweenMax: resolve("./node_modules/gsap/src/uncompressed/TweenMax.js"),
+            "title-set-data": TITLE_SET_DATA_PATH,
         },
         extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".ts", ".tsx"]
     },
@@ -163,7 +166,7 @@ let config = {
                 require("postcss-discard-duplicates"),                
                 require("autoprefixer"),
             ],
-        };  
+        };
     }
 };
 
@@ -238,7 +241,13 @@ let productionPlugins = [
 webpackUtils.applyPlugins(config, commonPlugins, devPlugins, productionPlugins);
 
 export function run() {
-    return webpackUtils.run(config, ARTIFACTS_PATH, WEBPACK_STATS_FILENAME, STATIC_PATH, HTML_CONFIG_PATH, HTML_CONFIG_ARTIFACT_PATH);
+    return webpackUtils.run(config,
+        ARTIFACTS_PATH,
+        WEBPACK_STATS_FILENAME,
+        STATIC_PATH,
+        HTML_CONFIG_PATH,
+        HTML_CONFIG_ARTIFACT_PATH,
+        TITLE_SET_DATA_PATH);
 }
 
 export default config;

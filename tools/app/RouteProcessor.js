@@ -3,21 +3,17 @@ import * as ReactDOM from "react-dom/server";
 import { HtmlRenderer } from "./HtmlRenderer";
 import { HistoryContext } from "history-next/lib/HistoryContext";
 import { getPathName } from "history-next/lib/utils";
+import { setupTitleForContext } from "../../src/modules/core/utils";
 
 export class RouteProcessor {
     process(ctx, url) {
         const serverState = ctx.state;
         const htmlConfig = serverState.htmlConfig;
-        const titleTemplate = htmlConfig.titleTemplate;
-        const title = htmlConfig.title;
-        const titleOnEmpty = htmlConfig.titleOnEmpty;
-        
-        if (titleTemplate !== null && titleTemplate !== undefined) ctx.title.setTemplate(titleTemplate);
-        if (titleOnEmpty !== null && titleOnEmpty !== undefined) ctx.title.setTitleOnEmpty(titleOnEmpty);
-        if (title !== null && title !== undefined) ctx.title.set(title);
 
+        setupTitleForContext(htmlConfig, ctx);
         const historyContext = HistoryContext.createFromPath(getPathName(url));
         ctx.history.setContext(historyContext);
+
         const element = React.createElement(ctx.appContainer, { path: url, context: ctx });
         console.log("rendering: " + url);
         const content = ReactDOM.renderToString(element);

@@ -1,6 +1,8 @@
 import { IAppContext, AppContext, IClientPartialState, IContextManager, IServerState } from "./AppContext";
 import * as env from "fbjs/lib/ExecutionEnvironment";
 import { ContextManager } from "../core-adapter/ContextManager";
+import { setupTitleForContext } from "./utils";
+import titleSetData from "title-set-data";
 
 export class App {
     private contextManager: IContextManager = null;
@@ -30,6 +32,7 @@ export class App {
         this.contextManager = cm;
         const context = cm.createContext();
         this.context = context;
+        setupTitleForContext(titleSetData, context);
 
         const renderFunc = function() {
             const element = document.getElementById(renderTargetId);

@@ -17,8 +17,7 @@ class WebpackUtils {
         return config.app.isProduction;
     }
 
-    run(config, artifactsPath, statsFileName, staticAssetsPath, htmlConfigPath, htmlConfigArtifactPath) {
-
+    run(config, artifactsPath, statsFileName, staticAssetsPath, htmlConfigPath, htmlConfigArtifactPath, titleSetDataFileName) {
         let isProduction = this.checkIsProduction(config);
         utils.initEnvironment(isProduction);
 
@@ -37,6 +36,11 @@ class WebpackUtils {
 
         let htmlConfig = utils.getFromJsonFile(htmlConfigPath);
         this.updateHtmlConfigForExternals(htmlConfig, config.app.externals);
+
+        const { title, titleTemplate, titleOnEmpty } = htmlConfig;
+        const titleSet = { title, titleTemplate, titleOnEmpty };
+
+        utils.writeToFileAsJson(titleSetDataFileName, titleSet);
 
         if (!isProduction) {
             let htmlPlugin = new HtmlWebpackPlugin({

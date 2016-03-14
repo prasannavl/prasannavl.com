@@ -8,7 +8,7 @@ function Html(options) {
         <html lang="en">
             <head>
                 <meta charSet="utf-8"/>
-                <meta httpEquiv="X-UA-Compatible" content= "IE=edge" />
+                <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
                 <title>{title}</title>
                 <meta name="description" content={description} />
                 {canonical ? <link rel="canonical" href={canonical} /> : null }

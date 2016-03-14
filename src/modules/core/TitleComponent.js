@@ -1,7 +1,6 @@
 import { sprintf } from "sprintf-js";
 
 export class TitleComponent {
-    
     constructor(target) {
         this._target = target;
         this._template = null;
@@ -12,7 +11,7 @@ export class TitleComponent {
         this._template = value;
     }
 
-    setTitleOnEmpty(value) {
+    setOnEmpty(value) {
         if (value === null) value = null;
         this._titleOnEmpty = value;
     }

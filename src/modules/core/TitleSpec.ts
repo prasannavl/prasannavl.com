@@ -3,6 +3,7 @@ export interface ITitleComponent {
     set(...values: any[]): void;
     setTemplate(format: string): void;
     getTemplate(): string;
+    setOnEmpty(value: string): void;
 }
 
 export interface ITitleTarget {

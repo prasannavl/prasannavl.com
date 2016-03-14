@@ -20,6 +20,7 @@ class AppContainer extends React.Component<Props, any> implements React.ChildCon
         routeProcessor: PropTypes.object,
         state: PropTypes.object,
     };
+
     private disposeHistoryListener: () => void = null;
 
     getChildContext() {
