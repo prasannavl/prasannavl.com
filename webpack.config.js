@@ -1,4 +1,2 @@
-"use strict";
-
 require("babel-register");
-module.exports = require("./config.js").run();
+module.exports = require("./configUtils.js").runDefault();

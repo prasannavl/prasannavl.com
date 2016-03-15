@@ -1,6 +1,4 @@
-"use strict";
 /* eslint-disable no-console */
-
 import chalk from "chalk";
 import * as path from "path";
 import copyDir from "copy-dir";
@@ -13,7 +11,7 @@ class Utils {
     }
         
     getIsProduction() {
-        return this.hasCommandLineArg("production");
+        return process.env.PRODUCTION || process.env.NODE_ENV === "production" || this.hasCommandLineArg("production");
     }
 
     initEnvironment(isProduction) {
@@ -30,7 +28,7 @@ class Utils {
     }
     
     shouldInlineLibs() {
-       return this.hasCommandLineArg("inlineLibs");
+       return this.hasCommandLineArg("inline-libs");
     }
 
     getNpmLifecycleEvent() {

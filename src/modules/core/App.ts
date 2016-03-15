@@ -2,7 +2,7 @@ import { IAppContext, AppContext, IClientPartialState, IContextManager, IServerS
 import * as env from "fbjs/lib/ExecutionEnvironment";
 import { ContextManager } from "../core-adapter/ContextManager";
 import { setupTitleForContext } from "./utils";
-import titleSetData from "title-set-data";
+import titleSetData from "titleset-data";
 
 export class App {
     private contextManager: IContextManager = null;

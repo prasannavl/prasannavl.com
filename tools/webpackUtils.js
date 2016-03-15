@@ -1,46 +1,40 @@
 /* eslint-disable no-console */
-
 import chalk from "chalk";
 import * as webpack from "webpack";
 import utils from "./utils";
-import * as path from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { HtmlRenderer } from "./app/HtmlRenderer";
 
-class WebpackUtils {
-
-    constructor() {
-        this.logItems = [];
-    }
+export class WebpackUtils {
 
     checkIsProduction(config) {
         return config.app.isProduction;
     }
 
-    run(config, artifactsPath, statsFileName, staticAssetsPath, htmlConfigPath, htmlConfigArtifactPath, titleSetDataFileName) {
+    run(config) {
         let isProduction = this.checkIsProduction(config);
         utils.initEnvironment(isProduction);
+
+        let app = config.app;        
+
+        let { artifactDirPath, staticDirPath } = app.paths;
+        let { webpackStatsPath, htmlConfigPath, dataTitlesetPath, webpackBuiltConfigPath } = app.artifactConfig;
 
         if (isProduction)
             console.log(chalk.cyan("Mode: Production"));
         else
             console.log(chalk.cyan("Mode: Development"));
 
-        utils.ensureDirectoryExists(artifactsPath);
+        utils.ensureDirectoryExists(artifactDirPath);
         console.log();
 
-        if (this.logItems.length > 0) {
-            this.logItems.forEach(x => console.log(x));
+        if (config.logItems && config.logItems.length > 0) {
+            config.logItems.forEach(x => console.log(x));
             console.log();
         }
 
-        let htmlConfig = utils.getFromJsonFile(htmlConfigPath);
+        let htmlConfig = app.htmlConfig;
         this.updateHtmlConfigForExternals(htmlConfig, config.app.externals);
-
-        const { title, titleTemplate, titleOnEmpty } = htmlConfig;
-        const titleSet = { title, titleTemplate, titleOnEmpty };
-
-        utils.writeToFileAsJson(titleSetDataFileName, titleSet);
 
         if (!isProduction) {
             let htmlPlugin = new HtmlWebpackPlugin({
@@ -52,12 +46,16 @@ class WebpackUtils {
             config.plugins.push(htmlPlugin);
         }
 
-        let statsPath = path.join(artifactsPath, statsFileName)
-        config.plugins.push(this.getStatsPlugin(statsPath));
-        
-        utils.writeToFileAsJson(htmlConfigArtifactPath, htmlConfig);
+        config.plugins.push(this.getStatsPlugin(webpackStatsPath));
 
-        utils.copyAssets(staticAssetsPath, config.output.path);
+        const { title, titleTemplate, titleOnEmpty } = htmlConfig;
+        const titleSet = { title, titleTemplate, titleOnEmpty };        
+        
+        utils.writeToFileAsJson(dataTitlesetPath, titleSet);
+        utils.writeToFileAsJson(htmlConfigPath, htmlConfig);
+        utils.writeToFileAsJson(webpackBuiltConfigPath, config);
+
+        utils.copyAssets(staticDirPath, config.output.path);
         console.log();
         return config;
     }
@@ -65,26 +63,28 @@ class WebpackUtils {
     getStatsPlugin(statsPath) {
         return function () {
             this.plugin("done", function (stats) {
-                utils.writeToFileAsJson(statsPath, stats.toJson({ chunkModules: true, source: false, cached: false, reasons: false }));
+                utils.writeToFileAsJson(statsPath, stats.toJson(
+                    { chunkModules: true, source: false, cached: false, reasons: false }));
             });
         }
     }
 
     updateHtmlConfigForExternals(config, externals) {
-        config.js = [...config.js, ...externals.filter(x => x.endsWith(".js"))];
-        config.css = [...config.css, ...externals.filter(x => x.endsWith(".css"))];
+        config.js = [...(config.js || []), ...externals.filter(x => x.endsWith(".js"))];
+        config.css = [...(config.css || []), ...externals.filter(x => x.endsWith(".css"))];
     }
 
-    createConfiguration(config, devConfig, productionConfig) {
+    weaveConfiguration(config, devConfig, productionConfig) {
         if (this.checkIsProduction(config)) {
             config = Object.assign(config, productionConfig);
             if (!config.app.shouldInlineLibs) {
+                if (!config.logItems) config.logItems = [];
                 config.app.externalLibs.forEach(x => {
                     let moduleName = x[0];
                     let externalAddress = x[1];
                     let importName = x[2] || x[0];
                     let res = this.addExternalDependency(config, moduleName, externalAddress, importName);
-                    if (res) this.logItems.push(res);
+                    if (res) config.logItems.push(res);
                 });
             }
         } else {
@@ -104,7 +104,7 @@ class WebpackUtils {
 
 
     addExternalDependency(config, moduleName, externalAddress, importName) {
-        let states = [];
+        let states = new Array(3);
 
         function addToHtmlExternals(externalAddress) {
             states.push("external url: " + externalAddress);
