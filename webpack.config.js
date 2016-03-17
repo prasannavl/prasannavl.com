@@ -1,2 +1,2 @@
 require("babel-register");
-module.exports = require("./configUtils.js").runDefault();
+module.exports = require("./tools/webpackConfig").runDefault();

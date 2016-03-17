@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
 import chalk from "chalk";
-import * as webpack from "webpack";
+import webpack from "webpack";
 import utils from "./utils";
+import rendererUtils from "./app/RendererUtils";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import { HtmlRenderer } from "./app/HtmlRenderer";
 
 export class WebpackUtils {
 
@@ -15,10 +14,10 @@ export class WebpackUtils {
         let isProduction = this.checkIsProduction(config);
         utils.initEnvironment(isProduction);
 
-        let app = config.app;        
+        let app = config.app;
 
         let { artifactDirPath, staticDirPath } = app.paths;
-        let { webpackStatsPath, htmlConfigPath, dataTitlesetPath, webpackBuiltConfigPath } = app.artifactConfig;
+        let { webpackStatsPath, htmlConfigPath, dataTitleServicePath, webpackBuiltConfigPath } = app.artifactConfig;
 
         if (isProduction)
             console.log(chalk.cyan("Mode: Production"));
@@ -39,7 +38,7 @@ export class WebpackUtils {
         if (!isProduction) {
             let htmlPlugin = new HtmlWebpackPlugin({
                 fileName: "index.html",
-                templateContent: HtmlRenderer.render(htmlConfig),
+                templateContent: rendererUtils.renderHtml(htmlConfig),
                 inject: "head",
                 minify: isProduction ? config.htmlMinifyOpts : false,
             });
@@ -49,9 +48,9 @@ export class WebpackUtils {
         config.plugins.push(this.getStatsPlugin(webpackStatsPath));
 
         const { title, titleTemplate, titleOnEmpty } = htmlConfig;
-        const titleSet = { title, titleTemplate, titleOnEmpty };        
-        
-        utils.writeToFileAsJson(dataTitlesetPath, titleSet);
+        const titleServiceData = { title, titleTemplate, titleOnEmpty };
+
+        utils.writeToFileAsJson(dataTitleServicePath, titleServiceData);
         utils.writeToFileAsJson(htmlConfigPath, htmlConfig);
         utils.writeToFileAsJson(webpackBuiltConfigPath, config);
 
@@ -59,7 +58,7 @@ export class WebpackUtils {
         console.log();
         return config;
     }
-    
+
     getStatsPlugin(statsPath) {
         return function () {
             this.plugin("done", function (stats) {

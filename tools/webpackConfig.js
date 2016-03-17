@@ -1,8 +1,8 @@
 import webpack from "webpack";
-import utils from "./tools/utils";
-import webpackUtils from "./tools/webpackUtils";
+import utils from "./utils";
+import webpackUtils from "./webpackUtils";
+import configConstants from "../configConstants";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
-import configConstants from "./configConstants";
 
 export function create(options) {
     let { isProduction, shouldInlineLibs, isServerRenderer, paths, outputPatterns, artifactConfig, serverConfig, externalLibs, htmlConfig } = options;
@@ -20,10 +20,10 @@ export function create(options) {
         htmlConfigPath: artifactResolve(artifactConfig.htmlConfigFileName),
         webpackStatsPath: artifactResolve(artifactConfig.webpackStatsFileName),
         routesPath: artifactResolve(artifactConfig.routesFileName),
-        dataTitlesetPath: artifactResolve(artifactConfig.dataTitlesetFileName),
-        webpackBuiltConfigPath: artifactResolve(artifactConfig.webpackBuiltConfigFileName)
+        webpackBuiltConfigPath: artifactResolve(artifactConfig.webpackBuiltConfigFileName),
+        dataTitleServicePath: artifactResolve(artifactConfig.dataTitleServiceFileName),
     };
-    
+
     let app = {
         isProduction,
         externals: [], // This is used by the util to populate used external libs that are to be added to index template.
@@ -52,7 +52,7 @@ export function create(options) {
         },
         resolve: {
             alias: {
-                "titleset-data": resolvedArtifactConfig.dataTitlesetPath,
+                "title-service-data": resolvedArtifactConfig.dataTitleServicePath,
                 TweenMax: resolve("./node_modules/gsap/src/uncompressed/TweenMax.js"),
             },
             extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".ts", ".tsx"]
@@ -91,7 +91,7 @@ export function create(options) {
                     exclude: resolvedPaths.globalStylePath,
                     loaders: ["style", "css?-autoprefixer", "postcss", "sass"]
                 },
-                { test: /\.(woff|woff2|eot|ttf)$/i, loader: 'url-loader?limit=100000' },
+                { test: /\.(woff|woff2|eot|ttf)$/i, loader: "url-loader?limit=100000" },
                 {
                     test: /\.(gif|png|jpe?g|svg)$/i,
                     loaders: [
@@ -180,19 +180,14 @@ export function create(options) {
 
     let commonPlugins = [
         new webpack.DefinePlugin({
-            "__DEV__": !isProduction
+            "__DEV__": !isProduction,
+            "__DOM__": !isServerRenderer
         }),
         TextPlugins.globalStyles,
         new webpack.ProvidePlugin({
             TweenMax: "TweenMax",
         })
     ];
-
-    if (isServerRenderer) {
-        commonPlugins.push(new webpack.DefinePlugin({ "__SERVER__": true }));
-    } else {
-        commonPlugins.push(new webpack.DefinePlugin({ "__CLIENT__": true }));
-    }
 
     // Conditional plugins
 
@@ -212,19 +207,18 @@ export function create(options) {
             }
         }),
         new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.optimize.OccurenceOrderPlugin(true),
         new webpack.optimize.UglifyJsPlugin(productionConfig.uglifyJsOpts),
     ];
 
     // Apply plugins
 
     webpackUtils.applyPlugins(config, commonPlugins, devPlugins, productionPlugins);
-
     return config;
 }
 
-export function createDefault(options) {    
-    options = Object.assign({
+export function createDefault(options) {
+    options = Object.assign({}, {
         paths: configConstants.Paths,
         outputPatterns: configConstants.OutputPatterns,
         htmlConfig: configConstants.HtmlConfig,
@@ -236,7 +230,7 @@ export function createDefault(options) {
     return create(options);
 }
 
-export function runDefault() {
-    let config = createDefault();
+export function runDefault(options) {
+    let config = createDefault(options);
     return webpackUtils.run(config);
 }

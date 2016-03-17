@@ -10,7 +10,7 @@ class Expose extends Base<any, any> {
 
     componentWillMount() {
         super.componentWillMount();
-        this.context.title.set();
+        this.getServices().title.reset();
     }
 
     render() {

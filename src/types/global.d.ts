@@ -1,9 +1,20 @@
 /// <reference path="../../typings/main.d.ts" />
 
+// Global vars
+
 declare var __DEV__: boolean;
-declare var __CLIENT__: boolean;
-declare var __SERVER__: boolean;
+declare var __DOM__: boolean;
 
 // Data modules
 
-declare module "titleset-data" { export default {} as any; }
+declare namespace DataModules {
+    export interface ITitleServiceData {
+        title: string;
+        titleTemplate: string;
+        titleOnEmpty: string;
+    }
+}
+
+declare module "title-service-data" {
+    export default {} as DataModules.ITitleServiceData;
+}

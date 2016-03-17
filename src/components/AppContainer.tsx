@@ -9,19 +9,16 @@ interface Props extends React.Props<AppContainer> {
     context: IAppContext;
 }
 
-class AppContainer extends React.Component<Props, any> implements React.ChildContextProvider<IAppContext> {
+class AppContainer extends React.Component<Props, any> {
 
     static childContextTypes: React.ValidationMap<IAppContext> = {
-        appContainer: PropTypes.any,
-        historyContext: PropTypes.object,
-        history: PropTypes.object,
-        title: PropTypes.object,
-        applyCss: PropTypes.func,
-        routeProcessor: PropTypes.object,
-        state: PropTypes.object,
+        historyContext: PropTypes.any,
+        services: PropTypes.any,
+        state: PropTypes.any,
+        rendererState: PropTypes.any,
     };
 
-    private disposeHistoryListener: () => void = null;
+    private _disposeHistoryListener: () => void = null;
 
     getChildContext() {
         return this.props.context;
@@ -42,19 +39,19 @@ class AppContainer extends React.Component<Props, any> implements React.ChildCon
     }
 
     componentWillMount() {
-        const history = this.props.context.history;
+        const history = this.props.context.services.history;
 
         history.start();
         this.setup(history.context);
 
-        this.disposeHistoryListener = history.listen((ctx, next) => {
+        this._disposeHistoryListener = history.listen((ctx, next) => {
             this.setup(ctx);
             return next(ctx);
         });
     }
 
     componentWillUnmount() {
-        this.disposeHistoryListener();
+        this._disposeHistoryListener();
     }
 
     render() {

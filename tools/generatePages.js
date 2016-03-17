@@ -1,19 +1,22 @@
 import utils from "./utils";
-import * as path from "path";
+import path from "path";
 import fs from "fs";
 import chalk from "chalk";
 import request from "request";
 import mkdirp from "mkdirp";
-import { ARTIFACTS_PATH, ROUTES_FILENAME, OUTPUT_PATH, DEVSERVER_PORT, DEVSERVER_HOST, DEVSERVER_PUBLIC_PATH } from "../config";
 import http from "http";
-import { app } from "./server";
+import { Paths, ArtifactConfig, ServerConfig } from "../ConfigConstants";
+
+// TODO: Switch to superagent
+// TODO: Switch to promises
 
 console.log("Generating pages..");
 
-const port = process.env.PORT || DEVSERVER_PORT;
+let resolve = utils.createResolverForPath(Paths.dir);
+let artifactResolve = utils.createResolverForPath(resolve(Paths.artifactDirRelativeName));
 
-let routeArtifactPath = path.join(ARTIFACTS_PATH, ROUTES_FILENAME);
-let routes = utils.getFromJsonFile(routeArtifactPath);
+let routesPath = artifactResolve(ArtifactConfig.routesFileName);
+let routes = utils.getFromJsonFile(routesPath);
 
 if (routes.length > 0) {
     let firstRequest = routes[0];
@@ -52,8 +55,8 @@ function generate(p, cb) {
     // Strip the first "/", if it exists.
     const webPath = (p.indexOf("/") === 0) ? p.substring(1) : p;
 
-    let url = `http://${DEVSERVER_HOST}:${DEVSERVER_PORT}${DEVSERVER_PUBLIC_PATH}${webPath}`.trim("/");
-    let dest = path.join(OUTPUT_PATH, innerPath);
+    let url = `http://${ServerConfig.host}:${ServerConfig.port}${ServerConfig.publicPath}${webPath}`.trim("/");
+    let dest = path.join(resolve(Paths.outputDirRelativeName), innerPath);
     console.log(p + " => " + innerPath);
 
     function writeResult(filePath, content) {

@@ -11,12 +11,10 @@ export class Base<P, S> extends React.Component<P, S> {
     subscriptions: Rx.Subscription[] = [];
 
     static contextTypes: React.ValidationMap<IAppContext> = {
-        historyContext: PropTypes.object,
-        history: PropTypes.object,
-        title: PropTypes.object,
-        applyCss: PropTypes.func,
-        routeProcessor: PropTypes.object,
-        state: PropTypes.object,
+        historyContext: PropTypes.any,
+        services: PropTypes.any,
+        state: PropTypes.any,
+        rendererState: PropTypes.any,
     };
 
     addDisposable(subscription: Rx.Subscription) {
@@ -27,47 +25,52 @@ export class Base<P, S> extends React.Component<P, S> {
         this.subscriptions.splice(this.subscriptions.indexOf(subscription), 1);
     }
 
-    componentWillMount() {
-    }
+    componentWillMount() { }
 
     componentWillUnmount() {
         this.subscriptions.forEach(x => x.unsubscribe());
+    }
+
+    getServices() {
+        return this.context.services;
     }
 
     navigateTo(path: string, replaceCurrent: boolean = false, ev: React.SyntheticEvent = null) {
         if (ev !== null) {
             ev.preventDefault();
         }
+        const history = this.getServices().history;
         if (replaceCurrent) {
-            this.context.history.replace(path);
+            history.replace(path);
         } else {
-            this.context.history.push(path);
+            history.push(path);
         }
     }
 }
 
 export class BaseWithHistoryContext<P, S> extends Base<P, S> {
 
-    private childContext = { historyContext: this.context.historyContext };
-    private disposeHistoryListener: () => void = null;
+    private _childContext = { historyContext: this.context.historyContext };
+    private _disposeHistoryListener: () => void = null;
 
     static childContextTypes = {
         historyContext: PropTypes.object,
     };
 
     getChildContext() {
-        return this.childContext;
+        return this._childContext;
     }
 
     setHistoryContext(context: IHistoryContext) {
-        this.childContext.historyContext = context;
+        this._childContext.historyContext = context;
     }
 
     componentWillMount() {
         super.componentWillMount();
-        this.disposeHistoryListener = this.context.history.listen((ctx, next) => {
-            // Make sure this isn't run if it was already unmounted.
-            if (this.disposeHistoryListener !== null) {
+        const history = this.getServices().history;
+        this._disposeHistoryListener = history.listen((ctx, next) => {
+            // Ensure this isn't run if it was already disposed.
+            if (this._disposeHistoryListener !== null) {
                 this.setHistoryContext(ctx);
                 this.onHistoryChange(ctx);
             }
@@ -76,9 +79,9 @@ export class BaseWithHistoryContext<P, S> extends Base<P, S> {
     }
 
     componentWillUnmount() {
-        this.disposeHistoryListener();
+        this._disposeHistoryListener();
         // Set this to null as an indication that it has already been unmounted.
-        this.disposeHistoryListener = null;
+        this._disposeHistoryListener = null;
         super.componentWillUnmount();
     }
 

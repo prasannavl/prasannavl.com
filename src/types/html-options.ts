@@ -1,5 +1,7 @@
 interface HtmlOptions {
     title: string;
+    titleTemplate: string;
+    titleOnEmpty: string;
     description: string;
     css: string[];
     js: string[];

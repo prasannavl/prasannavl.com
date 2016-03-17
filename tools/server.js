@@ -1,62 +1,27 @@
-/* eslint-disable no-console */
-import config, { OUTPUT_PATH, DEVSERVER_HOST, DEVSERVER_PORT, DEVSERVER_PUBLIC_PATH, HTML_CONFIG_ARTIFACT_PATH, ARTIFACTS_PATH, WEBPACK_STATS_FILENAME } from "../config";
-import express from "express";
-import compression from "compression";
-import * as path from "path";
-import AppRenderer from "./app/AppRenderer";
+import { createAppServerAsync, runServer } from "./serverUtils"
 import utils from "./utils";
-import configConstants from "../configConstants";
+import { createDefault as webpackConfigFactory } from "./webpackConfig";
 
-const rootPath = OUTPUT_PATH;
-let runNow = utils.hasCommandLineArg("run");
+function getWebpackConfig() {
+    return webpackConfigFactory({ isServerRenderer: true, isProduction: true });
+}
 
-function createAppServer(host, port, rootPath, runNow) {
-    let app = express();
-    app.use(compression());
-    let webPackStats = getWebpackStats();
-    let appRenderer = new AppRenderer(
-        config,
-        webPackStats,
-        getHtmlConfig(webPackStats)
-    );
+export function getServerListenerFactoryAsync(log = false) {
+    let config = getWebpackConfig();
+    let defaultHost = config.devServer.host;
+    let defaultPort = config.devServer.port;
+    return createAppServerAsync(config, log)
+        .then(server => (port, host) => runServer(server, host = defaultHost, port = defaultPort));
+}
 
-    app.use(function(req, res, next) {
-        //console.log(req.url);
-        next();
-    });
-
-    app.use(express.static(rootPath + "/"));
-
-    app.get("*", function(req, res) {
-        //useStaticFile(req, res);
-        appRenderer.run(req, res);
-    });
-
-    if (runNow) {
-        app.listen(port, () => {
-            console.log(`Server listening on http://${host}:${port}`);
-            let open = require("open");
-            open(`http://${host}:${port}/`);
-        });
+function run() {
+    let shouldRun = utils.hasCommandLineArg("run");
+    let log = utils.hasCommandLineArg("verbose");
+    if (shouldRun) {
+        getServerListenerFactoryAsync(log)
+            .then(runAppServer => runAppServer())
+            .catch(err => console.log(err.toString().replace("\\   n", "\n")));
     }
-
-    return app;
 }
 
-function getWebpackStats() {
-    return utils.getFromJsonFile(path.join(ARTIFACTS_PATH, WEBPACK_STATS_FILENAME))
-}
-
-function getHtmlConfig(webpackStats) {
-    let htmlConfig = utils.getFromJsonFile(HTML_CONFIG_ARTIFACT_PATH); 
-    let addendum = DEVSERVER_PUBLIC_PATH.endsWith("/") ? DEVSERVER_PUBLIC_PATH : DEVSERVER_PUBLIC_PATH + "/";
-    let webpackJs = [].concat(webpackStats.assetsByChunkName.main).filter(x => x.endsWith(".js")).map(x => addendum + x);
-    let webpackCss = [].concat(webpackStats.assetsByChunkName.main).filter(x => x.endsWith(".css")).map(x => addendum + x);
-    htmlConfig.js = htmlConfig.js.concat(webpackJs);
-    htmlConfig.css = htmlConfig.css.concat(webpackCss);
-    return htmlConfig;
-}
-
-// function useStaticFile(req, res) {
-//     res.sendFile(rootPath + DEVSERVER_INDEX_PATH_RELATIVE);
-// }
+run();

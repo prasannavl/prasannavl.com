@@ -1,15 +1,14 @@
 /* eslint-disable no-console */
 import chalk from "chalk";
-import * as path from "path";
+import path from "path";
+import fs from "fs";
 import copyDir from "copy-dir";
-import * as fs from "fs";
 
 class Utils {
-
     hasCommandLineArg(str) {
         return process.argv.some(x => x === "--" + str);
     }
-        
+
     getIsProduction() {
         return process.env.PRODUCTION || process.env.NODE_ENV === "production" || this.hasCommandLineArg("production");
     }
@@ -26,7 +25,7 @@ class Utils {
             }
         }
     }
-    
+
     shouldInlineLibs() {
        return this.hasCommandLineArg("inline-libs");
     }
@@ -34,21 +33,21 @@ class Utils {
     getNpmLifecycleEvent() {
         return process.env.npm_lifecycle_event;
     }
-    
+
     ensureDirectoryExists(path) {
         if (!fs.existsSync(path)) fs.mkdirSync(path);
     }
 
     getFromJsonFile(path) {
-        return JSON.parse(fs.readFileSync(path), "utf-8");
+        return JSON.parse(fs.readFileSync(path, "utf-8"));
     }
 
     writeToFileAsJson(path, obj, flag = "w+") {
-        fs.writeFile(path, JSON.stringify(obj), { flag });
+        fs.writeFileSync(path, JSON.stringify(obj), { flag });
     }
 
     createResolverForPath(pathRoot) {
-        var resolve = src => {
+        let resolve = src => {
             return path.resolve(path.join(pathRoot, src));
         };
         return resolve;

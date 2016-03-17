@@ -26,14 +26,15 @@ class ContentView extends BaseWithHistoryContext<any, any> {
     }
 
     getComponent(pathname: string) {
-        if (pathname === "/overview") { this.context.title.set("Overview"); return <LoremContent/>; };
+        const titleService = this.getServices().title;
+        if (pathname === "/overview") { titleService.set("Overview"); return <LoremContent/>; };
         const contentRegex = /\/(\d{4})\/(.*)/i;
         const match = contentRegex.exec(pathname);
         if (match) {
-            this.context.title.set("Matchyman");
+            titleService.set("Matchyman");
             return <div>{match[1]} - {match[2]}</div>; }
         else {
-            this.context.title.set("Not found");
+            titleService.set("Not found");
             return  <div>Oops.Nothing here.</div>; }
     }
 

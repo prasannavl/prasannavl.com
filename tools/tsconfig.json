@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "target": "es2015",
+        "module": "es2015",
+        "noLib": false,
+        "noImplicitAny": true,
+        "noImplicitReturns": true
+    }
+}

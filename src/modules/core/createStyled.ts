@@ -1,8 +1,13 @@
 import * as React from "react";
+import { IAppContext } from "./AppContext";
 
 function getDisplayName(component: any) {
     let name = component.displayName || component.name || "Component";
     return `Styled(${name})`;
+}
+
+function getCssApplier(context: IAppContext) {
+    return context.services.applyCss;
 }
 
 export default function createStyled<T>(InnerComponent: T, ...styles: any[]) {
@@ -10,21 +15,19 @@ export default function createStyled<T>(InnerComponent: T, ...styles: any[]) {
         static displayName = getDisplayName(InnerComponent);
 
         static contextTypes: any = {
-            applyCss: React.PropTypes.func,
+            services: React.PropTypes.any,
         };
 
         private removeCss: () => void;
 
         componentWillMount() {
-            const applyCss = (this.context as any).applyCss;
-            if (applyCss)
-                this.removeCss = applyCss.apply(null, styles);
+            const applyCss = getCssApplier(this.context as IAppContext);
+            this.removeCss = applyCss.apply(null, styles);
         }
 
         componentWillUnmount() {
             const removeCss = this.removeCss;
-            if (removeCss)
-                setTimeout(removeCss, 0);
+            setTimeout(removeCss, 0);
         }
 
         render() {

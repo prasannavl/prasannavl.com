@@ -29,8 +29,8 @@ export const ArtifactConfig = {
     htmlConfigFileName: "htmlConfig.json",
     webpackStatsFileName: "stats.json",
     routesFileName: "routes.json",
-    dataTitlesetFileName: "titleSet.json",
     webpackBuiltConfigFileName: "webpackBuildConfig.json",
+    dataTitleServiceFileName: "titleServiceData.json",
 };
 
 export const ServerConfig = {
