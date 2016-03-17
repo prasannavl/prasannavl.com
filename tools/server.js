@@ -3,7 +3,7 @@ import utils from "./utils";
 import { createDefault as webpackConfigFactory } from "./webpackConfig";
 
 function getWebpackConfig() {
-    return webpackConfigFactory({ isServerRenderer: true, isProduction: true });
+    return webpackConfigFactory({ isServerRenderer: true });
 }
 
 export function getServerListenerFactoryAsync(log = false) {
