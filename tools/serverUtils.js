@@ -52,10 +52,12 @@ export function createAppServerAsync(webpackConfig, log = false) {
         .then(appHandler => createServer(rootPath, indexPath, appHandler, log))
 }
 
-export function runServer(server, host, port) {
+export function runServer(server, host, port, shouldOpen = false) {
     server.listen(port, () => {
         console.log(`Server listening on http://${host}:${port}`);
-        let open = require("open");
-        open(`http://${host}:${port}/`);
+        if (shouldOpen) {
+            let open = require("open");
+            open(`http://${host}:${port}/`);
+        }
     });
 }

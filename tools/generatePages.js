@@ -6,9 +6,16 @@ import request from "request";
 import mkdirp from "mkdirp";
 import http from "http";
 import { Paths, ArtifactConfig, ServerConfig } from "../ConfigConstants";
+import { getServerListenerFactoryAsync } from "./server";
 
 // TODO: Switch to superagent
 // TODO: Switch to promises
+
+function runServerAsync(log = false) {
+    return getServerListenerFactoryAsync(log)
+        .then(runAppServer => runAppServer({ shouldOpen: false }))
+        .catch(err => console.log(err.toString().replace("\\n", "\n")));
+}
 
 console.log("Generating pages..");
 
@@ -35,7 +42,7 @@ if (routes.length > 0) {
         if (listeners === 0) endListen();
     }
     
-    appListener = http.createServer(app).listen(port, () => {
+    runServerAsync().then(() => {
         generate(firstRequest, (err) => {
             if (!(err === undefined || err === null) || routes.length === 1) { endListen(); return; }
             routes.forEach(x => {

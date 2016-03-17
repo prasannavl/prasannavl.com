@@ -2,7 +2,6 @@ import path from "path";
 import { Paths, ArtifactConfig } from "../configConstants";
 import utils from "./utils";
 
-
 function getRoutes() {
 	let routes = ["/", "/overview", "/about", "/archives"];
 	return routes;	
@@ -20,4 +19,8 @@ function generateRoutesFile(routes, filePath) {
 	utils.writeToFileAsJson(filePath, routes);
 }
 
-generateRoutesFile(getRoutes(), getRoutesFileName());
+function run() {
+	generateRoutesFile(getRoutes(), getRoutesFileName());
+}
+
+run();

@@ -11,7 +11,7 @@ export function getServerListenerFactoryAsync(log = false) {
     let defaultHost = config.devServer.host;
     let defaultPort = config.devServer.port;
     return createAppServerAsync(config, log)
-        .then(server => (port, host) => runServer(server, host = defaultHost, port = defaultPort));
+        .then(server => ({ port = defaultPort, host = defaultHost, shouldOpen = false }) => runServer(server, host, port, shouldOpen));
 }
 
 function run() {
@@ -19,8 +19,8 @@ function run() {
     let log = utils.hasCommandLineArg("verbose");
     if (shouldRun) {
         getServerListenerFactoryAsync(log)
-            .then(runAppServer => runAppServer())
-            .catch(err => console.log(err.toString().replace("\\   n", "\n")));
+            .then(runAppServer => runAppServer({ shouldOpen: false }))
+            .catch(err => console.log(err.toString().replace("\\n", "\n")));
     }
 }
 

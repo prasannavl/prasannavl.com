@@ -1,5 +1,5 @@
 import { IServiceProvider, ServiceProviderFactory } from "./ServiceProvider";
-import { IHistoryContext } from "history-next";
+import { IHistoryContext } from "history-next/lib/HistoryContext";
 import { IRendererState, RendererStateFactory } from "./RendererState";
 
 export interface IAppContext {

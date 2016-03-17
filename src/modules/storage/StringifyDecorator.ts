@@ -1,6 +1,5 @@
 import { IStorage } from "./Storage";
 
-
 export class StringifyDecorator implements IStorage {
     private _storage: IStorage;
 

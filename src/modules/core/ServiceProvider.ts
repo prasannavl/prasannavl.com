@@ -1,5 +1,6 @@
 import { ITitleService } from "./TitleService";
-import { IHistory, IHistoryContext } from "history-next";
+import { IHistory } from "history-next/lib/HistoryCore";
+import { IHistoryContext } from "history-next/lib/HistoryContext";
 import AppContainer from "../../components/AppContainer";
 import { IRendererState } from "./core/RendererState";
 

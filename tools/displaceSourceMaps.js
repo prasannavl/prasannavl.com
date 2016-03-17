@@ -5,7 +5,6 @@ import path from "path";
 import { Paths } from "../configConstants";
 
 function displaceSourceMaps(src, dest) {
-
     console.log("Moving source maps out of build..");
 
     let log = (file, cb) => {
@@ -24,4 +23,9 @@ function displaceSourceMaps(src, dest) {
         .pipe(map(del));
 }
 
-displaceSourceMaps(path.join(Paths.dir, Paths.outputDirRelativeName), path.join(Paths.dir, Paths.artifactDirRelativeName));
+function run() {
+    let resolve = utils.createResolverForPath(Paths.dir);
+    displaceSourceMaps(resolve(Paths.outputDirRelativeName), resolve(Paths.artifactDirRelativeName));
+}
+
+run();

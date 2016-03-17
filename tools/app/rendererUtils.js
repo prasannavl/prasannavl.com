@@ -5,10 +5,8 @@ import path from "path";
 class RendererUtils {
     renderHtml(htmlConfig) {
         let { templatePath, title, description, js, css, content, inlineCss, canonical } = htmlConfig;
-        console.log(__dirname);
-        console.log(templatePath);
+        
         templatePath = "./" + path.relative(__dirname, templatePath);
-        console.log(templatePath);        
         let templateFactory = require(templatePath).default;
 
         let templateComponent = templateFactory({ title, description, css, js, content, inlineCss, canonical });
