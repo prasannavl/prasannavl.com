@@ -12,7 +12,7 @@ export class ContextManagerFactory {
         if (__DOM__) {
             factory = require("../dom-adapter/ContextManager").ContentManagerFactory;
         } else {
-            factory = require("../../../tools/app/server-adapter/ContextManager").ContentManagerFactory;
+            factory = require("../headless-adapter/ContextManager").ContentManagerFactory;
         }
         return factory.create();
     }

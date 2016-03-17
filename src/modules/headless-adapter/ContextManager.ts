@@ -3,10 +3,10 @@ import * as ReactDOM from "react-dom/server";
 import { HistoryContext } from "history-next";
 import { MemoryHistory } from "history-next/lib/MemoryHistory";
 import { getPathName } from "history-next/lib/utils";
-import { IContextManager } from "../../../src/modules/core/ContextManager";
-import { IAppContext, AppContextFactory } from "../../../src/modules/core/AppContext";
-import { IHeadlessRendererState } from "../../../src/modules/core/RendererState";
-import { configureTitle } from "../../../src/modules/core/TitleService";
+import { IContextManager } from "../core/ContextManager";
+import { IAppContext, AppContextFactory } from "../core/AppContext";
+import { IHeadlessRendererState } from "../core/RendererState";
+import { configureTitle } from "../core/TitleService";
 
 export class ContextManager implements IContextManager {
     createContext() {

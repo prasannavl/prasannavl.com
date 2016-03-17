@@ -27,7 +27,7 @@ export class ServiceProviderFactory {
         if (__DOM__) {
             coreProviderFactory = require("../dom-adapter/ServiceProviderFactory").ServiceProviderFactory;
         } else {
-            coreProviderFactory = require("../../../tools/app/server-adapter/ServiceProviderFactory").ServiceProviderFactory;
+            coreProviderFactory = require("../headless-adapter/ServiceProviderFactory").ServiceProviderFactory;
         }
 
         let services = Object.assign({}, commonCoreProvider, coreProviderFactory.create());

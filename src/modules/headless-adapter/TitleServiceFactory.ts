@@ -1,4 +1,4 @@
-import { TitleService, ITitleTarget } from "../../../src/modules/core/TitleService";
+import { TitleService, ITitleTarget } from "../core/TitleService";
 
 export class TitleServiceFactory {
     static create() {

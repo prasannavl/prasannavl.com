@@ -1,7 +1,7 @@
-import { IServiceProviderCore } from "../../../src/modules/core/ServiceProvider";
+import { IServiceProviderCore } from "../core/ServiceProvider";
 import { MemoryHistory } from "history-next/lib/MemoryHistory";
 import { TitleServiceFactory } from "./TitleServiceFactory";
-import { RendererStateFactory, IHeadlessRendererState } from "../../../src/modules/core/RendererState";
+import { RendererStateFactory, IHeadlessRendererState } from "../core/RendererState";
 
 export class ServiceProviderFactory {
     static create(): IServiceProviderCore {
