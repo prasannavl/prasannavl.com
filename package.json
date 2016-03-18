@@ -108,7 +108,7 @@
     "ts-node": "^0.5.5",
     "two.js": "^0.5.0",
     "typescript": "^1.8.0",
-    "typings": "^0.6.8",
+    "typings": "^0.6.10",
     "url-loader": "^0.5.7",
     "url-pattern": "^1.0.1",
     "vinyl-fs": "^2.3.1",
