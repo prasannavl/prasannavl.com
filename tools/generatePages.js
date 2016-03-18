@@ -5,7 +5,7 @@ import chalk from "chalk";
 import request from "request";
 import mkdirp from "mkdirp";
 import http from "http";
-import { Paths, ArtifactConfig, ServerConfig } from "../ConfigConstants";
+import { Paths, ArtifactConfig, ServerConfig } from "../configConstants";
 import { getServerListenerFactoryAsync } from "./server";
 
 // TODO: Switch to superagent
