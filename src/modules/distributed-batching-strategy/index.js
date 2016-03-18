@@ -5,6 +5,7 @@ var DistributedBatchingStrategy = {
     frameBudget: 1000 / 60,
     pendingUpdates: [],
     isBatchingUpdates: false,
+    isrequestingFrameUpdate: false,
 
     batchedUpdates: (enqueueUpdate, component, callback) => {
         // Execute top level events right away since we don't know how to estimate them.

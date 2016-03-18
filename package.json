@@ -24,7 +24,7 @@
     "build-static": "npm run build && npm run gen-all",
     "build-static:p": "npm run build:p && npm run gen-all",
     "test-play": "./node_modules/.bin/babel-node ./node_modules/tape/bin/tape -r \"ts-node/register\" ./tests/play.ts",
-    "test":"./node_modules/.bin/babel-node ./node_modules/tape/bin/tape -r \"ts-node/register\" ./tests/**/*"
+    "test": "./node_modules/.bin/babel-node ./node_modules/tape/bin/tape -r \"ts-node/register\" ./tests/**/*"
   },
   "author": "Prasanna V. Loganathar",
   "license": "Apache-2.0",

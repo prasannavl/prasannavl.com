@@ -21,24 +21,25 @@ class RendererUtils {
             return [];
 
         let inlinedCssModules = [];        
-        let modules = {};
+        let currentModules = new Map();
         const externalKey = "_extRoot";
 
         // Organize as `{ (id): [] }` for modules.
         cssModules.forEach(x => {
             const id = (x.id === null || x.id === undefined) ? externalKey : x.id;
-            let m = modules[id];
+            let m = currentModules.get(id);
             if (!m) {
-                m = modules[id] = [];
+                m = [];
+                currentModules.set(id, m);
             }
             m.push(x.content);
         });
 
         // Push each item in module to inlineCss as { content, attr }
-        Object.keys(modules).forEach(id => {
+        currentModules.forEach((contentArray, id) => {
             let i = 0;
-            modules[id].forEach(contents => {
-                let icss = { content: contents, attributes: null };
+            contentArray.forEach(content => {
+                let icss = { content, attributes: null };
                 if (id !== externalKey)
                     icss.attributes = { "className": "_svx" };
                 inlinedCssModules.push(icss);

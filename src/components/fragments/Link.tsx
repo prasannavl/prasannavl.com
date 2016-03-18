@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Base } from "../Base";
-import shallowCompare from "react-addons-shallow-compare";
 
 export interface LinkProps extends React.Props<Link> {
     href: string;

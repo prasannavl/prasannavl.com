@@ -34,5 +34,6 @@ export default function createStyled<T>(InnerComponent: T, ...styles: any[]) {
             return React.createElement(InnerComponent as any, this.props);
         }
     }
+    // Trick the type system into thinking its the same component
     return StyledComponent as any as T;
 }
