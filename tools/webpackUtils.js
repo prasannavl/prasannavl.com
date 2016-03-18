@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import webpack from "webpack";
 import utils from "./utils";
-import rendererUtils from "./app/RendererUtils";
+import rendererUtils from "./app/rendererUtils";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
 export class WebpackUtils {
