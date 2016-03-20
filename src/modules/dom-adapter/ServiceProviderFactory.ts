@@ -10,8 +10,7 @@ export class ServiceProviderFactory {
 
         let history = new BrowserHistory();
         history.createContext = BrowserHistory.createNormalizedContext;
-        history.createContextFromPath = HistoryContext.createNormalizedFromPath;
-
+        
         return {
             rendererStateProvider: () => rendererState,
             history,
