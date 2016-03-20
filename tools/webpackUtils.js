@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import webpack from "webpack";
 import utils from "./utils";
-import rendererUtils from "./app/rendererUtils";
+import rendererUtils from "./rendererUtils";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
 export class WebpackUtils {
@@ -34,6 +34,7 @@ export class WebpackUtils {
 
         let htmlConfig = app.htmlConfig;
         this.updateHtmlConfigForExternals(htmlConfig, config.app.externals);
+        utils.writeToFileAsJson(htmlConfigPath, htmlConfig);
 
         if (!isProduction) {
             let htmlPlugin = new HtmlWebpackPlugin({
@@ -51,7 +52,6 @@ export class WebpackUtils {
         const titleServiceData = { title, titleTemplate, titleOnEmpty };
 
         utils.writeToFileAsJson(dataTitleServicePath, titleServiceData);
-        utils.writeToFileAsJson(htmlConfigPath, htmlConfig);
         utils.writeToFileAsJson(webpackBuiltConfigPath, config);
 
         utils.copyAssets(staticDirPath, config.output.path);
@@ -103,7 +103,7 @@ export class WebpackUtils {
 
 
     addExternalDependency(config, moduleName, externalAddress, importName) {
-        let states = new Array(3);
+        let states = [];
 
         function addToHtmlExternals(externalAddress) {
             states.push("external url: " + externalAddress);

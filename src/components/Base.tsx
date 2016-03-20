@@ -99,3 +99,36 @@ export class StatelessBase<P> extends Base<P, any> {
         return shallowCompare(this, nextProps, nextState);
     }
 }
+
+interface BaseFactoryOptions {
+    title?: string;
+    resetTitle?: boolean;
+}
+
+export class BaseFactory {
+    static create<P>(component: JSX.Element, options: BaseFactoryOptions) {
+        const title = options.title;
+        let opts = {
+            performTitleSet: title !== undefined && title !== null,
+            performTitleReset: options.resetTitle ? true : false,
+        };
+
+        let extendedBaseClass = class extends Base<P, any> {
+            componentWillMount() {
+                super.componentWillMount();
+                if (opts.performTitleSet) {
+                    this.getServices().title.set(title);
+                } else if (opts.performTitleReset) {
+                    this.getServices().title.reset();
+                }
+            }
+
+            render() { return component; }
+        };
+        return extendedBaseClass;
+    }
+
+    static createElement<P>(component: JSX.Element, options: BaseFactoryOptions, props?: P) {
+        return React.createElement(BaseFactory.create(component, options), props);
+    }
+}

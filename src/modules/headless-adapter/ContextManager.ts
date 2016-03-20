@@ -26,7 +26,7 @@ export class ContextManager implements IContextManager {
         let titleService = context.services.title;
         configureTitle(titleService, htmlConfig as DataModules.ITitleServiceData);
 
-        const historyContext = HistoryContext.createFromPath(getPathName(url));
+        const historyContext = HistoryContext.createNormalizedFromPath(getPathName(url));
         const history = context.services.history as MemoryHistory;
         history.setContext(historyContext);
 

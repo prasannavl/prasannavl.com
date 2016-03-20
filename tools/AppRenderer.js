@@ -1,6 +1,6 @@
 import _ from "lodash";
 import chalk from "chalk";
-import utils from "../utils";
+import utils from "./utils";
 import rendererUtils from "./rendererUtils";
 
 export default class AppRenderer {

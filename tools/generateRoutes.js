@@ -3,8 +3,16 @@ import { Paths, ArtifactConfig } from "../configConstants";
 import utils from "./utils";
 
 function getRoutes() {
-	let routes = ["/", "/overview", "/about", "/archives"];
-	return routes;	
+	let routes = [
+		"/",
+		"/overview",
+		"/about",
+		"/archives",
+		"/test"
+	];
+	routes = routes.concat([1, 5, 10, 100, 250, 500, 750, 1000].map(x => "/test/" + x));
+	
+	return routes;
 }
 
 function getRoutesFileName() {

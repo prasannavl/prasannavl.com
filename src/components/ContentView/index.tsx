@@ -5,17 +5,13 @@ import LoremSegment from "../fragments/Lorem";
 import { BaseWithHistoryContext } from "../Base";
 import Link from "../fragments/Link";
 import { IHistoryContext } from "history-next";
+import { ContentManager } from "./ContentManager";
 
 let style = require("./style.scss") as any;
 
-class LoremContent extends React.Component<any, any> {
-     render() {
-        const c = <LoremSegment count={3} />;
-        return c;
-    }
-}
-
 class ContentView extends BaseWithHistoryContext<any, any> {
+    private _contentManager: ContentManager = new ContentManager();
+
     componentWillMount() {
         super.componentWillMount();
         this.setup(this.context.historyContext);
@@ -26,16 +22,7 @@ class ContentView extends BaseWithHistoryContext<any, any> {
     }
 
     getComponent(pathname: string) {
-        const titleService = this.getServices().title;
-        if (pathname === "/overview") { titleService.set("Overview"); return <LoremContent/>; };
-        const contentRegex = /\/(\d{4})\/(.*)/i;
-        const match = contentRegex.exec(pathname);
-        if (match) {
-            titleService.set("Matchyman");
-            return <div>{match[1]} - {match[2]}</div>; }
-        else {
-            titleService.set("Not found");
-            return  <div>Oops.Nothing here.</div>; }
+        return this._contentManager.getContentComponent(pathname);
     }
 
     setup(context: IHistoryContext) {

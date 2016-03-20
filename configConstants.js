@@ -47,7 +47,8 @@ export const ExternalLibs = [
 
 export const DefaultOptions = {
     isProduction: utils.getIsProduction(),
-    shouldInlineLibs: utils.shouldInlineLibs(),
+    //shouldInlineLibs: utils.shouldInlineLibs(),
+    shouldInlineLibs: true,
     isServerRenderer: false,
 };
 

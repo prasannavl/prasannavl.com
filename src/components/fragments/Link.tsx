@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Base } from "../Base";
+import { cleanPathNameSlashses } from "history-next/lib/utils"
 
 export interface LinkProps extends React.Props<Link> {
     href: string;
@@ -18,7 +19,7 @@ export default class Link extends Base<LinkProps, any> {
     isActive() {
         const historyContext = this.context.historyContext;
         if (!historyContext) return false;
-        return historyContext.pathname === this.props.href;
+        return historyContext.pathname === cleanPathNameSlashses(this.props.href);
     }
 
     onClick(e: React.MouseEvent) {
@@ -45,6 +46,6 @@ export default class Link extends Base<LinkProps, any> {
             href: href,
             className: classNames
         });
-        return React.DOM.a(props, this.props.children);
+        return React.DOM.a(props, this.props.children || href);
     }
 }

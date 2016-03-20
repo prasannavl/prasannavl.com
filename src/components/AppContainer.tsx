@@ -25,7 +25,7 @@ class AppContainer extends React.Component<Props, any> {
     }
 
     getComponentForContext(context: IHistoryContext) {
-        return context.pathname === "/" ? Expose : MainView;
+        return context.pathname === "" ? Expose : MainView;
     }
 
     setHistoryContext(context: IHistoryContext) {
