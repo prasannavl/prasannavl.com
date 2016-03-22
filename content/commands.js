@@ -6,40 +6,47 @@ import marked from "marked";
 import chalk from "chalk";
 
 class BuildHelper {
-	static processAll(inputDirPath, outputDirPath, options) {
-		// TODO: forced/non-forced implementation: only write if fs timestamps are outdated. 
+	static processAllAsync(inputDirPath, outputDirPath, options) {
+		return BuildHelper.walkFsAsync(null, inputDirPath, (f, tasks) => {
+			if (!f.stats.isDirectory() && f.path.match(/\.md$/i)) {
+				let filePath = f.path;
+				tasks.addRef();
+				BuildHelper.processAsync(filePath, outputDirPath, options)
+					.then(x => tasks.unref());
+			}
+		});
+	}
+
+	static processAsync(inputFile, outputDir, options) {
+		// TODO: forced/non-forced implementation: only write if fs timestamps are outdated. 		
 		const { mode, force } = options;
 		const isBuildMode = mode === ConfigMode.Build;
-		let taskWaiter = {
-			token: Promise.defer(),
-			current: 0,
-			addOne: function () { taskWaiter.current++; },
-			finishOne: function () { taskWaiter.current--; if (taskWaiter.current === 0) taskWaiter.token.resolve(); }
-		}
 
-		taskWaiter.addOne();
+		let fileBasePath = path.basename(inputFile);
+		console.log(`processing ${fileBasePath}..`);
+		let configFactory = isBuildMode ? BuildHelper.createBuildConfig : BuildHelper.createPublishConfig;
+
+		return fs.readFileAsync(inputFile, "utf-8")
+			.then(data => {
+				let basename = path.basename(inputFile, path.extname(inputFile));
+				let config = configFactory(basename, data);
+				return config;
+			}).then(config => {
+				let finalizerAsync = isBuildMode ? BuildHelper.finalizeBuildAsync : BuildHelper.finalizePublishAsync;
+				return finalizerAsync(config, inputFile, outputDir);
+			});
+	}
+
+	static walkFsAsync(name, inputDirPath, action) {
+		let waiter = new RefCount(1);
 		fs.walk(inputDirPath)
 			.on("data", f => {
-				if (!f.stats.isDirectory() && f.path.match(/\.md$/i)) {
-					let filePath = f.path;
-					let fileBasePath = path.basename(filePath);
-					console.log(`processing ${fileBasePath}..`);
-					let configFactory = isBuildMode ? BuildHelper.createBuildConfig : BuildHelper.createPublishConfig;
-
-					taskWaiter.addOne();
-					let p = BuildHelper.processFileAsync(filePath, configFactory)
-						.then(config => {
-							let finalizerAsync = isBuildMode ? BuildHelper.finalizeBuildAsync : BuildHelper.finalizePublishAsync;
-							return finalizerAsync(config, filePath, outputDirPath);
-						})
-						.then(() => taskWaiter.finishOne());
-				}
+				action(f, waiter);
 			})
-			.on("end", () => {
-				taskWaiter.finishOne();
+			.on("end", (files) => {
+				waiter.unref();
 			});
-
-		return taskWaiter.token.promise;
+		return waiter.done;
 	}
 
 	static finalizeBuildAsync(config, inputFilePath, outputDirPath) {
@@ -67,19 +74,6 @@ class BuildHelper {
 		return fs.writeFileAsync(destPath, data, { flag: "w+", encoding: "utf-8"})
 			.then(() => console.log(`${inFilePath} => ${destPath}`))
 			.catch(err => console.log(`${inFilePath} => ${err}`));
-	}
-
-	static processFileAsync(filePath, configFactory) {
-		const p = Promise.defer();
-		fs.readFile(filePath, "utf-8", (err, data) => {
-			if (err) p.reject(err);
-			try {
-				let basename = path.basename(filePath, path.extname(filePath));				
-				let config = configFactory(basename, data);
-				p.resolve(config);
-			} catch (e) { p.reject(e); }
-		});
-		return p.promise;
 	}
 
 	static createBuildConfig(name, data) {		
@@ -213,21 +207,45 @@ class Config {
 
 Config.OptionsRegExpPattern = /^<!--\[options\]\s*\n([\s\S]*)?\n\s*-->/.source;
 
+class RefCount {
+	constructor(startRefNumber) {
+		this._token = Promise.defer();
+		this._current = startRefNumber || 0;
+	}
+
+	addRef() {
+		this._current++;
+	}
+
+	unref() {
+		this._current--;
+		if (this._current === 0) this._token.resolve();
+	}
+
+	get current() {
+		return this._current;
+	}
+
+	get done() {
+		return this._token.promise;
+	}
+}
+
 class Commands {
 	static buildAll(srcDir, destDir, force = false) {
-		return BuildHelper.processAll(srcDir, destDir, { mode: ConfigMode.Build, force })
+		return BuildHelper.processAllAsync(srcDir, destDir, { mode: ConfigMode.Build, force })
 	}
 
-	static build(src, dest, force = false) {
-		// TODO
+	static build(src, destDir, force = false) {
+		return BuildHelper.processAsync(src, destDir, { mode: ConfigMode.Build, force })
 	}
 
-	static publish(src, dest, force = false) {
-		// TODO
+	static publish(src, destDir, force = false) {
+		return BuildHelper.processAsync(src, destDir, { mode: ConfigMode.Publish, force })
 	}
 
 	static publishAll(srcDir, destDir, force = false) {
-		return BuildHelper.processAll(srcDir, destDir, { mode: ConfigMode.Publish, force });
+		return BuildHelper.processAllAsync(srcDir, destDir, { mode: ConfigMode.Publish, force });
 	}
 }
 
