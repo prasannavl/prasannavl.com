@@ -4,7 +4,7 @@ import Promise from "bluebird";
 import yaml from "js-yaml";
 import marked from "marked";
 import chalk from "chalk";
-import * as _ from "lodash";
+import * as L from "lodash";
 
 class BuildHelper {
 	static processAllAsync(inputDirPath, outputDirPath, options) {
@@ -37,13 +37,14 @@ class BuildHelper {
 			});
 	}
 
-	static walkFsAsync(inputDirPath, action) {
+	static walkFsAsync(inputDirPath, action, onEndAction) {
 		let tasks = new RefCount(1);
 		fs.walk(inputDirPath)
 			.on("data", f => {
 				action(f, tasks);
 			})
 			.on("end", (files) => {
+				onEndAction && onEndAction(files, tasks);
 				tasks.removeRef();
 			});
 		return tasks.done;
@@ -64,25 +65,25 @@ class BuildHelper {
 		let urlDirPath = path.join(outputDirPath, path.dirname(urlPath));
 		let destPath = path.join(outputDirPath, urlPath + extName);
 		let data = config.content;
-		
+
 		return fs.ensureDirAsync(urlDirPath)
 			.then(() => BuildHelper.writeFileAsync(path.basename(inputFilePath), destPath, data))
 			.then(() => fs.removeAsync(inputFilePath));
 	}
 
 	static writeFileAsync(inFilePath, destPath, data) {
-		return fs.writeFileAsync(destPath, data, { flag: "w+", encoding: "utf-8"})
+		return fs.writeFileAsync(destPath, data, { flag: "w+", encoding: "utf-8" })
 			.then(() => console.log(`${inFilePath} => ${destPath}`))
 			.catch(err => console.log(`${inFilePath} => ${err}`));
 	}
 
-	static createBuildConfig(name, data) {		
+	static createBuildConfig(name, data) {
 		let config = Config.createBuildConfigFrom(Config.parseFromMarkdownString(data));
-		let markdownContent = Config.createBuildContent(config, data);		
+		let markdownContent = Config.createBuildContent(config, data);
 		return Object.assign(config, { content: markdownContent });
 	}
 
-	static createPublishConfig(name, data) {		
+	static createPublishConfig(name, data) {
 		let contents = data;
 		let mTokens = marked.lexer(data);
 		let config = Config.parseFromMarkdownTokens(mTokens);
@@ -114,7 +115,7 @@ class BuildHelper {
 		} else {
 			let url = config.url;
 			if (url.startsWith("/")) {
-				config.url = url.slice(1);				
+				config.url = url.slice(1);
 			}
 		}
 
@@ -127,8 +128,42 @@ class BuildHelper {
 			}
 			return "";
 		});
-		
+
 		return Object.assign(config, { content: markdownContent });
+	}
+
+	static buildIndexesAsync(contentDirPath, indexDirPath, indexors) {
+		const collectFiles = (contentDirPath) => {
+			const files = [];
+			const collector = BuildHelper.walkFsAsync(contentDirPath, (f, tasks) => {
+				if (!f.stats.isDirectory()) {
+					let filePath = f.path;
+					let p = fs.readFileAsync(filePath, "utf-8")
+						.then(data => files.push(JSON.parse(data)));
+					tasks.add(p);
+				}
+			});
+			return collector.then(() => files);
+		}
+
+		const finalizeIndex = (indexDirPath, indexDescriptors) => {
+			let p = indexDescriptors.map(x => {
+				let filePath = path.join(indexDirPath, x.name + ".json");
+				let data = JSON.stringify(x.data);
+				return fs.ensureDirAsync(indexDirPath)
+					.then(() =>
+						fs.writeFileAsync(filePath, data, { flag: "w+", encoding: "utf-8" }));
+			});
+			return Promise.all(p);
+		}
+
+		return collectFiles(contentDirPath)
+			.then((files) =>
+				L.chain(indexors)
+					.map(x => x(files))
+					.flatten()
+					.value())
+			.then((desc) => finalizeIndex(indexDirPath, desc));
 	}
 }
 
@@ -137,7 +172,7 @@ function sanitizeSlug(slug) {
 	let removeChars = ["!", "@", "\"", "'", "?", ")", "]", "}", ">"];
 	let len = charsAsDash.length;
 	while (--len >= 0) {
-		slug.replace(charsAsDash[len], "-"); 
+		slug.replace(charsAsDash[len], "-");
 	}
 	len = removeChars.length;
 	while (--len >= 0) {
@@ -150,7 +185,7 @@ const ConfigMode = {
 	Publish: 1,
 }
 
-class Config {		
+class Config {
 
 	// WARNING: Exceptional pattern.
 	// Set as undefined instead of null to make sure they
@@ -162,7 +197,7 @@ class Config {
 		this.title = undefined;
 		this.url = undefined;
 		this.tags = [];
-		
+
 		this.slug = undefined;
 		this.publish = undefined;
 
@@ -202,7 +237,7 @@ class Config {
 		let yamlOpts = yaml.safeLoad(optString);
 		return Object.assign(config, yamlOpts);
 	}
-	
+
 	static createYamlMarkdownCommentFrom(config) {
 		const yamlString = yaml.safeDump(config, { skipInvalid: true });
 		const configText = "<!--[options]\n" + yamlString + "-->";
@@ -220,9 +255,10 @@ class Config {
 Config.OptionsRegExpPattern = /^<!--\[options\]\s*\n([\s\S]*)?\n\s*-->/.source;
 
 class RefCount {
-	constructor(startRefNumber) {
+	constructor(startRefNumber, resolver) {
 		this._token = Promise.defer();
 		this._current = startRefNumber || 0;
+		this._resolver = resolver || ((token) => token.resolve());
 	}
 
 	addRef() {
@@ -231,12 +267,18 @@ class RefCount {
 
 	removeRef() {
 		this._current--;
-		if (this._current === 0) this._token.resolve();
+		if (this._current === 0) {
+			this._resolver && this._resolver(this._token);
+		}
 	}
 
 	add(promise) {
 		this.addRef();
 		promise.then(() => this.removeRef());
+	}
+
+	setResolver(resolver) {
+		this._resolver = resolver;
 	}
 
 	get current() {
@@ -250,57 +292,61 @@ class RefCount {
 
 class Commands {
 	static buildAll(srcDir, destDir, force = false) {
+		console.log(chalk.cyan("Building all published content.."));
 		return BuildHelper.processAllAsync(srcDir, destDir, { mode: ConfigMode.Build, force })
 	}
 
 	static build(src, destDir, force = false) {
+		console.log(chalk.cyan(`Building ${src}..`));
 		return BuildHelper.processAsync(src, destDir, { mode: ConfigMode.Build, force })
 	}
 
 	static publish(src, destDir, force = false) {
+		console.log(chalk.cyan(`Publishing ${src}..`));
 		return BuildHelper.processAsync(src, destDir, { mode: ConfigMode.Publish, force })
 	}
 
 	static publishAll(srcDir, destDir, force = false) {
+		console.log(chalk.cyan("Publishing all content.."));
 		return BuildHelper.processAllAsync(srcDir, destDir, { mode: ConfigMode.Publish, force });
 	}
-}
 
-function buildAll() {
-	console.log("Building all published content..");	
-	let src = path.join(__dirname, "./published");
-	let dest = path.join(__dirname, "../static/content");
-	return Commands.buildAll(src, dest);
-}
-
-function publishAll() {
-	console.log("Publishing all content..");
-	let src = path.join(__dirname, "./drafts");
-	let dest = path.join(__dirname, "./published");
-	return Commands.publishAll(src, dest);
-}
-
-function buildOverviewIndex(name, contentDirPath, indexDirPath) {
-	const items = [];
-	const collect = BuildHelper.walkFsAsync(contentDirPath, (f, tasks) => {
-		if (!f.stats.isDirectory()) {
-			let filePath = f.path;
-			let p = fs.readFileAsync(filePath, "utf-8")
-				.then(data => items.push(JSON.parse(data)));
-			tasks.add(p);
-		}
-	});
-
-	const aggregate = function () {
-		let values = _(items)
-			.sortBy(x => x.date)
-			.forEach(x => x.content = x.content.slice(0, 500))
-			.value();
+	static buildIndexes(srcDir, destDir, indexors) {
+		console.log(chalk.cyan("Building indexes.."));
+		return BuildHelper.buildIndexesAsync(srcDir, destDir, indexors);
 	}
-
-	return collect
-		.then(aggregate);
 }
 
-publishAll()
-	.then(() => buildAll());
+function getIndexors() {
+	let indexors = [];
+	const overviewIndexor = (files) => {
+		console.log("overview..");
+		let indexData = L.chain(files)
+			.sortBy(x => x.date)
+			.forEach(x => {
+				if (x.content.length > 700) {
+					x.content = x.content.slice(0, 700)
+				};
+				return x;
+			})
+			.value();
+		return { data: indexData, name: "overview" };
+	};
+
+	indexors.push(overviewIndexor);
+}
+
+function run() {
+	const publishedDir = path.join(__dirname, "./published");
+	const contentDir = path.join(__dirname, "../static/content");
+	const draftsDir = path.join(__dirname, "./drafts");
+	const indexDir = path.join(__dirname, "../static/content/indexes");
+
+	console.log(chalk.green("ContentManager: starting"));	
+	Commands.publishAll(draftsDir, publishedDir)
+		.then(() => Commands.buildAll(publishedDir, contentDir))
+		.then(() => Commands.buildIndexes(contentDir, indexDir, getIndexors()))
+		.then(() => console.log(chalk.green("ContentManager: done")));
+}
+
+run();
