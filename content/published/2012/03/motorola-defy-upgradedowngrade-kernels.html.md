@@ -1,9 +1,11 @@
 # Motorola Defy - Upgrade/Downgrade kernels
 
 <!--[options]
+name: Motorola Defy - Upgrade/Downgrade kernels
 date: 2012-03-18T00:00:00.000Z
 title: null
 url: 2012/03/motorola-defy-upgradedowngrade-kernels.html
+tags: []
 -->
 
 Motorola has a unique way to controlling their phone. They release an update which prevents us from upgrading to newer kernels released for the same phone in different geographic regions. So, after almost bricking my phone, I finally was able to find a way to downgrade my kernel, so that I can upgrade to an even newer version again.

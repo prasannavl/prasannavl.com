@@ -1,9 +1,10 @@
 # MongoDB Session State Provider for ASP.NET
 
 <!--[options]
+name: MongoDB Session State Provider for ASP.NET
 date: 2013-02-22T00:00:00.000Z
-title: null
 url: 2013/02/mongodb-session-state-provider-for.html
+tags: []
 -->
 
 I've been pretty impressed with the recent development of MongoDB, and it seems to me that their one biggest problem of data consistency has now been solved.

@@ -1,9 +1,10 @@
 # Javascript locks
 
 <!--[options]
+name: Javascript locks
 date: 2013-04-27T00:00:00.000Z
-title: null
 url: 2013/04/javascript-locks.html
+tags: []
 -->
 
 > <span style="color: #e06666;">**Note:** This was written when the javascript ecosystem was in a whole different era. This article is here only for historical reasons. **Do not ever do this**, unless you know what you're doing. Also note that this is more of a task library than just for locking - this was a way to solve a particular problem I was facing. That being said, this is almost always a wrong approach for any problem in today's world. :)</span>

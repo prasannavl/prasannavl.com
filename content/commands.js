@@ -4,15 +4,15 @@ import Promise from "bluebird";
 import yaml from "js-yaml";
 import marked from "marked";
 import chalk from "chalk";
+import * as _ from "lodash";
 
 class BuildHelper {
 	static processAllAsync(inputDirPath, outputDirPath, options) {
-		return BuildHelper.walkFsAsync(null, inputDirPath, (f, tasks) => {
+		return BuildHelper.walkFsAsync(inputDirPath, (f, tasks) => {
 			if (!f.stats.isDirectory() && f.path.match(/\.md$/i)) {
 				let filePath = f.path;
-				tasks.addRef();
-				BuildHelper.processAsync(filePath, outputDirPath, options)
-					.then(x => tasks.unref());
+				let p = BuildHelper.processAsync(filePath, outputDirPath, options);
+				tasks.add(p);
 			}
 		});
 	}
@@ -37,16 +37,16 @@ class BuildHelper {
 			});
 	}
 
-	static walkFsAsync(name, inputDirPath, action) {
-		let waiter = new RefCount(1);
+	static walkFsAsync(inputDirPath, action) {
+		let tasks = new RefCount(1);
 		fs.walk(inputDirPath)
 			.on("data", f => {
-				action(f, waiter);
+				action(f, tasks);
 			})
 			.on("end", (files) => {
-				waiter.unref();
+				tasks.removeRef();
 			});
-		return waiter.done;
+		return tasks.done;
 	}
 
 	static finalizeBuildAsync(config, inputFilePath, outputDirPath) {
@@ -78,7 +78,7 @@ class BuildHelper {
 
 	static createBuildConfig(name, data) {		
 		let config = Config.createBuildConfigFrom(Config.parseFromMarkdownString(data));
-		let markdownContent = Config.createContentWithoutConfigFromString(data);		
+		let markdownContent = Config.createBuildContent(config, data);		
 		return Object.assign(config, { content: markdownContent });
 	}
 
@@ -87,20 +87,24 @@ class BuildHelper {
 		let mTokens = marked.lexer(data);
 		let config = Config.parseFromMarkdownTokens(mTokens);
 
-		// extract heading
-		const headingItem = mTokens.find(x => x.type === "heading");
-		const heading = headingItem ? headingItem.text : name;
-
 		// setup config
 		if (!config.date) config.date = new Date(Date.now());
+
+		// extract heading
+		if (!config.name) {
+			const headingItem = mTokens.find(x => x.type === "heading");
+			const heading = headingItem ? headingItem.text : name;
+			config.name = heading;
+		}
 
 		// if url is present use it directly
 		// or, if slug is present, use it to generate url, 
 		// or create slug first with heading.
 		// always ensure there are no two clashing slugs.
+		// Handled: url, slug 
 		if (!config.url) {
 			let slug = config.slug;
-			if (!slug) slug = heading;
+			if (!slug) slug = config.name;
 			slug = sanitizeSlug(slug);
 			// extract date into path
 			// form url yyyy/mm/slug
@@ -147,13 +151,33 @@ const ConfigMode = {
 }
 
 class Config {		
+
+	// WARNING: Exceptional pattern.
+	// Set as undefined instead of null to make sure they
+	// are skipped during the JSON process, and simply the
+	// process instead of a replacer.
 	constructor() {
-		this.date = null;
-		this.title = null;
-		this.url = null;
-		this.content = null;
-		this.slug = null;		
-		this.publish = false;
+		this.name = undefined;
+		this.date = undefined;
+		this.title = undefined;
+		this.url = undefined;
+		this.tags = [];
+		
+		this.slug = undefined;
+		this.publish = undefined;
+
+		this.content = undefined;
+	}
+
+	static createPublishConfigFrom(config) {
+		const o = Object.assign({}, config);
+		o.slug = o.publish = o.content = undefined;
+		return o;
+	}
+
+	static createBuildConfigFrom(config) {
+		const o = Object.assign({}, Config.createPublishConfigFrom(config));
+		return o;
 	}
 
 	static parseFromMarkdownTokens(tokens, matchIndicesArray = []) {
@@ -179,28 +203,16 @@ class Config {
 		return Object.assign(config, yamlOpts);
 	}
 	
-	static createPublishConfigFrom(config) {
-		const o = Object.assign({}, config);
-		o.slug = o.publish = o.content = undefined;
-		return o;
-	}
-
-	static createBuildConfigFrom(config) {
-		const o = Object.assign({}, Config.createPublishConfigFrom(config));
-		Object.keys(o).forEach(x => {
-			if (o[x] === null) o[x] = undefined;
-		});
-		return o;
-	}
-	
 	static createYamlMarkdownCommentFrom(config) {
 		const yamlString = yaml.safeDump(config, { skipInvalid: true });
 		const configText = "<!--[options]\n" + yamlString + "-->";
 		return configText;
 	}
 
-	static createContentWithoutConfigFromString(contentString) {
+	static createBuildContent(config, contentString) {
 		let content = contentString.replace(new RegExp(Config.OptionsRegExpPattern, "gm"), "");
+		content = content.replace(new RegExp(`^\\s*#\\s+${config.name}`), "");
+		content = content.replace(/^[\s\n\r]*/, "");
 		return content;
 	}
 }
@@ -217,9 +229,14 @@ class RefCount {
 		this._current++;
 	}
 
-	unref() {
+	removeRef() {
 		this._current--;
 		if (this._current === 0) this._token.resolve();
+	}
+
+	add(promise) {
+		this.addRef();
+		promise.then(() => this.removeRef());
 	}
 
 	get current() {
@@ -261,6 +278,28 @@ function publishAll() {
 	let src = path.join(__dirname, "./drafts");
 	let dest = path.join(__dirname, "./published");
 	return Commands.publishAll(src, dest);
+}
+
+function buildOverviewIndex(name, contentDirPath, indexDirPath) {
+	const items = [];
+	const collect = BuildHelper.walkFsAsync(contentDirPath, (f, tasks) => {
+		if (!f.stats.isDirectory()) {
+			let filePath = f.path;
+			let p = fs.readFileAsync(filePath, "utf-8")
+				.then(data => items.push(JSON.parse(data)));
+			tasks.add(p);
+		}
+	});
+
+	const aggregate = function () {
+		let values = _(items)
+			.sortBy(x => x.date)
+			.forEach(x => x.content = x.content.slice(0, 500))
+			.value();
+	}
+
+	return collect
+		.then(aggregate);
 }
 
 publishAll()

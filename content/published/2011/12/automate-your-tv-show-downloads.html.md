@@ -1,9 +1,10 @@
 # Automate your TV show downloads
 
 <!--[options]
+name: Automate your TV show downloads
 date: 2011-12-29T00:00:00.000Z
-title: null
 url: 2011/12/automate-your-tv-show-downloads.html
+tags: []
 -->
 
 So, I've become quite a TV show addict lately. I found myself checking websites for new episodes often, and if available, download and add it to my Torrents download list. The same exact process. Should write a short program to do that, I thought. But never happened.

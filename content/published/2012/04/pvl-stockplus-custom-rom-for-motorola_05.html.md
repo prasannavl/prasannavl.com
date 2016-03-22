@@ -1,9 +1,10 @@
 # PVL-StockPlus - Custom ROM for Motorola Defy Plus
 
 <!--[options]
+name: PVL-StockPlus - Custom ROM for Motorola Defy Plus
 date: 2012-04-05T00:00:00.000Z
-title: null
 url: 2012/04/pvl-stockplus-custom-rom-for-motorola_05.html
+tags: []
 -->
 
 So, after staying at CM for a long time, I came across the recent release of Motorola's ROM. And I must admit, for the first time, I was quite impressed. It was snappy, fast and stable. So, I guess I came to a point where I wanted everything to just work instead of hovering around nightlies, making this stock version a perfect base to rectify Motorola's shortcomings, like the God-awful transitions, the complex and ugly loading icon, and well, root, busybox, memory optimizations and all the other performance goodies. I'm a fan of keeping things simple and elegant, rather than complicating things unnecessarily. And I thought, I would share it this time, for those who prefer to use a stable stock version but will all the goodies. So, here : PVL-StockPlus.
