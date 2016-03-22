@@ -8,6 +8,8 @@ import * as L from "lodash";
 
 class BuildHelper {
 	static processAllAsync(inputDirPath, outputDirPath, options) {
+		if (!fs.existsSync(inputDirPath)) return Promise.resolve();
+		
 		return BuildHelper.walkFsAsync(inputDirPath, (f, tasks) => {
 			if (!f.stats.isDirectory() && f.path.match(/\.md$/i)) {
 				let filePath = f.path;
@@ -18,7 +20,10 @@ class BuildHelper {
 	}
 
 	static processAsync(inputFile, outputDir, options) {
-		// TODO: forced/non-forced implementation: only write if fs timestamps are outdated. 		
+		// TODO: forced/non-forced implementation: only write if fs timestamps are outdated. 	
+
+		if (!fs.existsSync(inputFile)) return Promise.resolve();
+		
 		const { mode, force } = options;
 		const isBuildMode = mode === ConfigMode.Build;
 
