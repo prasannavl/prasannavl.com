@@ -334,6 +334,7 @@ function getIndexors() {
 	};
 
 	indexors.push(overviewIndexor);
+	return indexors;
 }
 
 function run() {
