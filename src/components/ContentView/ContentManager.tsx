@@ -1,7 +1,6 @@
 import * as React from "react";
 import { LoremSegment } from "../fragments/Lorem";
 import { BaseFactory, Base } from "../Base";
-import * as _ from "lodash";
 import Link from "../fragments/Link";
 
 export class ContentManager {
@@ -22,6 +21,6 @@ export class ContentManager {
     }
 
     getRawContent(path: string) {
-
+        
     }
 }

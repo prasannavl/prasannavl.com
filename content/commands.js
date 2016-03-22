@@ -7,6 +7,7 @@ import chalk from "chalk";
 
 class BuildHelper {
 	static processAll(inputDirPath, outputDirPath, options) {
+		// TODO: forced/non-forced implementation: only write if fs timestamps are outdated. 
 		const { mode, force } = options;
 		const isBuildMode = mode === ConfigMode.Build;
 		let taskWaiter = {
@@ -218,11 +219,11 @@ class Commands {
 	}
 
 	static build(src, dest, force = false) {
-		
+		// TODO
 	}
 
 	static publish(src, dest, force = false) {
-		
+		// TODO
 	}
 
 	static publishAll(srcDir, destDir, force = false) {
