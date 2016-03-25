@@ -4,8 +4,7 @@ import Promise from "bluebird";
 import yaml from "js-yaml";
 import marked from "marked";
 import chalk from "chalk";
-import * as L from "lodash";
-import util from "util";
+import * as _ from "lodash";
 
 class BuildHelper {
 	static processAllAsync(inputDirPath, outputDirPath, options) {
@@ -165,7 +164,7 @@ class BuildHelper {
 
 		return collectFileDataItems(contentDirPath)
 			.then((fileDataItems) =>
-				L.chain(indexers)
+				_.chain(indexers)
 					.map(indexer => indexer(fileDataItems))
 					.flatten()
 					.value())
@@ -326,40 +325,46 @@ class Commands {
 function getIndexers() {
 	const overviewIndexer = (fileDataItems) => {
 		console.log("overview..");
-		let indexData = 
-			fileDataItems.concat()
-			.sort((a, b) => a.date - b.date);
 
-		indexData = indexData	
+		let indexData = _.chain(fileDataItems)
+			.sortBy(x => new Date(x.date))
+			.reverse()
+			.take(10)
 			.map(x => {
 				if (x.content.length > 700) {
-					x.content = x.content.slice(0, 700)
+					return Object.assign({}, x, { content: x.content.slice(0, 700) });
 				};
 				return x;
-			});
+			})
+			.value();		
 		
 		return { data: indexData, name: "overview" };
 	};
 
 	const archivesIndexer = (fileDataItems) => {
 		console.log("archives..");
-		
-		let indexData = fileDataItems
-			.concat()
-			.sort((a, b) => a.date - b.date);
 
-		indexData = indexData		
-			.map(x => {
-				if (x.content.length > 700) {
-					x.content = x.content.slice(0, 700)
-				};
-				return x;
-			});
+		let indexData = _.chain(fileDataItems)
+			.sortBy(x => new Date(x.date))
+			.map(x => _.omit(x, "content"))
+			.groupBy(x => new Date(x.date).getFullYear())
+			.value();
 		
 		return { data: indexData, name: "archives" };
 	};
+
+	const allIndexer = (fileDataItems) => {
+		console.log("all..");
+
+		let indexData = _.chain(fileDataItems)
+			.sortBy(x => new Date(x.date))
+			.reverse()
+			.value();
+		
+		return { data: indexData, name: "all" };
+	};
 	
-	let indexers = [overviewIndexer, archivesIndexer];
+	let indexers = [overviewIndexer, archivesIndexer, allIndexer];
 	return indexers;
 }
 
