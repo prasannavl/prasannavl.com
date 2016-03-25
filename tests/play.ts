@@ -1,6 +1,6 @@
 import * as test from "tape";
 
-test("playground", function(t) {
+test("playground", t => {
 	t.plan(1);
 	t.pass();
 });

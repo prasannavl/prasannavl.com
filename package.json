@@ -25,6 +25,7 @@
     "start-static:p": "npm run build-static:p && npm run serve:p",
     "displace-sourcemaps": "./node_modules/.bin/babel-node ./tools/displaceSourceMaps.js",
     "test-play": "./node_modules/.bin/babel-node ./node_modules/tape/bin/tape -r \"ts-node/register\" ./tests/play.ts",
+    "test-file": "./node_modules/.bin/babel-node ./node_modules/tape/bin/tape -r \"ts-node/register\"",
     "test": "./node_modules/.bin/babel-node ./node_modules/tape/bin/tape -r \"ts-node/register\" ./tests/**/*"
   },
   "author": "Prasanna V. Loganathar",
@@ -52,6 +53,7 @@
     "compression": "^1.6.1",
     "copy-dir": "0.0.8",
     "css-loader": "^0.23.1",
+    "deasync": "^0.1.4",
     "eslint": "^2.0.0",
     "eslint-plugin-babel": "^3.1.0",
     "eslint-plugin-import": "^1.1.0",

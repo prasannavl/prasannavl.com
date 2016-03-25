@@ -5,6 +5,7 @@ import yaml from "js-yaml";
 import marked from "marked";
 import chalk from "chalk";
 import * as L from "lodash";
+import util from "util";
 
 class BuildHelper {
 	static processAllAsync(inputDirPath, outputDirPath, options) {
@@ -137,18 +138,18 @@ class BuildHelper {
 		return Object.assign(config, { content: markdownContent });
 	}
 
-	static buildIndexesAsync(contentDirPath, indexDirPath, indexors) {
-		const collectFiles = (contentDirPath) => {
-			const files = [];
+	static buildIndexesAsync(contentDirPath, indexDirPath, indexers) {
+		const collectFileDataItems = (contentDirPath) => {
+			let fileDataItems = [];
 			const collector = BuildHelper.walkFsAsync(contentDirPath, (f, tasks) => {
-				if (!f.stats.isDirectory()) {
+				if (!f.stats.isDirectory() &&! f.path.startsWith(indexDirPath)) {
 					let filePath = f.path;
 					let p = fs.readFileAsync(filePath, "utf-8")
-						.then(data => files.push(JSON.parse(data)));
+						.then(data => fileDataItems.push(JSON.parse(data)));
 					tasks.add(p);
 				}
 			});
-			return collector.then(() => files);
+			return collector.then(() => fileDataItems);
 		}
 
 		const finalizeIndex = (indexDirPath, indexDescriptors) => {
@@ -162,10 +163,10 @@ class BuildHelper {
 			return Promise.all(p);
 		}
 
-		return collectFiles(contentDirPath)
-			.then((files) =>
-				L.chain(indexors)
-					.map(x => x(files))
+		return collectFileDataItems(contentDirPath)
+			.then((fileDataItems) =>
+				L.chain(indexers)
+					.map(indexer => indexer(fileDataItems))
 					.flatten()
 					.value())
 			.then((desc) => finalizeIndex(indexDirPath, desc));
@@ -316,30 +317,50 @@ class Commands {
 		return BuildHelper.processAllAsync(srcDir, destDir, { mode: ConfigMode.Publish, force });
 	}
 
-	static buildIndexes(srcDir, destDir, indexors) {
+	static buildIndexes(srcDir, destDir, indexers) {
 		console.log(chalk.cyan("Building indexes.."));
-		return BuildHelper.buildIndexesAsync(srcDir, destDir, indexors);
+		return BuildHelper.buildIndexesAsync(srcDir, destDir, indexers);
 	}
 }
 
-function getIndexors() {
-	let indexors = [];
-	const overviewIndexor = (files) => {
+function getIndexers() {
+	const overviewIndexer = (fileDataItems) => {
 		console.log("overview..");
-		let indexData = L.chain(files)
-			.sortBy(x => x.date)
-			.forEach(x => {
+		let indexData = 
+			fileDataItems.concat()
+			.sort((a, b) => a.date - b.date);
+
+		indexData = indexData	
+			.map(x => {
 				if (x.content.length > 700) {
 					x.content = x.content.slice(0, 700)
 				};
 				return x;
-			})
-			.value();
+			});
+		
 		return { data: indexData, name: "overview" };
 	};
 
-	indexors.push(overviewIndexor);
-	return indexors;
+	const archivesIndexer = (fileDataItems) => {
+		console.log("archives..");
+		
+		let indexData = fileDataItems
+			.concat()
+			.sort((a, b) => a.date - b.date);
+
+		indexData = indexData		
+			.map(x => {
+				if (x.content.length > 700) {
+					x.content = x.content.slice(0, 700)
+				};
+				return x;
+			});
+		
+		return { data: indexData, name: "archives" };
+	};
+	
+	let indexers = [overviewIndexer, archivesIndexer];
+	return indexers;
 }
 
 function run() {
@@ -351,7 +372,7 @@ function run() {
 	console.log(chalk.green("ContentManager: starting"));	
 	Commands.publishAll(draftsDir, publishedDir)
 		.then(() => Commands.buildAll(publishedDir, contentDir))
-		.then(() => Commands.buildIndexes(contentDir, indexDir, getIndexors()))
+		.then(() => Commands.buildIndexes(contentDir, indexDir, getIndexers()))
 		.then(() => console.log(chalk.green("ContentManager: done")));
 }
 

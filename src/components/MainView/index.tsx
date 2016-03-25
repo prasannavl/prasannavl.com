@@ -6,8 +6,8 @@ import createStyled from "../../modules/core/createStyled";
 let style = require("./style.scss") as any;
 
 class MainView extends React.Component<any, any> {
-    renderNormalView() {
-         const view = (
+    render() {
+        const view = (
             <div className={style.root}>
                 <Sidebar />
                 <ContentView />
@@ -15,10 +15,6 @@ class MainView extends React.Component<any, any> {
             </div>
         );
         return view;
-    }
-
-    render() {
-        return this.renderNormalView();
     }
 }
 
