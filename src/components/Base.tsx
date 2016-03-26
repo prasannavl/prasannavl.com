@@ -109,7 +109,7 @@ export class BaseFactory {
     static create<P>(component: JSX.Element, options: BaseFactoryOptions) {
         const title = options.title;
         let opts = {
-            performTitleSet: title !== undefined && title !== null,
+            performTitleSet: title != null,
             performTitleReset: options.resetTitle ? true : false,
         };
 

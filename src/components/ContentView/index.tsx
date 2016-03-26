@@ -6,29 +6,31 @@ import { BaseWithHistoryContext } from "../Base";
 import Link from "../fragments/Link";
 import { IHistoryContext } from "history-next";
 import { ContentManager } from "./ContentManager";
+import * as Promise from "bluebird";
+import { LoadingView } from "./LoadingView";
 
 let style = require("./style.scss") as any;
 
 class ContentView extends BaseWithHistoryContext<any, any> {
+
     private _contentManager: ContentManager = new ContentManager();
 
     componentWillMount() {
         super.componentWillMount();
         this.setup(this.context.historyContext);
+        this.setState({ component: React.createElement(LoadingView) });
+        this._contentManager.contentStream
+            .subscribe(component => {
+                this.setState({ component });
+            });
     }
 
     componentWillUnmount() {
         super.componentWillUnmount();
     }
 
-    getComponent(pathname: string) {
-        return this._contentManager.getContentComponent(pathname);
-    }
-
     setup(context: IHistoryContext) {
-         this.setState({
-            component: this.getComponent(context.pathname)
-        });
+        this._contentManager.resolvePath(context.pathname);
     }
 
     onHistoryChange(context: IHistoryContext) {

@@ -3,36 +3,48 @@ import { LoremSegment } from "../fragments/Lorem";
 import { BaseFactory, Base } from "../Base";
 import Link from "../fragments/Link";
 import * as request from "superagent";
-import * as Promise from "bluebird";
+import * as marked from "marked";
+import * as Rx from "rxjs";
 
 export class ContentManager {
 
-    getContentComponent(pathname: string): any {
+    contentStream = new Rx.Subject();
+
+    resolvePath(pathname: string) {
         if (pathname === "overview") {
-            return BaseFactory.createElement(React.createElement(LoremSegment, { count: 3 }), { title: "Overview" });
+            this.getContentAsync("/content/indexes/overview.json")
+                .then(data => {
+                    let comp = BaseFactory.createElement(<div dangerouslySetInnerHTML={{ __html: JSON.stringify(data, null, 2) }}></div>, { title: "Overview" });
+                    this.contentStream.next(comp);
+                });
+        } else if (pathname === "archives") {
+            this.getContentAsync("/content/indexes/archives.json")
+                .then(data => {
+                    let comp = BaseFactory.createElement(<div dangerouslySetInnerHTML={{ __html: JSON.stringify(data, null, 2) }}></div>, { title: "Overview" });
+                    this.contentStream.next(comp);
+                });
         }
         const contentRegex = /(\d{4})\/(.*)/i;
         const match = contentRegex.exec(pathname);
         if (match) {
             const c = <div>{match[1]} - {match[2]}</div>;
-            return BaseFactory.createElement(c, { title: "Matchyman" });
+            let comp = BaseFactory.createElement(c, { title: "Matchyman" });
+            this.contentStream.next(comp);
         }
         else {
             const c = <div>Oops.Nothing here.</div>;
-            return BaseFactory.createElement(c, { title: "Not found" });
+            let comp = BaseFactory.createElement(c, { title: "Not found" });
+            this.contentStream.next(comp);
         }
     }
 
-    getRawContentAsync(path: string) {
-        let p = Promise.defer();
-        if (__DOM__) {
+    getContentAsync(path: string) {
+        return new Promise((resolve, reject) => {
             request.get(path)
                 .end((err, res) => {
-                    if (err) p.reject(err);
-                    else p.resolve(res);
+                    if (err) reject(err);
+                    else resolve(res.body);
                 });
-        } else {
-            
-        }
+        });
     }
 }

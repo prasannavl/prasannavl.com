@@ -1,6 +1,6 @@
 import * as fs from "fs-extra-promise";
 import path from "path";
-import Promise from "bluebird";
+import bluebird from "bluebird";
 import yaml from "js-yaml";
 import marked from "marked";
 import chalk from "chalk";
@@ -159,7 +159,7 @@ class BuildHelper {
 					.then(() =>
 						fs.writeFileAsync(filePath, data, { flag: "w+", encoding: "utf-8" }));
 			});
-			return Promise.all(p);
+			return bluebird.all(p);
 		}
 
 		return collectFileDataItems(contentDirPath)
@@ -260,10 +260,10 @@ class Config {
 Config.OptionsRegExpPattern = /^<!--\[options\]\s*\n([\s\S]*)?\n\s*-->/.source;
 
 class RefCount {
-	constructor(startRefNumber, resolver) {
-		this._token = Promise.defer();
+	constructor(startRefNumber) {
+		this._resolve = null;
+		this._promise = new Promise(resolve => this._resolve = resolve);
 		this._current = startRefNumber || 0;
-		this._resolver = resolver || ((token) => token.resolve());
 	}
 
 	addRef() {
@@ -273,7 +273,7 @@ class RefCount {
 	removeRef() {
 		this._current--;
 		if (this._current === 0) {
-			this._resolver && this._resolver(this._token);
+			this._resolve && this._resolve();
 		}
 	}
 
@@ -282,16 +282,12 @@ class RefCount {
 		promise.then(() => this.removeRef());
 	}
 
-	setResolver(resolver) {
-		this._resolver = resolver;
-	}
-
 	get current() {
 		return this._current;
 	}
 
 	get done() {
-		return this._token.promise;
+		return this._promise;
 	}
 }
 

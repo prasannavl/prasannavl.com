@@ -2,6 +2,7 @@ import webpack from "webpack";
 import utils from "./utils";
 import webpackUtils from "./webpackUtils";
 import configConstants from "../configConstants";
+import path from "path";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 
 export function create(options) {
@@ -58,6 +59,7 @@ export function create(options) {
             extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".ts", ".tsx"]
         },
         resolveLoader: {
+            root: path.join(__dirname, "../node_modules"),
             alias: {
                 "style": resolve("./tools/loaders/style/loader.js"),
                 "log": resolve("./tools/loaders/log.js"),

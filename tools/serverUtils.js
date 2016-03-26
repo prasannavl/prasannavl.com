@@ -91,13 +91,11 @@ export function getServerHtmlConfig(webpackConfig) {
 }
 
 export function getContextManagerFactory(webpackConfig) {
-    const task = Promise.defer();
-    webpackRequire(webpackConfig, require.resolve("../src/modules/core/ContextManager.ts"), (err, factory) => {
-        if (err) { task.reject(err); return; }
-        try {
+    return new Promise((resolve, reject) => {
+        webpackRequire(webpackConfig, require.resolve("../src/modules/core/ContextManager.ts"), (err, factory) => {
+            if (err) { reject(err); return; }
             const cmFactory = factory().ContextManagerFactory;
-            task.resolve(cmFactory);
-        } catch (err) { task.reject(err); }
+            resolve(cmFactory);
+        });
     });
-    return task.promise;
 }
