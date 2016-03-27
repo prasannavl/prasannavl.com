@@ -4,7 +4,6 @@ import { BaseFactory, Base } from "../Base";
 import Link from "../fragments/Link";
 import * as request from "superagent";
 import * as marked from "marked";
-import * as Rx from "rxjs";
 import { EventEmitter } from "events";
 import * as path from "path";
 

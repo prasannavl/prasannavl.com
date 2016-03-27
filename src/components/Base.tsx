@@ -1,15 +1,10 @@
 import * as React from "react";
 import { IAppContext } from "../modules/core/AppContext";
 import shallowCompare from "react-addons-shallow-compare";
-import * as Rx from "rxjs";
 import { IHistoryContext, HistoryContext } from "history-next";
 
 const PropTypes = React.PropTypes;
 export class Base<P, S> extends React.Component<P, S> {
-
-    context: IAppContext;
-    subscriptions: Rx.Subscription[] = [];
-
     static contextTypes: React.ValidationMap<IAppContext> = {
         historyContext: PropTypes.any,
         services: PropTypes.any,
@@ -17,19 +12,11 @@ export class Base<P, S> extends React.Component<P, S> {
         rendererState: PropTypes.any,
     };
 
-    addDisposable(subscription: Rx.Subscription) {
-        this.subscriptions.push(subscription);
-    }
-
-    removeDisposable(subscription: Rx.Subscription) {
-        this.subscriptions.splice(this.subscriptions.indexOf(subscription), 1);
-    }
+    context: IAppContext;
 
     componentWillMount() { }
 
-    componentWillUnmount() {
-        this.subscriptions.forEach(x => x.unsubscribe());
-    }
+    componentWillUnmount() { }
 
     getServices() {
         return this.context.services;
