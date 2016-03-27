@@ -13,24 +13,37 @@ let style = require("./style.scss") as any;
 
 class ContentView extends BaseWithHistoryContext<any, any> {
 
-    private _contentManager: ContentManager = new ContentManager();
+    private _contentManager = new ContentManager();
+    private _contentListener = (component: any) => {
+            this.setState({ component });
+        };
 
     componentWillMount() {
         super.componentWillMount();
         this.setup(this.context.historyContext);
-        this.setState({ component: React.createElement(LoadingView) });
-        this._contentManager.contentStream
-            .subscribe(component => {
-                this.setState({ component });
-            });
+        this.setState({ component: this.getInitialComponent() });
+    }
+
+    componentDidMount() {
+        this._contentManager.addListener(ContentManager.contentEventName, this._contentListener);
     }
 
     componentWillUnmount() {
+        this._contentManager.removeListener(ContentManager.contentEventName, this._contentListener);
         super.componentWillUnmount();
     }
 
+    getInitialComponent() {
+        if (__DOM__) {
+            return React.createElement(LoadingView);
+        } else {
+            return this._contentManager.loadPathSync(this.context.historyContext.pathname);
+        }
+    }
+
     setup(context: IHistoryContext) {
-        this._contentManager.resolvePath(context.pathname);
+        if (__DOM__)
+            this._contentManager.loadPath(context.pathname);
     }
 
     onHistoryChange(context: IHistoryContext) {

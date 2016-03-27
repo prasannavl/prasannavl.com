@@ -17,6 +17,7 @@ export function createAppHandlerAsync(webpackConfig) {
     let htmlConfig = getServerHtmlConfig(webpackConfig);
     return getContextManagerFactory(webpackConfig)
         .then(contextManagerFactory => { 
+            console.log("compilation done");
             let appRenderer = new AppRenderer(contextManagerFactory, htmlConfig);
             return appRenderer.run.bind(appRenderer);
         });
@@ -46,6 +47,11 @@ export function createServer(rootPath, indexPath, handler = null, log = false) {
     function useStaticFile(req, res) {
         res.sendFile(path.join(rootPath, indexPath));
     }
+}
+
+export function createStaticServerAsync(webpackConfig, log = false) {
+    let { rootPath, indexPath } = getServerConfig(webpackConfig);
+    return Promise.resolve(createServer(rootPath, indexPath, null, log));
 }
 
 export function createAppServerAsync(webpackConfig, log = false) {

@@ -13,7 +13,9 @@ import { getServerListenerFactoryAsync } from "./server";
 function runServerAsync(log = false) {
     return getServerListenerFactoryAsync(log)
         .then(runAppServer => runAppServer({ shouldOpen: false }))
-        .catch(err => console.log(err.toString().replace("\\n", "\n")));
+        .catch(err => {
+            console.log(chalk.red(err.toString().replace("\\n", "\n")));
+        });
 }
 
 console.log("Generating pages..");
@@ -46,8 +48,12 @@ if (routes.length > 0) {
     }
 
     runServerAsync().then(() => {
+        console.log("server ready");
         generate(firstRequest, (err) => {
-            if (!(err === undefined || err === null) || routes.length === 1) { endListen(); return; }
+            if (!(err === undefined || err === null) || routes.length === 1) {
+                endListen();
+                return;
+            }
             routes.forEach(x => {
                 if (x != firstRequest) {
                     startOne();

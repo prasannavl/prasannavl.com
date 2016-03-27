@@ -6,8 +6,14 @@ import rendererUtils from "./rendererUtils";
 export default class AppRenderer {
 
     constructor(contextManagerFactory, htmlConfig) {
-        this.htmlConfig = htmlConfig;
-        this.contextManager = contextManagerFactory.create();
+        try {
+           this.htmlConfig = htmlConfig;
+        this.contextManager = contextManagerFactory.create();         
+        } catch (err) {
+            console.log(err);
+            console.log(err.stack);
+        }
+
     }
 
     run(req, res) {

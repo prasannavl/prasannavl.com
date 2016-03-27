@@ -5,37 +5,65 @@ import Link from "../fragments/Link";
 import * as request from "superagent";
 import * as marked from "marked";
 import * as Rx from "rxjs";
+import { EventEmitter } from "events";
+import * as path from "path";
 
-export class ContentManager {
+export class ContentManager extends EventEmitter {
+    static contentEventName = "content";
 
-    contentStream = new Rx.Subject();
-
-    resolvePath(pathname: string) {
+    resolveContent(pathname: string) {
         if (pathname === "overview") {
-            this.getContentAsync("/content/indexes/overview.json")
-                .then(data => {
-                    let comp = BaseFactory.createElement(<div dangerouslySetInnerHTML={{ __html: JSON.stringify(data, null, 2) }}></div>, { title: "Overview" });
-                    this.contentStream.next(comp);
-                });
-        } else if (pathname === "archives") {
-            this.getContentAsync("/content/indexes/archives.json")
-                .then(data => {
-                    let comp = BaseFactory.createElement(<div dangerouslySetInnerHTML={{ __html: JSON.stringify(data, null, 2) }}></div>, { title: "Overview" });
-                    this.contentStream.next(comp);
-                });
+            return {
+                path: "/content/indexes/overview.json",
+                factory: (data: any) =>
+                    BaseFactory.createElement(
+                        <div dangerouslySetInnerHTML={{ __html: JSON.stringify(data, null, 2) }}></div>,
+                        { title: "Overview" })
+            };
+        }
+        else if (pathname === "archives") {
+            return {
+                path: "/content/indexes/archives.json",
+                factory: (data: any) =>
+                    BaseFactory.createElement(
+                        <div dangerouslySetInnerHTML={{ __html: JSON.stringify(data, null, 2) }}></div>,
+                        { title: "Archives" })
+            }
         }
         const contentRegex = /(\d{4})\/(.*)/i;
         const match = contentRegex.exec(pathname);
         if (match) {
             const c = <div>{match[1]} - {match[2]}</div>;
             let comp = BaseFactory.createElement(c, { title: "Matchyman" });
-            this.contentStream.next(comp);
+            return { path: null, factory: () => comp };
         }
         else {
             const c = <div>Oops.Nothing here.</div>;
             let comp = BaseFactory.createElement(c, { title: "Not found" });
-            this.contentStream.next(comp);
+            return { path: null, factory: () => comp };
         }
+    }
+
+    loadPath(pathname: string) {
+        let resolved = this.resolveContent(pathname);
+        if (resolved.path !== null) {
+            this.getContentAsync(resolved.path)
+                .then(x => this.emit(ContentManager.contentEventName, resolved.factory(x)));
+        } else {
+            this.emit(ContentManager.contentEventName, resolved.factory(null));
+        }
+    }
+
+    loadPathSync(pathname: string) {
+        if (!__DOM__) {
+            let resolved = this.resolveContent(pathname);
+            let content = null as any;
+            if (resolved.path !== null) {
+                content = require("../../../static" + resolved.path);
+            }
+            return resolved.factory(content);
+        }
+        return null;
     }
 
     getContentAsync(path: string) {
