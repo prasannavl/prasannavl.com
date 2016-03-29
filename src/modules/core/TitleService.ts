@@ -29,7 +29,6 @@ export class TitleService implements ITitleService {
     }
 
     setOnEmpty(value: string) {
-        if (value === undefined) value = null;
         this._titleOnEmpty = value;
     }
 
@@ -38,7 +37,7 @@ export class TitleService implements ITitleService {
     }
 
     reset() {
-        if (this._titleOnEmpty !== null && this._titleOnEmpty !== undefined) {
+        if (this._titleOnEmpty != null) {
             this._target.set(this._titleOnEmpty);
         } else {
             this.set("");
@@ -59,7 +58,7 @@ export class TitleService implements ITitleService {
 export function configureTitle(service: ITitleService, options: DataModules.ITitleServiceData) {
     const { title, titleTemplate, titleOnEmpty } = options;
 
-    if (titleTemplate !== null && titleTemplate !== undefined) service.setTemplate(titleTemplate);
-    if (titleOnEmpty !== null && titleOnEmpty !== undefined) service.setOnEmpty(titleOnEmpty);
-    if (title !== null && title !== undefined) service.set(title);
+    if (titleTemplate != null) service.setTemplate(titleTemplate);
+    if (titleOnEmpty != null) service.setOnEmpty(titleOnEmpty);
+    if (title != null) service.set(title);
 }

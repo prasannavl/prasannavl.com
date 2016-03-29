@@ -7,6 +7,12 @@ import * as marked from "marked";
 import { EventEmitter } from "events";
 import * as path from "path";
 
+/*
+TODO:
+- Matched data
+- static render direct data.
+- cache data
+*/
 export class ContentManager extends EventEmitter {
     static contentEventName = "content";
 

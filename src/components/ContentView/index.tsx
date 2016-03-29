@@ -42,8 +42,9 @@ class ContentView extends BaseWithHistoryContext<any, any> {
     }
 
     setup(context: IHistoryContext) {
-        if (__DOM__)
+        if (__DOM__) {
             this._contentManager.loadPath(context.pathname);
+        }
     }
 
     onHistoryChange(context: IHistoryContext) {
