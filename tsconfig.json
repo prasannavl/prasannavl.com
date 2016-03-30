@@ -4,6 +4,7 @@
         "jsx": "react",
         "target": "es2015",
         "outDir": "./artifacts/",
+        "allowSyntheticDefaultImports": true,
         "noImplicitAny": true,
         "noImplicitReturns": true
     },

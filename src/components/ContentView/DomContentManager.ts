@@ -1,4 +1,4 @@
-import * as request from "superagent";
+import request from "superagent";
 import { EventEmitter } from "events";
 import { IStorage } from "../../modules/storage/Storage";
 import { ContentResolver } from "./ContentResolver";

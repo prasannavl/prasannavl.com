@@ -328,8 +328,8 @@ function getIndexers() {
 			.take(10)
 			.map(x => {
 				if (x.content.length > 700) {
-					return Object.assign({}, x, { content: x.content.slice(0, 700) });
-				};
+					return Object.assign({}, x, { content: x.content.slice(0, 1000) });
+				}
 				return x;
 			})
 			.value();		

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import createStyled from "../../modules/core/createStyled";
 import { BaseWithHistoryContext } from "../Base";
 import { IHistoryContext } from "history-next";

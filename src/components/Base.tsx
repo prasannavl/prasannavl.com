@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { IAppContext } from "../modules/core/AppContext";
 import shallowCompare from "react-addons-shallow-compare";
 import { IHistoryContext, HistoryContext } from "history-next";
@@ -22,7 +22,7 @@ export class Base<P, S> extends React.Component<P, S> {
         return this.context.services;
     }
 
-    navigateTo(path: string, replaceCurrent: boolean = false, ev: React.SyntheticEvent = null) {
+    navigateTo(path: string, replaceCurrent: boolean = false, ev: React.SyntheticEvent | UIEvent = null) {
         if (ev !== null) {
             ev.preventDefault();
         }

@@ -1,4 +1,4 @@
-import * as test from "tape";
+import test from "tape";
 
 test("playground", t => {
 	t.plan(1);

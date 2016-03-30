@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Base } from "../Base";
 import { cleanPathNameSlashses } from "history-next/lib/utils"
 

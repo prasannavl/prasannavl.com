@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { StatelessBase } from "../Base";
 
 export default class Header extends StatelessBase<any> {

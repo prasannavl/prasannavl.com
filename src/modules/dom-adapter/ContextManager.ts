@@ -1,7 +1,7 @@
 import { IContextManager } from "../core/ContextManager";
 import { IAppContext, AppContextFactory } from "../core/AppContext";
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 import { configureTitle } from "../core/TitleService";
 import { IDomRendererState } from "../core/RendererState";
 

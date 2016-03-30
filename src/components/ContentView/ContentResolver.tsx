@@ -1,16 +1,14 @@
-import * as React from "react";
+import React from "react";
 import { LoremSegment } from "../fragments/Lorem";
 import { BaseFactory, Base } from "../Base";
+import { Overview } from "./fragments/Overview";
 
 export class ContentResolver {
     resolve(pathname: string) {
         if (pathname === "overview") {
             return {
                 path: "/content/indexes/overview.json",
-                factory: (data: any) =>
-                    BaseFactory.createElement(
-                        <div dangerouslySetInnerHTML={{ __html: JSON.stringify(data, null, 2) }}></div>,
-                        { title: "Overview" })
+                factory: (data: any) => <Overview data={data}/>
             };
         }
         else if (pathname === "archives") {
@@ -22,12 +20,16 @@ export class ContentResolver {
                         { title: "Archives" })
             };
         }
-        const contentRegex = /(\d{4})\/(.*)/i;
+        const contentRegex = /((\d{4})\/(.*))/i;
         const match = contentRegex.exec(pathname);
         if (match) {
-            const c = <div>{match[1]} - {match[2]}</div>;
-            let comp = BaseFactory.createElement(c, { title: "Matchyman" });
-            return { path: null, factory: () => comp };
+            return {
+                path: "/content/" + match[0] + ".json",
+                factory: (data: any) =>
+                    BaseFactory.createElement(
+                        <div dangerouslySetInnerHTML={{ __html: JSON.stringify(data, null, 2) }}></div>,
+                        { title: data.title })
+            };
         }
         else {
             const c = <div>Oops.Nothing here.</div>;

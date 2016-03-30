@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 function Html(options) {
     const { title, description, css, js, content, inlineCss, inlineScripts, canonical } = options;
