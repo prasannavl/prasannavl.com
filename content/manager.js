@@ -318,6 +318,23 @@ class Commands {
 	}
 }
 
+function stripStaticPattern(content, pattern) {
+	let regex = new RegExp(pattern, "g");
+	let match = regex.exec(content);
+	let open = 0;
+	let openToggle = true;
+	while (match != null) {
+		if (openToggle) open++; else open--;
+		openToggle = !openToggle;
+		match = regex.exec(content);
+	}
+	while (open > 0) {
+		content = content.slice(0, content.lastIndexOf(pattern));
+		open--;
+	}
+	return content;
+}
+
 function getIndexers() {
 	const overviewIndexer = (fileDataItems) => {
 		console.log("overview..");
@@ -327,12 +344,17 @@ function getIndexers() {
 			.reverse()
 			.take(10)
 			.map(x => {
-				if (x.content.length > 700) {
-					return Object.assign({}, x, { content: x.content.slice(0, 1000) });
+				if (x.content.length > 1000) {
+					let content = x.content.slice(0, 1000);
+					// TODO: Use better excerpt generation.
+					// WARNING: Could cut out links.
+					content = stripStaticPattern(content, "```");
+					content = content.replace(/\s+$/, "");
+					return Object.assign({}, x, { content: content + " ..." });
 				}
 				return x;
 			})
-			.value();		
+			.value();
 		
 		return { data: indexData, name: "overview" };
 	};

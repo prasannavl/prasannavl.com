@@ -1,7 +1,7 @@
 import React from "react";
 import { LoremSegment } from "../fragments/Lorem";
 import { BaseFactory, Base } from "../Base";
-import { Overview } from "./fragments/Overview";
+import { Overview, Archives, Article } from "./fragments/CoreViews";
 
 export class ContentResolver {
     resolve(pathname: string) {
@@ -14,10 +14,7 @@ export class ContentResolver {
         else if (pathname === "archives") {
             return {
                 path: "/content/indexes/archives.json",
-                factory: (data: any) =>
-                    BaseFactory.createElement(
-                        <div dangerouslySetInnerHTML={{ __html: JSON.stringify(data, null, 2) }}></div>,
-                        { title: "Archives" })
+                factory: (data: any) => <Archives data={data}/>
             };
         }
         const contentRegex = /((\d{4})\/(.*))/i;
@@ -25,16 +22,17 @@ export class ContentResolver {
         if (match) {
             return {
                 path: "/content/" + match[0] + ".json",
-                factory: (data: any) =>
-                    BaseFactory.createElement(
-                        <div dangerouslySetInnerHTML={{ __html: JSON.stringify(data, null, 2) }}></div>,
-                        { title: data.title })
+                factory: (data: any) => <Article data={data}/>
             };
         }
         else {
-            const c = <div>Oops.Nothing here.</div>;
-            let comp = BaseFactory.createElement(c, { title: "Not found" });
-            return { path: null, factory: () => comp };
+            return this.createNotFoundResolution();
         }
+    }
+
+    createNotFoundResolution() {
+        const c = <div>Oops.Nothing here.</div>;
+        let comp = BaseFactory.createElement(c, { title: "Not found" });
+        return { path: null as string, factory: () => comp };
     }
 }

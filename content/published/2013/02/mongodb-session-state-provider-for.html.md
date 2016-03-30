@@ -16,14 +16,14 @@ So, here's a session provider for ASP.NET.
 **Installation:**
 > PM> Install-Package PVL.MongoSessionProvider
 
-**NuGet Pacakge Link:** [https://nuget.org/packages/PVL.MongoSessionProvider/](https://nuget.org/packages/PVL.MongoSessionProvider/)
+**NuGet Pacakge Link:** [https://nuget.org/packages/PVL.MongoSessionProvider/](https://nuget.org/packages/PVL.MongoSessionProvider/)<br/>
 **Code:** [https://github.com/prasannavl/MongoSessionProvider](https://github.com/prasannavl/MongoSessionProvider)
 
 **Example session document:**
 
 ```js
-> use SessionState;
-> db.Sessions.find().pretty();
+use SessionState;
+db.Sessions.find().pretty();
 
 {
     "_id": "i2guetwsm0mgaibb1gqmodfq",

@@ -29,7 +29,7 @@ Note: If you have an SBF which you want to flash after this, just the BL6Downgra
 
 If you want to get into a custom recovery (only if you already have it), then you have to flash BL6Downgrade.SBF, or you will end up with a Bootloader ERR screen.
 
-Files:
-BL6Downgrade.SBF [34MB] - [http://www.mediafire.com/download.php?vdpp0nnr5f12e95](http://www.mediafire.com/download.php?vdpp0nnr5f12e95)
+**Files:**
 
+BL6Downgrade.SBF [34MB] - [http://www.mediafire.com/download.php?vdpp0nnr5f12e95](http://www.mediafire.com/download.php?vdpp0nnr5f12e95)<br/>
 Original XDA Thread: [http://forum.xda-developers.com/showthread.php?t=1552152](http://forum.xda-developers.com/showthread.php?t=1552152)
