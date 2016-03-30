@@ -7,7 +7,9 @@ import { LoadingView } from "./LoadingView";
 
 let style = require("./style.scss") as any;
 
-class ContentView extends BaseWithHistoryContext<any, any> {
+export class ContentView extends BaseWithHistoryContext<any, any> {
+    static StateDataKey = "contentViewData";
+
     private _contentManager = ContentManagerFactory.create();
     private _contentListener = (component: any) => {
             this.setState({ component });
@@ -36,7 +38,9 @@ class ContentView extends BaseWithHistoryContext<any, any> {
         if (__DOM__) {
             return React.createElement(LoadingView);
         } else {
-            return this._contentManager.getComponent(this.context.historyContext.pathname);
+            let p = this.context.historyContext.pathname;
+            this.context.state[ContentView.StateDataKey] = this._contentManager.getContent(p);
+            return this._contentManager.getComponent(p);
         }
     }
 
