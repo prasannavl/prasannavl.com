@@ -1,5 +1,5 @@
 import { IStorage } from "./Storage";
-import { PromiseTrue } from "./StaticCache";
+import { PromiseFactory } from "./PromiseFactory";
 
 export class MemoizeDecorator implements IStorage {
     private _storage: IStorage;
@@ -12,7 +12,7 @@ export class MemoizeDecorator implements IStorage {
 
     exists(key: string) {
         if (this._cacheMap.has(key))
-            return PromiseTrue;
+            return PromiseFactory.PromiseTrue;
         return this._storage.exists(key);
     }
 

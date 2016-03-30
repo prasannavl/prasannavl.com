@@ -1,5 +1,5 @@
 import { IStorage } from "./Storage";
-import { PromiseTrue, PromiseFalse, PromiseExistsFalse, PromiseEmpty, PromiseKeyNotFoundError } from "./StaticCache";
+import { PromiseFactory } from "./PromiseFactory";
 
 export class BrowserStore implements IStorage {
     private _storage: Storage;
@@ -10,34 +10,34 @@ export class BrowserStore implements IStorage {
 
     exists(key: string) {
         const val = this._storage.getItem(key);
-        if (val === null) return PromiseFalse;
-        return PromiseTrue;
+        if (val === null) return PromiseFactory.PromiseFalse;
+        return PromiseFactory.PromiseTrue;
     }
 
     get(key: string) {
         const val = this._storage.getItem(key);
-        if (val === null) return PromiseKeyNotFoundError;
+        if (val === null) return PromiseFactory.createKeyNotFoundError();
         return Promise.resolve(val);
     }
 
     set(key: string, value: any) {
         this._storage.setItem(key, value);
-        return PromiseEmpty;
+        return PromiseFactory.PromiseEmpty;
     }
 
     remove(key: string) {
         this._storage.removeItem(key);
-        return PromiseEmpty;
+        return PromiseFactory.PromiseEmpty;
     }
 
     clear() {
         this._storage.clear();
-        return PromiseEmpty;
+        return PromiseFactory.PromiseEmpty;
     }
 
     tryGet(key: string) {
         const val = this._storage.getItem(key);
-        if (val === null) return PromiseExistsFalse;
+        if (val === null) return PromiseFactory.PromiseExistsFalseResultNull;
         return Promise.resolve({ exists: true, result: val });
     }
 
