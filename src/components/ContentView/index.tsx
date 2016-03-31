@@ -2,15 +2,11 @@ import React from "react";
 import createStyled from "../../modules/core/createStyled";
 import { BaseWithHistoryContext } from "../Base";
 import { IHistoryContext } from "history-next";
-import { ContentManagerFactory } from "./ContentManagerFactory";
-import { LoadingView } from "./LoadingView";
+import { ContentManagerFactory } from "../../modules/content-manager/ContentManagerFactory";
+import { LoadingView } from "../fragments/LoadingView";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 
-let style = require("./style.scss") as any;
-
 export class ContentView extends BaseWithHistoryContext<any, any> {
-    static StateDataKey = "contentViewData";
-
     private _contentManager = ContentManagerFactory.create();
     private _contentListener = (component: any) => {
             this.setState({ component });
@@ -61,4 +57,5 @@ export class ContentView extends BaseWithHistoryContext<any, any> {
     }
 }
 
+let style = require("./style.scss") as any;
 export default createStyled(ContentView, style);

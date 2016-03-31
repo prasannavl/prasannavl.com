@@ -1,7 +1,8 @@
 import React from "react";
-import { LoremSegment } from "../fragments/Lorem";
-import { BaseFactory, Base } from "../Base";
-import { Overview, Archives, Article } from "./fragments/CoreViews";
+import { BaseFactory, Base } from "../../components/Base";
+import Overview from "../../components/Overview/index";
+import Archives from "../../components/Archives/index";
+import Article from "../../components/Article/index";
 
 export class ContentResolver {
     resolve(pathname: string) {

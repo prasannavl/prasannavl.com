@@ -24,8 +24,8 @@ class Sidebar extends Base<any, any> {
                 <header>
                     <h1>
                         <NavLink href="/">Prasanna V. <br/>Loganathar</NavLink>
-                        <Tagline className="tagline" style={{ maxWidth: "200px"}} />
                     </h1>
+                    <Tagline className="tagline" style={{ maxWidth: "200px" }} />
                 </header>
                 <nav>
                     <li><NavLink href="/overview">overview</NavLink></li>

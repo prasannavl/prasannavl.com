@@ -1,0 +1,56 @@
+    @import "../MainView/vars";
+    $headingColor: $activeLinkColor;
+    $headingActiveColor: $linksOrange;
+    $linkHoverColor: $activeLinkColor;
+    $linkActiveColor: #30a700;
+    $headerDateColor: rgb(27, 176, 81);
+    $horizontalLineColor: whitesmoke;
+    @mixin link {
+        text-decoration: none;
+        font-weight: 400;
+        transition: 0.2s;
+        color: $headingColor;
+        &:hover {
+            border-bottom: 1px solid $linkHoverColor;
+        }
+        &:active {
+            color: $linkActiveColor;
+            border-bottom: 1px solid $linkActiveColor;
+            transition: 0.2s;
+        }
+    }
+    
+    @mixin horizontal-line-on-after {
+        content: "";
+        display: block;
+        border-bottom: 1px solid $horizontalLineColor;
+        width: 100%;
+        margin: 50px 0 30px 0;
+    }
+    
+    @mixin header-link {
+        text-decoration: none;
+        font-weight: 300;
+        font-size: 38px;
+        transition: 0.3s;
+        color: $headingColor;
+        &:hover,
+        &:focus {
+            color: gray;
+            transition: 0.3s;
+        }
+        &:active {
+            color: $headingActiveColor;
+            transition: 0.2s;
+        }
+    }
+    
+    @mixin header-date {
+        color: $headerDateColor;
+        font-weight: 400;
+    }
+    
+    @mixin article-strong {
+        font-size: 15px;
+        font-weight: 700;
+    }

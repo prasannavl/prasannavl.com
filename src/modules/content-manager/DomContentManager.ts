@@ -1,6 +1,6 @@
 import request from "superagent";
 import { EventEmitter } from "events";
-import { IStorage } from "../../modules/storage/Storage";
+import { IStorage } from "../storage/Storage";
 import { ContentResolver } from "./ContentResolver";
 
 export class DomContentManager extends EventEmitter {

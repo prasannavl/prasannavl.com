@@ -49,9 +49,16 @@ db.Sessions.find().pretty();
    <add name="SessionState" connectionString="mongodb://localhost"/>
 </connectionStrings>
 <system.web>
-    <sessionState mode="Custom" timeout="1440" cookieless="false" customProvider="MongoSessionStateProvider">
+    <sessionState 
+            mode="Custom"
+            timeout="1440"
+            cookieless="false"
+            customProvider="MongoSessionStateProvider">
         <providers>
-            <add name="MongoSessionStateProvider" type="PVL.MongoSessionProvider" connectionStringName="SessionState" writeExceptionsToEventLog="false"/>
+            <add name="MongoSessionStateProvider"
+                type="PVL.MongoSessionProvider"
+                connectionStringName="SessionState"
+                writeExceptionsToEventLog="false"/>
         </providers>
      </sessionState>
 </system.web>

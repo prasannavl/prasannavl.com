@@ -1,0 +1,25 @@
+@import "../ContentView/vars";
+
+:local(.root) {
+    & > section::after {
+        @include horizontal-line-on-after;
+    }
+    & > section {
+        & > header {
+            & > h2 > a {
+                @include header-link;
+            }
+            & > time {
+                @include header-date;
+            }
+        }
+        & > article {
+            strong {
+                @include article-strong;
+            }
+            a {
+                @include link;
+            }
+        }
+    }
+}
