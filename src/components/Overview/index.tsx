@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { Base } from "../Base";
 import marked from "marked";
 import createStyled from "../../modules/core/createStyled";
@@ -20,7 +21,7 @@ export class Overview extends Base<any, any> {
         let data = this.props.data as Array<ViewItemDescriptor>;
         let items = data.map(item => {
 
-            let articleLinkOnClick = (ev: any) => {
+            let articleLinkOnClick = (ev: React.SyntheticEvent) => {
                 this.navigateTo(item.url, false, ev);
             };
 
@@ -35,7 +36,7 @@ export class Overview extends Base<any, any> {
                 </article>
                 <div className="readmore">
                     <a href={item.url} onClick={articleLinkOnClick}>
-                        read more &rarr;
+                        read more &raquo;
                     </a>
                 </div>
             </section>);

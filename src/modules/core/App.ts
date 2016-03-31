@@ -55,6 +55,10 @@ export class App {
         return this.context;
     }
 
+    getModuleLoader() {
+        return __webpack_require__;
+    }
+
     scheduleOnDomLoaded(action: () => void) {
         const contentLoadedEvent = "DOMContentLoaded";
         const handler = function() {

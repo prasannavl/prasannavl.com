@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import createStyled from "../../modules/core/createStyled";
 import { BaseWithHistoryContext } from "../Base";
 import { IHistoryContext } from "history-next";
@@ -9,7 +10,11 @@ import { IHeadlessRendererState } from "../../modules/core/RendererState";
 export class ContentView extends BaseWithHistoryContext<any, any> {
     private _contentManager = ContentManagerFactory.create();
     private _contentListener = (component: any) => {
-            this.setState({ component });
+           let contentView = ReactDOM.findDOMNode(this) as HTMLElement;
+           TweenMax.to(contentView, 0.7,
+                    { scrollTop: 0, ease: Power4.easeOut });
+           this.setState({ component });
+           contentView.focus();
         };
 
     componentWillMount() {
@@ -51,7 +56,7 @@ export class ContentView extends BaseWithHistoryContext<any, any> {
     }
 
     render() {
-        return <div className={style.root}>
+        return <div className={style.root} tabIndex={0}>
             <div className="wrapper">{this.state.component}</div>
         </div>;
     }

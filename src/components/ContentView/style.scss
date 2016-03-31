@@ -1,20 +1,47 @@
 @import "./vars";
-
 :local(.root) {
+    $red: #e06666;
     margin-left: $sidebarWidth;
     overflow: auto;
     height: 100vh;
+    &:focus {
+        outline: none;
+    }
     
     & > div.wrapper {
         padding: 50px 5% 25px 7%;
         max-width: 900px;
     }
-
     p {
         text-align: justify;
-        line-height: 150%;   
+        line-height: 150%;
+        font-weight: 400;
     }
-    
+    blockquote {
+        $blockColor: lighten(black, 45);
+        margin: 25px 0;
+        padding: 2% 4%;
+        background-color: #fff;
+        border: 1px solid lighten(black, 90);
+        border-left: 4px solid $blockColor;
+        text-align: justify;
+        font-size:15px;
+        line-height: 160%;
+        &.red {
+            border-left: 4px solid $red;
+        }
+        &.green {
+            border-left: 4px solid green;
+        }
+    }
+    .text-red {
+        color: $red;
+    }
+    pre {
+        padding: 30px;
+        background: whitesmoke;
+        border: 1px solid #e0e0e0;
+    }
     code {
         max-width: 900px;
         display: block;
