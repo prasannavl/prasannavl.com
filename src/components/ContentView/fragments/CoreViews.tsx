@@ -11,6 +11,11 @@ interface ItemDescriptor {
     content: string;
 }
 
+/*
+TODO:
+- Add highlighter
+*/
+
 export function formatDate(dateString: string) {
     let m = moment(dateString);
     return m.format("dddd, MMMM Do YYYY");
@@ -92,7 +97,7 @@ export class Article extends Base<any, any> {
         let item = this.props.data as ItemDescriptor;
         return (<section>
             <header>
-                <h2><a href={item} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name}</a></h2>
+                <h2><a href={item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name}</a></h2>
                 <time>{formatDate(item.date) }</time>
             </header>
             <article dangerouslySetInnerHTML={{ __html: marked(item.content) }}></article>

@@ -23,9 +23,9 @@ class Sidebar extends Base<any, any> {
             <div className={style.root} {...this.props}>
                 <header>
                     <h1>
-                        <NavLink href="/">Prasanna V. Loganathar</NavLink>
+                        <NavLink href="/">Prasanna V. <br/>Loganathar</NavLink>
+                        <Tagline className="tagline" style={{ maxWidth: "200px"}} />
                     </h1>
-                    <Tagline className="tagline" />
                 </header>
                 <nav>
                     <li><NavLink href="/overview">overview</NavLink></li>

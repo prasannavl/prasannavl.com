@@ -1,7 +1,23 @@
 @import "../MainView/vars";
 
 :local(.root) {
-    min-height: 100vh;
     margin-left: $sidebarWidth;
-    padding: 25px;
+    overflow: auto;
+    height: 100vh;
+    
+    & > div.wrapper {
+        padding: 50px 5% 25px 7%;
+        max-width: 900px;
+    }
+
+    p {
+        text-align: justify;
+        line-height: 150%;   
+    }
+    
+    code {
+        max-width: 900px;
+        display: block;
+        overflow-x: auto;
+    }
 }

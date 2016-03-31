@@ -55,7 +55,9 @@ export class ContentView extends BaseWithHistoryContext<any, any> {
     }
 
     render() {
-        return <div className={style.root}>{this.state.component}</div>;
+        return <div className={style.root}>
+            <div className="wrapper">{this.state.component}</div>
+        </div>;
     }
 }
 
