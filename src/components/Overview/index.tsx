@@ -19,12 +19,25 @@ export class Overview extends Base<any, any> {
         this._articleDomElements = new Array<HTMLElement>();
         let data = this.props.data as Array<ViewItemDescriptor>;
         let items = data.map(item => {
+
+            let articleLinkOnClick = (ev: any) => {
+                this.navigateTo(item.url, false, ev);
+            };
+
             return (<section key={item.url}>
                 <header>
-                    <h2><a href={item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name.toLowerCase()}</a></h2>
+                    <h2><a href={item.url} onClick={articleLinkOnClick}>{item.name.toLowerCase()}</a></h2>
                     <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
                 </header>
-                <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => this._articleDomElements.push(r) }></article>
+                <article
+                    dangerouslySetInnerHTML={{ __html: marked(item.content) }}
+                    ref={(r) => this._articleDomElements.push(r) }>
+                </article>
+                <div className="readmore">
+                    <a href={item.url} onClick={articleLinkOnClick}>
+                        read more &rarr;
+                    </a>
+                </div>
             </section>);
         });
         return <div className={style.root}>{items}</div>;

@@ -1,5 +1,4 @@
 @import "../ContentView/vars";
-
 :local(.root) {
     & > section::after {
         @include horizontal-line-on-after;
@@ -18,6 +17,15 @@
                 @include article-strong;
             }
             a {
+                @include link;
+            }
+            margin-bottom:30px;
+        }
+        & > .readmore {
+                margin-top: -10px;            
+            a {
+                display: inline-block;
+                padding: 10px 0px;
                 @include link;
             }
         }
