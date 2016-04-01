@@ -12,12 +12,12 @@ export class Archives extends Base<any, any> {
     renderSection(sectionTitle: string, sectionItems: Array<ViewItemDescriptor>) {
         let items = sectionItems.map(item => {
             return (<div key={item.url}>
-                <h2><a href={item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name}</a></h2>
-                <time>{ViewUtils.formatDate(item.date) }</time>
+                    <a href={item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name}</a>
+                    <time>{ViewUtils.formatDate(item.date) }</time>
             </div>);
         });
         return <section  key={sectionTitle}>
-            <header>{sectionTitle}</header>
+            <header><span className="year">{sectionTitle}</span></header>
             {items}
         </section>;
     }
