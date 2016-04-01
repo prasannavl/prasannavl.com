@@ -1,6 +1,5 @@
-<svg id="brokebotSVG" version="1.1" 
-    xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" xml:space="preserve" preserveAspectRatio="xMidYMax">
+<svg id="brokebotSVG" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 551 239" enable-background="new 0 0 551 239" xml:space="preserve" preserveAspectRatio="xMidYMax">
+    <text id="robotTextNode" transform="matrix(1 0 0 1 6.7231 240.0011)" class="robot-text-node" style="opacity: 1;"></text>
     <g id="robotHead">
         <rect x="359.2" y="173.1" class="robot_limbs_and_ears" width="6.4" height="23.3"/>
         <rect x="348.1" y="185.4" class="robot_body" width="28.5" height="11"/>

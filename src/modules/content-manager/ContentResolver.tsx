@@ -3,7 +3,7 @@ import { BaseFactory, Base } from "../../components/Base";
 import Overview from "../../components/Overview/index";
 import Archives from "../../components/Archives/index";
 import Article from "../../components/Article/index";
-import NotFound from "../../components/Experiments/404/index";
+import Unknown from "../../components/Experiments/Unknown/index";
 
 export class ContentResolver {
     resolve(pathname: string): { path: string, factory: (data?: any) => JSX.Element } {
@@ -12,12 +12,13 @@ export class ContentResolver {
                 path: "/content/indexes/overview.json",
                 factory: (data: any) => <Overview data={data}/>
             };
-        }
-        else if (pathname === "archives") {
+        } else if (pathname === "archives") {
             return {
                 path: "/content/indexes/archives.json",
                 factory: (data: any) => <Archives data={data}/>
             };
+        } else if (pathname === "about") {
+            return { path: null, factory: () => <Unknown error="000"/> };
         }
         const contentRegex = /((\d{4})\/(.*))/i;
         const match = contentRegex.exec(pathname);
@@ -28,13 +29,7 @@ export class ContentResolver {
             };
         }
         else {
-            return { path: null, factory: () => <NotFound/> };
+            return { path: null, factory: () => <Unknown error="404"/> };
         }
-    }
-
-    createNotFoundResolution() {
-        const c = <div>Oops.Nothing here.</div>;
-        let comp = BaseFactory.createElement(c, { title: "Not found" });
-        return { path: null as string, factory: () => comp };
     }
 }

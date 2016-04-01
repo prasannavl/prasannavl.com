@@ -1,48 +1,62 @@
 import React from "react";
 import createStyled from "../../../modules/core/createStyled";
+import { createErrorCodeMap } from "./ErrorCodeMap";
 
 let svg = require("!raw!./bot.svg") as any;
 let style = require("./bot.scss") as any;
 
 export class Robot extends React.Component<any, any> {
+    getContent() {
+        const error = this.props.error;
+        let text = this.props.text;
+        let content = { text, title: null as string, messageElement: null as JSX.Element };
+        if (error) {
+            if (error === "000") {
+                content = {
+                    text: "o-o",
+                    title: "construction zone",
+                    messageElement: (<p>
+                        Hello there. This area is still under construction.
+                        <br/>Please check back in a few days.</p>)
+                };
+            } else {
+                content = {
+                    text: error,
+                    title: createErrorCodeMap().get(error).toLowerCase(),
+                    messageElement: (<div>
+                    <p>
+                    This is not the page you're looking for. <br/>
+                    If you have a bad feeling about this, let the force guide you.<sup>*</sup><br/>
+                    </p>
+                    <p className="note">[*] : Look to the sidebar on the left.</p>
+                    </div>),
+                };
+            }
+        }
+        return content;
+    }
+
     componentDidMount() {
         getBrokeBot().run(false);
     }
 
     render() {
+        let content = this.getContent();
+        let contextualSvg = svg.replace(/(<text id="robotTextNode".*?>)(<\/text>)/, "$1" + content.text + "$2");
+        console.log(contextualSvg);
         return <div className={style.root}>
-            <div dangerouslySetInnerHTML={{ __html: svg }}></div>
+            <div className="top-half">
+                <div dangerouslySetInnerHTML={{ __html: contextualSvg }}/>
+            </div>
+            <div className="bottom-half">
+                <h2>{content.title}</h2>
+                {content.messageElement}
+            </div>
         </div>;
     }
 }
 
 export default createStyled(Robot, style);
-
-function createCodeMap() {
-    let codeMap = new Map();
-    codeMap.set("500", "Internal server error");
-    codeMap.set("501", "Not implemented");
-    codeMap.set("502", "Bad gateway");
-    codeMap.set("503", "Service unavailable");
-    codeMap.set("504", "Gateway timeout");
-    codeMap.set("505", "HTTP version not supported");
-    codeMap.set("400", "Bad Request");
-    codeMap.set("401", "Authorization required");
-    codeMap.set("403", "Forbidden");
-    codeMap.set("404", "Page Not Found");
-    codeMap.set("405", "Method not allowed");
-    codeMap.set("406", "Not acceptable (encoding)");
-    codeMap.set("407", "Proxy authentication required");
-    codeMap.set("408", "Request timed out");
-    codeMap.set("409", "Conflicting request");
-    codeMap.set("410", "Gone");
-    codeMap.set("411", "Content length required");
-    codeMap.set("412", "Precognition failed");
-    codeMap.set("413", "Request entity too long");
-    codeMap.set("414", "Request URI too long");
-    codeMap.set("415", "Unsupported media type");
-    return codeMap;
-}
 
 function getBrokeBot() {
     let clawTweenTime = 1;
@@ -62,6 +76,7 @@ function getBrokeBot() {
             eyesY = 0;
             bodyTO = "43px 160px";
         }
+
         animateBrokebot(isHeadless);
     }
 
@@ -76,6 +91,7 @@ function getBrokeBot() {
         let leftArmNode = document.querySelector("#leftArm");
         let rightArmNode = document.querySelector("#rightLowerArm");
         let robotHeadNode = document.querySelector("#robotHead");
+        let textNode = document.querySelector("#robotTextNode");
 
         setTimeout(function () {
             TweenMax.from(rightInnerClawNode, clawTweenTime, {
@@ -107,9 +123,9 @@ function getBrokeBot() {
             });
         }, leftClawRepeatDelay * 1000);
 
-        // TweenMax.from(textNode, 2, {
-        //     opacity: 0
-        // });
+        TweenMax.from(textNode, 2, {
+            opacity: 0
+        });
 
         TweenMax.to(upperBodyNode, bodySwayTime, {
             rotationZ: -bodySwayAmount,
