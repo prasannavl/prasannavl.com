@@ -13,7 +13,7 @@ Things break. Codes break. Javascript - they don't just break, they break everyt
 
 You probably would get away with it, if you're writing simple applications. But when complexity increases, it almost becomes impossible to solve certain problems with the async design pattern, not without a locking mechanism. Especially, in a javascript environment due to its full async nature making timing absolutely unreliable and unpredictable. While locking is common in a multi-thread environment, Js in most common environments will run on a single-thread and due to only simple tasks being performed with it, the old days never saw a need for locking. But for today's complex applications, you just need performant and reliable locking. There's no way around it.
 
-And that's exactly what the below tiny (< 2kb) library provides.
+And that's exactly what the below tiny (<2kb) library provides.
 
 ###### **GitHub:** [https://github.com/prasannavl/JsLocks](https://github.com/prasannavl/JsLocks)
 ###### **Download:** [JsLocks.min.js](https://raw.github.com/prasannavl/JsLocks/master/JsLocks.min.js)

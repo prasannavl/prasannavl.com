@@ -16,21 +16,24 @@ export class DomContentManager extends EventEmitter {
         this._resolver = resolver;
     }
 
-    setPath(pathname: string) {
+    setPath(pathname: string, bypassCaches?: boolean) {
         let resolved = this._resolver.resolve(pathname);
         if (resolved.path !== null) {
-            this.getContentAsync(resolved.path)
+            this.getContentAsync(resolved.path, bypassCaches)
                 .then(x => this.emit(this.contentEventName, resolved.factory(x)));
         } else {
             this.emit(this.contentEventName, resolved.factory());
         }
     }
 
-    getContentAsync(path: string) {
+    getContentAsync(path: string, bypassCaches?: boolean) {
+        if (__DEV__) {
+            bypassCaches = true;
+        }
         let storeKey = this.pathKeyPrefix + path;
         return this._store.tryGet(storeKey)
             .then(x => {
-                if (x.exists) {
+                if (!bypassCaches && x.exists) {
                     return x.result;
                 } else {
                     return this.fetchRemoteContentAsync(path)
@@ -44,6 +47,7 @@ export class DomContentManager extends EventEmitter {
             request.get(path)
                 .end((err, res) => {
                     if (err) reject(err);
+                    else if (!res.ok) reject(res);
                     else resolve(res.body);
                 });
         });
