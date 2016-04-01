@@ -18,7 +18,7 @@ export class ContentResolver {
                 factory: (data: any) => <Archives data={data}/>
             };
         } else if (pathname === "about") {
-            return { path: null, factory: () => <Unknown error="000"/> };
+            return { path: null, factory: () => <Unknown error="000" documentTitle="About"/> };
         }
         const contentRegex = /((\d{4})\/(.*))/i;
         const match = contentRegex.exec(pathname);

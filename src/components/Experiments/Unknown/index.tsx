@@ -6,11 +6,25 @@ import { createErrorCodeMap } from "./ErrorCodeMap";
 let svg = require("!raw!./bot.svg") as any;
 let style = require("./bot.scss") as any;
 
-export class Robot extends Base<any, any> {
+interface RobotProps extends React.Props<any> {
+    text?: string;
+    documentTitle?: string;
+    error?: string;
+    extraMessageElement?: JSX.Element;
+}
+
+interface RobotContent {
+    text: string;
+    documentTitle: string;
+    title: string;
+    messageElement: JSX.Element;
+    extraMessageElement: JSX.Element;
+}
+
+export class Robot extends Base<RobotProps, any> {
     getContent() {
-        const error = this.props.error;
-        let text = this.props.text;
-        let content = { text, title: null as string, messageElement: null as JSX.Element };
+        let { error, text, extraMessageElement, documentTitle } = this.props;
+        let content = null as RobotContent;
         if (error) {
             if (error === "000") {
                 content = {
@@ -18,7 +32,9 @@ export class Robot extends Base<any, any> {
                     title: "Construction Zone",
                     messageElement: (<p>
                         Hello there. This area is still under construction.
-                        <br/>Please check back in a few days.</p>)
+                        <br/>Please check back in a few days.</p>),
+                    extraMessageElement,
+                    documentTitle,
                 };
             } else {
                 content = {
@@ -31,6 +47,8 @@ export class Robot extends Base<any, any> {
                     </p>
                     <p className="note">[*] : Look to the sidebar on the left.</p>
                     </div>),
+                    extraMessageElement,
+                    documentTitle,
                 };
             }
         }
@@ -43,7 +61,7 @@ export class Robot extends Base<any, any> {
 
     render() {
         let content = this.getContent();
-        this.context.services.title.set(content.title);
+        this.context.services.title.set(content.documentTitle || content.title);
         let contextualSvg = svg.replace(/(<text id="robotTextNode".*?>)(<\/text>)/, "$1" + content.text + "$2");
         console.log(contextualSvg);
         return <div className={style.root}>
@@ -53,6 +71,7 @@ export class Robot extends Base<any, any> {
             <div className="bottom-half">
                 <h2>{content.title.toLocaleLowerCase()}</h2>
                 {content.messageElement}
+                {content.extraMessageElement}
             </div>
         </div>;
     }
