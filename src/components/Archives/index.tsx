@@ -11,6 +11,7 @@ export class Archives extends Base<any, any> {
     }
 
     renderSection(sectionTitle: string, sectionItems: Array<ViewItemDescriptor>) {
+        let sortedItems = sectionItems.sort((c, n) => n.date.localeCompare(c.date));
         let items = sectionItems.map(item => {
             return (<div key={item.url}>
                     <a href={item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name}</a>
@@ -25,8 +26,15 @@ export class Archives extends Base<any, any> {
 
     render() {
         let data = this.props.data;
-        let sections = Object.keys(data).map(x => this.renderSection(x, data[x]));
-        return <div className={style.root}><h2>archives</h2>{sections}</div>;
+        let sectionKeys = Object.keys(data).sort((c, n) => n.localeCompare(c));
+        let sections = sectionKeys.map(x => this.renderSection(x, data[x]));
+        return (<div className={style.root}>
+            <h2>archives</h2>
+            {sections}
+            <section>
+            <header><span className="year">the dark ages</span></header>
+            </section>
+        </div>);
     }
 }
 
