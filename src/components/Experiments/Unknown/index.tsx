@@ -1,11 +1,12 @@
 import React from "react";
+import { Base } from "../../Base";
 import createStyled from "../../../modules/core/createStyled";
 import { createErrorCodeMap } from "./ErrorCodeMap";
 
 let svg = require("!raw!./bot.svg") as any;
 let style = require("./bot.scss") as any;
 
-export class Robot extends React.Component<any, any> {
+export class Robot extends Base<any, any> {
     getContent() {
         const error = this.props.error;
         let text = this.props.text;
@@ -14,7 +15,7 @@ export class Robot extends React.Component<any, any> {
             if (error === "000") {
                 content = {
                     text: "o-o",
-                    title: "construction zone",
+                    title: "Construction Zone",
                     messageElement: (<p>
                         Hello there. This area is still under construction.
                         <br/>Please check back in a few days.</p>)
@@ -22,7 +23,7 @@ export class Robot extends React.Component<any, any> {
             } else {
                 content = {
                     text: error,
-                    title: createErrorCodeMap().get(error).toLowerCase(),
+                    title: createErrorCodeMap().get(error),
                     messageElement: (<div>
                     <p>
                     This is not the page you're looking for. <br/>
@@ -42,6 +43,7 @@ export class Robot extends React.Component<any, any> {
 
     render() {
         let content = this.getContent();
+        this.context.services.title.set(content.title);
         let contextualSvg = svg.replace(/(<text id="robotTextNode".*?>)(<\/text>)/, "$1" + content.text + "$2");
         console.log(contextualSvg);
         return <div className={style.root}>
@@ -49,7 +51,7 @@ export class Robot extends React.Component<any, any> {
                 <div dangerouslySetInnerHTML={{ __html: contextualSvg }}/>
             </div>
             <div className="bottom-half">
-                <h2>{content.title}</h2>
+                <h2>{content.title.toLocaleLowerCase()}</h2>
                 {content.messageElement}
             </div>
         </div>;
