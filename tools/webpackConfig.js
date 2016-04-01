@@ -103,7 +103,7 @@ export function create(options) {
                 }, {
                     test: /\.ico$/i,
                     loader: "file?name=" + outputPatterns.imageFileName
-                },
+                }
             ]
         },
         plugins: [],

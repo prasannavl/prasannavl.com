@@ -7,13 +7,9 @@
     &:focus {
         outline: none;
     }
-    
-    & > div.wrapper {
-        padding: 50px 5% 25px 7%;
-        max-width: 900px;
-    }
     p {
         text-align: justify;
+        text-justify: distribute;
         line-height: 150%;
         font-weight: 400;
     }

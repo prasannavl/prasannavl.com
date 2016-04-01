@@ -3,9 +3,10 @@ import { BaseFactory, Base } from "../../components/Base";
 import Overview from "../../components/Overview/index";
 import Archives from "../../components/Archives/index";
 import Article from "../../components/Article/index";
+import NotFound from "../../components/Experiments/404/index";
 
 export class ContentResolver {
-    resolve(pathname: string) {
+    resolve(pathname: string): { path: string, factory: (data?: any) => JSX.Element } {
         if (pathname === "overview") {
             return {
                 path: "/content/indexes/overview.json",
@@ -27,7 +28,7 @@ export class ContentResolver {
             };
         }
         else {
-            return this.createNotFoundResolution();
+            return { path: null, factory: () => <NotFound/> };
         }
     }
 

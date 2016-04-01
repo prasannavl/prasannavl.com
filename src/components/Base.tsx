@@ -37,12 +37,17 @@ export class Base<P, S> extends React.Component<P, S> {
 
 export class BaseWithHistoryContext<P, S> extends Base<P, S> {
 
-    private _childContext = { historyContext: this.context.historyContext };
+    private _childContext: { historyContext: IHistoryContext };
     private _disposeHistoryListener: () => void = null;
 
     static childContextTypes = {
         historyContext: PropTypes.object,
     };
+
+    constructor(props: any, context: IAppContext) {
+        super(props, context);
+        this._childContext = { historyContext: context.historyContext };
+    }
 
     getChildContext() {
         return this._childContext;

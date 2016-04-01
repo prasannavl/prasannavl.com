@@ -16,8 +16,10 @@ So, here's a session provider for ASP.NET.
 **Installation:**
 > PM> Install-Package PVL.MongoSessionProvider
 
+<div>
 **NuGet Pacakge Link:** [https://nuget.org/packages/PVL.MongoSessionProvider/](https://nuget.org/packages/PVL.MongoSessionProvider/)<br/>
 **Code:** [https://github.com/prasannavl/MongoSessionProvider](https://github.com/prasannavl/MongoSessionProvider)
+</div>
 
 **Example session document:**
 

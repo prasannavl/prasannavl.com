@@ -22,7 +22,7 @@ export class DomContentManager extends EventEmitter {
             this.getContentAsync(resolved.path)
                 .then(x => this.emit(this.contentEventName, resolved.factory(x)));
         } else {
-            this.emit(this.contentEventName, resolved.factory(null));
+            this.emit(this.contentEventName, resolved.factory());
         }
     }
 

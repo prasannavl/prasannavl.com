@@ -5,6 +5,10 @@
     $linkActiveColor: #30a700;
     $headerDateColor: rgb(27, 176, 81);
     $horizontalLineColor: whitesmoke;
+    @mixin content-chrome {
+        padding: 50px 5% 25px 7%;
+        max-width: 900px;
+    }
     @mixin link {
         text-decoration: none;
         font-weight: 400;

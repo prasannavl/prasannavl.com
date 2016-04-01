@@ -1,5 +1,6 @@
 @import "../ContentView/vars";
 :local(.root) {
+    @include content-chrome;
     & > section::after {
         @include horizontal-line-on-after;
     }

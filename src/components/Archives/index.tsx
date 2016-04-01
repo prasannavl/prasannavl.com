@@ -25,7 +25,7 @@ export class Archives extends Base<any, any> {
     render() {
         let data = this.props.data;
         let sections = Object.keys(data).map(x => this.renderSection(x, data[x]));
-        return <div className={style.root}>{sections}</div>;
+        return <div className={style.root}><h2>archives</h2>{sections}</div>;
     }
 }
 

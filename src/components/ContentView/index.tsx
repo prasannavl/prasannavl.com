@@ -4,34 +4,30 @@ import createStyled from "../../modules/core/createStyled";
 import { BaseWithHistoryContext } from "../Base";
 import { IHistoryContext } from "history-next";
 import { ContentManagerFactory } from "../../modules/content-manager/ContentManagerFactory";
-import { LoadingView } from "../fragments/LoadingView";
+import LoadingView from "../fragments/LoadingView";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 
 export class ContentView extends BaseWithHistoryContext<any, any> {
+
     private _contentManager = ContentManagerFactory.create();
-    private _contentListener = (component: any) => {
-           let contentView = ReactDOM.findDOMNode(this) as HTMLElement;
-           TweenMax.to(contentView, 0.7,
-                    { scrollTop: 0, ease: Power4.easeOut });
-           this.setState({ component });
-           contentView.focus();
-        };
+    private _contentChangeListener = this.onContentChange.bind(this);
+
+    constructor(props: any, context: any) {
+        super(props, context);
+        this.state = { component: null };
+    }
 
     componentWillMount() {
         super.componentWillMount();
         if (__DOM__) {
-            this.setup(this.context.historyContext);
+            this._contentManager.addListener(this._contentManager.contentEventName, this._contentChangeListener);
+            this.onHistoryChange(this.context.historyContext);
         }
-        this.setState({ component: this.getInitialComponent() });
-    }
-
-    componentDidMount() {
-        this._contentManager.addListener(this._contentManager.contentEventName, this._contentListener);
     }
 
     componentWillUnmount() {
         if (__DOM__) {
-            this._contentManager.removeListener(this._contentManager.contentEventName, this._contentListener);
+            this._contentManager.removeListener(this._contentManager.contentEventName, this._contentChangeListener);
         }
         super.componentWillUnmount();
     }
@@ -47,17 +43,23 @@ export class ContentView extends BaseWithHistoryContext<any, any> {
         }
     }
 
-    setup(context: IHistoryContext) {
+    onHistoryChange(context: IHistoryContext) {
         this._contentManager.setPath(context.pathname);
     }
 
-    onHistoryChange(context: IHistoryContext) {
-        this.setup(context);
+    onContentChange(component: any) {
+        this.setState({ component });
+        let contentView = document.getElementById("content-view");
+        if (contentView != null) {
+            TweenMax.to(contentView, 0.7,
+                { scrollTop: 0, ease: Power4.easeOut });
+            contentView.focus();
+        }
     }
 
     render() {
-        return <div className={style.root} tabIndex={0}>
-            <div className="wrapper">{this.state.component}</div>
+        return <div className={style.root} tabIndex={0} id="content-view">
+            {this.state.component || this.getInitialComponent() }
         </div>;
     }
 }
