@@ -3,6 +3,7 @@ import { Base } from "../Base";
 import createStyled from "../../modules/core/createStyled";
 import marked from "marked";
 import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
+import Footer from "../fragments/Footer";
 
 export class Archives extends Base<any, any> {
     componentWillMount() {

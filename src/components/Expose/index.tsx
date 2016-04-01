@@ -7,10 +7,14 @@ import { IAppContext } from "../../modules/core/AppContext";
 const style = require("./style.scss") as any;
 
 class Expose extends Base<any, any> {
-
     componentWillMount() {
         super.componentWillMount();
         this.getServices().title.reset();
+        this.showOverview = this.showOverview.bind(this);
+    }
+
+    showOverview(ev: React.SyntheticEvent) {
+        this.navigateTo.call(this, "/overview", false, ev);
     }
 
     render() {
@@ -29,9 +33,9 @@ class Expose extends Base<any, any> {
                             <a href="mailto:Prasanna V. Loganathar <pvl@prasannavl.com>" className="icon-envelope"></a>
                         </address>
                         <div className="info">
-                            And I write stuff <b><a href="">here</a></b>.
+                            And I write stuff <b><a href="/overview" onClick={this.showOverview}>here</a></b>.
                         </div>
-                        <a href="/overview" id="arrow" className="icon-arrow_forward" onClick={(ev) => this.navigateTo.call(this, "/overview", false, ev) }></a>
+                        <a href="/overview" id="arrow" className="icon-arrow_forward" onClick={this.showOverview}></a>
                     </section>
                 </div>
             </div>

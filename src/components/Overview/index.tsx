@@ -4,6 +4,7 @@ import { Base } from "../Base";
 import marked from "marked";
 import createStyled from "../../modules/core/createStyled";
 import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
+import Footer from "../fragments/Footer";
 
 export class Overview extends Base<any, any> {
     private _articleDomElements: Array<HTMLElement>;
@@ -41,7 +42,7 @@ export class Overview extends Base<any, any> {
                 </div>
             </section>);
         });
-        return <div className={style.root}>{items}</div>;
+        return <div className={style.root}>{items}<Footer/></div>;
     }
 }
 

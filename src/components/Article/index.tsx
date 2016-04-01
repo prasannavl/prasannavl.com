@@ -3,6 +3,7 @@ import { Base } from "../Base";
 import marked from "marked";
 import createStyled from "../../modules/core/createStyled";
 import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
+import Footer from "../fragments/Footer";
 
 export class Article extends Base<any, any> {
     private _articleDomElements: Array<HTMLElement>;
@@ -40,6 +41,7 @@ export class Article extends Base<any, any> {
                 </header>
                 <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => this._articleDomElements.push(r) }></article>
             </section>
+            <Footer/>
         </div>);
     }
 }

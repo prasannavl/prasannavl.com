@@ -2,13 +2,9 @@ import React from "react";
 
 class Footer extends React.Component<any, any> {
     render() {
-        // TODO: Add styles, and add appropriate links.
-        // CC Link: http://creativecommons.org/licenses/by/2.5/
         const c = (
-            <footer {...this.props}>Copyright &copy; {new Date(Date.now()).getUTCFullYear()} Prasanna V. Loganathar
-             - Blog content licensed under the Creative Commons CC BY 2.5 |
-             Unless otherwise stated or granted, code fragments licensed under Apache 2.0 License.
-             | Web site built entirely from scratch, open sourced and licenced under Apache 2.0 License.</footer>
+            <footer {...this.props}><strong>Copyright &copy; {new Date(Date.now()).getUTCFullYear()} Prasanna V. Loganathar</strong> - 
+            Blog content, and web site design are licensed under the <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons CC BY 4.0</a> | Unless otherwise stated or granted, any code fragments including the website source components are licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2.0 License</a>.</footer>
         );
         return c;
     }
