@@ -63,7 +63,6 @@ export class Robot extends Base<RobotProps, any> {
         let content = this.getContent();
         this.context.services.title.set(content.documentTitle || content.title);
         let contextualSvg = svg.replace(/(<text id="robotTextNode".*?>)(<\/text>)/, "$1" + content.text + "$2");
-        console.log(contextualSvg);
         return <div className={style.root}>
             <div className="top-half">
                 <div dangerouslySetInnerHTML={{ __html: contextualSvg }}/>

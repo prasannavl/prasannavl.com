@@ -15,9 +15,8 @@ You probably would get away with it, if you're writing simple applications. But 
 
 And that's exactly what the below tiny (< 2kb) library provides.
 
-**GitHub: [https://github.com/prasannavl/JsLocks](https://github.com/prasannavl/JsLocks)**
-
-**Download: [JsLocks.min.js](https://raw.github.com/prasannavl/JsLocks/master/JsLocks.min.js)**
+###### **GitHub:** [https://github.com/prasannavl/JsLocks](https://github.com/prasannavl/JsLocks)
+###### **Download:** [JsLocks.min.js](https://raw.github.com/prasannavl/JsLocks/master/JsLocks.min.js)
 
 **API:**
 
