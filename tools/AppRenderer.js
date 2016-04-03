@@ -8,12 +8,11 @@ export default class AppRenderer {
     constructor(contextManagerFactory, htmlConfig) {
         try {
            this.htmlConfig = htmlConfig;
-        this.contextManager = contextManagerFactory.create();         
+           this.contextManager = contextManagerFactory.create();         
         } catch (err) {
             console.log(err);
             console.log(err.stack);
         }
-
     }
 
     run(req, res) {

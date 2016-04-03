@@ -5,7 +5,7 @@ export const HtmlConfig = {
     description: "Prasanna V. Loganathar's Weblog",
     titleTemplate: "%s | Prasanna V. Loganthar",
     titleOnEmpty: "Prasanna V. Loganathar",
-    canonical: "https://www.prasannavl.com",
+    canonical: "",
 };
 
 export const Paths = {
@@ -16,6 +16,8 @@ export const Paths = {
     artifactDirRelativeName: "./artifacts",
     htmlConfigFileRelativeName: "./htmlConfig.json",
     globalStyleFileRelativeName: "./src/styles/global.scss",
+    generatedContentDirRelativeName: "./static/content",
+    generatedContentIndexesDirRelativeName: "./static/content/indexes",
 };
 
 export const OutputPatterns = {

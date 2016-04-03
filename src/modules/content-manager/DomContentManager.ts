@@ -28,8 +28,8 @@ export class DomContentManager extends EventEmitter {
             cacheOptions.check = false;
         }
         let resolved = this._resolver.resolve(pathname);
-        if (resolved.path !== null) {
-            this.getContentAsync(resolved.path, cacheOptions)
+        if (resolved.contentPath !== null) {
+            this.getContentAsync(resolved.contentPath, cacheOptions)
             .then(x => {
                 this._lastKnownPathName = pathname;
                 this.emit(this.contentEventName, resolved.factory(x));

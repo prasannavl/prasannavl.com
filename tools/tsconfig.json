@@ -5,6 +5,7 @@
         "module": "es2015",
         "noLib": false,
         "noImplicitAny": true,
-        "noImplicitReturns": true
+        "noImplicitReturns": true,
+        "allowSyntheticDefaultImports": true
     }
 }

@@ -1,6 +1,7 @@
 import path from "path"; 
 import { Paths, ArtifactConfig } from "../configConstants";
 import utils from "./utils";
+import fs from "fs";
 
 function getRoutes() {
 	let routes = [
@@ -10,7 +11,16 @@ function getRoutes() {
 		"/archives",
     ];
     
+	routes = routes.concat(getContentRoutes());
 	return routes;
+}
+
+function getContentRoutes() {
+	let staticIndexPath = path.join(Paths.dir, 
+		Paths.generatedContentIndexesDirRelativeName,
+		"all.json");
+	let data = JSON.parse(fs.readFileSync(staticIndexPath, "utf-8"));
+	return data.map(x => "/" + x.url);
 }
 
 function getRoutesFileName() {

@@ -5,6 +5,7 @@ import yaml from "js-yaml";
 import marked from "marked";
 import chalk from "chalk";
 import * as _ from "lodash";
+import { Paths } from "../ConfigConstants";
 
 class BuildHelper {
 	static processAllAsync(inputDirPath, outputDirPath, options) {
@@ -374,6 +375,7 @@ function getIndexers() {
 		console.log("all..");
 
 		let indexData = _.chain(fileDataItems)
+			.map(x => _.omit(x, "content"))
 			.sortBy(x => new Date(x.date))
 			.reverse()
 			.value();
@@ -386,10 +388,10 @@ function getIndexers() {
 }
 
 function run() {
+	const draftsDir = path.join(__dirname, "./drafts");	
 	const publishedDir = path.join(__dirname, "./published");
-	const contentDir = path.join(__dirname, "../static/content");
-	const draftsDir = path.join(__dirname, "./drafts");
-	const indexDir = path.join(__dirname, "../static/content/indexes");
+	const contentDir = path.join(Paths.dir, Paths.generatedContentDirRelativeName);	
+	const indexDir = path.join(Paths.dir, Paths.generatedContentIndexesDirRelativeName);
 
 	console.log(chalk.green("ContentManager: starting"));	
 	Commands.publishAll(draftsDir, publishedDir)

@@ -26,8 +26,8 @@ export class HeadlessContentManager {
 
     getContentForResolution(resolution: ContentResolution) {
         let content = null as any;
-        if (resolution.path !== null) {
-            content = this.getContent(resolution.path);
+        if (resolution.contentPath !== null) {
+            content = this.getContent(resolution.contentPath);
         }
         return content;
     }

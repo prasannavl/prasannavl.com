@@ -16,12 +16,17 @@ export class ContextManager implements IContextManager {
         configureTitle(context.services.title, htmlConfig);
         const rendererState = context.services.rendererStateProvider() as IHeadlessRendererState;
         rendererState.htmlConfig = htmlConfig;
+        if (typeof htmlConfig.canonical === "boolean") {
+            htmlConfig.canonical = "";
+        }
     }
 
     render(context: IAppContext, url: string) {
         const rendererState = context.services.rendererStateProvider() as IHeadlessRendererState;
         const htmlConfig = rendererState.htmlConfig;
-        htmlConfig.canonical += url;
+
+        if (htmlConfig.canonical != null)
+            htmlConfig.canonical += url;
 
         let titleService = context.services.title;
         configureTitle(titleService, htmlConfig as DataModules.ITitleServiceData);
