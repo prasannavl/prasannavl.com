@@ -10,7 +10,7 @@ function getCssApplier(context: IAppContext) {
     return context.services.applyCss;
 }
 
-export default function createStyled<T>(InnerComponent: T, ...styles: any[]) {
+export function createStyled<T>(InnerComponent: T, ...styles: any[]) {
     class StyledComponent extends React.Component<any, any> {
         static displayName = getDisplayName(InnerComponent);
 
@@ -37,3 +37,27 @@ export default function createStyled<T>(InnerComponent: T, ...styles: any[]) {
     // Trick the type system into thinking its the same component
     return StyledComponent as any as T;
 }
+
+export function createStyledWith<T>(styleApplier: CssStyle.StyleApplierFunction, InnerComponent: T, ...styles: any[]) {
+    class StyledComponent extends React.Component<any, any> {
+        static displayName = getDisplayName(InnerComponent);
+        private removeCss: () => void;
+
+        componentWillMount() {
+            this.removeCss = styleApplier.apply(null, styles);
+        }
+
+        componentWillUnmount() {
+            const removeCss = this.removeCss;
+            setTimeout(removeCss, 0);
+        }
+
+        render() {
+            return React.createElement(InnerComponent as any, this.props);
+        }
+    }
+    // Trick the type system into thinking its the same component
+    return StyledComponent as any as T;
+}
+
+export default createStyled;

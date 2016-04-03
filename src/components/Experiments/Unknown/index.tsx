@@ -96,108 +96,108 @@ function getBrokeBot() {
             eyesY = 0;
             bodyTO = "43px 160px";
         }
-
         animateBrokebot(isHeadless);
     }
 
     function animateBrokebot(isHeadless: boolean) {
-        let rightInnerClawNode = document.querySelector("#rightInnerClaw");
-        let rightOuterClawNode = document.querySelector("#rightOuterClaw");
-        let leftInnerClawNode = document.querySelector("#leftInnerClaw");
-        let leftOuterClawNode = document.querySelector("#leftOuterClaw");
-        let upperBodyNode = document.querySelector("#upperBody");
-        let eyesMoveNode = document.querySelector("#eyesMove");
-        let eyesBlinkNode = document.querySelector("#eyesBlink");
-        let leftArmNode = document.querySelector("#leftArm");
-        let rightArmNode = document.querySelector("#rightLowerArm");
-        let robotHeadNode = document.querySelector("#robotHead");
-        let textNode = document.querySelector("#robotTextNode");
+        if (__DOM__) {
+            let rightInnerClawNode = document.querySelector("#rightInnerClaw");
+            let rightOuterClawNode = document.querySelector("#rightOuterClaw");
+            let leftInnerClawNode = document.querySelector("#leftInnerClaw");
+            let leftOuterClawNode = document.querySelector("#leftOuterClaw");
+            let upperBodyNode = document.querySelector("#upperBody");
+            let eyesMoveNode = document.querySelector("#eyesMove");
+            let eyesBlinkNode = document.querySelector("#eyesBlink");
+            let leftArmNode = document.querySelector("#leftArm");
+            let rightArmNode = document.querySelector("#rightLowerArm");
+            let robotHeadNode = document.querySelector("#robotHead");
+            let textNode = document.querySelector("#robotTextNode");
+            setTimeout(function () {
+                TweenMax.from(rightInnerClawNode, clawTweenTime, {
+                    rotation: 45,
+                    transformOrigin: "11px 15px",
+                    repeat: -1,
+                    repeatDelay: rightClawRepeatDelay
+                });
+                TweenMax.from(rightOuterClawNode, clawTweenTime, {
+                    rotation: -45,
+                    transformOrigin: "15px 15px",
+                    repeat: -1,
+                    repeatDelay: rightClawRepeatDelay
+                });
+            }, rightClawRepeatDelay * 1000);
 
-        setTimeout(function () {
-            TweenMax.from(rightInnerClawNode, clawTweenTime, {
-                rotation: 45,
-                transformOrigin: "11px 15px",
-                repeat: -1,
-                repeatDelay: rightClawRepeatDelay
+            setTimeout(function () {
+                TweenMax.from(leftInnerClawNode, clawTweenTime, {
+                    rotation: -45,
+                    transformOrigin: "15px 15px",
+                    repeat: -1,
+                    repeatDelay: leftClawRepeatDelay
+                });
+                TweenMax.from(leftOuterClawNode, clawTweenTime, {
+                    rotation: 45,
+                    transformOrigin: "11px 15px",
+                    repeat: -1,
+                    repeatDelay: leftClawRepeatDelay
+                });
+            }, leftClawRepeatDelay * 1000);
+
+            TweenMax.from(textNode, 2, {
+                opacity: 0
             });
-            TweenMax.from(rightOuterClawNode, clawTweenTime, {
-                rotation: -45,
-                transformOrigin: "15px 15px",
-                repeat: -1,
-                repeatDelay: rightClawRepeatDelay
-            });
-        }, rightClawRepeatDelay * 1000);
 
-        setTimeout(function () {
-            TweenMax.from(leftInnerClawNode, clawTweenTime, {
-                rotation: -45,
-                transformOrigin: "15px 15px",
-                repeat: -1,
-                repeatDelay: leftClawRepeatDelay
-            });
-            TweenMax.from(leftOuterClawNode, clawTweenTime, {
-                rotation: 45,
-                transformOrigin: "11px 15px",
-                repeat: -1,
-                repeatDelay: leftClawRepeatDelay
-            });
-        }, leftClawRepeatDelay * 1000);
-
-        TweenMax.from(textNode, 2, {
-            opacity: 0
-        });
-
-        TweenMax.to(upperBodyNode, bodySwayTime, {
-            rotationZ: -bodySwayAmount,
-            transformOrigin: bodyTO,
-            yoyo: true,
-            repeat: -1,
-            ease: Quad.easeInOut
-        });
-
-        TweenMax.to(leftArmNode, bodySwayTime, {
-            delay: 0.3,
-            rotationZ: bodySwayAmount,
-            transformOrigin: "15px -11px",
-            yoyo: true,
-            repeat: -1,
-            ease: Quad.easeInOut
-        });
-
-        TweenMax.to(rightArmNode, bodySwayTime, {
-            delay: 0.5,
-            rotationZ: bodySwayAmount,
-            transformOrigin: "15px 0px",
-            yoyo: true,
-            repeat: -1,
-            ease: Quad.easeInOut
-        });
-
-        TweenMax.to(eyesMoveNode, 0.05, {
-            delay: eyesMoveRepeatTime,
-            x: -2,
-            y: eyesY,
-            repeatDelay: eyesMoveRepeatTime,
-            repeat: -1,
-            yoyo: true
-        });
-
-        TweenMax.from(eyesBlinkNode, 0.3, {
-            scaleY: 0.2,
-            repeatDelay: blinkRepeatTime,
-            repeat: -1,
-            transformOrigin: "0px 6px"
-        });
-
-        if (!isHeadless) {
-            TweenMax.from(robotHeadNode, bodySwayTime, {
-                delay: bodySwayTime,
-                rotationZ: bodySwayAmount * 1.5,
-                transformOrigin: "65px 77px",
+            TweenMax.to(upperBodyNode, bodySwayTime, {
+                rotationZ: -bodySwayAmount,
+                transformOrigin: bodyTO,
                 yoyo: true,
                 repeat: -1,
                 ease: Quad.easeInOut
             });
+
+            TweenMax.to(leftArmNode, bodySwayTime, {
+                delay: 0.3,
+                rotationZ: bodySwayAmount,
+                transformOrigin: "15px -11px",
+                yoyo: true,
+                repeat: -1,
+                ease: Quad.easeInOut
+            });
+
+            TweenMax.to(rightArmNode, bodySwayTime, {
+                delay: 0.5,
+                rotationZ: bodySwayAmount,
+                transformOrigin: "15px 0px",
+                yoyo: true,
+                repeat: -1,
+                ease: Quad.easeInOut
+            });
+
+            TweenMax.to(eyesMoveNode, 0.05, {
+                delay: eyesMoveRepeatTime,
+                x: -2,
+                y: eyesY,
+                repeatDelay: eyesMoveRepeatTime,
+                repeat: -1,
+                yoyo: true
+            });
+
+            TweenMax.from(eyesBlinkNode, 0.3, {
+                scaleY: 0.2,
+                repeatDelay: blinkRepeatTime,
+                repeat: -1,
+                transformOrigin: "0px 6px"
+            });
+
+            if (!isHeadless) {
+                TweenMax.from(robotHeadNode, bodySwayTime, {
+                    delay: bodySwayTime,
+                    rotationZ: bodySwayAmount * 1.5,
+                    transformOrigin: "65px 77px",
+                    yoyo: true,
+                    repeat: -1,
+                    ease: Quad.easeInOut
+                });
+            }
         }
     }
 }

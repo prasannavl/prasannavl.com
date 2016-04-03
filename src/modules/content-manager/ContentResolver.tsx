@@ -5,8 +5,13 @@ import Archives from "../../components/Archives/index";
 import Article from "../../components/Article/index";
 import Unknown from "../../components/Experiments/Unknown/index";
 
+export interface ContentResolution {
+     path: string;
+     factory: (data?: any) => JSX.Element;
+}
+
 export class ContentResolver {
-    resolve(pathname: string): { path: string, factory: (data?: any) => JSX.Element } {
+    resolve(pathname: string): ContentResolution {
         if (pathname === "overview") {
             return {
                 path: "/content/indexes/overview.json",

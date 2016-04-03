@@ -55,6 +55,7 @@ export function create(options) {
             alias: {
                 "title-service-data": resolvedArtifactConfig.dataTitleServicePath,
                 TweenMax: resolve("./node_modules/gsap/src/uncompressed/TweenMax.js"),
+                pace: resolve("./node_modules/pace-progress/pace.js"),
             },
             extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".ts", ".tsx"]
         },
@@ -188,6 +189,7 @@ export function create(options) {
         TextPlugins.globalStyles,
         new webpack.ProvidePlugin({
             TweenMax: "TweenMax",
+            pace: "pace",
         })
     ];
 

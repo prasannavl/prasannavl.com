@@ -1,4 +1,12 @@
-import { ContentResolver } from "./ContentResolver";
+import { ContentResolver, ContentResolution } from "./ContentResolver";
+
+export interface IHeadlessContentManager {
+    resolve(pathname: string): ContentResolution;
+    getComponentForResolution(resolution: ContentResolution): JSX.Element;
+    getComponent(pathname: string): JSX.Element;
+    getContentForResolution(resolution: ContentResolution): any;
+    getContent(path: string): any;
+}
 
 export class HeadlessContentManager {
     private _resolver: ContentResolver;
@@ -7,13 +15,26 @@ export class HeadlessContentManager {
         this._resolver = resolver;
     }
 
+    resolve(pathname: string) {
+        return this._resolver.resolve(pathname);
+    }
+
+    getComponentForResolution(resolution: ContentResolution) {
+        let content = this.getContentForResolution(resolution);
+        return resolution.factory(content);
+    }
+
+    getContentForResolution(resolution: ContentResolution) {
+        let content = null as any;
+        if (resolution.path !== null) {
+            content = this.getContent(resolution.path);
+        }
+        return content;
+    }
+
     getComponent(pathname: string) {
         let resolved = this._resolver.resolve(pathname);
-        let content = null as any;
-        if (resolved.path !== null) {
-            content = this.getContent(resolved.path);
-        }
-        return resolved.factory(content);
+        return this.getComponentForResolution(resolved);
     }
 
     getContent(path: string) {

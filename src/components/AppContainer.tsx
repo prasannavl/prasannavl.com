@@ -5,12 +5,11 @@ import Expose from "./Expose/index";
 import MainView from "./MainView/index";
 import { IHistoryContext } from "history-next";
 
-interface Props extends React.Props<AppContainer> {
+interface Props extends React.Props<any> {
     context: IAppContext;
 }
 
-class AppContainer extends React.Component<Props, any> {
-
+export class ContextualComponent<T> extends React.Component<Props, T> {
     static childContextTypes: React.ValidationMap<IAppContext> = {
         historyContext: PropTypes.any,
         services: PropTypes.any,
@@ -18,10 +17,16 @@ class AppContainer extends React.Component<Props, any> {
         rendererState: PropTypes.any,
     };
 
-    private _disposeHistoryListener: () => void = null;
-
     getChildContext() {
         return this.props.context;
+    }
+}
+
+export class AppContainer extends ContextualComponent<any> {
+    private _disposeHistoryListener: () => void = null;
+
+    constructor(props: Props, context: any) {
+        super(props, context);
     }
 
     getComponentForContext(context: IHistoryContext) {
