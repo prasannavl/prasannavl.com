@@ -13,12 +13,14 @@ cache:
   directories:
   - node_modules
 before_install:
-- openssl aes-256-cbc -K $encrypted_6f6183083e10_key -iv $encrypted_6f6183083e10_iv
-  -in ./tools/deploy_key.enc -out ./tools/deploy_key -d
+- openssl aes-256-cbc -K $encrypted_6f6183083e10_key -iv $encrypted_6f6183083e10_iv -in ./tools/deploy_key.enc -out ./tools/deploy_key -d
+- openssl aes-256-cbc -K $encrypted_639f1efd265b_key -iv $encrypted_639f1efd265b_iv -in ./tools/deploy_key_master.enc -out ./tools/deploy_key_master -d
 before_script:
 - eval "$(ssh-agent -s)"
 - chmod 600 ./tools/deploy_key
+- chmod 600 ./tools/deploy_key_master
 - ssh-add ./tools/deploy_key
+- ssh-add ./tools/deploy_key_master
 - mkdir build
 - ./node_modules/.bin/typings install
 after_success:
@@ -32,3 +34,6 @@ after_success:
 - git commit -m "Auto deployment"
 - git remote add deploy git@github.com:prasannavl/prasannavl.com.git
 - git push --force deploy master:gh-pages
+- git remote add deploy-master git@github.com:prasannavl/prasannavl.github.io.git
+- git push --force deploy-master master:master
+
