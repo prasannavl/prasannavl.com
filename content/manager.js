@@ -5,7 +5,7 @@ import yaml from "js-yaml";
 import marked from "marked";
 import chalk from "chalk";
 import * as _ from "lodash";
-import { Paths } from "../ConfigConstants";
+import { Paths } from "../configConstants";
 
 class BuildHelper {
 	static processAllAsync(inputDirPath, outputDirPath, options) {
