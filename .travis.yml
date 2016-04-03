@@ -19,7 +19,6 @@ before_script:
 - eval "$(ssh-agent -s)"
 - chmod 600 ./tools/deploy_key
 - chmod 600 ./tools/deploy_key_master
-- ssh-add ./tools/deploy_key
 - ssh-add ./tools/deploy_key_master
 - mkdir build
 - ./node_modules/.bin/typings install
@@ -32,8 +31,6 @@ after_success:
 - git config user.email "ci-bot@prasannavl.com"
 - git add .
 - git commit -m "Auto deployment"
-- git remote add deploy git@github.com:prasannavl/prasannavl.com.git
-- git push --force deploy master:gh-pages
 - git remote add deploy-master git@github.com:prasannavl/prasannavl.github.io.git
 - git push --force deploy-master master:master
 
