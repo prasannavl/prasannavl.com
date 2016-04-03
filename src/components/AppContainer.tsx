@@ -4,6 +4,7 @@ import { IAppContext } from "../modules/core/AppContext";
 import Expose from "./Expose/index";
 import MainView from "./MainView/index";
 import { IHistoryContext } from "history-next";
+import { init as initializeGoogleAnalytics } from "../modules/ext/googleAnalytics";
 
 interface Props extends React.Props<any> {
     context: IAppContext;
@@ -53,6 +54,10 @@ export class AppContainer extends ContextualComponent<any> {
             this.setup(ctx);
             return next(ctx);
         });
+    }
+
+    componentDidMount() {
+        initializeGoogleAnalytics("UA-22344363-1");
     }
 
     componentWillUnmount() {

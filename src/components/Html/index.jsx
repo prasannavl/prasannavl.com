@@ -32,8 +32,9 @@ function Html(options) {
                 <meta name="msapplication-config" content="/icons/browserconfig.xml"/>
                 <meta name="theme-color" content="#0096d6"/>
                 {isArray(css) ? css.map(x => <link rel="stylesheet" href={x} />) : null}
-                {isArray(js) ? js.map(x => <script src={x} defer></script>) : null}     
-                {isArray(inlineCss) ? inlineCss.map(x => <style type="text/css" {...(x.attributes)} dangerouslySetInnerHTML={{ __html: x.content }}></style>) : null}           
+                {isArray(js) ? js.map(x => <script src={x} defer></script>) : null}
+                {isArray(inlineCss) ? inlineCss.map(x => <style type="text/css" {...(x.attributes)} dangerouslySetInnerHTML={{ __html: x.content }}></style>) : null}
+                <script src='https://www.google-analytics.com/analytics.js' defer></script>
             </head>
             <body>
                 {isArray(inlineScripts) ? inlineScripts.map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) : null}

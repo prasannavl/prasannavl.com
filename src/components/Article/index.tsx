@@ -4,6 +4,7 @@ import marked from "marked";
 import createStyled from "../../modules/core/createStyled";
 import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
+import { loadComments } from "../../modules/ext/disqus";
 
 export class Article extends Base<any, any> {
     private _articleDomElements: Array<HTMLElement>;
@@ -28,6 +29,7 @@ export class Article extends Base<any, any> {
 
     componentDidMount() {
         this._articleDomElements.forEach(x => ViewUtils.captureRouteLinks(this, x));
+        loadComments(this.context.historyContext.pathname);
     }
 
     render() {
@@ -41,6 +43,7 @@ export class Article extends Base<any, any> {
                 </header>
                 <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => this._articleDomElements.push(r) }></article>
             </section>
+            <div id="disqus_thread"></div>
             <Footer/>
         </div>);
     }

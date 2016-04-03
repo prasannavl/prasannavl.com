@@ -7,6 +7,7 @@ import { ContentManagerFactory } from "../../modules/content-manager/ContentMana
 import { default as LoadingView, LoadingViewFactory } from "../LoadingView/index";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { IHeadlessContentManager } from "../../modules/content-manager/HeadlessContentManager";
+import { pageView } from "../../modules/ext/googleAnalytics";
 
 export class ContentView extends BaseWithHistoryContext<any, any> {
 
@@ -16,14 +17,14 @@ export class ContentView extends BaseWithHistoryContext<any, any> {
     constructor(props: any, context: any) {
         super(props, context);
         this.state = { component: null };
-        this.onContentChange = this.onContentChange.bind(this);
+        this.onContent = this.onContent.bind(this);
         this.onRequestStarted = this.onRequestStarted.bind(this);
     }
 
     componentWillMount() {
         super.componentWillMount();
         if (__DOM__) {
-            this._contentManager.addListener(this._contentManager.contentEventName, this.onContentChange);
+            this._contentManager.addListener(this._contentManager.contentEventName, this.onContent);
             this._contentManager.addListener(this._contentManager.requestStartEventName, this.onRequestStarted);
             this.onHistoryChange(this.context.historyContext);
         }
@@ -31,7 +32,7 @@ export class ContentView extends BaseWithHistoryContext<any, any> {
 
     componentWillUnmount() {
         if (__DOM__) {
-            this._contentManager.removeListener(this._contentManager.contentEventName, this.onContentChange);
+            this._contentManager.removeListener(this._contentManager.contentEventName, this.onContent);
             this._contentManager.removeListener(this._contentManager.requestStartEventName, this.onRequestStarted);
         }
         super.componentWillUnmount();
@@ -59,17 +60,13 @@ export class ContentView extends BaseWithHistoryContext<any, any> {
         this._contentManager.setPath(context.pathname);
     }
 
-    onContentChange(component: any) {
+    onContent(component: any) {
         if (this._pendingRequest != null) {
             this._pendingRequest = null;
         }
         this.setState({ component });
-        let contentView = document.getElementById("content-view");
-        if (__DOM__ && contentView != null) {
-            TweenMax.to(contentView, 0.7,
-                { scrollTop: 0, ease: Power4.easeOut });
-            contentView.focus();
-        }
+        focusContentView();
+        recordPageView("/" + this.context.historyContext.pathname);
     }
 
     onRequestStarted(req: any) {
@@ -88,6 +85,23 @@ export class ContentView extends BaseWithHistoryContext<any, any> {
                 this.getInitialComponent()
             }
         </div>;
+    }
+}
+
+function focusContentView() {
+    if (__DOM__) {
+        let contentView = document.getElementById("content-view");
+        TweenMax.to(contentView, 0.7,
+            { scrollTop: 0, ease: Power4.easeOut });
+        contentView.focus();
+    }
+}
+
+function recordPageView(path: string) {
+    if (__DOM__) {
+       setTimeout(() => {
+                pageView(path);
+            }, 100);
     }
 }
 
