@@ -89,7 +89,6 @@ class BuildHelper {
 	}
 
 	static createPublishConfig(name, data) {
-		let contents = data;
 		let mTokens = marked.lexer(data);
 		let config = Config.parseFromMarkdownTokens(mTokens);
 
@@ -173,7 +172,7 @@ class BuildHelper {
 }
 
 function sanitizeSlug(slug) {
-	let charsAsDash = [" ", "/", "&", "*", "\\", ";", ",", ":", "+", "%", "#", "(", , "[", "=", "{", "<", "@"];
+	let charsAsDash = [" ", "/", "&", "*", "\\", ";", ",", ":", "+", "%", "#", "(", "[", "=", "{", "<", "@"];
 	let removeChars = ["!", "@", "\"", "'", "?", ")", "]", "}", ">"];
 	let len = charsAsDash.length;
 	while (--len >= 0) {
