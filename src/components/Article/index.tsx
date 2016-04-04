@@ -8,7 +8,7 @@ import { loadComments } from "../../modules/ext/disqus";
 
 export class Article extends StatelessBase<any> {
     private _articleDomElements: Array<HTMLElement>;
-    private _commentTimer: NodeJS.Timer;
+    private _commentTimer: any;
 
     setupTitle() {
         const { name, title } = this.props.data;
@@ -52,6 +52,7 @@ export class Article extends StatelessBase<any> {
     componentWillUnmount() {
         if (this._commentTimer) {
             clearTimeout(this._commentTimer);
+            this._commentTimer = null;
         }
         super.componentWillUnmount();
     }
