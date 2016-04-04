@@ -8,6 +8,7 @@ import { loadComments } from "../../modules/ext/disqus";
 
 export class Article extends StatelessBase<any> {
     private _articleDomElements: Array<HTMLElement>;
+    private _commentTimer: NodeJS.Timer;
 
     setupTitle() {
         const { name, title } = this.props.data;
@@ -38,11 +39,21 @@ export class Article extends StatelessBase<any> {
 
     onUpdate() {
         this._articleDomElements.forEach(x => ViewUtils.captureRouteLinks(this, x));
-        loadComments(this.context.historyContext.pathname);
+        this._commentTimer = setTimeout(() => {
+                loadComments(this.context.historyContext.pathname);
+                this._commentTimer = null;
+        }, 2000);
     }
 
     componentDidMount() {
         this.onUpdate();
+    }
+
+    componentWillUnmount() {
+        if (this._commentTimer) {
+            clearTimeout(this._commentTimer);
+        }
+        super.componentWillUnmount();
     }
 
     render() {
