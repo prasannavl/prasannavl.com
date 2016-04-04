@@ -50,18 +50,14 @@
         line-height: 22px;
         font-family: "Consolas", "Roboto Mono", "Droid Sans Mono", "DejaVu Sans Mono", "monospace";
         code {
-            background: transparent;
             font-size:14px;
-            padding:0px;
-            display: block;
-            margin: 0;
             max-width: 900px;
             display: block;
             overflow-x: auto;
         }
     }
 
-    code {
+    *:not(pre) > code {
         background: darken(white, 2%);
         font-size: 80%;
         padding: 0 5px;
