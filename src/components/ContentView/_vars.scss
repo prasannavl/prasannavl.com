@@ -43,6 +43,9 @@
         font-size: 38px;
         transition: 0.3s;
         color: $headingColor;
+        display: inline-block;
+        position: relative;
+        
         &:hover,
         &:focus {
             color: gray;
@@ -51,6 +54,25 @@
         &:active {
             color: $headingActiveColor;
             transition: 0.2s;
+        }
+    }
+    
+    @mixin header-link-animated {
+        &::after {
+            content:"";
+            position: absolute;
+            display: block;
+            left: -4px;
+            height: 2px;
+            bottom: -6px;
+            width: 0;
+            background:lighten(gray, 10%);
+            transition: 0.375s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        &:hover::after, &:focus::after {
+            width: calc(100% + 8px);
+            transition: 0.7s cubic-bezier(0.4, 0, 0.2, 1);  
         }
     }
     

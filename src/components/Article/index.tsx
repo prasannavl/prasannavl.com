@@ -63,7 +63,7 @@ export class Article extends StatelessBase<any> {
         return (<div className={style.root}>
             <section>
                 <header>
-                    <h2><a href={"/" + item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name.toLowerCase()}</a></h2>
+                    <h2>{ "PVL ".toLocaleLowerCase() + "\u2215" } <a href={"/" + item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name.toLowerCase()}</a></h2>
                     <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
                 </header>
                 <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>

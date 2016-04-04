@@ -133,7 +133,7 @@
             &.sideLinks-enter.sideLinks-enter-active {
                 transform: translate(0px, 0);
                 opacity: 1;
-                transition: all 150ms ease-in-out;
+                transition: 150ms ease-in-out;
             }
 
             &.sideLinks-leave {
@@ -142,7 +142,7 @@
 
             &.sideLinks-leave.sideLinks-leave-active {
                 opacity: 0.01;
-                transition: all 50ms ease-in-out;
+                transition: 50ms ease-in-out;
             }
         }
         
