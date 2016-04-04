@@ -1,8 +1,8 @@
     @import "../MainView/vars";
     $headingColor: $activeLinkColor;
-    $headingActiveColor: $linksOrange;
     $linkHoverColor: $activeLinkColor;
     $linkActiveColor: #30a700;
+    $headingActiveColor: lightgrey;    
     $headerDateColor: rgb(27, 176, 81);
     $horizontalLineColor: whitesmoke;
     
@@ -67,12 +67,18 @@
             bottom: -6px;
             width: 0;
             background:lighten(gray, 10%);
-            transition: 0.375s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 0.37s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         &:hover::after, &:focus::after {
             width: calc(100% + 8px);
-            transition: 0.7s cubic-bezier(0.4, 0, 0.2, 1);  
+            transition: width 0.57s cubic-bezier(0.4, 0, 0.2, 1);  
+        }
+        
+        &:active::after {
+            width: 0;
+            background: lighten($headingActiveColor, 15%);
+            transition: width 0.01s cubic-bezier(0.4, 0, 0.2, 1);  
         }
     }
     

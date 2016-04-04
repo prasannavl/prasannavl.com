@@ -1,5 +1,4 @@
 @import "./vars";
-
 :local(.root) {
     $red: #e06666;
     margin-left: $sidebarWidth;
@@ -30,7 +29,6 @@
         padding: 15px 30px;
         background-color: rgba(0, 0, 0, 0.01);
         border-left: 4px solid $blockColor;
-        text-align: justify;
         font-size:15px;
         line-height: 160%;
         &.red {
@@ -48,18 +46,23 @@
     }
     pre {
         padding: 30px;
-        background: whitesmoke;
-        border-left: 4px solid #e0e0e0;
+        background: #f4f7f8;
+        border-left: 4px solid #e1e9e9;
         line-height: 22px;
         font-family: "Consolas", "Roboto Mono", "Droid Sans Mono", "DejaVu Sans Mono", "monospace";
         code {
-            font-size:14px;
+            font-size: 14px;
             max-width: 900px;
             display: block;
             overflow-x: auto;
         }
     }
-
+    .transparent {
+        background-color: transparent;
+    }
+    .justify {
+        text-align: justify;
+    }
     *:not(pre) > code {
         background: darken(white, 2%);
         font-size: 80%;
@@ -67,7 +70,6 @@
         display: inline-block;
         margin-top: -1px;
     }
-    
     footer {
         font-size: 12px;
         color: gray;
