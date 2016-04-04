@@ -14,7 +14,7 @@ export class Archives extends Base<any, any> {
         let sortedItems = sectionItems.sort((c, n) => n.date.localeCompare(c.date));
         let items = sectionItems.map(item => {
             return (<div key={item.url}>
-                    <a href={item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name}</a>
+                    <a href={"/" + item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name}</a>
                     <time>{ViewUtils.formatDate(item.date) }</time>
             </div>);
         });

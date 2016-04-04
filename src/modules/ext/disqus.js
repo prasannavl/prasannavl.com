@@ -1,6 +1,8 @@
+/* eslint-disable camelcase */
+/* global DISQUS */
 export function loadComments(path) {
     if (__DEV__) {
-        window.disqus_developer = 1;
+        window.disqus_developer = 1; 
     }
     const domain = "http://www.prasannavl.com";
     let canonicalPath = domain + "/" + path;

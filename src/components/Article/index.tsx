@@ -38,7 +38,7 @@ export class Article extends Base<any, any> {
         return (<div className={style.root}>
             <section>
                 <header>
-                    <h2><a href={item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name.toLowerCase()}</a></h2>
+                    <h2><a href={"/" + item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name.toLowerCase()}</a></h2>
                     <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
                 </header>
                 <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => this._articleDomElements.push(r) }></article>

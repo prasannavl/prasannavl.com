@@ -28,7 +28,7 @@ export class Overview extends Base<any, any> {
 
             return (<section key={item.url}>
                 <header>
-                    <h2><a href={item.url} onClick={articleLinkOnClick}>{item.name.toLowerCase()}</a></h2>
+                    <h2><a href={"/" + item.url} onClick={articleLinkOnClick}>{item.name.toLowerCase()}</a></h2>
                     <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
                 </header>
                 <article
@@ -36,7 +36,7 @@ export class Overview extends Base<any, any> {
                     ref={(r) => this._articleDomElements.push(r) }>
                 </article>
                 <div className="readmore">
-                    <a href={item.url} onClick={articleLinkOnClick}>
+                    <a href={"/" + item.url} onClick={articleLinkOnClick}>
                         read more &raquo;
                     </a>
                 </div>
