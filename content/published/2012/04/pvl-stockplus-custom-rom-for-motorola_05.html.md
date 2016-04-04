@@ -7,7 +7,7 @@ url: 2012/04/pvl-stockplus-custom-rom-for-motorola_05.html
 tags: []
 -->
 
-So, after staying at CM for a long time, I came across the recent release of Motorola's ROM. And I must admit, for the first time, I was quite impressed. It was snappy, fast and stable. So, I guess I came to a point where I wanted everything to just work instead of hovering around nightlies, making this stock version a perfect base to rectify Motorola's shortcomings, like the God-awful transitions, the complex and ugly loading icon, and well, root, busybox, memory optimizations and all the other performance goodies. I'm a fan of keeping things simple and elegant, rather than complicating things unnecessarily. And I thought, I would share it this time, for those who prefer to use a stable stock version but will all the goodies. So, here : PVL-StockPlus.
+So, after staying at CM for a long time, I came across the recent release of Motorola's ROM. And I must admit, for the first time, I was quite impressed. It was snappy, fast and stable. So, I guess I came to a point where I wanted everything to just work instead of hovering around nightlies, making this stock version a perfect base to rectify Motorola's shortcomings, like the God-awful transitions, the complex and ugly loading icon, and well, root, busybox, memory optimizations and all the other performance goodies. I'm a fan of keeping things simple and elegant, rather than complicating things unnecessarily. And I thought, I would share it this time, for those who prefer to use a stable stock version but will all the goodies. So, here: PVL-StockPlus.
 
 **Base:** DEFYPLUS_U3_4.5.1-134_DFP-231-AsiaRetail<br/>
 **Languages:** en_US, en_GB, fr_FR, it_IT, es_ES, es_US, de_DE, de_AT, nl_NL, zh_CN, vi_VN, tl_PH, th_TH, id_ID.
@@ -119,4 +119,4 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 
 **Note: Please use only the XDA thread for comments, questions, requests and/or suggestions. I may not respond to comments here.**
 
-For those who share my taste and prefer simplicity, enjoy. Others, no one's stopping you either. ;-)
+For those who share my taste and prefer simplicity, enjoy. Others, no one's stopping you either.
