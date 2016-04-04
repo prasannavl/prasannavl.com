@@ -13,6 +13,7 @@ interface RobotProps extends React.Props<any> {
     error?: string;
     messageElement?: JSX.Element;
     extraMessageElement?: JSX.Element;
+    className?: string;
 }
 
 interface RobotContent {
@@ -21,6 +22,7 @@ interface RobotContent {
     svgText: string;
     messageElement: JSX.Element;
     extraMessageElement: JSX.Element;
+    className: string;
 }
 
 export class Robot extends StatelessBase<RobotProps> {
@@ -47,10 +49,12 @@ export class Robot extends StatelessBase<RobotProps> {
     render() {
         let content = this.getContent();
         this.context.services.title.set(content.documentTitle);
-        let contextualSvg = svg.replace(/(<text id="robotTextNode".*?>)(<\/text>)/, "$1" + content.svgText + "$2");
+        let svgContainerProps: any;
+        if (content.className != null) svgContainerProps = { className: content.className };
+        let svgWithText = svg.replace(/(<text id="robotTextNode".*?>)(<\/text>)/, "$1" + content.svgText + "$2");
         return <div className={style.root}>
             <div className="top-half">
-                <div dangerouslySetInnerHTML={{ __html: contextualSvg }}/>
+                <div {...svgContainerProps} dangerouslySetInnerHTML={{ __html: svgWithText }}/>
             </div>
             <div className="bottom-half">
                 <h2>{content.title && content.title.toLocaleLowerCase()}</h2>
@@ -83,7 +87,7 @@ export function createContent(props: RobotProps,
                 defaultTitle?: string,
                 defaultSvgText?: string,
                 defaultMessageElementFactory?: () => JSX.Element) {
-    let { svgText, title, messageElement, extraMessageElement, documentTitle } = props;
+    let { svgText, title, messageElement, extraMessageElement, documentTitle, className } = props;
     if (svgText == null) {
         svgText = defaultSvgText;
     }
@@ -102,6 +106,7 @@ export function createContent(props: RobotProps,
         svgText,
         messageElement,
         extraMessageElement,
+        className
     };
 }
 

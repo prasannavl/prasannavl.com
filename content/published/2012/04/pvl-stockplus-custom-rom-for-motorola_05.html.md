@@ -25,8 +25,8 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 - Added official Motorola's full version of QuickOffice instead of Lite.
 - Automatic zip-align on boot.
 - Added ramscript.
-- Enabled Multi-touch support upto 10 points. (Can be edited in /system/build.prop)
-- Adjustable Button Backlight (Can be edited in /system/build.prop)
+- Enabled Multi-touch support upto 10 points. (Can be edited in `/system/build.prop`)
+- Adjustable Button Backlight (Can be edited in `/system/build.prop`)
 - Added Deep Sleep support. (Extends your battery life significantly)
 - Volume Buttons Wake Support.
 - Dalvik Tweaks.
@@ -58,21 +58,21 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 - dirty_ratio - 15
 - dirty_background_ratio - 3
 
-**XDA Thread:** [http://forum.xda-developers.com/showthread.php?t=1582187](http://forum.xda-developers.com/showthread.php?t=1582187)
+**XDA Thread:** <a href="http://forum.xda-developers.com/showthread.php?t=1582187" target="_blank">http://forum.xda-developers.com/showthread.php?t=1582187</a>
 
 **Download Links:**
 
-- Version 2 : [PVL-StockPlus-v2.zip](http://www.mediafire.com/download.php?t7v2wl8l22x722a) [194MB]
-- Version 1 : [PVL-StockPlus-v1.zip](http://www.mediafire.com/?l6knpemg37znl8b) [191MB]
+- Version 2 : <a href="http://www.mediafire.com/download.php?t7v2wl8l22x722a" target="_blank">PVL-StockPlus-v2.zip</a> [194MB]
+- Version 1 : <a href="http://www.mediafire.com/?l6knpemg37znl8b" target="_blank">PVL-StockPlus-v1.zip</a> [191MB]
 
-**Note:** If you're installing it on a Defy (not Defy+), you need to only restore "system" using "Advanced Restore", and flash 4.5.3-109-DHT Kernel from here - [http://ge.tt/969Z8xC/v/3](http://ge.tt/969Z8xC/v/3).
+**Note:** If you're installing it on a Defy (not Defy+), you need to only restore "system" using "Advanced Restore", and flash 4.5.3-109-DHT Kernel from here - <a href="http://ge.tt/969Z8xC/v/3" target="_blank">http://ge.tt/969Z8xC/v/3</a>.
 
 **Updates:**
 
-**Note:** All the updates below are already integrated into Version 2\. You don't have to download any of these below.
+**Note:** All the updates below are already integrated into Version 2. You don't have to download any of these below.
 
-[ResponsivenessUpdate.zip](http://www.mediafire.com/?tb605505kdttbd0) [156Kb] (Will work on any ROM with init.d support - Tweaks to ramscript)
-[MP4VideoUpdate.zip](http://www.mediafire.com/?4n6u3b7o8a1sk55) [158Kb] - VGA+ resolution videos including 720p now use MP4 containers. (Info: 720p uses generic MPEG4 Part-2 encoding while others use H264 (Part-10 AVC) as frame-rate with 720p using H264 is too low, although it provides better quality. Edit /system/build.prop if you wish to change that.)
+<a href="http://www.mediafire.com/?tb605505kdttbd0" target="_blank">ResponsivenessUpdate.zip</a> [156Kb] (Will work on any ROM with init.d support - Tweaks to ramscript)
+<a href="http://www.mediafire.com/?4n6u3b7o8a1sk55" target="_blank">MP4VideoUpdate.zip</a> [158Kb] - VGA+ resolution videos including 720p now use MP4 containers. (Info: 720p uses generic MPEG4 Part-2 encoding while others use H264 (Part-10 AVC) as frame-rate with 720p using H264 is too low, although it provides better quality. Edit `/system/build.prop` if you wish to change that.)
 
 **Screenshots:**
 
@@ -91,8 +91,8 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 
 **How to Install:**
 
-1. Root your Phone and Install Bootmenu ([SndInitDefy_2.0.apk](http://forum.xda-developers.com/attachment.php?attachmentid=792601&d=1322064151))
-1. Extract the downloaded file to the SD card at: /sdcard/clockworkmod/backup
+1. Root your Phone and Install Bootmenu (<a href="http://forum.xda-developers.com/attachment.php?attachmentid=792601&d=1322064151" target="_blank">SndInitDefy_2.0.apk</a>)
+1. Extract the downloaded file to the SD card at: `/sdcard/clockworkmod/backup`
 1. Copy all the update zip files, if any, anywhere into your SD card.
 1. Reboot
 1. Boot into 2nd-init (Volume-Down on Blue LED)
@@ -107,8 +107,8 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 
 - Fix: zipalign executable missing.
 - Fix: Panorama mode build.prop typo (Thanks to Walter at XDA)
-- Number of Multi-touch points can be edited in /system/build.prop
-- Button backlight can now be edited in /system/build.prop
+- Number of Multi-touch points can be edited in `/system/build.prop`
+- Button backlight can now be edited in `/system/build.prop`
 - Added Deep Sleep support. (Extends your battery life significantly)
 - Volume Buttons Wake Support.
 - Dalvik Tweaks.
@@ -119,6 +119,4 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 
 **Note: Please use only the XDA thread for comments, questions, requests and/or suggestions. I may not respond to comments here.**
 
-For those who share my taste and prefer simplicity, enjoy. Others, no one's stoping you either. ;-)
-
-PVL
+For those who share my taste and prefer simplicity, enjoy. Others, no one's stopping you either. ;-)

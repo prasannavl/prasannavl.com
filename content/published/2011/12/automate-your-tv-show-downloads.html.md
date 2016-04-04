@@ -22,10 +22,10 @@ So, thought I'll share it. Downlink link is at the end of this post. Download it
 
 By default, the program searches your Downloads and Videos folder and the folder where the program is in. If you know a bit of coding, you can modify it the way you want or just move the program itself the folder where you have your TV shows.
 
-For example, all my shows are at D:\Downloads\Torrents\. So that's where my program searches. And that's where my uTorrent downloads by default.
+For example, all my shows are at `D:\Downloads\Torrents\`. So that's where my program searches. And that's where my uTorrent downloads by default.
 
-Oh, and add a "-q" switch for it to be fully automatic. Add it to your Task Scheduler, silence all uTorrent prompts, and you never have to worry about even running this program again to download your TV shows. Heights of Laziness? Or is it effective use of technology? Your call.
+Oh, and add a `-q` switch for it to be fully automatic. Add it to your Task Scheduler, silence all uTorrent prompts, and you never have to worry about even running this program again to download your TV shows. Heights of Laziness? Or is it effective use of technology? Your call.
 
 Note: I am primary Windows user. So, naturally its more optimized for Windows. The code is on my GitHub. Feel free to make it your own. I was experimenting with python data structures, so excuse the mixed usage of lists and dictionaries. Code is straight forward, except may be for a few complex regular expressions.
 
-**Download Link: ** [MediaFire - TVShowUpdater](http://www.mediafire.com/?2nxcg5vseol9996)
+**Download Link: ** <a href="http://www.mediafire.com/?2nxcg5vseol9996" target="_blank">MediaFire - TVShowUpdater</a>

@@ -29,6 +29,24 @@
 				font-size: 14px;
 			}
 		}
+		
+		a.tweet {
+			display: inline-block;
+			padding: 10px 60px;
+			margin-top:10px;
+			text-decoration: none;
+			background: #55acee;
+			color: white;
+			font-weight: 400;
+			border:0;
+			&:hover {
+				background: darken(#55acee, 50%);
+				border:0;
+			}
+			&:active {
+				background: green;				
+			}
+		}
 	}
 	#robotTextNode{
 		color: #CEDDD1;	

@@ -11,24 +11,24 @@ Motorola has a unique way to controlling their phone. They release an update whi
 
 **So, here's my post regarding the same on XDA:**
 
-People who are stuck with 4.5.1-134_DFP-13XX Kernels and or any BL6 SBFs on the Motorola Defy(+) may now freely switch between any kernels they require, using the below SBF.
+People who are stuck with `4.5.1-134_DFP-13XX` Kernels and or any BL6 SBFs on the Motorola Defy(+) may now freely switch between any kernels they require, using the below SBF.
 
 Say for example, to upgrade to Walter's fixed SBF of 4.5.3_109 Kernel from 4.5.1-134_DFP-13XX, do the following.
 
-1. Flash Defy-BL6Downgrade-CDT.sbf through RSD Lite.
-1. Flash walter's 4.5.3_109 kernel sbf right away after that or an update zip package if you have a functional recovery. (Actually, you may flash any kernel. Even Froyo kernels)
+1. Flash `Defy-BL6Downgrade-CDT.sbf` through RSD Lite.
+1. Flash walter's `4.5.3_109 kernel sbf` right away after that or an update zip package if you have a functional recovery. (Actually, you may flash any kernel. Even Froyo kernels)
 1. Have a cup of coffee while it flashes, and enjoy after that ;)
 
 Wipe data/cache in case you get stuck at boot. No more bootloader errors.
 
-This is based on [http://forum.xda-developers.com/show....php?t=1486731](http://forum.xda-developers.com/showthread.php?t=1486731)
+This is based on <a href="http://forum.xda-developers.com/showthread.php?t=1486731" target="_blank">http://forum.xda-developers.com/showthread.php?t=1486731</a>
 Credits go to dlhxr for that.
 
-Note: If you have an SBF which you want to flash after this, just the BL6Downgrade-CDT.sbf[47Kb] is enough.
+Note: If you have an SBF which you want to flash after this, just the `BL6Downgrade-CDT.sbf` [47Kb] is enough.
 
 If you want to get into a custom recovery (only if you already have it), then you have to flash BL6Downgrade.SBF, or you will end up with a Bootloader ERR screen.
 
 **Files:**
 
-BL6Downgrade.SBF [34MB] - [http://www.mediafire.com/download.php?vdpp0nnr5f12e95](http://www.mediafire.com/download.php?vdpp0nnr5f12e95)<br/>
-Original XDA Thread: [http://forum.xda-developers.com/showthread.php?t=1552152](http://forum.xda-developers.com/showthread.php?t=1552152)
+BL6Downgrade.SBF [34MB] - <a href="http://www.mediafire.com/download.php?vdpp0nnr5f12e95" target="_blank">http://www.mediafire.com/download.php?vdpp0nnr5f12e95</a><br/>
+Original XDA Thread: <a href="http://forum.xda-developers.com/showthread.php?t=1552152" target="_blank">http://forum.xda-developers.com/showthread.php?t=1552152</a>

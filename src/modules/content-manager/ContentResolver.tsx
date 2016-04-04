@@ -62,7 +62,7 @@ export class ContentResolver {
             case "feedback": {
                 return {
                     contentPath: null,
-                    factory: () => <Unknown svgText="yay!" documentTitle="Feedback" extraMessageElement={getFeedbackContentElement()}/>
+                    factory: () => <Unknown svgText="yay!" documentTitle="Feedback" messageElement={getFeedbackContentElement()}/>
                 };
             }
         }
@@ -73,10 +73,10 @@ export class ContentResolver {
 }
 
 function getFeedbackContentElement() {
-    return (<div><p></p></div>);
+    return (<div style={{ maxWidth: 520, marginLeft: "auto", marginRight: "auto" }}><p style={{ fontSize: "25px" }}>Thank you for the taking the time to provide your feedback. Just drop it in as a direct tweet to me, with the hash-tag <strong>#weblog</strong>.</p><p><a className="tweet" target="_blank" href={getFeedbackLink()}>Tweet</a></p></div>);
 }
 
 function getFeedbackLink() {
-    const message = encodeURIComponent("@prasannavl, #prasannavl.com ");
+    const message = encodeURIComponent("@prasannavl, #weblog ");
     return `https://twitter.com/intent/tweet?text=${message}`;
 }

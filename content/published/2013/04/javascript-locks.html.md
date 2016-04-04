@@ -15,8 +15,8 @@ You probably would get away with it, if you're writing simple applications. But 
 
 And that's exactly what the below tiny (<2kb) library provides.
 
-###### **GitHub:** [https://github.com/prasannavl/JsLocks](https://github.com/prasannavl/JsLocks)
-###### **Download:** [JsLocks.min.js](https://raw.github.com/prasannavl/JsLocks/master/JsLocks.min.js)
+###### **GitHub:** <a href="https://github.com/prasannavl/JsLocks" target="_blank">https://github.com/prasannavl/JsLocks</a> <span class="text-red">[No longer available]</span> 
+###### **Download:** <a href="https://raw.github.com/prasannavl/JsLocks/master/JsLocks.min.js" target="_blank">JsLocks.min.js</a> <span class="text-red">[No longer available]</span>
 
 **API:**
 
@@ -103,5 +103,3 @@ Task no: 3, Priority: 1
 ```
 
 As you'd expect, the locking mechanism makes it a reliable tasking system. Extend, modify and utilize it at will. Have fun!
-
-PVL
