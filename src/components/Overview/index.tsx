@@ -1,20 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Base } from "../Base";
+import { StatelessBase } from "../Base";
 import marked from "marked";
 import createStyled from "../../modules/core/createStyled";
 import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
 
-export class Overview extends Base<any, any> {
+export class Overview extends StatelessBase<any> {
     private _articleDomElements: Array<HTMLElement>;
 
     componentWillMount() {
         this.getServices().title.set("Overview");
     }
 
-    componentDidMount() {
+    onUpdate() {
         this._articleDomElements.forEach(x => ViewUtils.captureRouteLinks(this, x));
+    }
+
+    componentDidMount() {
+        this.onUpdate();
     }
 
     render() {
@@ -33,7 +37,7 @@ export class Overview extends Base<any, any> {
                 </header>
                 <article
                     dangerouslySetInnerHTML={{ __html: marked(item.content) }}
-                    ref={(r) => this._articleDomElements.push(r) }>
+                    ref={(r) => r && this._articleDomElements.push(r) }>
                 </article>
                 <div className="readmore">
                     <a href={"/" + item.url} onClick={articleLinkOnClick}>

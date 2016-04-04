@@ -11,16 +11,20 @@ interface Props extends React.Props<any> {
 }
 
 export class ContextualComponent<T> extends React.Component<Props, T> {
+    constructor(props: Props, context: any) {
+        super(props, context);
+    }
+
+    getChildContext() {
+        return this.props.context;
+    }
+
     static childContextTypes: React.ValidationMap<IAppContext> = {
         historyContext: PropTypes.any,
         services: PropTypes.any,
         state: PropTypes.any,
         rendererState: PropTypes.any,
     };
-
-    getChildContext() {
-        return this.props.context;
-    }
 }
 
 export class AppContainer extends ContextualComponent<any> {

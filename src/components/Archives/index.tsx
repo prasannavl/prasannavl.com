@@ -1,11 +1,11 @@
 import React from "react";
-import { Base } from "../Base";
+import { StatelessBase } from "../Base";
 import createStyled from "../../modules/core/createStyled";
 import marked from "marked";
 import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
 
-export class Archives extends Base<any, any> {
+export class Archives extends StatelessBase<any> {
     componentWillMount() {
         this.getServices().title.set("Archives");
     }

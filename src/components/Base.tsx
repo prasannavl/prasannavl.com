@@ -2,20 +2,26 @@ import React from "react";
 import { IAppContext } from "../modules/core/AppContext";
 import shallowCompare from "react-addons-shallow-compare";
 import { IHistoryContext, HistoryContext } from "history-next";
-
 const PropTypes = React.PropTypes;
-export class Base<P, S> extends React.Component<P, S> {
-    static contextTypes: React.ValidationMap<IAppContext> = {
-        historyContext: PropTypes.any,
-        services: PropTypes.any,
-        state: PropTypes.any,
-        rendererState: PropTypes.any,
-    };
 
+export class StatelessComponent<P> extends React.Component<P, any> {
+    constructor(props: P, context: any) {
+        super(props, context);
+    }
+
+    shouldComponentUpdate(nextProps: any, nextState: any) {
+        return shallowCompare(this, nextProps, nextState);
+    }
+}
+
+export class Base<P, S> extends React.Component<P, S> {
     context: IAppContext;
 
-    componentWillMount() { }
+    constructor(props: any, context: any) {
+        super(props, context);
+    }
 
+    componentWillMount() { }
     componentWillUnmount() { }
 
     getServices() {
@@ -33,18 +39,30 @@ export class Base<P, S> extends React.Component<P, S> {
             history.push(path);
         }
     }
+
+    static contextTypes: any = {
+        historyContext: PropTypes.any,
+        services: PropTypes.any,
+        state: PropTypes.any,
+        rendererState: PropTypes.any,
+    };
+}
+
+export class StatelessBase<P> extends Base<P, any> {
+    constructor(props: P, context: any) {
+        super(props, context);
+    }
+
+    shouldComponentUpdate(nextProps: any, nextState: any) {
+        return shallowCompare(this, nextProps, nextState);
+    }
 }
 
 export class BaseWithHistoryContext<P, S> extends Base<P, S> {
-
     private _childContext: { historyContext: IHistoryContext };
     private _disposeHistoryListener: () => void = null;
 
-    static childContextTypes = {
-        historyContext: PropTypes.object,
-    };
-
-    constructor(props: any, context: IAppContext) {
+    constructor(props: P, context: IAppContext) {
         super(props, context);
         this._childContext = { historyContext: context.historyContext };
     }
@@ -78,15 +96,17 @@ export class BaseWithHistoryContext<P, S> extends Base<P, S> {
     }
 
     onHistoryChange(context: IHistoryContext) { }
+
+    static childContextTypes = {
+        historyContext: PropTypes.object,
+    };
 }
 
-export class StatelessComponent<P> extends React.Component<P, any> {
-    shouldComponentUpdate(nextProps: any, nextState: any) {
-        return shallowCompare(this, nextProps, nextState);
+export class StatelessBaseWithHistory<P> extends BaseWithHistoryContext<P, any> {
+    constructor(props: P, context: any) {
+        super(props, context);
     }
-}
 
-export class StatelessBase<P> extends Base<P, any> {
     shouldComponentUpdate(nextProps: any, nextState: any) {
         return shallowCompare(this, nextProps, nextState);
     }
@@ -95,6 +115,7 @@ export class StatelessBase<P> extends Base<P, any> {
 interface BaseFactoryOptions {
     title?: string;
     resetTitle?: boolean;
+    shallowRender?: boolean;
 }
 
 export class BaseFactory {
@@ -105,13 +126,17 @@ export class BaseFactory {
             performTitleReset: options.resetTitle ? true : false,
         };
 
-        let extendedBaseClass = class extends Base<P, any> {
+        let klass = options.shallowRender ? StatelessBase : Base;
+
+        let extendedBaseClass = class extends klass<P, any> {
             componentWillMount() {
                 super.componentWillMount();
+                let self = this;
+                let services = self.getServices();
                 if (opts.performTitleSet) {
-                    this.getServices().title.set(title);
+                    services.title.set(title);
                 } else if (opts.performTitleReset) {
-                    this.getServices().title.reset();
+                    services.title.reset();
                 }
             }
 

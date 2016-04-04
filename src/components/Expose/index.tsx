@@ -1,12 +1,12 @@
 import React from "react";
-import { Base } from "../Base";
+import { StatelessBase } from "../Base";
 import createStyled from "../../modules/core/createStyled";
 import Tagline from "../fragments/Tagline";
 import { IAppContext } from "../../modules/core/AppContext";
 
 const style = require("./style.scss") as any;
 
-class Expose extends Base<any, any> {
+class Expose extends StatelessBase<any> {
     componentWillMount() {
         super.componentWillMount();
         this.getServices().title.reset();

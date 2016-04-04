@@ -11,8 +11,8 @@ export interface LinkProps extends React.Props<Link> {
 }
 
 export default class Link extends Base<LinkProps, any> {
-    constructor() {
-        super();
+    constructor(props: LinkProps, context: any) {
+        super(props, context);
         this.onClick = this.onClick.bind(this);
     }
 

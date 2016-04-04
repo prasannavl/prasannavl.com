@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import createStyled from "../../modules/core/createStyled";
-import { BaseWithHistoryContext } from "../Base";
+import { StatelessBaseWithHistory } from "../Base";
 import { IHistoryContext } from "history-next";
 import { ContentManagerFactory } from "../../modules/content-manager/ContentManagerFactory";
 import { default as LoadingView, LoadingViewFactory } from "../LoadingView/index";
@@ -9,8 +9,7 @@ import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { IHeadlessContentManager } from "../../modules/content-manager/HeadlessContentManager";
 import { pageView } from "../../modules/ext/googleAnalytics";
 
-export class ContentView extends BaseWithHistoryContext<any, any> {
-
+export class ContentView extends StatelessBaseWithHistory<any> {
     private _contentManager = ContentManagerFactory.create();
     private _pendingRequest: any = null;
 
@@ -91,6 +90,7 @@ export class ContentView extends BaseWithHistoryContext<any, any> {
 function focusContentView() {
     if (__DOM__) {
         let contentView = document.getElementById("content-view");
+        if (contentView == null) return;
         TweenMax.to(contentView, 0.7,
             { scrollTop: 0, ease: Power4.easeOut });
         contentView.focus();

@@ -59,9 +59,24 @@ export class ContentResolver {
                     factory: () => <Unknown error="000" documentTitle="About"/>
                 };
             }
+            case "feedback": {
+                return {
+                    contentPath: null,
+                    factory: () => <Unknown svgText="yay!" documentTitle="Feedback" extraMessageElement={getFeedbackContentElement()}/>
+                };
+            }
         }
         return this.noResolution();
     }
 
     static CachedNoResolution = { contentPath: null, factory: null } as ContentResolution;
+}
+
+function getFeedbackContentElement() {
+    return (<div><p></p></div>);
+}
+
+function getFeedbackLink() {
+    const message = encodeURIComponent("@prasannavl, #prasannavl.com ");
+    return `https://twitter.com/intent/tweet?text=${message}`;
 }

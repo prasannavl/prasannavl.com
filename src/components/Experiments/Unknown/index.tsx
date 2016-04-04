@@ -1,5 +1,5 @@
 import React from "react";
-import { Base } from "../../Base";
+import { StatelessBase } from "../../Base";
 import createStyled from "../../../modules/core/createStyled";
 import { createErrorCodeMap } from "./ErrorCodeMap";
 
@@ -7,68 +7,53 @@ let svg = require("!raw!./bot.svg") as any;
 let style = require("./bot.scss") as any;
 
 interface RobotProps extends React.Props<any> {
-    text?: string;
+    title?: string;
     documentTitle?: string;
+    svgText?: string;
     error?: string;
+    messageElement?: JSX.Element;
     extraMessageElement?: JSX.Element;
 }
 
 interface RobotContent {
-    text: string;
-    documentTitle: string;
     title: string;
+    documentTitle: string;
+    svgText: string;
     messageElement: JSX.Element;
     extraMessageElement: JSX.Element;
 }
 
-export class Robot extends Base<RobotProps, any> {
+export class Robot extends StatelessBase<RobotProps> {
     getContent() {
-        let { error, text, extraMessageElement, documentTitle } = this.props;
-        let content = null as RobotContent;
+        let { error, svgText, title, messageElement, extraMessageElement, documentTitle } = this.props;
         if (error) {
             if (error === "000") {
-                content = {
-                    text: "o-o",
-                    title: "Construction Zone",
-                    messageElement: (<p>
-                        Hello there. This area is still under construction.
-                        <br/>Please check back in a few days.</p>),
-                    extraMessageElement,
-                    documentTitle,
-                };
+                return createContent(this.props, "Construction Zone", "o-o", getConstructionMessageElement);
             } else {
-                content = {
-                    text: error,
-                    title: createErrorCodeMap().get(error),
-                    messageElement: (<div>
-                    <p>
-                    This is not the page you're looking for. <br/>
-                    If you have a bad feeling about this, let the force guide you.<sup>*</sup><br/>
-                    </p>
-                    <p className="note">[*] : Look to the sidebar on the left.</p>
-                    </div>),
-                    extraMessageElement,
-                    documentTitle,
-                };
+                return createContent(this.props, createErrorCodeMap().get(error), error, getErrorMessageElement);
             }
         }
-        return content;
+        return createContent(this.props);
     }
 
     componentDidMount() {
         getBrokeBot().run(false);
     }
 
+    componentDidUpdate() {
+        getBrokeBot().run(false);
+    }
+
     render() {
         let content = this.getContent();
-        this.context.services.title.set(content.documentTitle || content.title);
-        let contextualSvg = svg.replace(/(<text id="robotTextNode".*?>)(<\/text>)/, "$1" + content.text + "$2");
+        this.context.services.title.set(content.documentTitle);
+        let contextualSvg = svg.replace(/(<text id="robotTextNode".*?>)(<\/text>)/, "$1" + content.svgText + "$2");
         return <div className={style.root}>
             <div className="top-half">
                 <div dangerouslySetInnerHTML={{ __html: contextualSvg }}/>
             </div>
             <div className="bottom-half">
-                <h2>{content.title.toLocaleLowerCase()}</h2>
+                <h2>{content.title && content.title.toLocaleLowerCase()}</h2>
                 {content.messageElement}
                 {content.extraMessageElement}
             </div>
@@ -77,6 +62,48 @@ export class Robot extends Base<RobotProps, any> {
 }
 
 export default createStyled(Robot, style);
+
+function getConstructionMessageElement() {
+    return (<p>
+        Hello there. This area is still under construction.
+        <br/>Please check back later.</p>);
+}
+
+function getErrorMessageElement() {
+    return (<div>
+            <p>
+            This is not the page you're looking for. <br/>
+            If you have a bad feeling about this, let the force guide you.<sup>*</sup><br/>
+            </p>
+            <p className="note">[*] : Look to the sidebar on the left.</p>
+            </div>);
+}
+
+export function createContent(props: RobotProps,
+                defaultTitle?: string,
+                defaultSvgText?: string,
+                defaultMessageElementFactory?: () => JSX.Element) {
+    let { svgText, title, messageElement, extraMessageElement, documentTitle } = props;
+    if (svgText == null) {
+        svgText = defaultSvgText;
+    }
+    if (title == null) {
+        title = defaultTitle;
+    }
+    if (messageElement === undefined) {
+        messageElement = defaultMessageElementFactory && defaultMessageElementFactory();
+    }
+    if (documentTitle == null) {
+        documentTitle = title;
+    }
+    return {
+        title,
+        documentTitle,
+        svgText,
+        messageElement,
+        extraMessageElement,
+    };
+}
 
 function getBrokeBot() {
     let clawTweenTime = 1;

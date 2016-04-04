@@ -3,7 +3,6 @@
 <!--[options]
 name: Motorola Defy - Upgrade/Downgrade kernels
 date: 2012-03-18T00:00:00.000Z
-title: null
 url: 2012/03/motorola-defy-upgradedowngrade-kernels.html
 tags: []
 -->

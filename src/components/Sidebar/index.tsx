@@ -12,11 +12,6 @@ class NavLink extends React.Component<any, any> {
   }
 }
 
-function getFeedbackLink() {
-    const message = encodeURIComponent("@prasannavl, #prasannavl.com ");
-    return `https://twitter.com/intent/tweet?text=${message}`;
-}
-
 class Sidebar extends Base<any, any> {
     render() {
         const c = (
@@ -31,7 +26,7 @@ class Sidebar extends Base<any, any> {
                     <li><NavLink href="/overview">overview</NavLink></li>
                     <li><NavLink href="/archives">archives</NavLink></li>
                     <li><NavLink href="/about">about</NavLink></li>
-                    <li><a href={getFeedbackLink()} target="_blank">feedback</a></li>
+                    <li><NavLink href="/feedback">feedback</NavLink></li>
                 </nav>
                 <address className="icons">
                         <a href="https://www.twitter.com/prasannavl" className="icon-twitter" target="_blank"></a>

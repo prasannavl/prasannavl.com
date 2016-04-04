@@ -1,15 +1,15 @@
 import React from "react";
-import { Base } from "../Base";
+import { StatelessBase } from "../Base";
 import marked from "marked";
 import createStyled from "../../modules/core/createStyled";
 import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
 import { loadComments } from "../../modules/ext/disqus";
 
-export class Article extends Base<any, any> {
+export class Article extends StatelessBase<any> {
     private _articleDomElements: Array<HTMLElement>;
 
-    componentWillMount() {
+    setupTitle() {
         const { name, title } = this.props.data;
         let titleService = this.getServices().title;
         if (title !== undefined) {
@@ -27,9 +27,25 @@ export class Article extends Base<any, any> {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        this.setupTitle();
+    }
+
+    componentDidUpdate() {
+        this.setupTitle();
+        this.onUpdate();
+    }
+
+    onUpdate() {
+        console.log(this.props);
+        console.log(this.state);
+        console.log(new Error().stack);
         this._articleDomElements.forEach(x => ViewUtils.captureRouteLinks(this, x));
         loadComments(this.context.historyContext.pathname);
+    }
+
+    componentDidMount() {
+        this.onUpdate();
     }
 
     render() {
@@ -41,7 +57,7 @@ export class Article extends Base<any, any> {
                     <h2><a href={"/" + item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name.toLowerCase()}</a></h2>
                     <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
                 </header>
-                <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => this._articleDomElements.push(r) }></article>
+                <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>
             </section>
             <div id="disqus_thread"></div>
             <Footer/>
