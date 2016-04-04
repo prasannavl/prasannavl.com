@@ -28,8 +28,7 @@ export class ContentResolver {
     }
 
     tryResolveContent(pathname: string): ContentResolution {
-        const contentRegex = /((\d{4})\/(.*))/i;
-        const match = contentRegex.exec(pathname);
+        const match = ContentResolver.isContentPath(pathname);
         if (match) {
             return {
                 contentPath: "/content/" + match[0] + ".json",
@@ -67,6 +66,12 @@ export class ContentResolver {
             }
         }
         return this.noResolution();
+    }
+
+    static isContentPath(pathname: string) {
+        const contentRegex = /((\d{4})\/(.*))/i;
+        const match = contentRegex.exec(pathname);
+        return match;
     }
 
     static CachedNoResolution = { contentPath: null, factory: null } as ContentResolution;

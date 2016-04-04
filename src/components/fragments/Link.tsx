@@ -1,6 +1,7 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { Base } from "../Base";
-import { cleanPathNameSlashses } from "history-next/lib/utils"
+import { cleanPathNameSlashses } from "history-next/lib/utils";
 
 export interface LinkProps extends React.Props<Link> {
     href: string;
@@ -35,11 +36,7 @@ export default class Link extends Base<LinkProps, any> {
         let classNames = this.props.className;
         const href = this.props.href;
         if (this.props.activeClassName && this.isActive()) {
-            if (classNames) {
-                classNames += " " + this.props.activeClassName;
-            } else {
-                classNames = this.props.activeClassName;
-            }
+           classNames = joinWithSpaceIfNotEmpty(classNames, this.props.activeClassName);
         }
         const props = Object.assign({}, this.props, {
             onClick: this.onClick,
@@ -48,4 +45,9 @@ export default class Link extends Base<LinkProps, any> {
         });
         return React.DOM.a(props, this.props.children || href);
     }
+}
+
+function joinWithSpaceIfNotEmpty(source: string, addition: string) {
+    if (!source) return addition;
+    return source + " " + addition;
 }

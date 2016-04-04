@@ -37,9 +37,6 @@ export class Article extends StatelessBase<any> {
     }
 
     onUpdate() {
-        console.log(this.props);
-        console.log(this.state);
-        console.log(new Error().stack);
         this._articleDomElements.forEach(x => ViewUtils.captureRouteLinks(this, x));
         loadComments(this.context.historyContext.pathname);
     }

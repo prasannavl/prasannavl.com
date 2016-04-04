@@ -119,6 +119,32 @@
         margin: 10px 0 20px 0;
         list-style-type: none;
         
+        & > li {
+            &.sideLinks-enter {
+                opacity: 0.01;
+                position: absolute;
+                width: $sidebarWidth;
+                transform: translate(0px, -20px);
+            }
+
+            &.sideLinks-enter.sideLinks-enter-active {
+                position: absolute;
+                width: $sidebarWidth;     
+                transform: translate(0px, 0);
+                opacity: 1;
+                transition: all 300ms ease-in;
+            }
+
+            &.sideLinks-leave {
+                opacity: 1;
+            }
+
+            &.sideLinks-leave.sideLinks-leave-active {
+                opacity: 0.01;
+                transition: all 200ms ease-out;
+            }
+        }
+        
         & > li > a {
             display: block;
             padding: 10px 30px;
