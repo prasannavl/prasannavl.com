@@ -6,7 +6,7 @@ import fs from "fs";
 function getRoutes() {
 	let routes = [
 		"/",
-		"/404.html",
+		{ route: "/404.html", file: "/404.html" },
 		"/overview",
 		"/about",
 		"/archives",

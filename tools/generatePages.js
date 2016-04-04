@@ -66,14 +66,20 @@ if (routes.length > 0) {
 
 function generate(p, cb) {
     // Setup index.html as default
-    let innerPath = p.endsWith("/") ? p + "index.html" : p + "/index.html";
-
+    let requestPath, filePath;
+    if (typeof p === "object") {
+        filePath = p.file;
+        requestPath = p.route;
+    } else {
+        filePath = p.endsWith("/") ? p + "index.html" : p + "/index.html";
+        requestPath = p;
+    }
     // Strip the first "/", if it exists.
-    const webPath = (p.indexOf("/") === 0) ? p.substring(1) : p;
+    const webPath = (requestPath.indexOf("/") === 0) ? requestPath.substring(1) : requestPath;
 
     let url = `http://${ServerConfig.host}:${ServerConfig.port}${ServerConfig.publicPath}${webPath}`;
-    let dest = path.join(resolve(Paths.outputDirRelativeName), innerPath);
-    console.log(p + " => " + innerPath);
+    let dest = path.join(resolve(Paths.outputDirRelativeName), filePath);
+    console.log(p + " => " + filePath);
 
     function writeResult(filePath, content) {
         fs.writeFile(filePath, content, err => {
