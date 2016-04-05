@@ -38,7 +38,7 @@ export class WebpackUtils {
         this.updateHtmlConfigForExternals(htmlConfig, config.app.externals);
         utils.writeToFileAsJson(htmlConfigPath, htmlConfig);
 
-        if (!isProduction) {
+        if (!isProduction && !isServerRenderer) {
             let htmlPlugin = new HtmlWebpackPlugin({
                 fileName: "index.html",
                 templateContent: rendererUtils.renderHtml(htmlConfig),

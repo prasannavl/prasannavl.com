@@ -5,7 +5,6 @@ import marked from "marked";
 import createStyled from "../../modules/core/createStyled";
 import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
-import { Events } from "../../modules/dom-utils/index";
 
 export class Overview extends StatelessBase<any> {
     private _articleDomElements: Array<HTMLElement>;

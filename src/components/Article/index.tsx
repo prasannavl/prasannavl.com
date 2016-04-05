@@ -5,10 +5,16 @@ import createStyled from "../../modules/core/createStyled";
 import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
 import { loadComments } from "../../modules/ext/disqus";
+import Rx from "rxjs";
+import ReactDOM from "react-dom";
 
 export class Article extends StatelessBase<any> {
     private _articleDomElements: Array<HTMLElement>;
-    private _commentTimer: any;
+
+    private _scrollEventSubject = new Rx.Subject<any>();
+    private _delayedScrollEventTriggerSubject = new Rx.Subject<any>();
+    private _scrollEventSubscription: Rx.Subscription;
+    private _scrollNativeEventSubscription: Rx.Subscription;
 
     setupTitle() {
         const { name, title } = this.props.data;
@@ -32,6 +38,10 @@ export class Article extends StatelessBase<any> {
         this.setupTitle();
     }
 
+    componentDidMount() {
+        this.onUpdate();
+    }
+
     componentDidUpdate() {
         this.setupTitle();
         this.onUpdate();
@@ -39,21 +49,49 @@ export class Article extends StatelessBase<any> {
 
     onUpdate() {
         this._articleDomElements.forEach(x => ViewUtils.captureRouteLinks(this, x));
-        this._commentTimer = setTimeout(() => {
-                loadComments(this.context.historyContext.pathname);
-                this._commentTimer = null;
-        }, 2000);
+        this.ensureSubscriptions();
+        this._delayedScrollEventTriggerSubject.next(null);
     }
 
-    componentDidMount() {
-        this.onUpdate();
+    ensureSubscriptions() {
+        if (!this._scrollEventSubscription || this._scrollEventSubscription.isUnsubscribed) {
+            this._scrollEventSubscription = this._scrollEventSubject.subscribe(() => {
+                this.validateCommentView();
+            });
+        }
+        if (!this._scrollNativeEventSubscription || this._scrollNativeEventSubscription.isUnsubscribed) {
+            let contentView = document.getElementById("content-view");
+            if (contentView) {
+                this._scrollNativeEventSubscription = Rx.Observable.fromEvent(contentView, "scroll")
+                    .merge(this._delayedScrollEventTriggerSubject.delay(2000))
+                    .debounceTime(300)
+                    .subscribe(this._scrollEventSubject);
+            }
+        }
+    }
+
+    validateCommentView() {
+        let el = this.refs["disqus"] as HTMLElement;
+        if (this.getViewportHeightOffset(el) > 0) {
+            this.disposeSubscriptions();
+            loadComments(this.context.historyContext.pathname);
+        }
+    }
+
+    getViewportHeightOffset(element: HTMLElement) {
+        if (element == null) return;
+        return (window.innerHeight || document.documentElement.clientHeight) - element.getBoundingClientRect().top;
+    }
+
+    disposeSubscriptions() {
+        if (!this._scrollNativeEventSubscription.isUnsubscribed)
+            this._scrollNativeEventSubscription.unsubscribe();
+        if (!this._scrollEventSubscription.isUnsubscribed)
+            this._scrollEventSubscription.unsubscribe();
     }
 
     componentWillUnmount() {
-        if (this._commentTimer) {
-            clearTimeout(this._commentTimer);
-            this._commentTimer = null;
-        }
+        this.disposeSubscriptions();
         super.componentWillUnmount();
     }
 
@@ -68,7 +106,7 @@ export class Article extends StatelessBase<any> {
                 </header>
                 <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>
             </section>
-            <div id="disqus_thread"></div>
+            <div id="disqus_thread" ref="disqus"></div>
             <Footer/>
         </div>);
     }

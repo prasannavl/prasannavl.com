@@ -35,7 +35,7 @@ export function createServer(rootPath, indexPath, handler = null, log = false) {
     }
 
     server.use(express.static(rootPath + "/"));
-
+    
     if (handler) {
         server.use(handler);
     } else {

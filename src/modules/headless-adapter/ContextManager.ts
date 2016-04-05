@@ -36,7 +36,6 @@ export class ContextManager implements IContextManager {
         history.setContext(historyContext);
 
         const element = React.createElement(context.services.appContainerProvider(), { path: url, context });
-        console.log("rendering: " + url);
         const content = ReactDOM.renderToString(element);
 
         Object.assign(htmlConfig, {

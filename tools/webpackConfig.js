@@ -81,7 +81,7 @@ export function create(options) {
             loaders: [
                 {
                     test: /\.ts[x]?$/i,
-                    loader: "babel!ts",
+                    loader: "babel?compact=false!ts",
                     exclude: /node_modules/
                 },
                 {

@@ -16,6 +16,7 @@ export default class AppRenderer {
 
     run(req, res) {
         try {
+            console.log("rendering: " + req.url);
             const cm = this.contextManager;
             const context = cm.createContext();
             cm.configureContext(context, _.cloneDeep(this.htmlConfig));

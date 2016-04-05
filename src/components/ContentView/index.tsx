@@ -98,10 +98,10 @@ function focusContentView() {
 }
 
 function recordPageView(path: string) {
-    if (__DOM__) {
-       setTimeout(() => {
-                pageView(path);
-            }, 100);
+    if (!__DEV__) {
+        setTimeout(() => {
+            pageView(path);
+        }, 100);
     }
 }
 
