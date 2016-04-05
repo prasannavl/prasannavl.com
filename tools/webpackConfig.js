@@ -82,7 +82,7 @@ export function create(options) {
             loaders: [
                 {
                     test: /\.ts[x]?$/i,
-                    loader: "babel?compact=false!ts",
+                    loader: "babel!ts",
                     exclude: /node_modules/
                 },
                 {
@@ -194,7 +194,7 @@ export function create(options) {
     let commonPlugins = [
         new webpack.DefinePlugin({
             "__DEV__": !isProduction,
-            "__DOM__": !isServerRenderer
+            "__DOM__": !isServerRenderer,
         }),
         TextPlugins.globalStyles,
         new webpack.ProvidePlugin({

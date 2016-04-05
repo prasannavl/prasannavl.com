@@ -1,7 +1,7 @@
 import React from "react";
 
 function Html(options) {
-    const { title, description, css, js, content, inlineCss, inlineScripts, canonical } = options;
+    const { title, description, css, js, content, inlineCss, inlineScripts, inlinePreLoadScripts, canonical } = options;
     const isArray = Array.isArray;
 
     const html = (
@@ -35,10 +35,11 @@ function Html(options) {
                 {isArray(js) ? js.map(x => <script src={x} defer></script>) : null}
                 {isArray(inlineCss) ? inlineCss.map(x => <style type="text/css" {...(x.attributes)} dangerouslySetInnerHTML={{ __html: x.content }}></style>) : null}
                 <script src='https://www.google-analytics.com/analytics.js' defer></script>
+                {isArray(inlinePreLoadScripts) ? inlinePreLoadScripts.map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) : null}                
             </head>
             <body>
-                {isArray(inlineScripts) ? inlineScripts.map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) : null}
                 <div id="outlet" dangerouslySetInnerHTML= {{ __html: content }}></div>
+                {isArray(inlineScripts) ? inlineScripts.map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) : null}
             </body>
         </html>
     );

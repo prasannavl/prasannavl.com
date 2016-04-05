@@ -95,6 +95,8 @@ export class ContentView extends StatelessBaseWithHistory<any> {
 }
 
 function focusContentView() {
+    // TODO: Make sure the scroll animation happens before load, on the preceding view,
+    // and not here. Or, it will interfere with ContentView scroll events.
     if (__DOM__) {
         let contentView = document.getElementById("content-view");
         if (contentView == null) return;

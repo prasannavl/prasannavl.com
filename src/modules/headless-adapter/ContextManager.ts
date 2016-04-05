@@ -6,6 +6,7 @@ import { IContextManager } from "../core/ContextManager";
 import { IAppContext, AppContextFactory } from "../core/AppContext";
 import { IHeadlessRendererState } from "../core/RendererState";
 import { configureTitle } from "../core/TitleService";
+import { ContentResolver } from "../content-manager/ContentResolver";
 
 export class ContextManager implements IContextManager {
     createContext() {
@@ -37,6 +38,16 @@ export class ContextManager implements IContextManager {
 
         const element = React.createElement(context.services.appContainerProvider(), { path: url, context });
         const content = ReactDOM.renderToString(element);
+
+        let data = rendererState.data;
+
+        if (data != null) {
+            let dataScript = `window.${ContentResolver.InlineDataCacheKey} = ${JSON.stringify(rendererState.data)};`;
+            let inlineScripts = htmlConfig.inlineScripts;
+            inlineScripts = inlineScripts || [];
+            inlineScripts.push({ content: dataScript });
+            htmlConfig.inlineScripts = inlineScripts;
+        }
 
         Object.assign(htmlConfig, {
             titleTemplate: null,

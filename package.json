@@ -4,8 +4,7 @@
   "description": "Personal website",
   "main": "index.js",
   "scripts": {
-    "clean": "./node_modules/.bin/rimraf build/*",
-    "clean-all": "./node_modules/.bin/rimraf artifacts/* && npm run clean",
+    "clean": "./node_modules/.bin/rimraf build/* artifacts/server/*",
     "build": "npm run clean && npm run generate-content && npm run webpack",
     "build:p": "npm run clean && npm run generate-content && npm run webpack:p",
     "webpack": "webpack --colors --display-chunks --progress",
