@@ -37,10 +37,8 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         super.componentWillUnmount();
     }
 
-    getInitialComponent() {
-        if (__DOM__) {
-            return React.createElement(LoadingView);
-        } else {
+    getComponentForServerEnvironment() {
+        if (!__DOM__) {
             let p = this.context.historyContext.pathname;
             let rendererState = this.getServices().rendererStateProvider() as IHeadlessRendererState;
             let cm = this._contentManager as IHeadlessContentManager;
@@ -48,6 +46,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             rendererState.data = cm.getContentForResolution(resolution);
             return cm.getComponentForResolution(resolution);
         }
+        return null;
     }
 
     onHistoryChange(context: IHistoryContext) {
@@ -77,13 +76,21 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     }
 
     render() {
-        return <div className={style.root} tabIndex={0} id="content-view">
-            { this._pendingRequest !== null ? <LoadingView /> : null}
-            {
-                this.state.component ||
-                this.getInitialComponent()
-            }
-        </div>;
+        if (!__DOM__) {
+            return this.getComponentForServerEnvironment();
+        } else {
+
+            // If pendingRequest, display the LoadingView.
+            // Simply render the component. 
+            // In the component was null, check if LoadingView was already rendered, 
+            // using pendingRequest. If it was, no action, or render LoadingView.
+
+            return (<div className={style.root} tabIndex={0} id="content-view">
+                { this._pendingRequest ? <LoadingView /> : null}
+                { this.state.component }
+                { !this.state.component && !this._pendingRequest ? <LoadingView/> : null }
+            </div>);
+        }
     }
 }
 

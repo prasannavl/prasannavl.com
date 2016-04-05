@@ -59,7 +59,8 @@ export function create(options) {
             filename: outputPatterns.jsFileName,
             chunkFilename: outputPatterns.jsChunkFileName,
             path: resolvedPaths.outputDirPath,
-            pathInfo: !isProduction
+            pathInfo: !isProduction,
+            publicPath: serverConfig.publicPath,
         },
         resolve: {
             alias: {
