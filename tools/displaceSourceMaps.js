@@ -1,9 +1,10 @@
 import vfs from "vinyl-fs";
 import fs from "fs";
 import map from "map-stream";
-import path from "path";
 import utils from "./utils";
-import { Paths } from "../configConstants";
+import configConstantsFactory from "../configConstants";
+
+let { Paths } = configConstantsFactory();
 
 function displaceSourceMaps(src, dest) {
     console.log("Moving source maps out of build..");

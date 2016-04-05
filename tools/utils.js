@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import chalk from "chalk";
 import path from "path";
-import fs from "fs";
+import fs from "fs-extra-promise";
 import copyDir from "copy-dir";
 
 class Utils {
@@ -35,7 +35,7 @@ class Utils {
     }
 
     ensureDirectoryExists(path) {
-        if (!fs.existsSync(path)) fs.mkdirSync(path);
+        if (!fs.existsSync(path)) fs.mkdirpSync(path);
     }
 
     getFromJsonFile(path) {

@@ -1,6 +1,7 @@
 import utils from "./tools/utils";
+import _ from "lodash";
 
-export const HtmlConfig = {
+const HtmlConfig = {
     templatePath: "./src/components/Html",
     description: "Prasanna V. Loganathar's Weblog",
     titleTemplate: "%s | Prasanna V. Loganthar",
@@ -8,26 +9,27 @@ export const HtmlConfig = {
     canonical: "",
 };
 
-export const Paths = {
+const Paths = {
     dir: __dirname,
     contextDirRelativeName: "./src",
     outputDirRelativeName: "./build",
     staticDirRelativeName: "./static",
     artifactDirRelativeName: "./artifacts",
+    serverRenderDirRelativeName: "./artifacts/server",
     htmlConfigFileRelativeName: "./htmlConfig.json",
     globalStyleFileRelativeName: "./src/styles/global.scss",
     generatedContentDirRelativeName: "./static/content",
     generatedContentIndexesDirRelativeName: "./static/content/indexes",
 };
 
-export const OutputPatterns = {
+const OutputPatterns = {
     jsFileName: "js/[name].[hash].js",
     jsChunkFileName: "js/[name].[chunkhash].js",
     cssFileName: "css/[name].[contenthash].css",
     imageFileName: "images/[hash].[ext]",
 };
 
-export const ArtifactConfig = {
+const ArtifactConfig = {
     htmlConfigFileName: "htmlConfig.json",
     webpackStatsFileName: "stats.json",
     routesFileName: "routes.json",
@@ -35,31 +37,37 @@ export const ArtifactConfig = {
     dataTitleServiceFileName: "titleServiceData.json",
 };
 
-export const ServerConfig = {
+const ServerConfig = {
     publicPath: "/",
     host: process.env.HOST || "localhost",
     port: process.env.PORT || "8000",
     indexPath: "/index.html",
 };
 
-export const ExternalLibs = [
+const ExternalLibs = [
     ["react", "https://fb.me/react-with-addons-0.14.7.js", "React"],
     ["react-dom", "https://fb.me/react-dom-0.14.7.js", "ReactDOM"],
 ];
 
-export const DefaultOptions = {
-    isProduction: utils.getIsProduction(),
-    //shouldInlineLibs: utils.shouldInlineLibs(),
-    shouldInlineLibs: true,
-    isServerRenderer: false,
+const DefaultOptionsFactory = () => {
+    return {
+        isProduction: utils.getIsProduction(),
+        //shouldInlineLibs: utils.shouldInlineLibs(),
+        shouldInlineLibs: true,
+        isServerRenderer: false,
+    }
 };
 
-export default {
-    Paths,
-    OutputPatterns,
-    ArtifactConfig,
-    ServerConfig,
-    ExternalLibs,
-    HtmlConfig,
-    DefaultOptions
-};
+function factory() {
+    return _.cloneDeep({
+        Paths,
+        OutputPatterns,
+        ArtifactConfig,
+        ServerConfig,
+        ExternalLibs,
+        HtmlConfig,
+        DefaultOptions: DefaultOptionsFactory()
+    });
+}
+
+export default factory;

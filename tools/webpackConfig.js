@@ -1,13 +1,21 @@
 import webpack from "webpack";
 import utils from "./utils";
 import webpackUtils from "./webpackUtils";
-import configConstants from "../configConstants";
+import configConstantsFactory from "../configConstants";
 import path from "path";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 
 export function create(options) {
     let { isProduction, shouldInlineLibs, isServerRenderer, paths, outputPatterns, artifactConfig, serverConfig, externalLibs, htmlConfig } = options;
     let resolve = utils.createResolverForPath(paths.dir);
+    
+    if (isServerRenderer) {
+        // Patch output directories, so that new server side build happens directly on the filesystem, and 
+        // can be inspected.
+        paths.outputDirRelativeName = path.join(paths.serverRenderDirRelativeName, paths.outputDirRelativeName);
+        paths.artifactDirRelativeName = path.join(paths.serverRenderDirRelativeName, paths.artifactDirRelativeName);
+    }
+    
     let resolvedPaths = {
         contextDirPath: resolve(paths.contextDirRelativeName),
         outputDirPath: resolve(paths.outputDirRelativeName),
@@ -27,6 +35,7 @@ export function create(options) {
 
     let app = {
         isProduction,
+        isServerRenderer,
         externals: [], // This is used by the util to populate used external libs that are to be added to index template.
         externalLibs,
         shouldInlineLibs: shouldInlineLibs || isServerRenderer,
@@ -45,6 +54,7 @@ export function create(options) {
         entry: {
             main: "./main.ts"
         },
+        target: isServerRenderer ? "node" : "web",
         output: {
             filename: outputPatterns.jsFileName,
             chunkFilename: outputPatterns.jsChunkFileName,
@@ -58,6 +68,7 @@ export function create(options) {
             },
             extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx", ".ts", ".tsx"]
         },
+        externals: { },        
         resolveLoader: {
             root: path.join(__dirname, "../node_modules"),
             alias: {
@@ -107,7 +118,6 @@ export function create(options) {
             ]
         },
         plugins: [],
-        externals: {},
         watchOptions: {
             aggregateTimeout: 100
         },
@@ -124,7 +134,7 @@ export function create(options) {
             noInfo: false,
             devtool: "cheap-module-eval-source-map",
             publicPath: serverConfig.publicPath,
-            hot: true,
+            hot: !isProduction,
             lazy: false,
             stats: {
                 colors: true
@@ -188,9 +198,10 @@ export function create(options) {
         TextPlugins.globalStyles,
         new webpack.ProvidePlugin({
             TweenMax: "TweenMax",
-        })
+        }),
+        new webpack.ContextReplacementPlugin(/moment[\/\\]+locale$/, /en/), // moment js locale
     ];
-
+    
     // Conditional plugins
 
     const OpenBrowserPlugin = require("open-browser-webpack-plugin");
@@ -212,7 +223,7 @@ export function create(options) {
         new webpack.optimize.OccurenceOrderPlugin(true),
         new webpack.optimize.UglifyJsPlugin(productionConfig.uglifyJsOpts),
     ];
-
+    
     // Apply plugins
 
     webpackUtils.applyPlugins(config, commonPlugins, devPlugins, productionPlugins);
@@ -220,6 +231,7 @@ export function create(options) {
 }
 
 export function createDefault(options) {
+    let configConstants = configConstantsFactory();    
     options = Object.assign({}, {
         paths: configConstants.Paths,
         outputPatterns: configConstants.OutputPatterns,

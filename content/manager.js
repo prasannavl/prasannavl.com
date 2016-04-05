@@ -5,7 +5,7 @@ import yaml from "js-yaml";
 import marked from "marked";
 import chalk from "chalk";
 import * as _ from "lodash";
-import { Paths } from "../configConstants";
+import configConstantsFactory from "../configConstants";
 
 class BuildHelper {
 	static processAllAsync(inputDirPath, outputDirPath, options) {
@@ -388,6 +388,7 @@ function getIndexers() {
 }
 
 function run() {
+	let Paths = configConstantsFactory().Paths;	
 	const draftsDir = path.join(__dirname, "./drafts");	
 	const publishedDir = path.join(__dirname, "./published");
 	const contentDir = path.join(Paths.dir, Paths.generatedContentDirRelativeName);	

@@ -1,13 +1,12 @@
 import utils from "./utils";
 import path from "path";
-import fs from "fs";
+import fs from "fs-extra-promise";
 import chalk from "chalk";
 import request from "superagent";
-import mkdirp from "mkdirp";
-import http from "http";
-import { Paths, ArtifactConfig, ServerConfig } from "../configConstants";
+import configConstantsFactory from "../configConstants";
 import { getServerListenerFactoryAsync } from "./server";
 
+let { Paths, ArtifactConfig, ServerConfig } = configConstantsFactory();
 // TODO: rewrite and switch to promises
 
 function runServerAsync(log = false) {
@@ -98,7 +97,7 @@ function generate(p, cb) {
             if (!err && res.statusCode == 200) {
                 let dir = path.dirname(dest);
                 if (!fs.existsSync(dir)) {
-                    mkdirp(dir, () => {
+                    fs.mkdirp(dir, () => {
                         writeResult(dest, res.text);
                     });
                     return;

@@ -1,7 +1,9 @@
 import path from "path"; 
-import { Paths, ArtifactConfig } from "../configConstants";
+import configConstantsFactory from "../configConstants";
 import utils from "./utils";
 import fs from "fs";
+
+let { Paths, ArtifactConfig } = configConstantsFactory();
 
 function getRoutes() {
 	let routes = [
@@ -10,6 +12,7 @@ function getRoutes() {
 		"/overview",
 		"/about",
 		"/archives",
+		"/feedback",
     ];
     
 	routes = routes.concat(getContentRoutes());

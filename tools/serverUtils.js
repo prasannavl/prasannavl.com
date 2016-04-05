@@ -5,7 +5,7 @@ import path from "path";
 import AppRenderer from "./AppRenderer";
 import Promise from "bluebird";
 import utils from "./utils";
-import webpackRequire from "webpack-require";
+import webpack from "webpack";
 
 function getServerConfig(webpackConfig) {
     let rootPath = webpackConfig.output.path;
@@ -13,14 +13,14 @@ function getServerConfig(webpackConfig) {
     return { rootPath, indexPath };
 }
 
-export function createAppHandlerAsync(webpackConfig) {
-    let htmlConfig = getServerHtmlConfig(webpackConfig);
-    return getContextManagerFactory(webpackConfig)
-        .then(contextManagerFactory => { 
-            console.log("compilation done");
-            let appRenderer = new AppRenderer(contextManagerFactory, htmlConfig);
-            return appRenderer.run.bind(appRenderer);
-        });
+export function createAppHandlerAsync(webpackConfig, clientWebpackConfig = null) {
+    return executeWebpackAsync(webpackConfig).then(execResult => {
+        let { app, stats } = execResult;
+        let htmlConfig = getServerHtmlConfig(clientWebpackConfig || webpackConfig);
+        let contextManagerFactory = getContextManagerFactory(app, stats)
+        let appRenderer = new AppRenderer(contextManagerFactory, htmlConfig);
+        return appRenderer.run.bind(appRenderer);
+    });
 }
 
 export function createServer(rootPath, indexPath, handler = null, log = false) {
@@ -50,13 +50,13 @@ export function createServer(rootPath, indexPath, handler = null, log = false) {
 }
 
 export function createStaticServerAsync(webpackConfig, log = false) {
-    let { rootPath, indexPath } = getServerConfig(webpackConfig);
+    let { rootPath, indexPath } = getServerConfig(webpackConfig);    
     return Promise.resolve(createServer(rootPath, indexPath, null, log));
 }
 
-export function createAppServerAsync(webpackConfig, log = false) {
+export function createAppServerAsync(webpackConfig, clientWebpackConfig = null, log = false) {
     let { rootPath, indexPath } = getServerConfig(webpackConfig);
-    return createAppHandlerAsync(webpackConfig)
+    return createAppHandlerAsync(webpackConfig, clientWebpackConfig)
         .then(appHandler => createServer(rootPath, indexPath, appHandler, log))
 }
 
@@ -96,12 +96,27 @@ export function getServerHtmlConfig(webpackConfig) {
     return htmlConfig;
 }
 
-export function getContextManagerFactory(webpackConfig) {
+export function executeWebpackAsync(webpackConfig) {
+    let compiler = webpack(webpackConfig);
     return new Promise((resolve, reject) => {
-        webpackRequire(webpackConfig, require.resolve("../src/modules/core/ContextManager.ts"), (err, factory) => {
+        compiler.run((err, stats) => {
             if (err) { reject(err); return; }
-            const cmFactory = factory().ContextManagerFactory;
-            resolve(cmFactory);
+            let parsedStats = stats.toJson(
+                { chunkModules: true, source: false, cached: false, reasons: false });
+            let mainModule = parsedStats.assetsByChunkName.main.filter(x => x.endsWith(".js"))[0];
+            const webpackAppKey = "_webpack_app";
+            let oldCache = global[webpackAppKey];
+            require(path.join(path.join(webpackConfig.output.path, mainModule)));
+            let app = global[webpackAppKey];
+            global[webpackAppKey] = oldCache;
+            return resolve({ app, stats: parsedStats });
         });
     });
+}
+
+export function getContextManagerFactory(app, stats) {
+    let moduleName = "./src/modules/core/ContextManager.ts";
+    let moduleId = stats.modules.find(x => x.name && x.name == moduleName).id;
+    let moduleExports = app.getModuleLoader()(moduleId);
+    return moduleExports.ContextManagerFactory;
 }

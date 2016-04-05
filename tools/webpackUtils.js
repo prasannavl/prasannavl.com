@@ -12,6 +12,8 @@ export class WebpackUtils {
 
     run(config) {
         let isProduction = this.checkIsProduction(config);
+        let isServerRenderer = config.app.isServerRenderer;
+        
         utils.initEnvironment(isProduction);
 
         let app = config.app;
@@ -54,7 +56,8 @@ export class WebpackUtils {
         utils.writeToFileAsJson(dataTitleServicePath, titleServiceData);
         utils.writeToFileAsJson(webpackBuiltConfigPath, config);
 
-        utils.copyAssets(staticDirPath, config.output.path);
+        if (!isServerRenderer)        
+            utils.copyAssets(staticDirPath, config.output.path);
         console.log();
         return config;
     }
