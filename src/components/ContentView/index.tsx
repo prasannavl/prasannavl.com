@@ -75,21 +75,25 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         }, 100);
     }
 
+    getWrapped(component: JSX.Element | JSX.Element[]) {
+        return (<div className={style.root} tabIndex={0} id="content-view">
+            {component}
+        </div>);
+    }
+
     render() {
         if (!__DOM__) {
-            return this.getComponentForServerEnvironment();
+            return this.getWrapped(this.getComponentForServerEnvironment());
         } else {
-
-            // If pendingRequest, display the LoadingView.
-            // Simply render the component. 
-            // In the component was null, check if LoadingView was already rendered, 
-            // using pendingRequest. If it was, no action, or render LoadingView.
-
-            return (<div className={style.root} tabIndex={0} id="content-view">
-                { this._pendingRequest ? <LoadingView /> : null}
-                { this.state.component }
-                { !this.state.component && !this._pendingRequest ? <LoadingView/> : null }
-            </div>);
+            let items = new Array<JSX.Element>();
+            this._pendingRequest && items.push(<LoadingView/>);
+            let current = this.state.component;
+            if (current) {
+                items.push(current);
+            } else {
+                !this._pendingRequest && items.push(<LoadingView/>);
+            }
+            return this.getWrapped(items);
         }
     }
 }
