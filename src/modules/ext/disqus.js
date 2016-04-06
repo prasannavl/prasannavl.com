@@ -12,6 +12,7 @@ export function loadComments(path) {
                 this.page.url = canonicalPath;
                 this.page.identifier = canonicalPath;
             };
+            console.log("set: " + canonicalPath);            
             (function () {
                 var d = document,
                     s = d.createElement('script');
@@ -20,9 +21,10 @@ export function loadComments(path) {
                 (d.head || d.body).appendChild(s);
             })();
         } else {
+            console.log("reset: " + canonicalPath);
             DISQUS.reset({
                 reload: true,
-                config: () => {
+                config: function () {
                     this.page.identifier = canonicalPath;
                     this.page.url = canonicalPath;
                 }
