@@ -1,7 +1,8 @@
 import { EventEmitter } from "events";
 import { ContentResolution, ContentResolver } from "./ContentResolver";
 
-// Note: The reason these two interfaces are very different is because,
+// Note: These two interfaces are very different from one another
+// even though semantically they should ideally be similar. This is because
 // React doesn't support async render on the server side. 
 // It is a workaround so that IHeadlessContentManager does everything
 // synchronously. 
