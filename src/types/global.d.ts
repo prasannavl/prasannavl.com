@@ -4,6 +4,8 @@
 
 declare var __DEV__: boolean;
 declare var __DOM__: boolean;
+declare var __app_version__: string;
+declare var __app_build_number__: number;
 declare var __non_webpack_require__: any;
 declare var __webpack_require__: any;
 

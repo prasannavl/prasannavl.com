@@ -41,7 +41,9 @@ export function create(options) {
         shouldInlineLibs: shouldInlineLibs || isServerRenderer,
         paths: resolvedPaths,
         artifactConfig: resolvedArtifactConfig,
-        htmlConfig
+        htmlConfig,
+        version: require("../package.json").version,
+        buildNumber: Date.now()
     };
 
     let TextPlugins = {
@@ -189,12 +191,14 @@ export function create(options) {
 
     config = webpackUtils.weaveConfiguration(config, devConfig, productionConfig);
 
-    // Common plugins
-
+    // Common plugins    
+    
     let commonPlugins = [
         new webpack.DefinePlugin({
             "__DEV__": !isProduction,
             "__DOM__": !isServerRenderer,
+            "__app_version__": JSON.stringify(app.version),
+            "__app_build_number__": app.buildNumber,
         }),
         TextPlugins.globalStyles,
         new webpack.ProvidePlugin({

@@ -62,6 +62,14 @@ export class App {
         return __webpack_require__;
     }
 
+    getVersion() {
+        return __app_version__;
+    }
+
+    getBuildNumber() {
+        return __app_build_number__;
+    }
+
     scheduleOnDomLoaded(action: () => void) {
         const contentLoadedEvent = "DOMContentLoaded";
         const handler = function() {

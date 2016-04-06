@@ -21,11 +21,14 @@ export class WebpackUtils {
         let { artifactDirPath, staticDirPath } = app.paths;
         let { webpackStatsPath, htmlConfigPath, dataTitleServicePath, webpackBuiltConfigPath } = app.artifactConfig;
 
+        console.log("Build version: " + app.version);
+        console.log("Build number: " + app.buildNumber);
+
         if (isProduction)
             console.log(chalk.cyan("Mode: Production"));
         else
             console.log(chalk.cyan("Mode: Development"));
-
+        
         utils.ensureDirectoryExists(artifactDirPath);
         console.log();
 
