@@ -25,16 +25,14 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     pathKeyPrefix = ContentResolver.DefaultPathKeyPrefix;
 
     private _store: IStorage<ICacheWrapper>;
-    private _sessionStore: IStorage<string>;
     private _resolver: ContentResolver;
     private _lastKnownPathName: string = null;
     private _inlineCacheFlushed = false;
 
-    constructor(resolver: ContentResolver, store: IStorage<ICacheWrapper>, sessionStore: IStorage<string>) {
+    constructor(resolver: ContentResolver, store: IStorage<ICacheWrapper>) {
         super();
         this._store = store;
         this._resolver = resolver;
-        this._sessionStore.tryGetOrSet("_", Date.now().toString());
     }
 
     flushInlineCacheAsync(pathKey: string) {
