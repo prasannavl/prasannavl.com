@@ -6,43 +6,45 @@ import { IHistoryContext } from "history-next";
 import { ContentManagerFactory } from "../../modules/content-manager/ContentManagerFactory";
 import { default as LoadingView, LoadingViewFactory } from "../LoadingView/index";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
-import { IHeadlessContentManager } from "../../modules/content-manager/HeadlessContentManager";
+import { IHeadlessContentManager, IDomContentManager } from "../../modules/content-manager/ContentManager";
 import { pageView } from "../../modules/ext/googleAnalytics";
 
 export class ContentView extends StatelessBaseWithHistory<any> {
-    private _contentManager = ContentManagerFactory.create();
+    private _contentManager: IDomContentManager | IHeadlessContentManager = ContentManagerFactory.create();
     private _pendingRequest: any = null;
 
     constructor(props: any, context: any) {
         super(props, context);
         this.state = { component: null };
-        this.onContent = this.onContent.bind(this);
+        this.onContentReady = this.onContentReady.bind(this);
         this.onRequestStarted = this.onRequestStarted.bind(this);
     }
 
     componentWillMount() {
         super.componentWillMount();
         if (__DOM__) {
-            this._contentManager.addListener(this._contentManager.contentEventName, this.onContent);
-            this._contentManager.addListener(this._contentManager.requestStartEventName, this.onRequestStarted);
+            let cm = this._contentManager as IDomContentManager;
+            cm.addListener(cm.contentReadyEventName, this.onContentReady);
+            cm.addListener(cm.requestStartEventName, this.onRequestStarted);
             this.onHistoryChange(this.context.historyContext);
         }
     }
 
     componentWillUnmount() {
         if (__DOM__) {
-            this._contentManager.removeListener(this._contentManager.contentEventName, this.onContent);
-            this._contentManager.removeListener(this._contentManager.requestStartEventName, this.onRequestStarted);
+            let cm = this._contentManager as IDomContentManager;
+            cm.removeListener(cm.contentReadyEventName, this.onContentReady);
+            cm.removeListener(cm.requestStartEventName, this.onRequestStarted);
         }
         super.componentWillUnmount();
     }
 
     getComponentForServerEnvironment() {
         if (!__DOM__) {
-            let p = this.context.historyContext.pathname;
-            let rendererState = this.getServices().rendererStateProvider() as IHeadlessRendererState;
             let cm = this._contentManager as IHeadlessContentManager;
-            let resolution = cm.resolve(p);
+            let pathname = this.context.historyContext.pathname;
+            let rendererState = this.getServices().rendererStateProvider() as IHeadlessRendererState;
+            let resolution = cm.resolve(pathname);
             rendererState.data = cm.getContentForResolution(resolution);
             return cm.getComponentForResolution(resolution);
         }
@@ -55,10 +57,11 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             req.abort();
             this._pendingRequest = null;
         }
-        this._contentManager.setPath(context.pathname);
+        let cm = this._contentManager as IDomContentManager;
+        cm.setPath(context.pathname);
     }
 
-    onContent(component: any) {
+    onContentReady(component: any) {
         if (this._pendingRequest != null) {
             this._pendingRequest = null;
         }

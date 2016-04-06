@@ -1,39 +1,40 @@
 import request from "superagent";
-import { EventEmitter } from "events";
 import { IStorage } from "../storage/Storage";
 import { ContentResolver } from "./ContentResolver";
+import { EventEmitter } from "events";
 import { PromiseFactory } from "../storage/PromiseFactory";
+import { IDomContentManager, CacheOptions } from "./ContentManager";
 import moment from "moment";
-
-export interface CacheOptions {
-    check: boolean;
-    store: boolean;
-}
 
 export interface ICacheWrapper {
     data: any;
     lastSyncDate: number;
+    //appVersion: number;
+    //sessionTag: number;
 }
 
 function CacheWrapper(data: any, lastSyncDate: number = Date.now()): ICacheWrapper {
     return { data, lastSyncDate };
 }
 
-export class DomContentManager extends EventEmitter {
-    contentEventName = "content";
+export class DomContentManager extends EventEmitter implements IDomContentManager {
+    contentReadyEventName = "contentready";
     requestStartEventName = "requeststart";
+    backgroundRequestStartEventName = "backgroundrequeststart";
 
     pathKeyPrefix = ContentResolver.DefaultPathKeyPrefix;
 
     private _store: IStorage<ICacheWrapper>;
+    private _sessionStore: IStorage<string>;
     private _resolver: ContentResolver;
     private _lastKnownPathName: string = null;
     private _inlineCacheFlushed = false;
 
-    constructor(resolver: ContentResolver, store: IStorage<ICacheWrapper>) {
+    constructor(resolver: ContentResolver, store: IStorage<ICacheWrapper>, sessionStore: IStorage<string>) {
         super();
         this._store = store;
         this._resolver = resolver;
+        this._sessionStore.tryGetOrSet("_", Date.now().toString());
     }
 
     flushInlineCacheAsync(pathKey: string) {
@@ -50,7 +51,8 @@ export class DomContentManager extends EventEmitter {
         return PromiseFactory.PromiseEmpty;
     }
 
-    setPath(pathname: string, cacheOptions: CacheOptions = { check: true, store: true }) {
+    queuePath(pathname: string, cacheOptions: CacheOptions = { check: true, store: true }) {
+        // If the same path is requested again, always refresh the data transparently.
         if (__DEV__ || (this._lastKnownPathName !== null && this._lastKnownPathName === pathname)) {
             cacheOptions.check = false;
         }
@@ -59,10 +61,10 @@ export class DomContentManager extends EventEmitter {
             this.getContentAsync(resolved.contentPath, cacheOptions)
             .then(x => {
                 this._lastKnownPathName = pathname;
-                this.emit(this.contentEventName, resolved.factory(x));
+                this.emit(this.contentReadyEventName, resolved.factory(x));
             });
         } else {
-            this.emit(this.contentEventName, resolved.factory());
+            this.emit(this.contentReadyEventName, resolved.factory());
         }
     }
 
@@ -82,24 +84,24 @@ export class DomContentManager extends EventEmitter {
                             // queue a background update for future , but return from cache
                             // TODO: later once a last update date is added, check to see if it really
                             // was a new version, and if so, notify user.
-                            setTimeout(() => this.fetchAndStore(path, storeKey, cacheOptions, false), 1000);
+                            setTimeout(() => this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions, false), 1000);
                             return x.result.data;
                         }
                     }
                 }
-                return this.fetchAndStore(path, storeKey, cacheOptions);
+                return this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions);
             });
     }
 
-    fetchAndStore(path: string, storeKey: string, cacheOptions: CacheOptions, broadcastRequest = true) {
-        return this.fetchRemoteContentAsync(path, broadcastRequest)
+    fetchRemoteAndStoreAsync(path: string, storeKey: string, cacheOptions: CacheOptions, isBackgroundRequest = true) {
+        return this.fetchRemoteContentAsync(path, isBackgroundRequest)
             .then((data: any) => {
                 cacheOptions.store && this._store.set(storeKey, CacheWrapper(data));
                 return data;
             });
     }
 
-    fetchRemoteContentAsync(path: string, broadcastRequest: boolean) {
+    fetchRemoteContentAsync(path: string, isBackgroundRequest: boolean) {
         return new Promise((resolve, reject) => {
             let req = request.get(path)
                 .end((err, res) => {
@@ -107,7 +109,7 @@ export class DomContentManager extends EventEmitter {
                     else if (!res.ok) reject(res);
                     else resolve(res.body);
                 });
-             broadcastRequest && this.emit(this.requestStartEventName, req);
+            this.emit(isBackgroundRequest ? this.backgroundRequestStartEventName : this.requestStartEventName, req);
         });
     }
 }

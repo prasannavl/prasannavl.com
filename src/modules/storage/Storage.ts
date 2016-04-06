@@ -48,7 +48,7 @@ export interface IStorage<T> {
      * @returns {Promise<{isNew: {Boolean}, result: *}} | Error>}. R.isNew indicates if the new value has
      * been used. False if it already existed. R.result is the item value.
      */
-    tryGetOrSet(key: string, value: T, onBeforeSetValue: (value: T) => Promise<any>): Promise<TryGetOrSetResult<T>>;
+    tryGetOrSet(key: string, value: T, onBeforeSetValue?: (value: T) => Promise<any>): Promise<TryGetOrSetResult<T>>;
 }
 
 export interface TryGetResult<T> {

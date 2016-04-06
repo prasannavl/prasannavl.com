@@ -1,14 +1,7 @@
+import { IHeadlessContentManager } from "./ContentManager";
 import { ContentResolver, ContentResolution } from "./ContentResolver";
 
-export interface IHeadlessContentManager {
-    resolve(pathname: string): ContentResolution;
-    getComponentForResolution(resolution: ContentResolution): JSX.Element;
-    getComponent(pathname: string): JSX.Element;
-    getContentForResolution(resolution: ContentResolution): any;
-    getContent(path: string): any;
-}
-
-export class HeadlessContentManager {
+export class HeadlessContentManager implements IHeadlessContentManager {
     private _resolver: ContentResolver;
 
     constructor(resolver: ContentResolver) {
