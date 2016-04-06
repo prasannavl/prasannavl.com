@@ -10,12 +10,15 @@ import { IHeadlessContentManager, IDomContentManager } from "../../modules/conte
 import { pageView } from "../../modules/ext/googleAnalytics";
 
 export class ContentView extends StatelessBaseWithHistory<any> {
-    private _contentManager: IDomContentManager | IHeadlessContentManager = ContentManagerFactory.create();
+    private _contentManager: IDomContentManager | IHeadlessContentManager;
     private _pendingRequest: any = null;
 
     constructor(props: any, context: any) {
         super(props, context);
         this.state = { component: null };
+        let services = this.getServices();
+        this._contentManager = ContentManagerFactory.create(
+            services.localStoreProvider(), services.sessionStoreProvider());
         this.onContentReady = this.onContentReady.bind(this);
         this.onRequestStarted = this.onRequestStarted.bind(this);
     }

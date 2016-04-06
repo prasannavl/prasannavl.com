@@ -1,5 +1,5 @@
 import request from "superagent";
-import { IStorage } from "../storage/Storage";
+import { IStorage, TryGetResult } from "../storage/Storage";
 import { ContentResolver } from "./ContentResolver";
 import { EventEmitter } from "events";
 import { PromiseFactory } from "../storage/PromiseFactory";
@@ -9,12 +9,8 @@ import moment from "moment";
 export interface ICacheWrapper {
     data: any;
     lastSyncDate: number;
-    //appVersion: number;
-    //sessionTag: number;
-}
-
-function CacheWrapper(data: any, lastSyncDate: number = Date.now()): ICacheWrapper {
-    return { data, lastSyncDate };
+    appVersion: string;
+    sessionTag: number;
 }
 
 export class DomContentManager extends EventEmitter implements IDomContentManager {
@@ -24,26 +20,35 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
 
     pathKeyPrefix = ContentResolver.DefaultPathKeyPrefix;
 
-    private _store: IStorage<ICacheWrapper>;
-    private _resolver: ContentResolver;
     private _lastKnownPathName: string = null;
     private _inlineCacheFlushed = false;
+    private _sessionTag: number;
 
-    constructor(resolver: ContentResolver, store: IStorage<ICacheWrapper>) {
+    constructor(private _resolver: ContentResolver,
+        private _localStore: IStorage<ICacheWrapper>,
+        sessionStore: IStorage<any>) {
         super();
-        this._store = store;
-        this._resolver = resolver;
+        this.tagSession(sessionStore);
+    }
+
+    tagSession(sessionStore: IStorage<any>) {
+        const contentSessionTagKey = "contentTag";
+        // Note: With DOM, this is always synchronous, or further logic is required.
+        sessionStore.tryGetOrSet(contentSessionTagKey, Date.now())
+            .then(x => this._sessionTag = x.result);
+    }
+
+    createCache(data: any, lastSyncDate: number = Date.now()) {
+        return { data, lastSyncDate, appVersion: __app_version__, sessionTag: this._sessionTag };
     }
 
     flushInlineCacheAsync(pathKey: string) {
-        if (__DOM__) {
-            if (!this._inlineCacheFlushed) {
-                this._inlineCacheFlushed = true;
-                let data = (window as any)[ContentResolver.InlineDataCacheKey];
-                if (data != null) {
-                    (window as any)[ContentResolver.InlineDataCacheKey] = null;
-                    return this._store.set(pathKey, CacheWrapper(data));
-                }
+        if (!this._inlineCacheFlushed) {
+            this._inlineCacheFlushed = true;
+            let data = (window as any)[ContentResolver.InlineDataCacheKey];
+            if (data != null) {
+                (window as any)[ContentResolver.InlineDataCacheKey] = null;
+                return this._localStore.set(pathKey, this.createCache(data));
             }
         }
         return PromiseFactory.PromiseEmpty;
@@ -69,32 +74,46 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     getContentAsync(path: string, cacheOptions: CacheOptions = { check: false, store: false }) {
         let storeKey = this.pathKeyPrefix + path;
         return this.flushInlineCacheAsync(storeKey)
-            .then(() => this._store.tryGet(storeKey))
+            .then(() => this._localStore.tryGet(storeKey))
             .then(x => {
-                if (cacheOptions.check && x.exists) {
-                    let wrapper = x.result;
-                    let lastSyncDateRaw = wrapper.lastSyncDate;
-                    if (lastSyncDateRaw) {
-                        let lastSyncDate = moment(lastSyncDateRaw);
-                        // if last check was less than a day.
-                        let freshFrom = moment().subtract({ days: 1 });
-                        if (lastSyncDate.diff(freshFrom) > 0) {
-                            // queue a background update for future , but return from cache
-                            // TODO: later once a last update date is added, check to see if it really
-                            // was a new version, and if so, notify user.
-                            setTimeout(() => this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions), 1000);
-                            return x.result.data;
-                        }
-                    }
+                if (this.isCacheValid(path, storeKey, x, cacheOptions)) {
+                    // queue a background update for future , but return from cache
+                    // TODO: later once a last update date is added, check to see if it really
+                    // was a new version, and if so, notify user.
+                    setTimeout(() => this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions), 1000);
+                    return x.result.data;
                 }
                 return this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions, false);
             });
     }
 
+    isCacheValid(path: string, storeKey: string, wrappedResult: TryGetResult<ICacheWrapper>, cacheOptions: CacheOptions) {
+        // Check cache options, and also make sure the data is from the current session.
+        // If everything indicates the current cache can be used, proceed ahead.
+        // TODO: check appversion (Note: Without app version check, later session tagged data
+        // could potentially break, if the data model is incompatible.)
+        let result = wrappedResult.result;
+        if (cacheOptions.check &&
+            wrappedResult.exists &&
+            result.sessionTag >= this._sessionTag) {
+            let cache = wrappedResult.result;
+            let lastSyncDateRaw = cache.lastSyncDate;
+            if (lastSyncDateRaw) {
+                let lastSyncDate = moment(lastSyncDateRaw);
+                // if last check was less than a day.
+                let freshFrom = moment().subtract({ days: 1 });
+                if (lastSyncDate.diff(freshFrom) > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     fetchRemoteAndStoreAsync(path: string, storeKey: string, cacheOptions: CacheOptions, isBackgroundRequest = true) {
         return this.fetchRemoteContentAsync(path, isBackgroundRequest)
             .then((data: any) => {
-                cacheOptions.store && this._store.set(storeKey, CacheWrapper(data));
+                cacheOptions.store && this._localStore.set(storeKey, this.createCache(data));
                 return data;
             });
     }

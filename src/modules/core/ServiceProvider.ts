@@ -3,6 +3,7 @@ import { IHistory } from "history-next/lib/HistoryCore";
 import { IHistoryContext } from "history-next/lib/HistoryContext";
 import AppContainer from "../../components/AppContainer";
 import { IRendererState } from "./RendererState";
+import { IStorage } from "../storage/Storage";
 
 export type IServiceProvider = IServiceProviderCommonCore & IServiceProviderCore;
 
@@ -15,6 +16,8 @@ export interface IServiceProviderCore {
     history: IHistory;
     title: ITitleService;
     applyCss: CssStyle.StyleApplierFunction;
+    sessionStoreProvider: () => IStorage<string>;
+    localStoreProvider: () => IStorage<string>;
 }
 
 export class ServiceProviderFactory {

@@ -3,14 +3,11 @@ import { IDomContentManager, IHeadlessContentManager } from "./ContentManager";
 import { ContentResolver } from "./ContentResolver";
 
 export class ContentManagerFactory {
-    static create(): IDomContentManager | IHeadlessContentManager {
+    static create(localStore: IStorage<any>, sessionStore: IStorage<any>): IDomContentManager | IHeadlessContentManager {
         let resolver = new ContentResolver();
         if (__DOM__) {
-            let DomContentManager = require("./DomContentManager").DomContentManager;
-            let LocalStorageStore = require("../storage/BrowserStores").LocalStorageStore;
-            let JsonDecorator = require("../storage/JsonDecorator").JsonDecorator;
-            let finalStore = new JsonDecorator(new LocalStorageStore());
-            return new DomContentManager(resolver, finalStore) as IDomContentManager;
+            let DomContentManager = require("./DomContentManager").DomContentManager;;
+            return new DomContentManager(resolver, localStore, sessionStore) as IDomContentManager;
         } else {
             let HeadlessContentManager = require("./HeadlessContentManager").HeadlessContentManager;
             return new HeadlessContentManager(resolver) as IHeadlessContentManager;
