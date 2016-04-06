@@ -4,6 +4,6 @@ export class PromiseFactory {
     static PromiseFalse = Promise.resolve(false);
     static PromiseExistsFalseResultNull = Promise.resolve({ exists: false, result: null });
     static createKeyNotFoundError() {
-        return Promise.reject(new Error("Key not found"));
+        return Promise.reject<Error>(new Error("Key not found"));
     }
 }

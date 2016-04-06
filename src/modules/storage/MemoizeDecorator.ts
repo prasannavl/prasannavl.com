@@ -1,13 +1,14 @@
-import { IStorage } from "./Storage";
+import { IStorage, TryGetOrSetResult, TryGetResult } from "./Storage";
 import { PromiseFactory } from "./PromiseFactory";
+import { onBeforeSetValuePassthrough } from "./utils";
 
-export class MemoizeDecorator implements IStorage {
-    private _storage: IStorage;
-    private _cacheMap: Map<string, any>;
+export class MemoizeDecorator<T> implements IStorage<T> {
+    private _storage: IStorage<T>;
+    private _cacheMap: Map<string, T>;
 
-    constructor(storage: IStorage) {
+    constructor(storage: IStorage<T>) {
         this._storage = storage;
-        this._cacheMap = new Map<string, any>();
+        this._cacheMap = new Map<string, T>();
     }
 
     exists(key: string) {
@@ -22,9 +23,9 @@ export class MemoizeDecorator implements IStorage {
         return this._storage.get(key);
     }
 
-    set(key: string, value: any) {
+    set(key: string, value: T) {
         return this._storage.set(key, value)
-            .then(x => this._cacheMap.set(key, value));
+            .then(x => { this._cacheMap.set(key, value); });
     }
 
     remove(key: string) {
@@ -37,18 +38,18 @@ export class MemoizeDecorator implements IStorage {
         return this._storage.clear();
     }
 
-    tryGet(key: string) {
+    tryGet(key: string): Promise<TryGetResult<T>> {
         const cached = this._cacheMap.get(key);
         if (cached !== undefined) return Promise.resolve({ exists: true, result: cached });
         return this._storage.tryGet(key)
-            .then(x => { this._cacheMap.set(key, x.result); return x; });
+            .then((x: TryGetResult<T>) => { this._cacheMap.set(key, x.result); return x; });
     }
 
-    tryGetOrSet(key: string, value: any, onSetValue = (value: any) => Promise.resolve(value)) {
+    tryGetOrSet(key: string, value: T, onBeforeSetValue = onBeforeSetValuePassthrough): Promise<TryGetOrSetResult<T>> {
         const cached = this._cacheMap.get(key);
         if (cached !== undefined) return Promise.resolve({ isNew: false, result: cached });
-        return this._storage.tryGetOrSet(key, value, onSetValue)
-            .then(x => { this._cacheMap.set(key, x.result); return x; });
+        return this._storage.tryGetOrSet(key, value, onBeforeSetValue)
+            .then((x: TryGetOrSetResult<T>) => { this._cacheMap.set(key, x.result); return x; });
     }
 
     clearCache(key: string) {

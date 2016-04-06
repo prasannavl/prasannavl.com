@@ -1,9 +1,11 @@
-import { IStorage } from "./Storage";
+import { IStorage, TryGetOrSetResult, TryGetResult } from "./Storage";
+import { PromiseFactory } from "./PromiseFactory";
+import { onBeforeSetValuePassthrough } from "./utils";
 
-export class JsonDecorator implements IStorage {
-    private _storage: IStorage;
+export class JsonDecorator<T> implements IStorage<T | string> {
+    private _storage: IStorage<string>;
 
-    constructor(storage: IStorage) {
+    constructor(storage: IStorage<string>) {
         this._storage = storage;
     }
 
@@ -11,12 +13,12 @@ export class JsonDecorator implements IStorage {
         return this._storage.exists(key);
     }
 
-    get(key: string) {
+    get(key: string): Promise<T> {
         const val = this._storage.get(key);
-        return val.then(x => JSON.parse(x));
+        return val.then(x => JSON.parse(x) as T);
     }
 
-    set(key: string, value: any) {
+    set(key: string, value: T) {
         const val = JSON.stringify(value);
         return this._storage.set(key, val);
     }
@@ -29,20 +31,21 @@ export class JsonDecorator implements IStorage {
         return this._storage.clear();
     }
 
-    tryGet(key: string) {
+    tryGet(key: string): Promise<TryGetResult<T>> {
         const val = this._storage.tryGet(key);
-        return val.then(x => {
-            let res: any = x.result;
+        return val.then((x) => {
+            let res = x.result;
             if (x.exists) {
-                res = JSON.parse(res);
-                x.result = res;
+                return { result: JSON.parse(res) as T, exists: true };
+            } else {
+                return PromiseFactory.PromiseExistsFalseResultNull;
             }
-            return x;
         });
     }
 
-    tryGetOrSet(key: string, value: any, onSetValue = (value: any) => Promise.resolve(value)) {
+    tryGetOrSet(key: string, value: T, onSetValue = onBeforeSetValuePassthrough): Promise<TryGetOrSetResult<T>> {
         let newOnSetFunc = () => onSetValue(JSON.stringify(value));
-        return this._storage.tryGetOrSet(key, value, newOnSetFunc);
+        return this._storage.tryGetOrSet(key, value as any, newOnSetFunc)
+            .then(x => { return { isNew: x.isNew, result: JSON.parse(x.result) }; });
     }
 }

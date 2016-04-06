@@ -1,7 +1,8 @@
-import { IStorage } from "./Storage";
+import { IStorage, TryGetOrSetResult, TryGetResult } from "./Storage";
 import { PromiseFactory } from "./PromiseFactory";
+import { onBeforeSetValuePassthrough } from "./utils";
 
-export class BrowserStore implements IStorage {
+export class BrowserStore implements IStorage<string> {
     private _storage: Storage;
 
     constructor(storage: Storage) {
@@ -9,18 +10,18 @@ export class BrowserStore implements IStorage {
     }
 
     exists(key: string) {
-        const val = this._storage.getItem(key);
+        const val = this._storage.getItem(key) as string;
         if (val === null) return PromiseFactory.PromiseFalse;
         return PromiseFactory.PromiseTrue;
     }
 
-    get(key: string) {
-        const val = this._storage.getItem(key);
+    get(key: string): Promise<string | Error> {
+        const val = this._storage.getItem(key) as string;
         if (val === null) return PromiseFactory.createKeyNotFoundError();
         return Promise.resolve(val);
     }
 
-    set(key: string, value: any) {
+    set(key: string, value: string) {
         this._storage.setItem(key, value);
         return PromiseFactory.PromiseEmpty;
     }
@@ -35,17 +36,17 @@ export class BrowserStore implements IStorage {
         return PromiseFactory.PromiseEmpty;
     }
 
-    tryGet(key: string) {
-        const val = this._storage.getItem(key);
+    tryGet(key: string): Promise<TryGetResult<string>> {
+        const val = this._storage.getItem(key) as string;
         if (val === null) return PromiseFactory.PromiseExistsFalseResultNull;
         return Promise.resolve({ exists: true, result: val });
     }
 
-    tryGetOrSet(key: string, value: any, onSetValue = (value: any) => Promise.resolve(value)) {
-        const val = this._storage.getItem(key);
+    tryGetOrSet(key: string, value: string, onBeforeSetValue = onBeforeSetValuePassthrough): Promise<TryGetOrSetResult<string>> {
+        const val = this._storage.getItem(key) as string;
         if (val !== null) return Promise.resolve({ isNew: false, result: val });
 
-        return onSetValue(value).then(v => {
+        return onBeforeSetValue(value).then(v => {
             this._storage.setItem(key, v);
             return { isNew: true, result: v };
         });
