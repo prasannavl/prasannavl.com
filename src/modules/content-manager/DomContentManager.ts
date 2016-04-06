@@ -82,12 +82,12 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
                             // queue a background update for future , but return from cache
                             // TODO: later once a last update date is added, check to see if it really
                             // was a new version, and if so, notify user.
-                            setTimeout(() => this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions, false), 1000);
+                            setTimeout(() => this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions), 1000);
                             return x.result.data;
                         }
                     }
                 }
-                return this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions);
+                return this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions, false);
             });
     }
 
