@@ -152,7 +152,8 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
             req.end((err, res) => {
                 if (!isIsolated) {
                     let index = this._trackedRequests.findIndex(x => x === req);
-                    this._trackedRequests.splice(index, 1);
+                    if (index > -1)
+                        this._trackedRequests.splice(index, 1);
                 }
                 if (err) reject(err);
                 else if (!res.ok) reject(res);
