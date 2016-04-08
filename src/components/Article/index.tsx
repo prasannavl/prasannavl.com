@@ -72,7 +72,7 @@ export class Article extends StatelessBase<any> {
 
     validateCommentView() {
         let el = this.refs["disqus"] as HTMLElement;
-        if (this.getViewportHeightOffset(el) > 0) {
+        if (this.getViewportHeightOffset(el) > -120) {
             this.disposeSubscriptions();
             loadComments(this.context.historyContext.pathname);
         }
