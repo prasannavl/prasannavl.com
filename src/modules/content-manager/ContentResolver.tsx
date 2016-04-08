@@ -72,7 +72,7 @@ export class ContentResolver {
     }
 
     static isContentPath(pathname: string) {
-        const contentRegex = /((\d{4})\/(.*))/i;
+        const contentRegex = /^((\d{4})\/(.*))\/?$/i;
         const match = contentRegex.exec(pathname);
         return match;
     }
