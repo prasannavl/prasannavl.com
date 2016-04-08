@@ -30,8 +30,11 @@
                 }
             }
         }
+        & > section::after {
+            @include horizontal-line-on-after;
+        }
     }
-    & > section::after {
-        @include horizontal-line-on-after;
+    & > footer {
+        @include content-chrome;
     }
 }

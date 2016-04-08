@@ -5,6 +5,7 @@ import createStyled from "../../modules/core/createStyled";
 import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
 import { loadComments } from "../../modules/ext/disqus";
+import { show as showGoogleAds } from "../../modules/ext/googleAdSense";
 import Rx from "rxjs";
 import ReactDOM from "react-dom";
 
@@ -71,9 +72,10 @@ export class Article extends StatelessBase<any> {
     }
 
     validateCommentView() {
-        let el = this.refs["disqus"] as HTMLElement;
+        let el = this.refs["extContainer"] as HTMLElement;
         if (this.getViewportHeightOffset(el) > -120) {
             this.disposeSubscriptions();
+            showGoogleAds();
             loadComments(this.context.historyContext.pathname);
         }
     }
@@ -106,7 +108,13 @@ export class Article extends StatelessBase<any> {
                 </header>
                 <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>
             </main>
-            <div id="disqus_thread" ref="disqus"></div>
+            <div ref="extContainer" className="ext-container">
+                <ins className="adsbygoogle ads-text"
+                    style={{ display: "block" }}
+                    data-ad-client="ca-pub-1693387204520380" data-ad-slot="5530147693" data-ad-format="link">
+                </ins>
+                <div id="disqus_thread"></div>
+            </div>
             <Footer/>
         </div>);
     }

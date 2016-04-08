@@ -45,7 +45,7 @@ export class ContextManager implements IContextManager {
             let dataScript = `window.${ContentResolver.InlineDataCacheKey} = ${JSON.stringify(rendererState.data)};`;
             let inlineScripts = htmlConfig.inlineScripts;
             inlineScripts = inlineScripts || [];
-            inlineScripts.push({ content: dataScript });
+            inlineScripts.push({ content: dataScript, placement: "body-end" });
             htmlConfig.inlineScripts = inlineScripts;
         }
 

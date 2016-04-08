@@ -60,10 +60,6 @@ export class AppContainer extends ContextualComponent<any> {
         });
     }
 
-    componentDidMount() {
-        initializeGoogleAnalytics("UA-22344363-1");
-    }
-
     componentWillUnmount() {
         this._disposeHistoryListener();
     }

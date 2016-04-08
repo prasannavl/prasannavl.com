@@ -7,7 +7,6 @@ import { ContentManagerFactory } from "../../modules/content-manager/ContentMana
 import { default as LoadingView, LoadingViewFactory } from "../LoadingView/index";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { IHeadlessContentManager, IDomContentManager } from "../../modules/content-manager/ContentManager";
-import { pageView } from "../../modules/ext/googleAnalytics";
 
 export class ContentView extends StatelessBaseWithHistory<any> {
     private _contentManager: IDomContentManager | IHeadlessContentManager;
@@ -70,7 +69,6 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         }
         this.setState({ component });
         focusContentView();
-        recordPageView("/" + this.context.historyContext.pathname);
     }
 
     onRequestStarted(req: any) {
@@ -113,14 +111,6 @@ function focusContentView() {
         TweenMax.to(contentView, 0.7,
             { scrollTop: 0, ease: Power4.easeOut });
         contentView.focus();
-    }
-}
-
-function recordPageView(path: string) {
-    if (!__DEV__) {
-        setTimeout(() => {
-            pageView(path);
-        }, 100);
     }
 }
 

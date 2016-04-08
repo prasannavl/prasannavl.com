@@ -1,8 +1,9 @@
 import React from "react";
 
 function Html(options) {
-    const { title, description, css, js, content, inlineCss, inlineScripts, inlinePreLoadScripts, canonical } = options;
+    const { title, description, css, js, content, inlineCss, inlineScripts, canonical } = options;
     const isArray = Array.isArray;
+    let scripts = [].concat(inlineScripts).map(x => { if (!x.placement) x.placement = "body-end"; return x; });
 
     const html = (
         <html lang="en">
@@ -34,13 +35,20 @@ function Html(options) {
                 <meta name="theme-color" content="#0096d6"/>
                 {isArray(css) ? css.map(x => <link rel="stylesheet" href={x} />) : null}
                 {isArray(js) ? js.map(x => <script src={x} defer></script>) : null}
-                {isArray(inlineCss) ? inlineCss.map(x => <style type="text/css" {...(x.attributes)} dangerouslySetInnerHTML={{ __html: x.content }}></style>) : null}
-                <script src='https://www.google-analytics.com/analytics.js' defer></script>
-                {isArray(inlinePreLoadScripts) ? inlinePreLoadScripts.map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) : null}                
+                {isArray(inlineCss) ? inlineCss.map(x => <style type="text/css" {...(x.attributes) } dangerouslySetInnerHTML={{ __html: x.content }}></style>) : null}
+                {scripts
+                    .filter(x => x.placement === "head-end")
+                    .map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) }
+                <script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" className="g-ads" defer></script>
             </head>
             <body>
+                {scripts
+                    .filter(x => x.placement === "body-start")
+                    .map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>)}
                 <div id="outlet" dangerouslySetInnerHTML= {{ __html: content }}></div>
-                {isArray(inlineScripts) ? inlineScripts.map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) : null}
+                {scripts
+                    .filter(x => x.placement === "body-end")
+                    .map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>)}
             </body>
         </html>
     );
