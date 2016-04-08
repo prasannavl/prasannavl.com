@@ -142,17 +142,21 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
 
     fetchRemoteContentAsync(path: string, isBackgroundRequest: boolean, isIsolated = true) {
         return new Promise((resolve, reject) => {
-            this._trackedRequests.forEach(x => x.abort());
-            this._trackedRequests = [];
+            if (!isIsolated && this._trackedRequests.length > 0) {
+                this._trackedRequests.forEach(x => x.abort());
+                this._trackedRequests = [];
+            }
             let trackedIndex: number; // Assigned towards the end.
             let req = request.get(path)
                 .end((err, res) => {
-                    if (!isIsolated) {
-                        this._trackedRequests.splice(trackedIndex, 1);
-                    }
-                    if (err) reject(err);
-                    else if (!res.ok) reject(res);
-                    else resolve(res.body);
+                    setTimeout(() => {
+                        if (!isIsolated) {
+                            this._trackedRequests.splice(trackedIndex, 1);
+                        }
+                        if (err) reject(err);
+                        else if (!res.ok) reject(res);
+                        else resolve(res.body);
+                    }, 0);
                 });
             if (!isIsolated) {
                 trackedIndex = this._trackedRequests.push(req) - 1;
