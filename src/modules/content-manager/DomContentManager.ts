@@ -146,20 +146,17 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
                 this._trackedRequests.forEach(x => x.abort());
                 this._trackedRequests = [];
             }
-            let trackedIndex: number; // Assigned towards the end.
-            let req = request.get(path)
-                .end((err, res) => {
-                    setTimeout(() => {
-                        if (!isIsolated) {
-                            this._trackedRequests.splice(trackedIndex, 1);
-                        }
-                        if (err) reject(err);
-                        else if (!res.ok) reject(res);
-                        else resolve(res.body);
-                    }, 0);
-                });
+            let req = request.get(path);
+            let trackedIndex = this._trackedRequests.push(req) - 1;
+            req.end((err, res) => {
+                if (!isIsolated) {
+                    this._trackedRequests.splice(trackedIndex, 1);
+                }
+                if (err) reject(err);
+                else if (!res.ok) reject(res);
+                else resolve(res.body);
+            });
             if (!isIsolated) {
-                trackedIndex = this._trackedRequests.push(req) - 1;
                 this.emit(isBackgroundRequest ? this.backgroundRequestStartEventName : this.requestStartEventName, req);
             }
         });
