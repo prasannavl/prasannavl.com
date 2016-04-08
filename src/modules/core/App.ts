@@ -51,7 +51,7 @@ export class App {
             cm.render(context, url);
         };
 
-        if (document.readyState === "loading") {
+        if (document.readyState !== "complete") {
             this.scheduleOnDomLoaded(renderFunc);
         } else {
             renderFunc();

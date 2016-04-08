@@ -10,28 +10,15 @@ interface Props extends React.Props<any> {
     context: IAppContext;
 }
 
-export class ContextualComponent<T> extends React.Component<Props, T> {
+export class AppContainer extends React.Component<Props, any> {
+    private _disposeHistoryListener: () => void = null;
+
     constructor(props: Props, context: any) {
         super(props, context);
     }
 
     getChildContext() {
         return this.props.context;
-    }
-
-    static childContextTypes: React.ValidationMap<IAppContext> = {
-        historyContext: PropTypes.any,
-        services: PropTypes.any,
-        state: PropTypes.any,
-        rendererState: PropTypes.any,
-    };
-}
-
-export class AppContainer extends ContextualComponent<any> {
-    private _disposeHistoryListener: () => void = null;
-
-    constructor(props: Props, context: any) {
-        super(props, context);
     }
 
     getComponentForContext(context: IHistoryContext) {
@@ -67,6 +54,13 @@ export class AppContainer extends ContextualComponent<any> {
     render() {
         return React.createElement(this.state.component);
     }
+
+    static childContextTypes: React.ValidationMap<IAppContext> = {
+        historyContext: PropTypes.any,
+        services: PropTypes.any,
+        state: PropTypes.any,
+        rendererState: PropTypes.any,
+    };
 }
 
 export default AppContainer;

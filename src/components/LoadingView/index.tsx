@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createStyled, createStyledWith } from "../../modules/core/createStyled";
-import { ContextualComponent } from "../AppContainer";
 import { StatelessBase } from "../Base";
 
 let style = require("./style.scss") as any;

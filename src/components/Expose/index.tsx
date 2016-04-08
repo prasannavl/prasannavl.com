@@ -7,6 +7,11 @@ import { IAppContext } from "../../modules/core/AppContext";
 const style = require("./style.scss") as any;
 
 class Expose extends StatelessBase<any> {
+
+    constructor(props: any, context: any) {
+        super(props, context);
+    }
+
     componentWillMount() {
         super.componentWillMount();
         this.getServices().title.reset();
