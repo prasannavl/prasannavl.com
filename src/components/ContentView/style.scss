@@ -67,6 +67,9 @@
     .justify {
         text-align: justify;
     }
+    .italic {
+        font-style: italic;
+    }
     *:not(pre) > code {
         background: #fafafa;
         border: 1px solid darken(#fafafa, 10%);
