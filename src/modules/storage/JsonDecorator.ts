@@ -5,7 +5,7 @@ import { passthrough, passthroughPromiseResolution, createKeyNotFoundError, Stat
  * Note: Keep implementation of IStorageSync and IStorageAsync compeltely isolated
  * so that it can be separated out into each its own class later, if required.
  */
-class JsonDecoratorSync<T> implements IStorageSync<T | string> {
+export class JsonDecorator<T> implements IStorageSync<T | string> {
     private _storage: IStorage<string>;
 
     constructor(storage: IStorage<string>) {
