@@ -5,6 +5,7 @@ import { EventEmitter } from "events";
 import { PromiseFactory } from "../storage/PromiseFactory";
 import { IDomContentManager, CacheOptions } from "./ContentManager";
 import moment from "moment";
+import bluebird from "bluebird";
 
 export interface ICacheWrapper {
     data: any;
@@ -23,6 +24,7 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     private _lastKnownPathName: string = null;
     private _inlineCacheFlushed = false;
     private _sessionTag: number;
+    private _trackedRequests: Array<request.Request<any>> = [];
 
     constructor(private _resolver: ContentResolver,
         private _localStore: IStorage<ICacheWrapper>,
@@ -33,9 +35,12 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
 
     tagSession(sessionStore: IStorage<any>) {
         const contentSessionTagKey = "contentTag";
+        let sessionTag = (sessionStorage.getItem(contentSessionTagKey));
+        if (sessionTag == null) {
+            let tag = Date.now();
+        }
         // Note: With DOM, this is always synchronous, or further logic is required.
-        sessionStore.tryGetOrSet(contentSessionTagKey, Date.now())
-            .then(x => this._sessionTag = x.result);
+        sessionStore.tryGetOrSetAsync(contentSessionTagKey, Date.now());
     }
 
     createCache(data: any, lastSyncDate: number = Date.now()) {
@@ -47,11 +52,14 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
             this._inlineCacheFlushed = true;
             let data = (window as any)[ContentResolver.InlineDataCacheKey];
             if (data != null) {
+                console.log("inlining..");
                 (window as any)[ContentResolver.InlineDataCacheKey] = null;
-                return this._localStore.set(pathKey, this.createCache(data));
+                let cache = this.createCache(data);
+                console.log(require("lodash").omit(cache, "data"));
+                return this._localStore.setAsync(pathKey, cache);
             }
         }
-        return PromiseFactory.PromiseEmpty;
+        return Promise.resolve();
     }
 
     queuePath(pathname: string, cacheOptions: CacheOptions = { check: true, store: true }) {
@@ -74,16 +82,16 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     getContentAsync(path: string, cacheOptions: CacheOptions = { check: false, store: false }) {
         let storeKey = this.pathKeyPrefix + path;
         return this.flushInlineCacheAsync(storeKey)
-            .then(() => this._localStore.tryGet(storeKey))
+            .then(() => this._localStore.tryGetAsync(storeKey))
             .then(x => {
                 if (this.isCacheValid(path, storeKey, x, cacheOptions)) {
                     // queue a background update for future , but return from cache
                     // TODO: later once a last update date is added, check to see if it really
                     // was a new version, and if so, notify user.
-                    setTimeout(() => this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions), 1000);
+                    setTimeout(() => this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions, true, false), 1000);
                     return x.result.data;
                 }
-                return this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions, false);
+                return this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions, false, false);
             });
     }
 
@@ -105,28 +113,44 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
                 if (lastSyncDate.diff(freshFrom) > 0) {
                     return true;
                 }
+                console.log("cache invalid. reason: time expired.");
             }
         }
+        console.log("cache invalid. possible reason: ");
+        console.log({ check: cacheOptions.check, exists: wrappedResult.exists, sessionTag: this._sessionTag, cacheTag: result.sessionTag });
         return false;
     }
 
-    fetchRemoteAndStoreAsync(path: string, storeKey: string, cacheOptions: CacheOptions, isBackgroundRequest = true) {
-        return this.fetchRemoteContentAsync(path, isBackgroundRequest)
+    fetchRemoteAndStoreAsync(path: string,
+        storeKey: string,
+        cacheOptions: CacheOptions,
+        isBackgroundRequest = true,
+        isIsolated = true) {
+        return this.fetchRemoteContentAsync(path, isBackgroundRequest, isIsolated)
             .then((data: any) => {
-                cacheOptions.store && this._localStore.set(storeKey, this.createCache(data));
+                cacheOptions.store && this._localStore.setAsync(storeKey, this.createCache(data));
                 return data;
             });
     }
 
-    fetchRemoteContentAsync(path: string, isBackgroundRequest: boolean) {
+    fetchRemoteContentAsync(path: string, isBackgroundRequest: boolean, isIsolated = true) {
         return new Promise((resolve, reject) => {
+            this._trackedRequests.forEach(x => x.abort());
+            this._trackedRequests = [];
+            let trackedIndex: number; // Assigned towards the end.
             let req = request.get(path)
                 .end((err, res) => {
+                    if (!isIsolated) {
+                        this._trackedRequests.splice(trackedIndex, 1);
+                    }
                     if (err) reject(err);
                     else if (!res.ok) reject(res);
                     else resolve(res.body);
                 });
-            this.emit(isBackgroundRequest ? this.backgroundRequestStartEventName : this.requestStartEventName, req);
+            if (!isIsolated) {
+                trackedIndex = this._trackedRequests.push(req) - 1;
+                this.emit(isBackgroundRequest ? this.backgroundRequestStartEventName : this.requestStartEventName, req);
+            }
         });
     }
 }

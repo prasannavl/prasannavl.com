@@ -2,6 +2,7 @@ import { IAppContext } from "./AppContext";
 import { ContextManagerFactory, IContextManager } from "./ContextManager";
 import { ContextManager as DomContextManager } from "../dom-adapter/ContextManager";
 import titleServiceData from "title-service-data";
+import bluebird from "bluebird";
 
 export class App {
     private contextManager: IContextManager = null;
@@ -9,6 +10,7 @@ export class App {
 
     start(renderTargetId: string = "outlet", url?: string) {
         this._hintRequisites();
+        this.setupGlobalRequisites();
         if (__DOM__) {
             this._startForDom(renderTargetId, url);
         }
@@ -17,15 +19,19 @@ export class App {
     private _hintRequisites() {
         let style = require("../../styles/global.scss");
         let lodash = require("lodash");
-
         if (__DOM__) {
             let tweenMax = require("gsap/src/uncompressed/TweenMax");
         }
-
         if (__DEV__) {
             if (__DOM__) {
                 style.insertIntoDom();
             }
+        }
+    }
+
+    private setupGlobalRequisites() {
+        if (__DOM__) {
+            (window as any).Promise = bluebird;
         }
     }
 
