@@ -99,13 +99,13 @@ export class Article extends StatelessBase<any> {
         this._articleDomElements = new Array<HTMLElement>();
         let item = this.props.data as ViewItemDescriptor;
         return (<div className={style.root}>
-            <section>
+            <main>
                 <header>
-                    <h2>{ "PVL ".toLocaleLowerCase() + "\u2215" } <a href={"/" + item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name.toLowerCase()}</a></h2>
+                    <h1>{ "PVL ".toLocaleLowerCase() + "\u2215" } <a href={"/" + item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name.toLowerCase()}</a></h1>
                     <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
                 </header>
                 <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>
-            </section>
+            </main>
             <div id="disqus_thread" ref="disqus"></div>
             <Footer/>
         </div>);

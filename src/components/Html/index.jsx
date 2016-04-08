@@ -11,6 +11,7 @@ function Html(options) {
                 <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
                 <title>{title}</title>
                 <meta name="description" content={description} />
+                <meta name="viewport" />
                 {canonical ? <link rel="canonical" href={canonical} /> : null }
                 <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png"/>
                 <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png"/>

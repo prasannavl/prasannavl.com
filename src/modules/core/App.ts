@@ -3,6 +3,7 @@ import { ContextManagerFactory, IContextManager } from "./ContextManager";
 import { ContextManager as DomContextManager } from "../dom-adapter/ContextManager";
 import titleServiceData from "title-service-data";
 import bluebird from "bluebird";
+import { Tweaks } from "../utils/Tweaks";
 
 export class App {
     private contextManager: IContextManager = null;
@@ -13,6 +14,7 @@ export class App {
         this.setupGlobalRequisites();
         if (__DOM__) {
             this._startForDom(renderTargetId, url);
+            Tweaks.iPadDisableZoom();
         }
     }
 

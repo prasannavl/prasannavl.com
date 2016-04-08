@@ -5,14 +5,14 @@
     & > section::after {
         @include horizontal-line-on-after;
     }
-    & > section {
+    & > main {
         & > header {
-            & > h2 {
+            & > h1 {
                 font-weight: 500;
                 font-size: 38px;
                 color: lighten(gray, 30%);
             }
-            & > h2 > a {
+            & > h1 > a {
                 @include header-link;
             }
             & > time {

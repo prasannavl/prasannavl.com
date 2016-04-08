@@ -1,12 +1,12 @@
 @import "../ContentView/vars";
 :local(.root) {
     @include content-chrome;
-    & > h2 {
+    & > h1 {
         font-weight: 300;
         font-size: 38px;
         color: gray;
     }
-    & > section {
+    & > main > section {
         margin-top: 20px;
         & > header {
             font-weight: 400;
@@ -20,11 +20,10 @@
                 z-index: 1;
                 padding-right: 20px;       
             }
-            
             &::after {
                 content: "";
                 position: absolute;
-                z-index: -1;
+                z-index: 0;
                 display: block;
                 width: 100%;
                 top:50%;
