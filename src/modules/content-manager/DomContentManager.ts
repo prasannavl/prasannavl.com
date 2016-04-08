@@ -147,18 +147,17 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
                 this._trackedRequests = [];
             }
             let req = request.get(path);
-            let trackedIndex = this._trackedRequests.push(req) - 1;
+            this._trackedRequests.push(req);
+            !isIsolated && this.emit(isBackgroundRequest ? this.backgroundRequestStartEventName : this.requestStartEventName, req);
             req.end((err, res) => {
                 if (!isIsolated) {
-                    this._trackedRequests.splice(trackedIndex, 1);
+                    let index = this._trackedRequests.findIndex(x => x === req);
+                    this._trackedRequests.splice(index, 1);
                 }
                 if (err) reject(err);
                 else if (!res.ok) reject(res);
                 else resolve(res.body);
             });
-            if (!isIsolated) {
-                this.emit(isBackgroundRequest ? this.backgroundRequestStartEventName : this.requestStartEventName, req);
-            }
         });
     }
 }
