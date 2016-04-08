@@ -34,11 +34,7 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
 
     tagSession(sessionStore: IStorage<any>) {
         const contentSessionTagKey = "contentTag";
-        let sessionTag = (sessionStorage.getItem(contentSessionTagKey));
-        if (sessionTag == null) {
-            let tag = Date.now();
-        }
-        sessionStore.tryGetOrSet(contentSessionTagKey, Date.now());
+        this._sessionTag = sessionStore.tryGetOrSet(contentSessionTagKey, Date.now()).result;
     }
 
     createCache(data: any, lastSyncDate: number = Date.now()) {
