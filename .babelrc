@@ -1,6 +1,11 @@
 {
     "presets": ["es2015", "stage-1", "react"],
-    "plugins": [["transform-es2015-classes", {loose: true}], "transform-class-properties", "transform-function-bind"],
+    "plugins": [
+      ["transform-es2015-classes", { "loose": true}],
+      "transform-proto-to-assign",
+      "transform-es2015-block-scoping", 
+      "transform-class-properties", 
+      "transform-function-bind"],
     "env": {
       "interactive-dev": {
         "presets": ["react-hmre"]
