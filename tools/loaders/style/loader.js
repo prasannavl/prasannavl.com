@@ -8,7 +8,7 @@ module.exports.pitch = function pitch(remainingRequest) {
     this.cacheable();
   }
 
-  const insertCssPath = path.join(__dirname, './cssUtils.js');
+  const insertCssPath = path.join(__dirname, './build/cssUtils.min.js');
   let output = `
     var content = require(${stringifyRequest(this, `!!${remainingRequest}`)});
     var insertCss = require(${stringifyRequest(this, `!${insertCssPath}`)});
@@ -27,7 +27,7 @@ module.exports.pitch = function pitch(remainingRequest) {
 
     // Hot Module Replacement
     // https://webpack.github.io/docs/hot-module-replacement
-    if (module.hot) {
+    if (module.hot && typeof window !== 'undefined' && window.document) {
       module.hot.accept(${stringifyRequest(this, `!!${remainingRequest}`)}, function() {
         var newContent = require(${stringifyRequest(this, `!!${remainingRequest}`)});
         if (typeof newContent === 'string') {
