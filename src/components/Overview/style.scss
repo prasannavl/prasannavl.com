@@ -36,5 +36,7 @@
     }
     & > footer {
         @include content-chrome;
+        padding-top:0;
+        padding-bottom:0;
     }
 }
