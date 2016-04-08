@@ -29,6 +29,8 @@ export function loadComments(path) {
                     }
                 });
             }
-        } catch (err) { } // eslint-disable-line no-empty
+        } catch (err) {
+            console.warn("ext: disqus: " + err);
+        }
     }
 }

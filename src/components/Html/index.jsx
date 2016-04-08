@@ -39,7 +39,6 @@ function Html(options) {
                 {scripts
                     .filter(x => x.placement === "head-end")
                     .map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) }
-                <script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" className="g-ads" defer></script>
             </head>
             <body>
                 {scripts

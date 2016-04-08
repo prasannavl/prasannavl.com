@@ -25,7 +25,8 @@ export class ContextManager implements IContextManager {
 
         ReactDOM.render(React.createElement(context.services.appContainerProvider(), { context }), renderSurface, (el) => {
             // Remove all the styles that were inlined during static server side render
-            Array.from(document.head.getElementsByClassName("_svx")).forEach(x => x.remove());
+            let head = document.head;
+            Array.from(head.getElementsByClassName("_svx")).forEach(x => head.removeChild(x));
         });
     }
 }
