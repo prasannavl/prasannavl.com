@@ -9,8 +9,8 @@ export class ServiceProviderFactory {
     static create(): IServiceProviderCore {
         let rendererState = RendererStateFactory.create() as IHeadlessRendererState;
 
-        let sessionStore = new JsonDecorator<any>(new MemoryStore());
-        let localStore = new JsonDecorator<any>(new MemoryStore());
+        let sessionStore = new JsonDecorator<any>(new MemoryStore<string>());
+        let localStore = new JsonDecorator<any>(new MemoryStore<string>());
 
         return {
             rendererStateProvider: () => rendererState,

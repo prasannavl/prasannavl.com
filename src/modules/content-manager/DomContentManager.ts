@@ -2,7 +2,6 @@ import request from "superagent";
 import { IStorage, TryGetResult } from "../storage/Storage";
 import { ContentResolver } from "./ContentResolver";
 import { EventEmitter } from "events";
-import { PromiseFactory } from "../storage/PromiseFactory";
 import { IDomContentManager, CacheOptions } from "./ContentManager";
 import moment from "moment";
 import bluebird from "bluebird";
@@ -39,8 +38,7 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
         if (sessionTag == null) {
             let tag = Date.now();
         }
-        // Note: With DOM, this is always synchronous, or further logic is required.
-        sessionStore.tryGetOrSetAsync(contentSessionTagKey, Date.now());
+        sessionStore.tryGetOrSet(contentSessionTagKey, Date.now());
     }
 
     createCache(data: any, lastSyncDate: number = Date.now()) {
