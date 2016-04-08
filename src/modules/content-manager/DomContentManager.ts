@@ -23,13 +23,30 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     private _lastKnownPathName: string = null;
     private _inlineCacheFlushed = false;
     private _sessionTag: number;
+    private _appVersionMajor: number;
+    private _appVersionMinor: number;
     private _trackedRequests: Array<request.Request<any>> = [];
 
     constructor(private _resolver: ContentResolver,
         private _localStore: IStorage<ICacheWrapper>,
         sessionStore: IStorage<any>) {
         super();
+        let { major, minor } = this.getAppVersion(__app_version__);
+        this._appVersionMajor = major;
+        this._appVersionMinor = minor;
         this.tagSession(sessionStore);
+    }
+
+    getAppVersion(versionString: string) {
+        let major = 0, minor = 0;
+        if (versionString) {
+            let v = versionString.split(".");
+            if (v.length > 1) {
+                major = Number(v[0]);
+                minor = Number(v[1]);
+            }
+        }
+        return { major, minor };
     }
 
     tagSession(sessionStore: IStorage<any>) {
@@ -88,16 +105,17 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     }
 
     isCacheValid(path: string, storeKey: string, wrappedResult: TryGetResult<ICacheWrapper>, cacheOptions: CacheOptions) {
-        // Check cache options, and also make sure the data is from the current session.
-        // If everything indicates the current cache can be used, proceed ahead.
-        // TODO: check appversion (Note: Without app version check, later session tagged data
-        // could potentially break, if the data model is incompatible.)
         let result = wrappedResult.result;
         if (cacheOptions.check &&
             wrappedResult.exists &&
             result.sessionTag >= this._sessionTag) {
             let cache = wrappedResult.result;
             let lastSyncDateRaw = cache.lastSyncDate;
+            // Ensure data sanity for version.
+            let { major, minor } = this.getAppVersion(cache.appVersion);
+            if (major !== this._appVersionMajor) return false;
+            if (minor < this._appVersionMinor) return false;
+            // Ensure time sanity
             if (lastSyncDateRaw) {
                 let lastSyncDate = moment(lastSyncDateRaw);
                 // if last check was less than a day.
