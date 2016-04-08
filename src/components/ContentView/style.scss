@@ -3,8 +3,9 @@
     $red: #e06666;
     margin-left: $sidebarWidth;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     height: 100vh;
-    position: relative;    
+    position: relative; 
     &:focus {
         outline: none;
     }
@@ -57,6 +58,7 @@
             max-width: 900px;
             display: block;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
     }
     .transparent {
