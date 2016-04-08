@@ -46,10 +46,8 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
             this._inlineCacheFlushed = true;
             let data = (window as any)[ContentResolver.InlineDataCacheKey];
             if (data != null) {
-                console.log("inlining..");
                 (window as any)[ContentResolver.InlineDataCacheKey] = null;
                 let cache = this.createCache(data);
-                console.log(require("lodash").omit(cache, "data"));
                 return this._localStore.setAsync(pathKey, cache);
             }
         }
@@ -107,11 +105,8 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
                 if (lastSyncDate.diff(freshFrom) > 0) {
                     return true;
                 }
-                console.log("cache invalid. reason: time expired.");
             }
         }
-        console.log("cache invalid. possible reason: ");
-        console.log({ check: cacheOptions.check, exists: wrappedResult.exists, sessionTag: this._sessionTag, cacheTag: result.sessionTag });
         return false;
     }
 
