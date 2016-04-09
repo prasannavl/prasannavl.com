@@ -57,7 +57,6 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         let req = this._pendingRequest;
         if (req !== null) {
             req.abort();
-            console.log(`abort: ${req.url}`);
             this._pendingRequest = null;
         }
         let cm = this._contentManager as IDomContentManager;
@@ -65,7 +64,6 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     }
 
     onContentReady(component: any) {
-        console.log(`content ready: ${component.displayName || component.name} , ${this.context.historyContext.pathname}`);
         if (this._pendingRequest !== null) {
             this._pendingRequest = null;
         }
@@ -76,10 +74,8 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     onRequestStarted(req: any) {
         this._pendingRequest = req;
         setTimeout(() => {
-            console.log(`show loader for: ${req.url}`);
             if (this._pendingRequest !== null)
                 this.forceUpdate();
-            this._pendingRequest && console.log("skipping loader update.");
         }, 100);
     }
 

@@ -15,10 +15,10 @@ export interface ICacheWrapper {
 
 export class DomContentManager extends EventEmitter implements IDomContentManager {
     contentReadyEventName = "contentready";
-    requestFailedEventName = "requestfailed";
     requestStartEventName = "requeststart";
-    backgroundRequestStartEventName = "backgroundrequeststart";
-    backgroundRequestFailedEventName = "backgroundrequestfailed";
+    requestFailedEventName = "requestfailed";
+    backgroundRequestStartEventName = "requestbackgroundstart";
+    backgroundRequestFailedEventName = "requestbackgroundfailed";
 
     pathKeyPrefix = ContentResolver.DefaultPathKeyPrefix;
 
@@ -27,7 +27,8 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     private _sessionTag: number;
     private _appVersionMajor: number;
     private _appVersionMinor: number;
-    private _lastRequest: { request: request.SuperAgentRequest, path: string, isBackground: boolean };
+    private _pendingForegroundRequest: request.SuperAgentRequest;
+    private _pendingBackgroundRequest: request.SuperAgentRequest;
 
     constructor(private _resolver: ContentResolver,
         private _localStore: IStorage<ICacheWrapper>,
@@ -145,20 +146,33 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     fetchRemoteContentAsync(path: string, isBackgroundRequest: boolean, isIsolated = true) {
         let tracked = !isIsolated;
         return new Promise((resolve, reject) => {
-            if (tracked && this._lastRequest) {
-                this._lastRequest.request.abort();
-                console.log(`abort: ${this._lastRequest.path} , isBg: ${this._lastRequest.isBackground}`);
+            if (tracked) {
+                if (isBackgroundRequest && this._pendingBackgroundRequest) {
+                    this._pendingBackgroundRequest.abort();
+                } else if (this._pendingForegroundRequest) {
+                    this._pendingForegroundRequest.abort();
+                }
             }
             let req = request.get(path);
             if (tracked) {
-                this._lastRequest = { request: req, isBackground: isBackgroundRequest, path: path };
-                this.emit(isBackgroundRequest ? this.backgroundRequestStartEventName : this.requestStartEventName, req);
+                if (isBackgroundRequest) {
+                    this._pendingBackgroundRequest = req;
+                    this.emit(this.backgroundRequestStartEventName, req);
+                } else {
+                    this._pendingForegroundRequest = req;
+                    this.emit(this.requestStartEventName, req);
+                }
             }
-            isIsolated || console.log(`start: ${path} , isBg: ${isBackgroundRequest}`);
             req.end((err, res) => {
                 if (tracked) {
-                    this._lastRequest = null;
-                    console.log(`end: ${path} , isBg: ${isBackgroundRequest}`);
+                    if (isBackgroundRequest) {
+                        this._pendingBackgroundRequest = null;
+                        if (err) this.emit(this.backgroundRequestFailedEventName, req);
+                    }
+                    else {
+                        this._pendingForegroundRequest = null;
+                        if (err) this.emit(this.requestFailedEventName, req);
+                    }
                 }
                 if (err) reject(err);
                 else if (!res.ok) reject(res);
