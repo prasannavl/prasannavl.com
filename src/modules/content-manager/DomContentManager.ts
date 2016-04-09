@@ -15,8 +15,10 @@ export interface ICacheWrapper {
 
 export class DomContentManager extends EventEmitter implements IDomContentManager {
     contentReadyEventName = "contentready";
+    requestFailedEventName = "requestfailed";
     requestStartEventName = "requeststart";
     backgroundRequestStartEventName = "backgroundrequeststart";
+    backgroundRequestFailedEventName = "backgroundrequestfailed";
 
     pathKeyPrefix = ContentResolver.DefaultPathKeyPrefix;
 
@@ -25,7 +27,7 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     private _sessionTag: number;
     private _appVersionMajor: number;
     private _appVersionMinor: number;
-    private _lastRequest: request.Request<any>;
+    private _lastRequest: { request: request.SuperAgentRequest, path: string, isBackground: boolean };
 
     constructor(private _resolver: ContentResolver,
         private _localStore: IStorage<ICacheWrapper>,
@@ -82,7 +84,7 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
             .then(x => {
                 this._lastKnownPathName = pathname;
                 this.emit(this.contentReadyEventName, resolved.factory(x));
-            }).catch(err => { console.log("Resource load failure: "); console.log(err); console.log(this._lastRequest); });
+            });
         } else {
             this.emit(this.contentReadyEventName, resolved.factory());
         }
@@ -144,15 +146,20 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
         let tracked = !isIsolated;
         return new Promise((resolve, reject) => {
             if (tracked && this._lastRequest) {
-                this._lastRequest.abort();
+                this._lastRequest.request.abort();
+                console.log(`abort: ${this._lastRequest.path} , isBg: ${this._lastRequest.isBackground}`);
             }
             let req = request.get(path);
             if (tracked) {
-                this._lastRequest = req;
+                this._lastRequest = { request: req, isBackground: isBackgroundRequest, path: path };
                 this.emit(isBackgroundRequest ? this.backgroundRequestStartEventName : this.requestStartEventName, req);
             }
+            isIsolated || console.log(`start: ${path} , isBg: ${isBackgroundRequest}`);
             req.end((err, res) => {
-                if (tracked) this._lastRequest = null;
+                if (tracked) {
+                    this._lastRequest = null;
+                    console.log(`end: ${path} , isBg: ${isBackgroundRequest}`);
+                }
                 if (err) reject(err);
                 else if (!res.ok) reject(res);
                 else resolve(res.body);
