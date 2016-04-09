@@ -57,6 +57,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         let req = this._pendingRequest;
         if (req !== null) {
             req.abort();
+            console.log(`abort: ${req.url}`);
             this._pendingRequest = null;
         }
         let cm = this._contentManager as IDomContentManager;
