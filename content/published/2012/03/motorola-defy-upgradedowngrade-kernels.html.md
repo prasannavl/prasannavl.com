@@ -21,7 +21,7 @@ Say for example, to upgrade to Walter's fixed SBF of 4.5.3_109 Kernel from 4.5.1
 
 Wipe data/cache in case you get stuck at boot. No more bootloader errors.
 
-This is based on <a href="http://forum.xda-developers.com/showthread.php?t=1486731" target="_blank">http://forum.xda-developers.com/showthread.php?t=1486731</a>
+This is based on <a href="https://forum.xda-developers.com/showthread.php?t=1486731" target="_blank">https://forum.xda-developers.com/showthread.php?t=1486731</a>
 Credits go to dlhxr for that.
 
 Note: If you have an SBF which you want to flash after this, just the `BL6Downgrade-CDT.sbf` [47Kb] is enough.
@@ -31,4 +31,4 @@ If you want to get into a custom recovery (only if you already have it), then yo
 **Files:**
 
 BL6Downgrade.SBF [34MB] - <a href="http://www.mediafire.com/download.php?vdpp0nnr5f12e95" target="_blank">http://www.mediafire.com/download.php?vdpp0nnr5f12e95</a><br/>
-Original XDA Thread: <a href="http://forum.xda-developers.com/showthread.php?t=1552152" target="_blank">http://forum.xda-developers.com/showthread.php?t=1552152</a>
+Original XDA Thread: <a href="https://forum.xda-developers.com/showthread.php?t=1552152" target="_blank">https://forum.xda-developers.com/showthread.php?t=1552152</a>

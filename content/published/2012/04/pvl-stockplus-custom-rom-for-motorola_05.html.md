@@ -12,7 +12,7 @@ tags: []
 
 So, after staying at CM for a long time, I came across the recent release of Motorola's ROM. And I must admit, for the first time, I was quite impressed. It was snappy, fast and stable. So, I guess I came to a point where I wanted everything to just work instead of hovering around nightlies, making this stock version a perfect base to rectify Motorola's shortcomings, like the God-awful transitions, the complex and ugly loading icon, and well, root, busybox, memory optimizations and all the other performance goodies. I'm a fan of keeping things simple and elegant, rather than complicating things unnecessarily. And I thought, I would share it this time, for those who prefer to use a stable stock version but will all the goodies. So, here: PVL-StockPlus.
 
-**XDA Thread:** <a href="http://forum.xda-developers.com/showthread.php?t=1582187" target="_blank">http://forum.xda-developers.com/showthread.php?t=1582187</a>
+**XDA Thread:** <a href="https://forum.xda-developers.com/showthread.php?t=1582187" target="_blank">https://forum.xda-developers.com/showthread.php?t=1582187</a>
 
 **Base:** DEFYPLUS_U3_4.5.1-134_DFP-231-AsiaRetail<br/>
 **Languages:** en_US, en_GB, fr_FR, it_IT, es_ES, es_US, de_DE, de_AT, nl_NL, zh_CN, vi_VN, tl_PH, th_TH, id_ID.
@@ -86,15 +86,15 @@ So, after staying at CM for a long time, I came across the recent release of Mot
     }
 </style>
 <p style="display:flex; flex-flow: row wrap;">
-<img src="http://3.bp.blogspot.com/-_uIDBm9ReK0/T3y5llUcL4I/AAAAAAAAAIg/dLcS8y8h1Lc/s1600/Screenshot1.jpg" alt="Screenshot 1" class="content-imageset" />
-<img src="http://2.bp.blogspot.com/-2SO1pSNyAuo/T3y5nUf2QNI/AAAAAAAAAIo/IH-1OA2Jn9s/s320/Screenshot2.png" alt="Screenshot 2" class="content-imageset" />
-<img src="http://3.bp.blogspot.com/--4RgtNQRnMY/T3y5o8upjrI/AAAAAAAAAIw/ECc7-E0q2go/s320/Screenshot3.png" alt="Screenshot 3" class="content-imageset" />
-<img src="http://2.bp.blogspot.com/-Nw0A4u00yUM/T3zi8P5P5QI/AAAAAAAAAI8/wa23Bj2mo_0/s320/Screenshot4.png" alt="Screenshot 4" class="content-imageset" />
+<img src="//3.bp.blogspot.com/-_uIDBm9ReK0/T3y5llUcL4I/AAAAAAAAAIg/dLcS8y8h1Lc/s1600/Screenshot1.jpg" alt="Screenshot 1" class="content-imageset" />
+<img src="//2.bp.blogspot.com/-2SO1pSNyAuo/T3y5nUf2QNI/AAAAAAAAAIo/IH-1OA2Jn9s/s320/Screenshot2.png" alt="Screenshot 2" class="content-imageset" />
+<img src="//3.bp.blogspot.com/--4RgtNQRnMY/T3y5o8upjrI/AAAAAAAAAIw/ECc7-E0q2go/s320/Screenshot3.png" alt="Screenshot 3" class="content-imageset" />
+<img src="//2.bp.blogspot.com/-Nw0A4u00yUM/T3zi8P5P5QI/AAAAAAAAAI8/wa23Bj2mo_0/s320/Screenshot4.png" alt="Screenshot 4" class="content-imageset" />
 </p>
 
 **How to Install:**
 
-1. Root your Phone and Install Bootmenu (<a href="http://forum.xda-developers.com/attachment.php?attachmentid=792601&d=1322064151" target="_blank">SndInitDefy_2.0.apk</a>)
+1. Root your Phone and Install Bootmenu (<a href="https://forum.xda-developers.com/attachment.php?attachmentid=792601&d=1322064151" target="_blank">SndInitDefy_2.0.apk</a>)
 1. Extract the downloaded file to the SD card at: `/sdcard/clockworkmod/backup`
 1. Copy all the update zip files, if any, anywhere into your SD card.
 1. Reboot
