@@ -27,6 +27,7 @@ interface RobotContent {
 
 export class Robot extends StatelessBase<RobotProps> {
     private _animation: TimelineMax;
+
     getContent() {
         let { error, svgText, title, messageElement, extraMessageElement, documentTitle } = this.props;
         if (error) {
@@ -155,6 +156,7 @@ function getBrokeBot() {
 
     function createTimeline(isHeadless: boolean) {
         if (__DOM__) {
+
             let rightInnerClawNode = document.querySelector("#rightInnerClaw");
             let rightOuterClawNode = document.querySelector("#rightOuterClaw");
             let leftInnerClawNode = document.querySelector("#leftInnerClaw");
@@ -209,7 +211,6 @@ function getBrokeBot() {
                 repeat: -1,
                 ease: Quad.easeInOut
             }, 0);
-
 
             t.to(leftArmNode, bodySwayTime, {
                 delay: 0.3,

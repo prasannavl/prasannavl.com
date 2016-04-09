@@ -82,7 +82,7 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
             .then(x => {
                 this._lastKnownPathName = pathname;
                 this.emit(this.contentReadyEventName, resolved.factory(x));
-            });
+            }).catch(err => { console.log("Resource load failure: "); console.log(err); console.log(this._lastRequest); });
         } else {
             this.emit(this.contentReadyEventName, resolved.factory());
         }
