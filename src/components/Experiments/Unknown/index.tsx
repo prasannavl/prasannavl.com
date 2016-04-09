@@ -26,6 +26,7 @@ interface RobotContent {
 }
 
 export class Robot extends StatelessBase<RobotProps> {
+    private _animation: TimelineMax;
     getContent() {
         let { error, svgText, title, messageElement, extraMessageElement, documentTitle } = this.props;
         if (error) {
@@ -38,12 +39,33 @@ export class Robot extends StatelessBase<RobotProps> {
         return createContent(this.props);
     }
 
+    startAnimation() {
+        this.killAnimation();
+        this._animation = getBrokeBot().createAnimation(false);
+        this._animation.play();
+    }
+
+    killAnimation() {
+        if (this._animation) {
+            this._animation.kill();
+            this._animation = null;
+        }
+    }
+
     componentDidMount() {
-        getBrokeBot().run(false);
+        this.startAnimation();
+    }
+
+    componentWillUpdate(nextProps: any, nextState: any) {
+        this.killAnimation();
     }
 
     componentDidUpdate() {
-        getBrokeBot().run(false);
+        this.startAnimation();
+    }
+
+    componentWillUnmount() {
+        this.killAnimation();
     }
 
     render() {
@@ -121,115 +143,122 @@ function getBrokeBot() {
     let bodyTO = "50px 92px";
     let eyesY = -2;
 
-    return { run };
+    return { createAnimation };
 
-    function run(isHeadless: boolean) {
+    function createAnimation(isHeadless: boolean) {
         if (!isHeadless) {
             eyesY = 0;
             bodyTO = "43px 160px";
         }
-        animateBrokebot(isHeadless);
+        return createTimeline(isHeadless);
     }
 
-    function animateBrokebot(isHeadless: boolean) {
+    function createTimeline(isHeadless: boolean) {
         if (__DOM__) {
             let rightInnerClawNode = document.querySelector("#rightInnerClaw");
             let rightOuterClawNode = document.querySelector("#rightOuterClaw");
             let leftInnerClawNode = document.querySelector("#leftInnerClaw");
             let leftOuterClawNode = document.querySelector("#leftOuterClaw");
             let upperBodyNode = document.querySelector("#upperBody");
+            let leftArmNode = document.querySelector("#leftArm");
+
             let eyesMoveNode = document.querySelector("#eyesMove");
             let eyesBlinkNode = document.querySelector("#eyesBlink");
-            let leftArmNode = document.querySelector("#leftArm");
             let rightArmNode = document.querySelector("#rightLowerArm");
             let robotHeadNode = document.querySelector("#robotHead");
             let textNode = document.querySelector("#robotTextNode");
-            setTimeout(function () {
-                TweenMax.from(rightInnerClawNode, clawTweenTime, {
-                    rotation: 45,
-                    transformOrigin: "11px 15px",
-                    repeat: -1,
-                    repeatDelay: rightClawRepeatDelay
-                });
-                TweenMax.from(rightOuterClawNode, clawTweenTime, {
-                    rotation: -45,
-                    transformOrigin: "15px 15px",
-                    repeat: -1,
-                    repeatDelay: rightClawRepeatDelay
-                });
-            }, rightClawRepeatDelay * 1000);
 
-            setTimeout(function () {
-                TweenMax.from(leftInnerClawNode, clawTweenTime, {
-                    rotation: -45,
-                    transformOrigin: "15px 15px",
-                    repeat: -1,
-                    repeatDelay: leftClawRepeatDelay
-                });
-                TweenMax.from(leftOuterClawNode, clawTweenTime, {
-                    rotation: 45,
-                    transformOrigin: "11px 15px",
-                    repeat: -1,
-                    repeatDelay: leftClawRepeatDelay
-                });
-            }, leftClawRepeatDelay * 1000);
+            let t = new TimelineMax({ paused: true });
 
-            TweenMax.from(textNode, 2, {
+            t.from(textNode, 2, {
                 opacity: 0
             });
 
-            TweenMax.to(upperBodyNode, bodySwayTime, {
+            t.from(rightInnerClawNode, clawTweenTime, {
+                rotation: 45,
+                transformOrigin: "11px 15px",
+                repeat: -1,
+                repeatDelay: rightClawRepeatDelay
+            }, rightClawRepeatDelay);
+
+            t.from(rightOuterClawNode, clawTweenTime, {
+                rotation: -45,
+                transformOrigin: "15px 15px",
+                repeat: -1,
+                repeatDelay: rightClawRepeatDelay
+            }, rightClawRepeatDelay);
+
+            t.from(leftInnerClawNode, clawTweenTime, {
+                rotation: -45,
+                transformOrigin: "15px 15px",
+                repeat: -1,
+                repeatDelay: leftClawRepeatDelay
+            }, leftClawRepeatDelay);
+
+            t.from(leftOuterClawNode, clawTweenTime, {
+                rotation: 45,
+                transformOrigin: "11px 15px",
+                repeat: -1,
+                repeatDelay: leftClawRepeatDelay
+            }, leftClawRepeatDelay);
+
+            t.to(upperBodyNode, bodySwayTime, {
                 rotationZ: -bodySwayAmount,
                 transformOrigin: bodyTO,
                 yoyo: true,
                 repeat: -1,
                 ease: Quad.easeInOut
-            });
+            }, 0);
 
-            TweenMax.to(leftArmNode, bodySwayTime, {
+
+            t.to(leftArmNode, bodySwayTime, {
                 delay: 0.3,
                 rotationZ: bodySwayAmount,
                 transformOrigin: "15px -11px",
                 yoyo: true,
                 repeat: -1,
                 ease: Quad.easeInOut
-            });
+            }, 0);
 
-            TweenMax.to(rightArmNode, bodySwayTime, {
+            t.to(rightArmNode, bodySwayTime, {
                 delay: 0.5,
                 rotationZ: bodySwayAmount,
                 transformOrigin: "15px 0px",
                 yoyo: true,
                 repeat: -1,
                 ease: Quad.easeInOut
-            });
+            }, 0);
 
-            TweenMax.to(eyesMoveNode, 0.05, {
+            t.to(eyesMoveNode, 0.05, {
                 delay: eyesMoveRepeatTime,
                 x: -2,
                 y: eyesY,
                 repeatDelay: eyesMoveRepeatTime,
                 repeat: -1,
                 yoyo: true
-            });
+            }, 0);
 
-            TweenMax.from(eyesBlinkNode, 0.3, {
+            t.from(eyesBlinkNode, 0.3, {
                 scaleY: 0.2,
                 repeatDelay: blinkRepeatTime,
                 repeat: -1,
                 transformOrigin: "0px 6px"
-            });
+            }, 0);
 
             if (!isHeadless) {
-                TweenMax.from(robotHeadNode, bodySwayTime, {
+                t.from(robotHeadNode, bodySwayTime, {
                     delay: bodySwayTime,
                     rotationZ: bodySwayAmount * 1.5,
                     transformOrigin: "65px 77px",
                     yoyo: true,
                     repeat: -1,
                     ease: Quad.easeInOut
-                });
+                }, 0);
             }
+
+            return t;
         }
+
+        return null;
     }
 }
