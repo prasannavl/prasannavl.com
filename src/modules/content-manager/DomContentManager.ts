@@ -25,7 +25,7 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     private _sessionTag: number;
     private _appVersionMajor: number;
     private _appVersionMinor: number;
-    private _trackedRequests: Array<request.Request<any>> = [];
+    private _lastRequest: request.Request<any>;
 
     constructor(private _resolver: ContentResolver,
         private _localStore: IStorage<ICacheWrapper>,
@@ -141,20 +141,18 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     }
 
     fetchRemoteContentAsync(path: string, isBackgroundRequest: boolean, isIsolated = true) {
+        let tracked = !isIsolated;
         return new Promise((resolve, reject) => {
-            if (!isIsolated && this._trackedRequests.length > 0) {
-                this._trackedRequests.forEach(x => x.abort());
-                this._trackedRequests = [];
+            if (tracked && this._lastRequest) {
+                this._lastRequest.abort();
             }
             let req = request.get(path);
-            this._trackedRequests.push(req);
-            !isIsolated && this.emit(isBackgroundRequest ? this.backgroundRequestStartEventName : this.requestStartEventName, req);
+            if (tracked) {
+                this._lastRequest = req;
+                this.emit(isBackgroundRequest ? this.backgroundRequestStartEventName : this.requestStartEventName, req);
+            }
             req.end((err, res) => {
-                if (!isIsolated) {
-                    let index = this._trackedRequests.findIndex(x => x === req);
-                    if (index > -1)
-                        this._trackedRequests.splice(index, 1);
-                }
+                if (tracked) this._lastRequest = null;
                 if (err) reject(err);
                 else if (!res.ok) reject(res);
                 else resolve(res.body);
