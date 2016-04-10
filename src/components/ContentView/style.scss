@@ -87,34 +87,4 @@
         margin-top: 40px;
         bottom: 10px;
     }
-    
-    .content-enter {
-        opacity: 0.01;
-        width: 100%;
-        position: absolute;
-        z-index: 1000;
-        transform: translate(-5%, 0);
-    }
-
-    .content-enter.content-enter-active {
-        opacity: 1;
-        position: absolute;
-        width: 100%;
-        z-index: 1000;
-        transition: 300ms ease-in-out;
-        transform: translate(0, 0);
-    }
-
-    .content-leave {
-        opacity: 1;
-        width: 100%;
-        position: absolute;
-    }
-
-    .content-leave.content-leave-active {
-        position: absolute;
-        opacity: 0;
-        width: 100%;
-        transition: 100ms ease-in-out;
-    }
 }

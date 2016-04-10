@@ -7,10 +7,13 @@ import { ContentManagerFactory } from "../../modules/content-manager/ContentMana
 import { default as LoadingView, LoadingViewFactory } from "../LoadingView/index";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { IHeadlessContentManager, IDomContentManager } from "../../modules/content-manager/ContentManager";
+import GeminiScrollbar from "gemini-scrollbar";
 
 export class ContentView extends StatelessBaseWithHistory<any> {
     private _contentManager: IDomContentManager | IHeadlessContentManager;
     private _pendingRequest: any = null;
+    private _pendingAnimationTimeline: TimelineMax;
+    private _scrollBar: any;
 
     constructor(props: any, context: any) {
         super(props, context);
@@ -38,6 +41,8 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             cm.removeListener(cm.contentReadyEventName, this.onContentReady);
             cm.removeListener(cm.requestStartEventName, this.onRequestStarted);
         }
+        this.clearPendingTimeline();
+        this.disposeScrollbar();
         super.componentWillUnmount();
     }
 
@@ -80,6 +85,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     animateViewOut(viewElement: HTMLElement) {
         if (__DOM__) {
             return new Promise((res, reject) => {
+                this.clearPendingTimeline();
                 let t = new TimelineMax();
                 let scrollDuration = 0;
                 if (viewElement.scrollTop > 0) {
@@ -91,9 +97,18 @@ export class ContentView extends StatelessBaseWithHistory<any> {
                 t.addCallback(() => {
                     res();
                 }, "end");
+                this._pendingAnimationTimeline = t;
             }) as Promise<any>;
         } else {
             return Promise.resolve();
+        }
+    }
+
+    clearPendingTimeline() {
+        if (this._pendingAnimationTimeline != null) {
+            this._pendingAnimationTimeline.render(this._pendingAnimationTimeline.endTime(), true, true);
+            this._pendingAnimationTimeline.kill();
+            this._pendingAnimationTimeline = null;
         }
     }
 
@@ -101,20 +116,38 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         this.setFocus();
     }
 
+    componentWillUpdate() {
+        this.clearPendingTimeline();
+        this.disposeScrollbar();
+    }
+
+    disposeScrollbar() {
+        if (this._scrollBar !== null) {
+            this._scrollBar.destroy();
+            this._scrollBar = null;
+        }
+    }
+
     setFocus(view?: HTMLElement) {
         view = view || document.getElementById("content-view");
         if (view == null) return;
         view.focus();
+        this._scrollBar = new GeminiScrollbar({
+            element: view,
+            autoshow: true
+        }).create();
     }
 
     animateViewIn(viewElement: HTMLElement) {
+        this.clearPendingTimeline();
         let h1Tags = viewElement.getElementsByTagName("h1");
         let h2Tags = viewElement.getElementsByTagName("h2");
         let t = new TimelineMax();
         t.to(viewElement, 0.4, { opacity: 1 });
-        t.from(viewElement, 0.3, { x: -50 }, 0);
+        t.from(viewElement, 0.3, { x: -50, clearProps: "transform" }, 0);
         t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
         t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
+        this._pendingAnimationTimeline = t;
     }
 
     componentDidUpdate() {
