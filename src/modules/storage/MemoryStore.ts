@@ -2,7 +2,7 @@ import { IStorageSync, IStorageAsync, TryGetOrSetResult, TryGetResult } from "./
 import { passthroughPromiseResolution, PromiseFactory, passthrough, StaticCache, createKeyNotFoundError } from "./utils";
 
 /**
- * Note: Keep implementation of IStorageSync and IStorageAsync compeltely isolated
+ * Note: Keep implementation of IStorageSync and IStorageAsync completely isolated
  * so that it can be separated out into each its own class later, if required.
  */
 export class MemoryStore<T> implements IStorageSync<T>, IStorageAsync<T> {

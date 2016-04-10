@@ -2,7 +2,7 @@ import { IStorage, IStorageSync, IStorageAsync, TryGetOrSetResult, TryGetResult 
 import { passthrough, passthroughPromiseResolution, createKeyNotFoundError, StaticCache, PromiseFactory } from "./utils";
 
 /**
- * Note: Keep implementation of IStorageSync and IStorageAsync compeltely isolated
+ * Note: Keep implementation of IStorageSync and IStorageAsync completely isolated
  * so that it can be separated out into each its own class later, if required.
  */
 export class JsonDecorator<T> implements IStorageSync<T | string> {
