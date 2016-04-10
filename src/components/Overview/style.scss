@@ -1,34 +1,38 @@
 @import "../ContentView/vars";
 :local(.root) {
-    @include content-chrome;
-    & > section {
-        & > header {
-            & > h2 > a {
-                @include header-link;
-                @include header-link-animated;
+    @include content-chrome-container;
+    & > main {
+        @include content-chrome;        
+        & > section {
+            & > header {
+                & > h2 > a {
+                    @include header-link;
+                    @include header-link-animated;
+                }
+                & > time {
+                    @include header-date;
+                }
             }
-            & > time {
-                @include header-date;
+            & > article {
+                strong {
+                    @include article-strong;
+                }
+                a {
+                    @include link;
+                }
+                margin-bottom:30px;
             }
-        }
-        & > article {
-            strong {
-                @include article-strong;
-            }
-            a {
-                @include link;
-            }
-            margin-bottom:30px;
-        }
-        & > .readmore {
-            margin-top: -10px;
-            a {
-                display: inline-block;
-                padding: 10px 0px;
-                @include link;
+            & > .readmore {
+                margin-top: -10px;
+                a {
+                    display: inline-block;
+                    padding: 10px 0px;
+                    @include link;
+                }
             }
         }
     }
+    
     & > section::after {
         @include horizontal-line-on-after;
     }

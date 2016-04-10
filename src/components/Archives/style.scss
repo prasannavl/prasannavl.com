@@ -1,46 +1,49 @@
 @import "../ContentView/vars";
 :local(.root) {
-    @include content-chrome;
-    & > h1 {
-        font-weight: 300;
-        font-size: 38px;
-        color: gray;
-    }
-    & > main > section {
-        margin-top: 20px;
-        & > header {
-            font-weight: 400;
-            font-size: 22px;
-            color: darkgray;
-            position: relative;
-            margin-bottom: 10px;
-            .year {
-                position: relative;   
-                background: #fff;             
-                z-index: 1;
-                padding-right: 20px;       
-            }
-            &::after {
-                content: "";
-                position: absolute;
-                z-index: 0;
-                display: block;
-                width: 100%;
-                top:50%;
-                border-bottom: 1px solid whitesmoke;
-            }
+    @include content-chrome-container;
+    & > div {
+        @include content-chrome;
+        & > h1 {
+            font-weight: 300;
+            font-size: 38px;
+            color: gray;
         }
-        & > div {
-            & > a {
-               @include link;
-               display: inline-block;
-               font-size: 18px;
-               margin: 10px 20px 5px 0; 
-            }
-            & > time {
-                float: right;
-                margin: 10px 0 5px 0;
+        & > main > section {
+            margin-top: 20px;
+            & > header {
+                font-weight: 400;
+                font-size: 22px;
                 color: darkgray;
+                position: relative;
+                margin-bottom: 10px;
+                .year {
+                    position: relative;   
+                    background: #fff;             
+                    z-index: 1;
+                    padding-right: 20px;       
+                }
+                &::after {
+                    content: "";
+                    position: absolute;
+                    z-index: 0;
+                    display: block;
+                    width: 100%;
+                    top:50%;
+                    border-bottom: 1px solid whitesmoke;
+                }
+            }
+            & > div {
+                & > a {
+                @include link;
+                display: inline-block;
+                font-size: 18px;
+                margin: 10px 20px 5px 0; 
+                }
+                & > time {
+                    float: right;
+                    margin: 10px 0 5px 0;
+                    color: darkgray;
+                }
             }
         }
     }

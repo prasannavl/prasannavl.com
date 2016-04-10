@@ -11,7 +11,7 @@ import { ContentResolution, ContentResolver } from "./ContentResolver";
 // hacks, these interfaces can be made coherent. 
 // 
 // A further factory design which modularizes it even further will actually
-// fragment the apis futher more pointlessly.
+// fragment the apis further more pointlessly.
 
 export interface IDomContentManager extends EventEmitter {
     contentReadyEventName: string;

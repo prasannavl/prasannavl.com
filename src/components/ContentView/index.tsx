@@ -67,8 +67,64 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         if (this._pendingRequest !== null) {
             this._pendingRequest = null;
         }
-        this.setState({ component });
-        focusContentView();
+        if (__DOM__) {
+            let contentView = document.getElementById("content-view");
+            if (contentView == null) return;
+            this.animateViewOut(contentView)
+                .then(() => {
+                    this.setState({ component });
+                });
+        }
+    }
+
+    animateViewOut(viewElement: HTMLElement) {
+        if (__DOM__) {
+            return new Promise((res, reject) => {
+                let t = new TimelineMax();
+                let scrollDuration = 0;
+                if (viewElement.scrollTop > 0) {
+                    scrollDuration = 0.6;
+                    t.to(viewElement, scrollDuration, { scrollTop: 0, ease: Power4.easeOut }, 0);
+                }
+                t.to(viewElement, scrollDuration || 0.3, { opacity: 0.01 }, 0)
+                    .add("end");
+                t.addCallback(() => {
+                    res();
+                }, "end");
+            }) as Promise<any>;
+        } else {
+            return Promise.resolve();
+        }
+    }
+
+    componentDidMount() {
+        this.setFocus();
+    }
+
+    setFocus(view?: HTMLElement) {
+        view = view || document.getElementById("content-view");
+        if (view == null) return;
+        view.focus();
+    }
+
+    animateViewIn(viewElement: HTMLElement) {
+        let h1Tags = viewElement.getElementsByTagName("h1");
+        let h2Tags = viewElement.getElementsByTagName("h2");
+        let t = new TimelineMax();
+        t.to(viewElement, 0.4, { opacity: 1 });
+        t.from(viewElement, 0.3, { x: -50 }, 0);
+        t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
+        t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
+    }
+
+    componentDidUpdate() {
+        if (__DOM__) {
+            if (this._pendingRequest) return;
+            let contentView = document.getElementById("content-view");
+            if (contentView == null) return;
+            this.animateViewIn(contentView);
+            this.setFocus(contentView);
+        }
     }
 
     onRequestStarted(req: any) {
@@ -102,17 +158,6 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     }
 }
 
-function focusContentView() {
-    // TODO: Make sure the scroll animation happens before load, on the preceding view,
-    // and not here. Or, it will interfere with ContentView scroll events.
-    if (__DOM__) {
-        let contentView = document.getElementById("content-view");
-        if (contentView == null) return;
-        TweenMax.to(contentView, 0.7,
-            { scrollTop: 0, ease: Power4.easeOut });
-        contentView.focus();
-    }
-}
 
 let style = require("./style.scss") as any;
 export default createStyled(ContentView, style);

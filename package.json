@@ -11,7 +11,7 @@
     "webpack:p": "webpack --colors --display-chunks --production --progress",
     "watch": "webpack --watch --colors --display-chunks",
     "dev": "npm run generate-content && webpack-dev-server --inline --hot --no-info",
-    "dev:nohmr": "npm run generate-content && webpack-dev-server --inline --hot --no-info",
+    "dev:nohmr": "npm run generate-content && webpack-dev-server --inline --no-info",
     "serve": "./node_modules/.bin/babel-node ./tools/server.js --run",
     "serve:p": "./node_modules/.bin/babel-node ./tools/server.js --run --production",
     "serve-static": "./node_modules/.bin/babel-node ./tools/server.js --run --static",

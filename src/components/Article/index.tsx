@@ -100,22 +100,25 @@ export class Article extends StatelessBase<any> {
     render() {
         this._articleDomElements = new Array<HTMLElement>();
         let item = this.props.data as ViewItemDescriptor;
-        return (<div className={style.root}>
-            <main>
-                <header>
-                    <h1>{ "PVL ".toLocaleLowerCase() + "\u2215" } <a href={"/" + item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name.toLowerCase()}</a></h1>
-                    <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
-                </header>
-                <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>
-            </main>
-            <div ref="extContainer" className="ext-container">
-                <ins className="adsbygoogle ads-text"
-                    style={{ display: "block" }}
-                    data-ad-client="ca-pub-1693387204520380" data-ad-slot="5530147693" data-ad-format="link">
-                </ins>
-                <div id="disqus_thread"></div>
-            </div>
-            <Footer/>
+        return (
+            <div className={style.root}>
+                <div id="article-items-container">
+                    <main>
+                        <header>
+                            <h1>{ "PVL ".toLocaleLowerCase() + "\u2215" } <a href={"/" + item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name.toLowerCase()}</a></h1>
+                            <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
+                        </header>
+                        <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>
+                    </main>
+                    <div ref="extContainer" className="ext-container">
+                        <ins className="adsbygoogle ads-text"
+                            style={{ display: "block" }}
+                            data-ad-client="ca-pub-1693387204520380" data-ad-slot="5530147693" data-ad-format="link">
+                        </ins>
+                        <div id="disqus_thread"></div>
+                    </div>
+                    <Footer/>
+                </div>
         </div>);
     }
 }

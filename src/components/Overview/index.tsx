@@ -46,7 +46,7 @@ export class Overview extends StatelessBase<any> {
                 </div>
             </section>);
         });
-        return <main className={style.root}>{items}<Footer/></main>;
+        return <div className={style.root}><main>{items}</main><Footer/></div>;
     }
 }
 

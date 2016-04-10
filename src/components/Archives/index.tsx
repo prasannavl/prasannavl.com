@@ -29,13 +29,15 @@ export class Archives extends StatelessBase<any> {
         let sectionKeys = Object.keys(data).sort((c, n) => n.localeCompare(c));
         let sections = sectionKeys.map(x => this.renderSection(x, data[x]));
         return (<div className={style.root}>
-            <h1>archives</h1>
-            <main>
-                {sections}
-                <section>
-                    <header><span className="year">the dark ages</span></header>
-                </section>
-            </main>
+            <div id="archives-items-container">
+                <h1>archives</h1>
+                <main>
+                    {sections}
+                    <section>
+                        <header><span className="year">the dark ages</span></header>
+                    </section>
+                </main>
+            </div>
         </div>);
     }
 }
