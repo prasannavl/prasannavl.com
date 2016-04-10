@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Base } from "../Base";
 import { cleanPathNameSlashses } from "history-next/lib/utils";
+import { StringUtils } from "../../modules/utils/CoreUtils";
 
 export interface LinkProps extends React.Props<Link> {
     href: string;
@@ -36,7 +37,7 @@ export default class Link extends Base<LinkProps, any> {
         let classNames = this.props.className;
         const href = this.props.href;
         if (this.props.activeClassName && this.isActive()) {
-           classNames = joinWithSpaceIfNotEmpty(classNames, this.props.activeClassName);
+           classNames = StringUtils.joinWithSpaceIfNotEmpty(classNames, this.props.activeClassName);
         }
         const props = Object.assign({}, this.props, {
             onClick: this.onClick,
@@ -47,7 +48,3 @@ export default class Link extends Base<LinkProps, any> {
     }
 }
 
-function joinWithSpaceIfNotEmpty(source: string, addition: string) {
-    if (!source) return addition;
-    return source + " " + addition;
-}

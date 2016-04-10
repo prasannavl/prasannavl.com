@@ -7,13 +7,12 @@ import { ContentManagerFactory } from "../../modules/content-manager/ContentMana
 import { default as LoadingView, LoadingViewFactory } from "../LoadingView/index";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { IHeadlessContentManager, IDomContentManager } from "../../modules/content-manager/ContentManager";
-import GeminiScrollbar from "gemini-scrollbar";
+import { ScrollView } from "../fragments/ScrollView";
 
 export class ContentView extends StatelessBaseWithHistory<any> {
     private _contentManager: IDomContentManager | IHeadlessContentManager;
     private _pendingRequest: any = null;
     private _pendingAnimationTimeline: TimelineMax;
-    private _scrollBar: any;
 
     constructor(props: any, context: any) {
         super(props, context);
@@ -42,7 +41,6 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             cm.removeListener(cm.requestStartEventName, this.onRequestStarted);
         }
         this.clearPendingTimeline();
-        this.disposeScrollbar();
         super.componentWillUnmount();
     }
 
@@ -118,24 +116,12 @@ export class ContentView extends StatelessBaseWithHistory<any> {
 
     componentWillUpdate() {
         this.clearPendingTimeline();
-        this.disposeScrollbar();
-    }
-
-    disposeScrollbar() {
-        if (this._scrollBar !== null) {
-            this._scrollBar.destroy();
-            this._scrollBar = null;
-        }
     }
 
     setFocus(view?: HTMLElement) {
         view = view || document.getElementById("content-view");
         if (view == null) return;
         view.focus();
-        this._scrollBar = new GeminiScrollbar({
-            element: view,
-            autoshow: true
-        }).create();
     }
 
     animateViewIn(viewElement: HTMLElement) {
@@ -170,7 +156,9 @@ export class ContentView extends StatelessBaseWithHistory<any> {
 
     getWrapped(component: JSX.Element | JSX.Element[]) {
         return (<div className={style.root} tabIndex={0} id="content-view">
-            {component}
+            <ScrollView autoshow={false}>
+                {component}
+            </ScrollView>
         </div>);
     }
 

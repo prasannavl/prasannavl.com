@@ -9,3 +9,10 @@ export class ArrayUtils {
         return res;
     }
 }
+
+export class StringUtils {
+    static joinWithSpaceIfNotEmpty(source: string, addition: string) {
+        if (!source) return addition;
+        return source + " " + addition;
+    }
+}
