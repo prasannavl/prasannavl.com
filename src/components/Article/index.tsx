@@ -64,7 +64,7 @@ export class Article extends StatelessBase<any> {
             let contentView = document.getElementById("content-view");
             if (contentView) {
                 this._scrollNativeEventSubscription = Rx.Observable.fromEvent(contentView, "scroll")
-                    .merge(this._delayedScrollEventTriggerSubject.delay(2000))
+                    .merge(this._delayedScrollEventTriggerSubject.delay(1000))
                     .debounceTime(300)
                     .subscribe(this._scrollEventSubject);
             }
