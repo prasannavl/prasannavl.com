@@ -99,12 +99,21 @@ export class ContentView extends StatelessBaseWithHistory<any> {
                 this.clearPendingTimeline();
                 let t = new TimelineMax();
                 let scrollDuration = 0;
-                if (viewElement.scrollTop > 0) {
-                    scrollDuration = 0.6;
-                    t.to(viewElement, scrollDuration, { scrollTop: 0, ease: Power4.easeOut }, 0);
+                let scrollTop = viewElement.scrollTop;
+                if (scrollTop > 0) {
+                    viewElement.style.overflow = "visible";
+                    viewElement.style.transform = `translate3d(0, ${-scrollTop}px, 0)`
+                    viewElement.scrollTop = 0;
+                    scrollDuration = 0.3;
+                    let y = scrollTop > 200 ? -scrollTop + 200 : 0;
+                    t.to(viewElement, scrollDuration, { y, clearProps: "transform" }, 0)
                 }
                 t.to(wrapperElement, scrollDuration || 0.3, { opacity: 0.01 }, 0)
                 t.addCallback(() => {
+                    let style = viewElement.style;
+                    style.overflow = "scroll";
+                    viewElement.scrollTop = 0;
+                    style.transform = "none";
                     res();
                 }, t.totalDuration());
                 this._pendingAnimationTimeline = t;
@@ -139,7 +148,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             let h2Tags = viewElement.getElementsByTagName("h2");
             let t = new TimelineMax();
             t.to(wrapperElement, 0.4, { opacity: 1 });
-            t.from(wrapperElement, 0.3, { x: -50, clearProps: "transform" }, 0);
+            t.from(wrapperElement, 0.5, { x: -30, clearProps: "transform" }, 0);
             t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
             t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
             t.addCallback(() => {
