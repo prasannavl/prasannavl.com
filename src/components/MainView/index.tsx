@@ -2,12 +2,12 @@ import React from "react";
 import Sidebar from "../Sidebar/index";
 import ContentView from "../ContentView/index";
 import createStyled from "../../modules/core/createStyled";
-import { StatelessBase } from "../Base";
+import { Base } from "../Base";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 
 let style = require("./style.scss") as any;
 
-class MainView extends StatelessBase<any> {
+class MainView extends Base<any,any> {
 
     componentWillMount() {
         const preloaderClassName = "preloader";
