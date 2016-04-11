@@ -104,11 +104,13 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     }
 
     clearPendingTimeline() {
-        if (this._pendingAnimationTimeline != null) {
-            this._pendingAnimationTimeline.render(this._pendingAnimationTimeline.endTime(), true, true);
-            this._pendingAnimationTimeline.kill();
-            this._pendingAnimationTimeline = null;
-        }
+        if (__DOM__) {
+            if (this._pendingAnimationTimeline != null) {
+                this._pendingAnimationTimeline.render(this._pendingAnimationTimeline.endTime(), true, true);
+                this._pendingAnimationTimeline.kill();
+                this._pendingAnimationTimeline = null;
+            }
+        }            
     }
 
     componentDidMount() {
@@ -120,18 +122,20 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     }
 
     animateViewIn(viewElement: HTMLElement) {
-        this.clearPendingTimeline();
-        let h1Tags = viewElement.getElementsByTagName("h1");
-        let h2Tags = viewElement.getElementsByTagName("h2");
-        let t = new TimelineMax();
-        t.to(viewElement, 0.4, { opacity: 1 });
-        t.from(viewElement, 0.3, { x: -50, clearProps: "transform" }, 0);
-        t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
-        t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
-        t.addCallback(() => {
-            window.dispatchEvent(new Event('resize'));
-        }, t.totalDuration());
-        this._pendingAnimationTimeline = t;
+        if (__DOM__) {
+            this.clearPendingTimeline();
+            let h1Tags = viewElement.getElementsByTagName("h1");
+            let h2Tags = viewElement.getElementsByTagName("h2");
+            let t = new TimelineMax();
+            t.to(viewElement, 0.4, { opacity: 1 });
+            t.from(viewElement, 0.3, { x: -50, clearProps: "transform" }, 0);
+            t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
+            t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
+            t.addCallback(() => {
+                window.dispatchEvent(new Event('resize'));
+            }, t.totalDuration());
+            this._pendingAnimationTimeline = t;
+        }
     }
 
     componentDidUpdate() {
@@ -161,9 +165,11 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     }
 
     setFocusContentView(view?: HTMLElement) {
-        view = view || document.getElementById(this.contentViewId);
-        if (view == null) return;
-        view.focus();
+        if (__DOM__) {
+            view = view || document.getElementById(this.contentViewId);
+            if (view == null) return;
+            view.focus();
+        }
     }
     
     render() {

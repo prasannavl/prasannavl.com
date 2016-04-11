@@ -81,9 +81,12 @@ export class Article extends StatelessBase<any> {
     }
 
     getViewportHeightOffset(element: HTMLElement) {
-        if (element == null) return;
-        let offset = (window.innerHeight || document.documentElement.clientHeight) - element.getBoundingClientRect().top;
-        return offset;
+        if (__DOM__) {
+            if (element == null) return;
+            let offset = (window.innerHeight || document.documentElement.clientHeight) - element.getBoundingClientRect().top;
+            return offset;
+        }
+        return 0;
     }
 
     disposeSubscriptions() {
