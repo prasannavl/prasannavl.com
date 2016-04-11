@@ -17,6 +17,7 @@ export interface IDomContentManager extends EventEmitter {
     contentReadyEventName: string;
     requestStartEventName: string;
     backgroundRequestStartEventName: string;
+    hasInlineDataCache(): boolean;
     flushInlineCacheAsync(pathKey: string): Promise<void>;
     queuePath(pathname: string, cacheOptions?: CacheOptions): void;
     getContentAsync(path: string, cacheOptions?: CacheOptions): Promise<any>;

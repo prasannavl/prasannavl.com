@@ -65,6 +65,10 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
         return { data, lastSyncDate, appVersion: __app_version__, sessionTag: this._sessionTag };
     }
 
+    hasInlineDataCache() {
+        return this._inlineCacheFlushed && (window as any)[ContentResolver.InlineDataCacheKey] != null;
+    }
+
     flushInlineCacheAsync(pathKey: string) {
         if (!this._inlineCacheFlushed) {
             this._inlineCacheFlushed = true;
