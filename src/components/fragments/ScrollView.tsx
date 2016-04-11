@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import _ from "lodash";
 import GeminiScrollbar from "gemini-scrollbar";
 import { StringUtils } from "../../modules/utils/CoreUtils";
+import Features from "../../modules/utils/Features";
 
 export interface ScrollViewProps extends React.HTMLProps<React.HTMLAttributes> {
     autoshow?: boolean;
@@ -15,6 +16,12 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
     scrollbar: any;
     private _lastScrollHeight: number;
     private _timer: any;
+
+    static defaultProps = {
+        autoshow: false,
+        forceCustom: false,
+        dynamicSize: false,
+    }
     
     constructor(props: any, context: any) {
         super(props, context);
@@ -26,18 +33,8 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
 
     instantiate() {
         if (__DOM__) {
-            let rootElement = ReactDOM.findDOMNode(this);
+            let rootElement = ReactDOM.findDOMNode(this) as HTMLElement;
             let viewElement = this.refs["view"] as HTMLElement;
-
-            if (this.props.dynamicSize) {
-                this._timer = setInterval(() => {
-                    let currentScrollHeight = viewElement.scrollHeight;
-                    if (currentScrollHeight !== this._lastScrollHeight) {
-                        this.updateScroller();
-                        this._lastScrollHeight = currentScrollHeight;
-                    }
-                }, 200);
-            }
 
             this.scrollbar = new GeminiScrollbar({
                 element: rootElement,
@@ -46,7 +43,18 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
                 createElements: false
             }).create();
 
-            this._lastScrollHeight = viewElement.scrollHeight;
+            if (this.scrollbar._created) {
+                if (this.props.dynamicSize) {
+                    this._timer = setInterval(() => {
+                        let currentScrollHeight = viewElement.scrollHeight;
+                        if (currentScrollHeight !== this._lastScrollHeight) {
+                            this.updateScroller();
+                            this._lastScrollHeight = currentScrollHeight;
+                        }
+                    }, 200);
+                }
+                this._lastScrollHeight = viewElement.scrollHeight;
+            }
         }
     }
 

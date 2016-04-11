@@ -46,6 +46,8 @@
 }
 
 .gm-scroll-view {
+    overflow: auto;
+    height: 100%;
     &:focus {
         outline: none;
     }
