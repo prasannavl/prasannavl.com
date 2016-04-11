@@ -61,7 +61,7 @@ export class Article extends StatelessBase<any> {
             });
         }
         if (!this._scrollNativeEventSubscription || this._scrollNativeEventSubscription.isUnsubscribed) {
-            let view = document.querySelector("#content-view .gm-scroll-view");
+            let view = document.getElementById("content-view");
             if (view) {
                 this._scrollNativeEventSubscription = Rx.Observable.fromEvent(view, "scroll")
                     .merge(this._delayedScrollEventTriggerSubject.delay(1000))
@@ -83,7 +83,6 @@ export class Article extends StatelessBase<any> {
     getViewportHeightOffset(element: HTMLElement) {
         if (element == null) return;
         let offset = (window.innerHeight || document.documentElement.clientHeight) - element.getBoundingClientRect().top;
-        console.log(offset);
         return offset;
     }
 

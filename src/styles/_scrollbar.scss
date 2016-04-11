@@ -19,8 +19,6 @@
 /* actual view container */
 .gm-scrollbar-container {
   overflow: hidden!important;
-  width: 100%;
-  height:100%;
 }
 
 .gm-scrollbar {
@@ -48,7 +46,9 @@
 }
 
 .gm-scroll-view {
-
+    &:focus {
+        outline: none;
+    }
 }
 
 .gm-scrollbar .thumb {

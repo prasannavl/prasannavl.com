@@ -2,12 +2,8 @@
 :local(.root) {
     $red: #e06666;
     margin-left: $sidebarWidth;
-    overflow: hidden;
     height: 100vh;
     position: relative;
-    &:focus {
-        outline: none;
-    }
     h6 {
         margin: 0;
         padding: 4px 0px;
