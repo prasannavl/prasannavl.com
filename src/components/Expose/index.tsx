@@ -3,6 +3,7 @@ import { StatelessBase } from "../Base";
 import createStyled from "../../modules/core/createStyled";
 import Tagline from "../fragments/Tagline";
 import { IAppContext } from "../../modules/core/AppContext";
+import { IHeadlessRendererState } from "../../modules/core/RendererState";
 
 const style = require("./style.scss") as any;
 
@@ -14,6 +15,13 @@ class Expose extends StatelessBase<any> {
 
     componentWillMount() {
         super.componentWillMount();
+        const preloaderClassName = "preloader";
+        if (!__DOM__) {
+            let state = this.getServices().rendererStateProvider() as IHeadlessRendererState;
+            state.htmlConfig.bodyClassNames.push(preloaderClassName);
+        } else {
+            document.body.classList.remove(preloaderClassName);
+        }
         this.getServices().title.reset();
         this.showOverview = this.showOverview.bind(this);
     }

@@ -66,7 +66,7 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     }
 
     hasInlineDataCache() {
-        return this._inlineCacheFlushed && (window as any)[ContentResolver.InlineDataCacheKey] != null;
+        return !this._inlineCacheFlushed && (window as any)[ContentResolver.InlineDataCacheKey] != null;
     }
 
     flushInlineCacheAsync(pathKey: string) {

@@ -5,8 +5,6 @@
     background: #0096d6;
     display: block;
     color: #fff;
-    min-width: 572px;
-    min-height: 820px;
     #content {
         position: relative;
         max-width: 750px;
@@ -112,7 +110,38 @@
         }
     }
 }
-
+  
 body.preloader {
-    
+    &::before {
+        content: "";
+        position: fixed;
+        width: 15px;
+        height: 15px;
+        margin-left: 15%;
+        margin-top: 7%;
+        margin-right: 10%;
+        margin-bottom: 10%;
+        border-radius: 50%;
+        display: block;
+        opacity: 0.9;
+        z-index: 9000;
+        animation: animate 2s linear infinite alternate;
+    }
+    @keyframes animate {
+        0% {
+            background-color: rgba(255, 255, 255, 1);
+            box-shadow: 24px 0px 0px 0px rgba(255, 255, 255, 0.2),
+                48px 0px 0px 0px rgba(255, 255, 255, 0.2),
+        }
+        25% {
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 24px 0px 0px 0px rgba(255, 255, 255, 2), 
+                48px 0px 0px 0px rgba(255, 255, 255, 0.2);
+        }
+        75% {
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 24px 0px 0px 0px rgba(255, 255, 255, 0.2),
+                48px 0px 0px 0px rgba(255, 255, 255, 1);
+        }
+    }
 }

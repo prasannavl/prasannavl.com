@@ -10,7 +10,7 @@ let style = require("./style.scss") as any;
 class MainView extends StatelessBase<any> {
 
     componentWillMount() {
-        const preloaderClassName = "pre-loader";
+        const preloaderClassName = "preloader";
         if (!__DOM__) {
             let state = this.getServices().rendererStateProvider() as IHeadlessRendererState;
             state.htmlConfig.bodyClassNames.push(preloaderClassName);

@@ -4,7 +4,8 @@ function Html(options) {
     const { title, description, css, js, content, inlineCss, inlineScripts, canonical, bodyClassNames } = options;
     const isArray = Array.isArray;
     let scripts = [].concat(inlineScripts).map(x => { if (!x.placement) x.placement = "body-end"; return x; });
-
+    console.log("BODY_CLASSNAMES:");
+    console.log(bodyClassNames);
     const html = (
         <html lang="en">
             <head>
