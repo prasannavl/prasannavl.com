@@ -63,6 +63,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         if (req !== null) {
             req.abort();
             this._pendingRequest = null;
+            this.clearPendingTimeline();
         }
         let cm = this._contentManager as IDomContentManager;
         cm.queuePath(context.pathname);

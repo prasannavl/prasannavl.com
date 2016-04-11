@@ -15,9 +15,13 @@ export interface ICacheWrapper {
 
 export class DomContentManager extends EventEmitter implements IDomContentManager {
     contentReadyEventName = "contentready";
+
     requestStartEventName = "requeststart";
+    requestCompleteEventName = "requestcomplete";
     requestFailedEventName = "requestfailed";
+
     backgroundRequestStartEventName = "requestbackgroundstart";
+    backgroundRequestCompleteEventName = "requestbackgroundcomplete";
     backgroundRequestFailedEventName = "requestbackgroundfailed";
 
     pathKeyPrefix = ContentResolver.DefaultPathKeyPrefix;
@@ -100,9 +104,11 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
                     // queue a background update for future , but return from cache
                     // TODO: later once a last update date is added, check to see if it really
                     // was a new version, and if so, notify user.
+                    // Note: tracked background request 
                     setTimeout(() => this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions, true, false), 1000);
                     return x.result.data;
                 }
+                // Tracked foreground request
                 return this.fetchRemoteAndStoreAsync(path, storeKey, cacheOptions, false, false);
             });
     }
@@ -146,38 +152,45 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     fetchRemoteContentAsync(path: string, isBackgroundRequest: boolean, isIsolated = true) {
         let tracked = !isIsolated;
         return new Promise((resolve, reject) => {
-            if (tracked) {
-                if (isBackgroundRequest && this._pendingBackgroundRequest) {
-                    this._pendingBackgroundRequest.abort();
-                } else if (this._pendingForegroundRequest) {
-                    this._pendingForegroundRequest.abort();
-                }
-            }
             let req = request.get(path);
             if (tracked) {
                 if (isBackgroundRequest) {
-                    this._pendingBackgroundRequest = req;
-                    this.emit(this.backgroundRequestStartEventName, req);
+                    if (this._pendingBackgroundRequest) {
+                        this._pendingBackgroundRequest.abort();
+                        this.emit(this.backgroundRequestFailedEventName, this._pendingBackgroundRequest);                        
+                    }
                 } else {
-                    this._pendingForegroundRequest = req;
-                    this.emit(this.requestStartEventName, req);
+                    if (this._pendingForegroundRequest) {
+                        this._pendingForegroundRequest.abort();
+                        this.emit(this.requestFailedEventName, this._pendingForegroundRequest);                        
+                    }
                 }
             }
             req.end((err, res) => {
                 if (tracked) {
                     if (isBackgroundRequest) {
                         this._pendingBackgroundRequest = null;
-                        if (err) this.emit(this.backgroundRequestFailedEventName, req);
+                        if (err) this.emit(this.backgroundRequestFailedEventName, req)
+                        else this.emit(this.backgroundRequestCompleteEventName, req);
                     }
                     else {
                         this._pendingForegroundRequest = null;
-                        if (err) this.emit(this.requestFailedEventName, req);
+                        if (err) this.emit(this.requestFailedEventName, req)
+                        else this.emit(this.requestCompleteEventName, req);                        
                     }
                 }
                 if (err) reject(err);
                 else if (!res.ok) reject(res);
                 else resolve(res.body);
             });
+
+            if (tracked) {
+                if (isBackgroundRequest) {
+                    this.emit(this.backgroundRequestStartEventName, req);
+                } else {
+                    this.emit(this.requestStartEventName, req);
+                }
+            }
         });
     }
 }
