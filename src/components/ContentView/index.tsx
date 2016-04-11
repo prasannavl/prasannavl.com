@@ -73,26 +73,26 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             this._pendingRequest = null;
         }
         if (__DOM__) {
-            let contentView = document.getElementById(this.contentViewWrapperId);
-            if (contentView == null) return;
-            this.animateViewOut(contentView, document.getElementById(this.contentViewId))
+            let wrapperElement = document.getElementById(this.contentViewWrapperId);
+            if (wrapperElement == null) return;
+            this.animateViewOut(document.getElementById(this.contentViewId), wrapperElement)
                 .then(() => {
                     this.setState({ component });
                 });
         }
     }
 
-    animateViewOut(viewElement: HTMLElement, scrollElement: HTMLElement) {
+    animateViewOut(viewElement: HTMLElement, wrapperElement: HTMLElement) {
         if (__DOM__) {
             return new Promise((res, reject) => {
                 this.clearPendingTimeline();
                 let t = new TimelineMax();
                 let scrollDuration = 0;
-                if (scrollElement.scrollTop > 0) {
+                if (viewElement.scrollTop > 0) {
                     scrollDuration = 0.6;
-                    t.to(scrollElement, scrollDuration, { scrollTop: 0, ease: Power4.easeOut }, 0);
+                    t.to(viewElement, scrollDuration, { scrollTop: 0, ease: Power4.easeOut }, 0);
                 }
-                t.to(viewElement, scrollDuration || 0.3, { opacity: 0.01 }, 0)
+                t.to(wrapperElement, scrollDuration || 0.3, { opacity: 0.01 }, 0)
                 t.addCallback(() => {
                     res();
                 }, t.totalDuration());
@@ -121,14 +121,14 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         this.clearPendingTimeline();
     }
 
-    animateViewIn(viewElement: HTMLElement) {
+    animateViewIn(viewElement: HTMLElement, wrapperElement: HTMLElement) {
         if (__DOM__) {
             this.clearPendingTimeline();
             let h1Tags = viewElement.getElementsByTagName("h1");
             let h2Tags = viewElement.getElementsByTagName("h2");
             let t = new TimelineMax();
-            t.to(viewElement, 0.4, { opacity: 1 });
-            t.from(viewElement, 0.3, { x: -50, clearProps: "transform" }, 0);
+            t.to(wrapperElement, 0.4, { opacity: 1 });
+            t.from(wrapperElement, 0.3, { x: -50, clearProps: "transform" }, 0);
             t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
             t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
             t.addCallback(() => {
@@ -141,9 +141,9 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     componentDidUpdate() {
         if (__DOM__) {
             if (this._pendingRequest) return;
-            let contentView = document.getElementById(this.contentViewWrapperId);
-            if (contentView == null) return;
-            this.animateViewIn(contentView);
+            let wrapperElement = document.getElementById(this.contentViewWrapperId);
+            if (wrapperElement == null) return;
+            this.animateViewIn(document.getElementById(this.contentViewId), wrapperElement);
             this.setFocusContentView();
         }
     }

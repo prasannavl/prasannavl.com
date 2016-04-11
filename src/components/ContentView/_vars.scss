@@ -8,6 +8,7 @@
         
     @mixin content-chrome-container {
         background: #fff;
+        min-height: 100vh;
     }
         
     @mixin content-chrome {
