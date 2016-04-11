@@ -66,8 +66,11 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             req.abort();
             this._pendingRequest = null;
         }
-        this.clearPendingTimeline();        
+        this.clearPendingTimeline();
         let cm = this._contentManager as IDomContentManager;
+        if (cm.hasInlineDataCache()) {
+            this._preventAnimationOnFirstRender = true;
+        }
         cm.queuePath(context.pathname);
     }
 
@@ -79,8 +82,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             let cm = this._contentManager as IDomContentManager;
             let wrapperElement = document.getElementById(this.contentViewWrapperId);
             if (wrapperElement == null) return;
-            if (cm.hasInlineDataCache()) {
-                this._preventAnimationOnFirstRender = true;
+            if (this._preventAnimationOnFirstRender) {
                 this.setState({ component });
             } else {
                 this.animateViewOut(document.getElementById(this.contentViewId), wrapperElement)
@@ -153,7 +155,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             let wrapperElement = document.getElementById(this.contentViewWrapperId);
             if (wrapperElement == null) return;
             if (this._preventAnimationOnFirstRender)
-                this._preventAnimationOnFirstRender = true;
+                this._preventAnimationOnFirstRender = false;
             else {
                 this.animateViewIn(document.getElementById(this.contentViewId), wrapperElement);
             }

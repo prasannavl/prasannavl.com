@@ -5,6 +5,8 @@
     background: #0096d6;
     display: block;
     color: #fff;
+    min-width: 572px;
+    min-height: 820px;
     #content {
         position: relative;
         max-width: 750px;
@@ -109,4 +111,8 @@
             }
         }
     }
+}
+
+body.preloader {
+    
 }

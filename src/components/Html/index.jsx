@@ -1,7 +1,7 @@
 import React from "react";
 
 function Html(options) {
-    const { title, description, css, js, content, inlineCss, inlineScripts, canonical } = options;
+    const { title, description, css, js, content, inlineCss, inlineScripts, canonical, bodyClassNames } = options;
     const isArray = Array.isArray;
     let scripts = [].concat(inlineScripts).map(x => { if (!x.placement) x.placement = "body-end"; return x; });
 
@@ -40,7 +40,7 @@ function Html(options) {
                     .filter(x => x.placement === "head-end")
                     .map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) }
             </head>
-            <body>
+            <body className={isArray(bodyClassNames) ? bodyClassNames.join(" ") : null}>
                 {scripts
                     .filter(x => x.placement === "body-start")
                     .map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>)}

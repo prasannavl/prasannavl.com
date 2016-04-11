@@ -20,6 +20,9 @@ export class ContextManager implements IContextManager {
         if (typeof htmlConfig.canonical === "boolean") {
             htmlConfig.canonical = "";
         }
+        if (!Array.isArray(htmlConfig.bodyClassNames)) {
+            htmlConfig.bodyClassNames = [];
+        }
     }
 
     render(context: IAppContext, url: string) {
