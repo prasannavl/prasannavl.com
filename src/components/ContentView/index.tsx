@@ -14,9 +14,10 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     private _pendingRequest: any = null;
     private _pendingAnimationTimeline: TimelineMax;
     private _preventAnimationOnFirstRender = false;
-    
-    contentViewWrapperId = "content-view-wrapper";
-    contentViewId = "content-view";
+
+    containerId = "content-container";
+    scrollViewElementId = "content-scroll-view";
+    contentElementId = "content-view";
 
     constructor(props: any, context: any) {
         super(props, context);
@@ -79,40 +80,43 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             this._pendingRequest = null;
         }
         let cm = this._contentManager as IDomContentManager;
-        let wrapperElement = document.getElementById(this.contentViewWrapperId);
-        if (wrapperElement == null) return;
         if (this._preventAnimationOnFirstRender) {
             this.setState({ component });
         } else {
-            this.animateViewOut(document.getElementById(this.contentViewId), wrapperElement)
+            this.animateViewOut(this.getScrollViewElementIfAvailable(), this.getContentElementIfAvailable())
                 .then(() => {
                     this.setState({ component });
                 });
         }
     }
 
-    animateViewOut(viewElement: HTMLElement, wrapperElement: HTMLElement) {
+    animateViewOut(scrollViewElement: HTMLElement, contentElement: HTMLElement) {
         return new Promise((res, reject) => {
             this.clearPendingTimeline();
+            if (!scrollViewElement || !contentElement) {
+                res(); return;
+            }
             let t = new TimelineMax();
             let scrollDuration = 0;
-            let scrollTop = viewElement.scrollTop;
+            let scrollTop = contentElement.scrollTop;
+            let overFlowType = contentElement.style.overflow;
             if (scrollTop > 0) {
-                viewElement.style.overflow = "visible";
-                viewElement.style.transform = `translate3d(0, ${-scrollTop}px, 0)`
-                viewElement.scrollTop = 0;
+                contentElement.style.overflow = "visible";
+                contentElement.style.transform = `translate3d(0, ${-scrollTop}px, 0)`
+                contentElement.scrollTop = 0;
                 scrollDuration = 0.3;
                 let y = scrollTop > 200 ? -scrollTop + 200 : 0;
-                t.to(viewElement, scrollDuration, { y, clearProps: "transform" }, 0)
+                t.to(contentElement, scrollDuration, { y, clearProps: "transform" }, 0)
             }
-            t.to(wrapperElement, scrollDuration || 0.3, { opacity: 0.01 }, 0)
+            t.to(scrollViewElement, scrollDuration || 0.3, { opacity: 0.01 }, 0);
             t.addCallback(() => {
-                let style = viewElement.style;
-                style.overflow = "scroll";
-                viewElement.scrollTop = 0;
+                let style = contentElement.style;
+                style.overflow = overFlowType;
                 style.transform = "none";
+                contentElement.scrollTop = 0;                
                 res();
             }, t.totalDuration());
+
             this._pendingAnimationTimeline = t;
         });
     }
@@ -133,68 +137,89 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         this.clearPendingTimeline();
     }
 
-    animateViewIn(viewElement: HTMLElement, wrapperElement: HTMLElement) {
+    animateViewIn(scrollViewElement: HTMLElement, contentElement: HTMLElement) {
         this.clearPendingTimeline();
-        let h1Tags = viewElement.getElementsByTagName("h1");
-        let h2Tags = viewElement.getElementsByTagName("h2");
         let t = new TimelineMax();
-        t.to(wrapperElement, 0.4, { opacity: 1 });
-        t.from(wrapperElement, 0.5, { x: -30, clearProps: "transform" }, 0);
-        t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
-        t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
-        t.addCallback(() => {
-            window.dispatchEvent(new Event('resize'));
-        }, t.totalDuration());
+        if (scrollViewElement) {
+            t.to(scrollViewElement, 0.4, { opacity: 1 });
+            t.from(scrollViewElement, 0.5, { x: -30, clearProps: "transform" }, 0);
+        }
+        if (contentElement) {
+            let h1Tags = contentElement.getElementsByTagName("h1");
+            let h2Tags = contentElement.getElementsByTagName("h2");
+            if (h1Tags)
+                t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
+            if (h2Tags)
+                t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
+        }
+        if (t.totalDuration() !== 0)
+            t.addCallback(() => {
+                // Workaround for gsap animations activating scrollbars.
+                window.dispatchEvent(new Event("resize"));
+            }, t.totalDuration());
         this._pendingAnimationTimeline = t;
     }
 
     componentDidUpdate() {
         if (this._pendingRequest) return;
-        let wrapperElement = document.getElementById(this.contentViewWrapperId);
-        if (wrapperElement == null) return;
-        if (this._preventAnimationOnFirstRender)
+        if (this._preventAnimationOnFirstRender) {
             this._preventAnimationOnFirstRender = false;
+        }
         else {
-            this.animateViewIn(document.getElementById(this.contentViewId), wrapperElement);
+            this.animateViewIn(this.getScrollViewElementIfAvailable(), this.getContentElementIfAvailable());
         }
         this.setFocusContentView();
     }
 
-    onRequestStarted(req: any) {
-        this._pendingRequest = req;
-        setTimeout(() => {
-            if (this._pendingRequest !== null)
-                this.forceUpdate();
-        }, 100);
+    getContentElementIfAvailable() {
+        let el = document.getElementById(this.contentElementId);
+        return el;
     }
 
-    getWrapped(component: JSX.Element | JSX.Element[]) {
+    getScrollViewElementIfAvailable() {
+        let el = document.getElementById(this.scrollViewElementId);
+        return el;
+    }
+
+    onRequestStarted(req: any) {
+        this._pendingRequest = req;
+        if (this._pendingRequest !== null)
+            this.forceUpdate();
+    }
+
+    wrapInScrollView(component: JSX.Element | JSX.Element[]) {
         return (
-            <ScrollView dynamicSize={true} id={this.contentViewWrapperId} className={style.root}
-                viewProps={{ tabIndex: 0, id: this.contentViewId }}>
+            <ScrollView dynamicSize={true} id={this.scrollViewElementId} className={style.root}
+                viewProps={{ tabIndex: 0, id: this.contentElementId }}>
                 {component}
             </ScrollView>);
     }
 
     setFocusContentView(view?: HTMLElement) {
-        view = view || document.getElementById(this.contentViewId);
+        view = view || document.getElementById(this.contentElementId);
         if (view == null) return;
         view.focus();
     }
     
     render() {
-        if (!__DOM__) {
-            return this.getWrapped(this.getComponentForServerEnvironment());
-        } else {
-            let items = new Array<JSX.Element>();
-            this._pendingRequest && items.push(<LoadingView/>);
-            let current = this.state.component;
-            if (current) {
-                items.push(current);
-            } else {
-                !this._pendingRequest && items.push(<LoadingView/>);
+        if (__DOM__) {
+            let renderLoader = this._pendingRequest != null;
+            let component = this.state.component;
+            
+            let renderComponent = () => {
+                let innerLoader = renderLoader ? null : React.createElement(LoadingView);
+                if (!component && !innerLoader) {
+                    return null;
+                }
+                return this.wrapInScrollView(component ? component : innerLoader);
             }
-            return this.getWrapped(items);
+
+            return (<div id={this.containerId}>
+                { renderLoader ? <LoadingView /> : null}
+                { renderComponent() }
+            </div>);
+        } else {
+            return this.wrapInScrollView(this.getComponentForServerEnvironment());
         }
     }
 }

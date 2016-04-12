@@ -34,7 +34,7 @@ class Expose extends StatelessBase<any> {
 
     animateToOverview(ev: React.SyntheticEvent) {
         ev.preventDefault();
-        let content = document.getElementById("content");
+        let content = this.refs["content"] as HTMLElement;
         let root = this.refs["expose"] as HTMLElement;
         content.style.animation = "none";
         let t = new TimelineMax();
@@ -50,7 +50,7 @@ class Expose extends StatelessBase<any> {
     render() {
         return (
             <div className={style.root} ref="expose">
-                <div id="content">
+                <div ref="content" className="content">
                 <header>
                     <h1>Prasanna V. Loganathar</h1>
                     <Tagline />
@@ -65,7 +65,7 @@ class Expose extends StatelessBase<any> {
                         <div className="info">
                             And I write stuff <b><a href="/overview" onClick={this.animateToOverview}>here</a></b>.
                         </div>
-                        <a href="/overview" id="arrow" className="icon-arrow_forward" onClick={this.animateToOverview}></a>
+                        <a href="/overview" className="arrow icon-arrow_forward" onClick={this.animateToOverview}></a>
                     </section>
                 </div>
             </div>

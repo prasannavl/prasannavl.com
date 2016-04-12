@@ -5,7 +5,7 @@
     background: #0096d6;
     display: block;
     color: #fff;
-    #content {
+    .content {
         position: relative;
         max-width: 750px;
         margin-left: 15%;
@@ -48,7 +48,7 @@
                 margin-top: 30px;
                 font-size: 18px;
             }
-            #arrow {
+            .arrow {
                 float: right;
                 display: block;
                 $size: 98px;
