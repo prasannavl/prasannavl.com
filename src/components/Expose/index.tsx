@@ -38,8 +38,8 @@ class Expose extends StatelessBase<any> {
         let root = this.refs["expose"] as HTMLElement;
         content.style.animation = "none";
         let t = new TimelineMax();
-        t.to(content, 0.5, { scale: 0.8, ease: Sine.easeOut });
-        //t.to(content, 0.4, { scale: 1.7, ease: Sine.easeOut });
+        t.to(content, 0.3, { scale: 0.9, ease: Sine.easeOut });
+        t.to(content, 0.4, { scale: 1.7, ease: Sine.easeOut });
         t.to(content, 0.6, { opacity: 0.01, ease: Sine.easeOut }, 0);
         t.to(root, 0.37, { backgroundColor: "#fff", ease: Sine.easeIn }, 0.2);
         t.addCallback(() => {
