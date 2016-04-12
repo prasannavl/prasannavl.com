@@ -28,14 +28,7 @@ class Expose extends StatelessBase<any> {
 
     componentDidMount() {
         if (this.context.historyContext.state === "fromMainView") {
-            let content = document.getElementById("content");
-            let root = this.refs["expose"] as HTMLElement;
-            let t = new TimelineMax();
-            t.from(content, 0.4, { scale: 0.8, ease: Sine.easeOut });
-            t.from(content, 0.6, { opacity: 0.01, ease: Sine.easeOut }, 0);
-            t.addCallback(() => {
-                document.body.style.background = "transparent";
-            }, t.totalDuration());
+            document.body.style.background = "transparent";
         }
     }
 
@@ -43,9 +36,10 @@ class Expose extends StatelessBase<any> {
         ev.preventDefault();
         let content = document.getElementById("content");
         let root = this.refs["expose"] as HTMLElement;
+        content.style.animation = "none";
         let t = new TimelineMax();
-        t.to(content, 0.3, { scale: 0.9, ease: Sine.easeOut });
-        t.to(content, 0.4, { scale: 1.7, ease: Sine.easeOut });
+        t.to(content, 0.5, { scale: 0.8, ease: Sine.easeOut });
+        //t.to(content, 0.4, { scale: 1.7, ease: Sine.easeOut });
         t.to(content, 0.6, { opacity: 0.01, ease: Sine.easeOut }, 0);
         t.to(root, 0.37, { backgroundColor: "#fff", ease: Sine.easeIn }, 0.2);
         t.addCallback(() => {
