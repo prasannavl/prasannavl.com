@@ -28,15 +28,15 @@ export class Base<P, S> extends React.Component<P, S> {
         return this.context.services;
     }
 
-    navigateTo(path: string, replaceCurrent: boolean = false, ev: React.SyntheticEvent | UIEvent = null) {
+    navigateTo(path: string, replaceCurrent: boolean = false, ev: React.SyntheticEvent | UIEvent = null, state: any = null) {
         if (ev !== null) {
             ev.preventDefault();
         }
         const history = this.getServices().history;
         if (replaceCurrent) {
-            history.replace(path);
+            history.replace(path, state);
         } else {
-            history.push(path);
+            history.push(path, state);
         }
     }
 

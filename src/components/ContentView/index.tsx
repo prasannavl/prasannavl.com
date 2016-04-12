@@ -78,58 +78,50 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         if (this._pendingRequest !== null) {
             this._pendingRequest = null;
         }
-        if (__DOM__) {
-            let cm = this._contentManager as IDomContentManager;
-            let wrapperElement = document.getElementById(this.contentViewWrapperId);
-            if (wrapperElement == null) return;
-            if (this._preventAnimationOnFirstRender) {
-                this.setState({ component });
-            } else {
-                this.animateViewOut(document.getElementById(this.contentViewId), wrapperElement)
-                    .then(() => {
-                        this.setState({ component });
-                    });
-            }
+        let cm = this._contentManager as IDomContentManager;
+        let wrapperElement = document.getElementById(this.contentViewWrapperId);
+        if (wrapperElement == null) return;
+        if (this._preventAnimationOnFirstRender) {
+            this.setState({ component });
+        } else {
+            this.animateViewOut(document.getElementById(this.contentViewId), wrapperElement)
+                .then(() => {
+                    this.setState({ component });
+                });
         }
     }
 
     animateViewOut(viewElement: HTMLElement, wrapperElement: HTMLElement) {
-        if (__DOM__) {
-            return new Promise((res, reject) => {
-                this.clearPendingTimeline();
-                let t = new TimelineMax();
-                let scrollDuration = 0;
-                let scrollTop = viewElement.scrollTop;
-                if (scrollTop > 0) {
-                    viewElement.style.overflow = "visible";
-                    viewElement.style.transform = `translate3d(0, ${-scrollTop}px, 0)`
-                    viewElement.scrollTop = 0;
-                    scrollDuration = 0.3;
-                    let y = scrollTop > 200 ? -scrollTop + 200 : 0;
-                    t.to(viewElement, scrollDuration, { y, clearProps: "transform" }, 0)
-                }
-                t.to(wrapperElement, scrollDuration || 0.3, { opacity: 0.01 }, 0)
-                t.addCallback(() => {
-                    let style = viewElement.style;
-                    style.overflow = "scroll";
-                    viewElement.scrollTop = 0;
-                    style.transform = "none";
-                    res();
-                }, t.totalDuration());
-                this._pendingAnimationTimeline = t;
-            }) as Promise<any>;
-        } else {
-            return Promise.resolve();
-        }
+        return new Promise((res, reject) => {
+            this.clearPendingTimeline();
+            let t = new TimelineMax();
+            let scrollDuration = 0;
+            let scrollTop = viewElement.scrollTop;
+            if (scrollTop > 0) {
+                viewElement.style.overflow = "visible";
+                viewElement.style.transform = `translate3d(0, ${-scrollTop}px, 0)`
+                viewElement.scrollTop = 0;
+                scrollDuration = 0.3;
+                let y = scrollTop > 200 ? -scrollTop + 200 : 0;
+                t.to(viewElement, scrollDuration, { y, clearProps: "transform" }, 0)
+            }
+            t.to(wrapperElement, scrollDuration || 0.3, { opacity: 0.01 }, 0)
+            t.addCallback(() => {
+                let style = viewElement.style;
+                style.overflow = "scroll";
+                viewElement.scrollTop = 0;
+                style.transform = "none";
+                res();
+            }, t.totalDuration());
+            this._pendingAnimationTimeline = t;
+        });
     }
 
     clearPendingTimeline() {
-        if (__DOM__) {
-            if (this._pendingAnimationTimeline != null) {
-                this._pendingAnimationTimeline.render(this._pendingAnimationTimeline.endTime(), true, true);
-                this._pendingAnimationTimeline.kill();
-                this._pendingAnimationTimeline = null;
-            }
+        if (this._pendingAnimationTimeline != null) {
+            this._pendingAnimationTimeline.render(this._pendingAnimationTimeline.endTime(), true, true);
+            this._pendingAnimationTimeline.kill();
+            this._pendingAnimationTimeline = null;
         }
     }
 
@@ -142,34 +134,30 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     }
 
     animateViewIn(viewElement: HTMLElement, wrapperElement: HTMLElement) {
-        if (__DOM__) {
-            this.clearPendingTimeline();
-            let h1Tags = viewElement.getElementsByTagName("h1");
-            let h2Tags = viewElement.getElementsByTagName("h2");
-            let t = new TimelineMax();
-            t.to(wrapperElement, 0.4, { opacity: 1 });
-            t.from(wrapperElement, 0.5, { x: -30, clearProps: "transform" }, 0);
-            t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
-            t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
-            t.addCallback(() => {
-                window.dispatchEvent(new Event('resize'));
-            }, t.totalDuration());
-            this._pendingAnimationTimeline = t;
-        }
+        this.clearPendingTimeline();
+        let h1Tags = viewElement.getElementsByTagName("h1");
+        let h2Tags = viewElement.getElementsByTagName("h2");
+        let t = new TimelineMax();
+        t.to(wrapperElement, 0.4, { opacity: 1 });
+        t.from(wrapperElement, 0.5, { x: -30, clearProps: "transform" }, 0);
+        t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
+        t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
+        t.addCallback(() => {
+            window.dispatchEvent(new Event('resize'));
+        }, t.totalDuration());
+        this._pendingAnimationTimeline = t;
     }
 
     componentDidUpdate() {
-        if (__DOM__) {
-            if (this._pendingRequest) return;
-            let wrapperElement = document.getElementById(this.contentViewWrapperId);
-            if (wrapperElement == null) return;
-            if (this._preventAnimationOnFirstRender)
-                this._preventAnimationOnFirstRender = false;
-            else {
-                this.animateViewIn(document.getElementById(this.contentViewId), wrapperElement);
-            }
-            this.setFocusContentView();
+        if (this._pendingRequest) return;
+        let wrapperElement = document.getElementById(this.contentViewWrapperId);
+        if (wrapperElement == null) return;
+        if (this._preventAnimationOnFirstRender)
+            this._preventAnimationOnFirstRender = false;
+        else {
+            this.animateViewIn(document.getElementById(this.contentViewId), wrapperElement);
         }
+        this.setFocusContentView();
     }
 
     onRequestStarted(req: any) {
@@ -189,11 +177,9 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     }
 
     setFocusContentView(view?: HTMLElement) {
-        if (__DOM__) {
-            view = view || document.getElementById(this.contentViewId);
-            if (view == null) return;
-            view.focus();
-        }
+        view = view || document.getElementById(this.contentViewId);
+        if (view == null) return;
+        view.focus();
     }
     
     render() {

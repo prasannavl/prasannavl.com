@@ -23,11 +23,34 @@ class Expose extends StatelessBase<any> {
             document.body.classList.remove(preloaderClassName);
         }
         this.getServices().title.reset();
-        this.showOverview = this.showOverview.bind(this);
+        this.animateToOverview = this.animateToOverview.bind(this);
     }
 
-    showOverview(ev: React.SyntheticEvent) {
-        this.navigateTo.call(this, "/overview", false, ev);
+    componentDidMount() {
+        if (this.context.historyContext.state === "fromMainView") {
+            let content = document.getElementById("content");
+            let root = this.refs["expose"] as HTMLElement;
+            let t = new TimelineMax();
+            t.from(content, 0.4, { scale: 0.8, ease: Sine.easeOut });
+            t.from(content, 0.6, { opacity: 0.01, ease: Sine.easeOut }, 0);
+            t.addCallback(() => {
+                document.body.style.background = "transparent";
+            }, t.totalDuration());
+        }
+    }
+
+    animateToOverview(ev: React.SyntheticEvent) {
+        ev.preventDefault();
+        let content = document.getElementById("content");
+        let root = this.refs["expose"] as HTMLElement;
+        let t = new TimelineMax();
+        t.to(content, 0.3, { scale: 0.9, ease: Sine.easeOut });
+        t.to(content, 0.4, { scale: 1.7, ease: Sine.easeOut });
+        t.to(content, 0.6, { opacity: 0.01, ease: Sine.easeOut }, 0);
+        t.to(root, 0.37, { backgroundColor: "#fff", ease: Sine.easeIn }, 0.2);
+        t.addCallback(() => {
+            this.navigateTo("/overview", false, null, "fromExpose");
+        }, t.totalDuration());
     }
 
     render() {
@@ -46,9 +69,9 @@ class Expose extends StatelessBase<any> {
                             <a href="mailto:Prasanna V. Loganathar <pvl@prasannavl.com>" className="icon-envelope"></a>
                         </address>
                         <div className="info">
-                            And I write stuff <b><a href="/overview" onClick={this.showOverview}>here</a></b>.
+                            And I write stuff <b><a href="/overview" onClick={this.animateToOverview}>here</a></b>.
                         </div>
-                        <a href="/overview" id="arrow" className="icon-arrow_forward" onClick={this.showOverview}></a>
+                        <a href="/overview" id="arrow" className="icon-arrow_forward" onClick={this.animateToOverview}></a>
                     </section>
                 </div>
             </div>

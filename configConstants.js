@@ -4,7 +4,7 @@ import _ from "lodash";
 const HtmlConfig = {
     templatePath: "./src/components/Html",
     description: "Prasanna V. Loganathar's Weblog",
-    titleTemplate: "%s | Prasanna V. Loganthar",
+    titleTemplate: "%s | Prasanna V. Loganathar",
     titleOnEmpty: "Prasanna V. Loganathar",
     canonical: "",
     inlineScripts: [{

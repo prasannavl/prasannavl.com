@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { Base } from "../Base";
 import Tagline from "../fragments/Tagline";
 import createStyled from "../../modules/core/createStyled";
@@ -16,6 +17,25 @@ class NavLink extends React.Component<any, any> {
 }
 
 class Sidebar extends Base<any, any> {
+    componentDidMount() {
+        if (this.context.historyContext.state === "fromExpose") {
+            let t = new TimelineMax();
+            let root = ReactDOM.findDOMNode(this) as HTMLElement;
+            t.from(root, 0.3, { x: "-=10" });
+        }
+    }
+
+    showExpose(ev: React.SyntheticEvent) {
+        ev.preventDefault();
+        let root = document.getElementById("main-view");
+        let t = new TimelineMax();
+        document.body.style.background = "#0096d6";
+        t.to(root, 0.2, { scale: 1.05, opacity: 0.1, ease: Sine.easeIn });
+        t.addCallback(() => {
+            this.navigateTo("/", false, null, "fromMainView");
+        }, t.totalDuration());
+    }
+
     render() {
         let path = this.context.historyContext.pathname;
         let isContentPath = ContentResolver.isContentPath(path);
@@ -23,7 +43,7 @@ class Sidebar extends Base<any, any> {
             <ScrollView className={style.root} viewProps={{ className: "sidebar" }}>
                     <header>
                         <h1>
-                            <NavLink href="/">Prasanna V. <br/>Loganathar</NavLink>
+                        <a href="/" onClick={this.showExpose.bind(this)}>Prasanna V. <br/>Loganathar</a>
                         </h1>
                         <Tagline className="tagline" style={{ maxWidth: "210px" }} />
                     </header>

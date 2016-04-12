@@ -11,7 +11,7 @@ export class LoadingView extends StatelessBase<any> {
         return (
             <div tabIndex="-1" className={style.root}>
                <div dangerouslySetInnerHTML={{ __html: infinitySvg}} />
-               <div className="opacifier"/>
+               <div className="opacifier" />
             </div>);
     }
 }

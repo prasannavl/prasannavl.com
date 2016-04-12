@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import Sidebar from "../Sidebar/index";
 import ContentView from "../ContentView/index";
 import createStyled from "../../modules/core/createStyled";
@@ -7,9 +8,10 @@ import { IHeadlessRendererState } from "../../modules/core/RendererState";
 
 let style = require("./style.scss") as any;
 
-class MainView extends Base<any,any> {
+export class MainView extends Base<any,any> {
 
     componentWillMount() {
+        super.componentWillMount();
         const preloaderClassName = "preloader";
         if (!__DOM__) {
             let state = this.getServices().rendererStateProvider() as IHeadlessRendererState;
@@ -21,7 +23,7 @@ class MainView extends Base<any,any> {
 
     render() {
         const view = (
-            <div className={style.root}>
+            <div className={style.root} id="main-view">
                 <Sidebar />
                 <ContentView />
                 <div className="clear"></div>

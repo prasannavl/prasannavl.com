@@ -32,29 +32,27 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
     }
 
     instantiate() {
-        if (__DOM__) {
-            let rootElement = ReactDOM.findDOMNode(this) as HTMLElement;
-            let viewElement = this.refs["view"] as HTMLElement;
+        let rootElement = ReactDOM.findDOMNode(this) as HTMLElement;
+        let viewElement = this.refs["view"] as HTMLElement;
 
-            this.scrollbar = new GeminiScrollbar({
-                element: rootElement,
-                autoshow: this.props.autoshow,
-                forceGemini: this.props.forceCustom,
-                createElements: false
-            }).create();
+        this.scrollbar = new GeminiScrollbar({
+            element: rootElement,
+            autoshow: this.props.autoshow,
+            forceGemini: this.props.forceCustom,
+            createElements: false
+        }).create();
 
-            if (this.scrollbar._created) {
-                if (this.props.dynamicSize) {
-                    this._timer = setInterval(() => {
-                        let currentScrollHeight = viewElement.scrollHeight;
-                        if (currentScrollHeight !== this._lastScrollHeight) {
-                            this.updateScroller();
-                            this._lastScrollHeight = currentScrollHeight;
-                        }
-                    }, 200);
-                }
-                this._lastScrollHeight = viewElement.scrollHeight;
+        if (this.scrollbar._created) {
+            if (this.props.dynamicSize) {
+                this._timer = setInterval(() => {
+                    let currentScrollHeight = viewElement.scrollHeight;
+                    if (currentScrollHeight !== this._lastScrollHeight) {
+                        this.updateScroller();
+                        this._lastScrollHeight = currentScrollHeight;
+                    }
+                }, 200);
             }
+            this._lastScrollHeight = viewElement.scrollHeight;
         }
     }
 
