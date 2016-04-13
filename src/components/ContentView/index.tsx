@@ -4,7 +4,7 @@ import createStyled from "../../modules/core/createStyled";
 import { StatelessBaseWithHistory } from "../Base";
 import { IHistoryContext } from "history-next";
 import { ContentManagerFactory } from "../../modules/content-manager/ContentManagerFactory";
-import { default as LoadingView, LoadingViewFactory } from "../LoadingView/index";
+import LoadingView from "../LoadingView/index";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { IHeadlessContentManager, IDomContentManager } from "../../modules/content-manager/ContentManager";
 import { ScrollView } from "../fragments/ScrollView";
@@ -14,7 +14,8 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     private _pendingRequest: any = null;
     private _pendingAnimationTimeline: TimelineMax;
     private _preventAnimationOnFirstRender = false;
-
+    private _requestStartedViewUpdateTimer: any = null;
+    
     containerId = "content-container";
     scrollViewElementId = "content-scroll-view";
     contentElementId = "content-view";
@@ -72,6 +73,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         if (cm.hasInlineDataCache()) {
             this._preventAnimationOnFirstRender = true;
         }
+        this.clearRequestStartedViewUpdateTimer();
         cm.queuePath(context.pathname);
     }
 
@@ -79,6 +81,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         if (this._pendingRequest !== null) {
             this._pendingRequest = null;
         }
+        this.clearRequestStartedViewUpdateTimer();        
         let cm = this._contentManager as IDomContentManager;
         if (this._preventAnimationOnFirstRender) {
             this.setState({ component });
@@ -183,8 +186,16 @@ export class ContentView extends StatelessBaseWithHistory<any> {
 
     onRequestStarted(req: any) {
         this._pendingRequest = req;
-        if (this._pendingRequest !== null)
-            this.forceUpdate();
+        this._requestStartedViewUpdateTimer = setTimeout(() => {
+            if (this._pendingRequest !== null)
+                this.forceUpdate();
+        }, 100);
+    }
+
+    clearRequestStartedViewUpdateTimer() {
+        if (this._requestStartedViewUpdateTimer != null) {
+            clearTimeout(this._requestStartedViewUpdateTimer);
+        }
     }
 
     wrapInScrollView(component: JSX.Element | JSX.Element[]) {
@@ -203,19 +214,21 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     
     render() {
         if (__DOM__) {
-            let renderLoader = this._pendingRequest != null;
+            let shouldRenderLoader = this._pendingRequest !== null;
             let component = this.state.component;
             
             let renderComponent = () => {
-                let innerLoader = renderLoader ? null : React.createElement(LoadingView);
-                if (!component && !innerLoader) {
-                    return null;
+                if (component) {
+                    return this.wrapInScrollView(component);
                 }
-                return this.wrapInScrollView(component ? component : innerLoader);
+                if (!shouldRenderLoader) {
+                    return React.createElement(LoadingView);  
+                }
+                return null;
             }
 
             return (<div id={this.containerId}>
-                { renderLoader ? <LoadingView /> : null}
+                { shouldRenderLoader ? <LoadingView /> : null}
                 { renderComponent() }
             </div>);
         } else {
