@@ -12,7 +12,8 @@ export interface ContentResolution {
 export class ContentResolver {
     static DefaultPathKeyPrefix = "_#_";
     static InlineDataCacheKey = "__xDataCache__";
-
+    static IsPrerenderedDomKey = "__xIsPrerenderedDom__";
+    
     resolve(pathname: string): ContentResolution {
         let res: ContentResolution;
         res = this.tryResolveDirect(pathname);

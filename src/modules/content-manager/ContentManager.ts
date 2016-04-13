@@ -17,8 +17,8 @@ export interface IDomContentManager extends EventEmitter {
     contentReadyEventName: string;
     requestStartEventName: string;
     backgroundRequestStartEventName: string;
-    hasInlineDataCache(): boolean;
-    flushInlineCacheAsync(pathKey: string): Promise<void>;
+    isDomPrerendered(): boolean;
+    setDomPrerendered(value: boolean): void;
     queuePath(pathname: string, cacheOptions?: CacheOptions): void;
     getContentAsync(path: string, cacheOptions?: CacheOptions): Promise<any>;
     fetchRemoteAndStoreAsync(path: string, storeKey: string, cacheOptions: CacheOptions, broadcastRequest?: boolean): Promise<any>;

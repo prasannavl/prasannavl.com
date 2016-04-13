@@ -13,7 +13,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
     private _contentManager: IDomContentManager | IHeadlessContentManager;
     private _pendingRequest: any = null;
     private _pendingAnimationTimeline: TimelineMax;
-    private _preventAnimationOnFirstRender = false;
+    private _suspendAnimations = false;
     private _requestStartedViewUpdateTimer: any = null;
     
     containerId = "content-container";
@@ -57,6 +57,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             let rendererState = this.getServices().rendererStateProvider() as IHeadlessRendererState;
             let resolution = cm.resolve(pathname);
             rendererState.data = cm.getContentForResolution(resolution);
+            rendererState.isPrerenderedDom = true;
             return cm.getComponentForResolution(resolution);
         }
         return null;
@@ -70,8 +71,9 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         }
         this.clearPendingTimeline();
         let cm = this._contentManager as IDomContentManager;
-        if (cm.hasInlineDataCache()) {
-            this._preventAnimationOnFirstRender = true;
+        if (cm.isDomPrerendered()) {
+            this._suspendAnimations = true;
+            cm.setDomPrerendered(false);
         }
         this.clearRequestStartedViewUpdateTimer();
         cm.queuePath(context.pathname);
@@ -83,7 +85,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         }
         this.clearRequestStartedViewUpdateTimer();        
         let cm = this._contentManager as IDomContentManager;
-        if (this._preventAnimationOnFirstRender) {
+        if (this._suspendAnimations) {
             this.setState({ component });
         } else {
             this.animateViewOut(this.getScrollViewElementIfAvailable(), this.getContentElementIfAvailable())
@@ -101,6 +103,9 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             }
             let t = new TimelineMax();
             let scrollDuration = 0;
+            // Do the scrolling manually, by breaking the overflow visibility
+            // and translating the element across, with forced hardware acceleration.
+            // This is significantly faster on lower mobile devices.
             let scrollTop = contentElement.scrollTop;
             let overFlowType = contentElement.style.overflow;
             if (scrollTop > 0) {
@@ -157,7 +162,8 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         }
         if (t.totalDuration() !== 0)
             t.addCallback(() => {
-                // Workaround for gsap animations activating scrollbars.
+                // Workaround for gsap animations activating scrollbars, when 
+                // its custom scrollbars are used.
                 window.dispatchEvent(new Event("resize"));
             }, t.totalDuration());
         this._pendingAnimationTimeline = t;
@@ -165,8 +171,11 @@ export class ContentView extends StatelessBaseWithHistory<any> {
 
     componentDidUpdate() {
         if (this._pendingRequest) return;
-        if (this._preventAnimationOnFirstRender) {
-            this._preventAnimationOnFirstRender = false;
+        if (this._suspendAnimations) {
+            // Currently animations are suspending only if the Dom is pre-rendered.
+            // So flip it back on. Can move it out later if disabling animations is 
+            // to be controlled manually.
+            this._suspendAnimations = false;
         }
         else {
             this.animateViewIn(this.getScrollViewElementIfAvailable(), this.getContentElementIfAvailable());
@@ -186,6 +195,9 @@ export class ContentView extends StatelessBaseWithHistory<any> {
 
     onRequestStarted(req: any) {
         this._pendingRequest = req;
+        // Lets not update it just yet. Give the thread a chance to resolve all caches, 
+        // and see if the content is available. If so, view change can be seamless by
+        // averting the loading screen instead of momentarily switching views.
         this._requestStartedViewUpdateTimer = setTimeout(() => {
             if (this._pendingRequest !== null)
                 this.forceUpdate();

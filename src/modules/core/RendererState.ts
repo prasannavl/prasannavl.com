@@ -8,6 +8,7 @@ export interface IHeadlessRendererState {
     statusCode: number;
     error: any;
     data: string;
+    isPrerenderedDom: boolean;
     cssModules: CssStyle.CssModule[];
     htmlConfig: any;
 }
@@ -18,7 +19,7 @@ export class RendererStateFactory {
             return { renderSurface: null } as IDomRendererState;
         }
         else {
-            return { data: null, error: null, statusCode: 0, cssModules: [], htmlConfig: null } as IHeadlessRendererState;
+            return { data: null, isPrerenderedDom: false, error: null, statusCode: 0, cssModules: [], htmlConfig: null } as IHeadlessRendererState;
         }
     }
 }

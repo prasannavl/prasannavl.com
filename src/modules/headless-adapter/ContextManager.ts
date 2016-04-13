@@ -42,15 +42,15 @@ export class ContextManager implements IContextManager {
         const element = React.createElement(context.services.appContainerProvider(), { path: url, context });
         const content = ReactDOM.renderToString(element);
 
-        let data = rendererState.data;
-
-        if (data != null) {
-            let dataScript = `window.${ContentResolver.InlineDataCacheKey} = ${JSON.stringify(rendererState.data)};`;
-            let inlineScripts = htmlConfig.inlineScripts;
-            inlineScripts = inlineScripts || [];
-            inlineScripts.push({ content: dataScript, placement: "body-end" });
-            htmlConfig.inlineScripts = inlineScripts;
+        let dataScript = `window.${ContentResolver.IsPrerenderedDomKey} = ${rendererState.isPrerenderedDom};`;
+        if (rendererState.data != null) {
+            dataScript += `window.${ContentResolver.InlineDataCacheKey} = ${JSON.stringify(rendererState.data)};`;
         }
+        
+        let inlineScripts = htmlConfig.inlineScripts;
+        inlineScripts = inlineScripts || [];
+        inlineScripts.push({ content: dataScript, placement: "body-end" });
+        htmlConfig.inlineScripts = inlineScripts;
 
         Object.assign(htmlConfig, {
             titleTemplate: null,
