@@ -10,8 +10,8 @@ tags:
  - Operating-Systems
 -->
 
-<blockquote class="green"><p class="italic">&ldquo;**wow i never seen a smoother and a faster rom, is very responsive and i love status bar, animations and roboto!! thanks for this awesome rom!!**&rdquo; - @FraRiva91 (XDA)<br/><br/>
-&ldquo;**Thanks! Rom is very fast and smooth.**&rdquo; - @korto (XDA)</p></blockquote>
+<blockquote class="green"><p class="italic">&ldquo;**wow i never seen a smoother and a faster rom, is very responsive and i love status bar, animations and roboto!! thanks for this awesome rom!!**&rdquo; - FraRiva91 (XDA)<br/><br/>
+&ldquo;**Thanks! Rom is very fast and smooth.**&rdquo; - korto (XDA)</p></blockquote>
 
 So, after staying at CM for a long time, I came across the recent release of Motorola's ROM. And I must admit, for the first time, I was quite impressed. It was snappy, fast and stable. So, I guess I came to a point where I wanted everything to just work instead of hovering around nightlies, making this stock version a perfect base to rectify Motorola's shortcomings, like the God-awful transitions, the complex and ugly loading icon, and well, root, busybox, memory optimizations and all the other performance goodies. I'm a fan of keeping things simple and elegant, rather than complicating things unnecessarily. And I thought, I would share it this time, for those who prefer to use a stable stock version but will all the goodies. So, here: PVL-StockPlus.
 
