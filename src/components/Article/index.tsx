@@ -8,6 +8,8 @@ import { loadComments } from "../../modules/ext/disqus";
 import { show as showGoogleAds } from "../../modules/ext/googleAdSense";
 import Rx from "rxjs";
 import ReactDOM from "react-dom";
+import Link from "../fragments/Link";
+import { TagHelper } from "../Shared/TagHelper";
 
 export class Article extends StatelessBase<any> {
     private _articleDomElements: Array<HTMLElement>;
@@ -106,9 +108,12 @@ export class Article extends StatelessBase<any> {
                 <div id="article-items-container">
                     <main>
                         <header>
-                            <h1>{ "PVL ".toLocaleLowerCase() + "\u2215" } <a href={"/" + item.url}
-                                onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name.toLowerCase() }</a></h1>
+                            <h1>{ "PVL ".toLocaleLowerCase() + "\u2215" + " " }
+                                <Link href={"/" + item.url}>
+                                    {item.name.toLowerCase() }
+                                </Link></h1>
                             <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
+                            {TagHelper.renderTagList(item.tags) }
                         </header>
                         <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>
                     </main>

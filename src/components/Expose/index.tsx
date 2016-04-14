@@ -4,6 +4,7 @@ import createStyled from "../../modules/core/createStyled";
 import Tagline from "../fragments/Tagline";
 import { IAppContext } from "../../modules/core/AppContext";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
+import { DomUtils } from "../../modules/utils/DomUtils";
 
 const style = require("./style.scss") as any;
 
@@ -23,7 +24,7 @@ class Expose extends StatelessBase<any> {
             document.body.classList.remove(preloaderClassName);
         }
         this.getServices().title.reset();
-        this.animateToOverview = this.animateToOverview.bind(this);
+        this.navigateToOverview = this.navigateToOverview.bind(this);
     }
 
     componentDidMount() {
@@ -32,7 +33,8 @@ class Expose extends StatelessBase<any> {
         }
     }
 
-    animateToOverview(ev: React.SyntheticEvent) {
+    navigateToOverview(ev: React.MouseEvent) {
+        if (DomUtils.shouldDispatchDefaultClickEvent(ev)) return;        
         ev.preventDefault();
         let content = this.refs["content"] as HTMLElement;
         let root = this.refs["expose"] as HTMLElement;
@@ -63,9 +65,9 @@ class Expose extends StatelessBase<any> {
                             <a href="mailto:Prasanna V. Loganathar <pvl@prasannavl.com>" className="icon-envelope"></a>
                         </address>
                         <div className="info">
-                            And I write stuff <b><a href="/overview" onClick={this.animateToOverview}>here</a></b>.
+                            And I write stuff <b><a href="/overview" onClick={this.navigateToOverview}>here</a></b>.
                         </div>
-                        <a href="/overview" className="arrow icon-arrow_forward" onClick={this.animateToOverview}></a>
+                        <a href="/overview" className="arrow icon-arrow_forward" onClick={this.navigateToOverview}></a>
                     </section>
                 </div>
             </div>

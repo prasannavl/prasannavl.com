@@ -4,7 +4,11 @@
 name: Javascript locks
 date: 2013-04-27T00:00:00.000Z
 url: 2013/04/javascript-locks.html
-tags: []
+tags:
+ - Tech
+ - Web
+ - Javascript
+ - Software-Library
 -->
 
 <blockquote class="text-red red justify transparent">**Note:** This article is here only for historical reasons. **Do not ever do this**, unless you know what you're doing. Also note that this is more of a task library than just for locking - this was a way to solve a particular problem I was facing. That being said, this is almost always a wrong approach for any problem in today's javascript ecosystem. :)</blockquote>

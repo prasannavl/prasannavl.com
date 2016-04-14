@@ -5,6 +5,8 @@ import marked from "marked";
 import createStyled from "../../modules/core/createStyled";
 import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
+import Link from "../fragments/Link";
+import { TagHelper } from "../Shared/TagHelper";
 
 export class Overview extends StatelessBase<any> {
     private _articleDomElements: Array<HTMLElement>;
@@ -21,32 +23,36 @@ export class Overview extends StatelessBase<any> {
         this.onUpdate();
     }
 
+    renderItem(item: ViewItemDescriptor) {
+        return (<section key={item.url}>
+            <header>
+                <h2><Link href={"/" + item.url}>{item.name.toLowerCase() }</Link></h2>
+                <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
+                {TagHelper.renderTagList(item.tags)}
+            </header>
+            <article
+                dangerouslySetInnerHTML={{ __html: marked(item.content) }}
+                ref={(r) => r && this._articleDomElements.push(r) }>
+            </article>
+            <div className="readmore">
+                <Link href={"/" + item.url}>
+                    read more &raquo;
+                </Link>
+            </div>
+        </section>);
+    }
+
     render() {
         this._articleDomElements = new Array<HTMLElement>();
         let data = this.props.data as Array<ViewItemDescriptor>;
-        let items = data.map(item => {
 
-            let articleLinkOnClick = (ev: React.SyntheticEvent) => {
-                this.navigateTo(item.url, false, ev);
-            };
-
-            return (<section key={item.url}>
-                <header>
-                    <h2><a href={"/" + item.url} onClick={articleLinkOnClick}>{item.name.toLowerCase()}</a></h2>
-                    <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
-                </header>
-                <article
-                    dangerouslySetInnerHTML={{ __html: marked(item.content) }}
-                    ref={(r) => r && this._articleDomElements.push(r) }>
-                </article>
-                <div className="readmore">
-                    <a href={"/" + item.url} onClick={articleLinkOnClick}>
-                        read more &raquo;
-                    </a>
-                </div>
-            </section>);
-        });
-        return <div className={style.root}><main>{items}<Footer></Footer></main></div>;
+        let items = data.map(item => this.renderItem(item));
+        return (<div className={style.root}>
+            <main>
+                {items}
+                <Footer></Footer>
+            </main>
+        </div>);
     }
 }
 

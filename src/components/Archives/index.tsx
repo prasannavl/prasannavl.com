@@ -4,6 +4,7 @@ import createStyled from "../../modules/core/createStyled";
 import marked from "marked";
 import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
+import Link from "../fragments/Link";
 
 export class Archives extends StatelessBase<any> {
     componentWillMount() {
@@ -14,7 +15,7 @@ export class Archives extends StatelessBase<any> {
         let sortedItems = sectionItems.sort((c, n) => n.date.localeCompare(c.date));
         let items = sectionItems.map(item => {
             return (<div key={item.url}>
-                    <a href={"/" + item.url} onClick={(ev) => this.navigateTo(item.url, false, ev) }>{item.name}</a>
+                    <Link href={"/" + item.url}>{item.name}</Link>
                     <time>{ViewUtils.formatDate(item.date) }</time>
             </div>);
         });

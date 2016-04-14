@@ -15,8 +15,8 @@ export class ViewUtils {
         let m = moment(dateString);
         return m.format("dddd, MMMM Do YYYY");
     }
-    static captureRouteLinks(baseComponent: Base<any, any>, element: HTMLElement) {
-        let links = element.getElementsByClassName("route");
+    static captureRouteLinks(baseComponent: Base<any, any>, element: HTMLElement, className = "route") {
+        let links = element.getElementsByClassName(className);
         for (let i = 0; i < links.length; i++) {
             let link = links[i] as HTMLLinkElement;
             link.onclick = (ev) => { baseComponent.navigateTo(link.href, false, ev); };

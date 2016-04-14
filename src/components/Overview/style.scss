@@ -2,7 +2,7 @@
 :local(.root) {
     @include content-chrome-container;
     & > main {
-        @include content-chrome;        
+        @include content-chrome;
         & > section {
             & > header {
                 & > h2 > a {
@@ -11,6 +11,9 @@
                 }
                 & > time {
                     @include header-date;
+                }
+                & > .tags {
+                    @include tags;
                 }
             }
             & > article {
@@ -24,9 +27,9 @@
             }
             & > .readmore {
                 margin-top: -10px;
+                padding-bottom: 10px;
                 a {
-                    display: inline-block;
-                    padding: 10px 0px;
+                    padding: 5px 0px;
                     @include link;
                 }
             }

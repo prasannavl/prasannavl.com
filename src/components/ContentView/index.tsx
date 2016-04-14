@@ -164,7 +164,16 @@ export class ContentView extends StatelessBaseWithHistory<any> {
             t.addCallback(() => {
                 // Workaround for gsap animations activating scrollbars, when 
                 // its custom scrollbars are used.
-                window.dispatchEvent(new Event("resize"));
+                let resizeEvent: UIEvent;
+                if (typeof (Event) === "function") {
+                    resizeEvent = new UIEvent("resize");
+                } else {
+                    // IE doesn't support the Event constructor.
+                    // So fallback to deprecated method.
+                    resizeEvent = document.createEvent("UIEvent");
+                    resizeEvent.initUIEvent("resize", true, true, window, 1);
+                }
+                window.dispatchEvent(resizeEvent);
             }, t.totalDuration());
         this._pendingAnimationTimeline = t;
     }

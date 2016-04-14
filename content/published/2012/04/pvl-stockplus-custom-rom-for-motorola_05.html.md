@@ -4,7 +4,10 @@
 name: PVL-StockPlus - Custom ROM for Motorola Defy Plus
 date: 2012-04-05T00:00:00.000Z
 url: 2012/04/pvl-stockplus-custom-rom-for-motorola_05.html
-tags: []
+tags:
+ - Tech
+ - Mobile
+ - Operating-Systems
 -->
 
 <blockquote class="green"><p class="italic">&ldquo;**wow i never seen a smoother and a faster rom, is very responsive and i love status bar, animations and roboto!! thanks for this awesome rom!!**&rdquo; - @FraRiva91 (XDA)<br/><br/>

@@ -4,7 +4,8 @@
 name: 'And I blog!'
 date: 2011-12-07T00:00:00.000Z
 url: 2011/12/after-years-of-contemplation-today.html
-tags: []
+tags:
+ - General
 -->
 
 After years of contemplation, today, the thought struck me. May it be the tiny little scripts, softwares tests or personal reviews, or a project that I work on, its great to learn, but I must make time to share what I learn! Well, if it wasn't for all those tutorials and blogs that ended up in my Google results years ago, I probably wouldn't have learnt what I have. My primary source of knowledge was the internet since my childhood. I was one of those kids - "Mom, why are these books clogging up our home?, we have Internet!", "Mom, why do you want to go to the railway station for a simple ticket? we have Internet!", "Grandpa, why do you keep tuning that radio, we have Internet!". Well, gone are the days when my mom used to lecture me to use real books, and how the internet can never replace them. Now my mom's about to buy a high-tech tablet, uses a smartphone, and not just depends on the internet, but is even considering paths for an internet-based career in medicine.
