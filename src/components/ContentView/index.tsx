@@ -237,20 +237,9 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         if (__DOM__) {
             let shouldRenderLoader = this._pendingRequest !== null;
             let component = this.state.component;
-            
-            let renderComponent = () => {
-                if (component) {
-                    return this.wrapInScrollView(component);
-                }
-                if (!shouldRenderLoader) {
-                    return React.createElement(LoadingView);  
-                }
-                return null;
-            }
-
             return (<div id={this.containerId}>
-                { shouldRenderLoader ? <LoadingView /> : null}
-                { renderComponent() }
+                { shouldRenderLoader ? <LoadingView/> : null }
+                { component ? this.wrapInScrollView(component) : null };                
             </div>);
         } else {
             return this.wrapInScrollView(this.getComponentForServerEnvironment());
