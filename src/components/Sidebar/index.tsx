@@ -3,16 +3,16 @@ import ReactDOM from "react-dom";
 import { Base } from "../Base";
 import Tagline from "../fragments/Tagline";
 import createStyled from "../../modules/core/createStyled";
-import Link from "../fragments/Link";
+import { default as Link, LinkProps, startsWithMatcher } from "../fragments/Link";
 import CSSTransitionGroup from "react-addons-css-transition-group";
 import { ContentResolver } from "../../modules/content-manager/ContentResolver";
 import { ScrollView } from "../fragments/ScrollView";
 
 let style = require("./style.scss") as any;
 
-class NavLink extends React.Component<any, any> {
+class NavLink extends React.Component<LinkProps, any> {
   render() {
-      return <Link {...this.props} activeClassName="highlight"/>;
+      return <Link activeClassName="highlight" {...this.props} />;
   }
 }
 
@@ -50,7 +50,7 @@ class Sidebar extends Base<any, any> {
                     <CSSTransitionGroup component="nav" transitionName="sideLinks" transitionEnterTimeout={150} transitionLeaveTimeout={150}>
                         { isContentPath ? <li key="ax"><NavLink href="/overview" className="highlight" style={{ cursor: "auto"}}>&larr; article</NavLink></li> :
                         <li key="o"><NavLink href="/overview">overview</NavLink></li>}
-                        <li key="ar"><NavLink href="/archives">archives</NavLink></li>
+                        <li key="ar"><NavLink href="/archives" activeClassMatcher={startsWithMatcher}>archives</NavLink></li>
                         <li key="ab"><NavLink href="/about">about</NavLink></li>
                         <li key="f"><NavLink href="/feedback">feedback</NavLink></li>
                     </CSSTransitionGroup>

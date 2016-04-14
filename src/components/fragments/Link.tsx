@@ -5,12 +5,10 @@ import { cleanPathNameSlashses } from "history-next/lib/utils";
 import { StringUtils } from "../../modules/utils/CoreUtils";
 import { DomUtils } from "../../modules/utils/DomUtils";
 
-export interface LinkProps extends React.Props<Link> {
-    href: string;
+export interface LinkProps extends React.HTMLProps<Link> {
     activeClassName?: string;
-    className?: string;
-    onClick?: (ev: React.MouseEvent) => void;
     replaceState?: boolean;
+    activeClassMatcher?: (component: Link) => boolean;
 }
 
 export default class Link extends Base<LinkProps, any> {
@@ -20,9 +18,8 @@ export default class Link extends Base<LinkProps, any> {
     }
 
     isActive() {
-        const historyContext = this.context.historyContext;
-        if (!historyContext) return false;
-        return historyContext.pathname === cleanPathNameSlashses(this.props.href);
+        let matcher = this.props.activeClassMatcher || defaultMatcher;
+        return matcher(this);
     }
 
     onClick(e: React.MouseEvent) {
@@ -49,3 +46,14 @@ export default class Link extends Base<LinkProps, any> {
     }
 }
 
+export function defaultMatcher(component: Link) {
+    const historyContext = component.context.historyContext;
+    if (!historyContext) return false;
+    return historyContext.pathname === cleanPathNameSlashses(component.props.href);
+}
+
+export function startsWithMatcher(component: Link) {
+    const historyContext = component.context.historyContext;
+    if (!historyContext) return false;
+    return historyContext.pathname.startsWith(cleanPathNameSlashses(component.props.href));
+}
