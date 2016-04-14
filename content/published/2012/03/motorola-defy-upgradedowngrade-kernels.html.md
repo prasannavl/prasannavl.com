@@ -7,8 +7,8 @@ url: 2012/03/motorola-defy-upgradedowngrade-kernels.html
 tags:
  - Tech
  - Mobile
- - Kernel
  - Operating-Systems
+ - Hacks
 -->
 
 Motorola has a unique way to controlling their phone. They release an update which prevents us from upgrading to newer kernels released for the same phone in different geographic regions. So, after almost bricking my phone, I finally was able to find a way to downgrade my kernel, so that I can upgrade to an even newer version again.
