@@ -16,9 +16,13 @@
                 }
                 & > h1 > a {
                     @include header-link;
+                    cursor: default;
+                    &:hover, &:active {
+                        color: gray;
+                    }
                 }
-                & > time {
-                    @include header-date;
+                & > .date {
+                    @include header-date-link;
                 }
                 & > .tags {
                     @include tags;

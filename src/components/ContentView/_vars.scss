@@ -1,6 +1,6 @@
     @import "../MainView/vars";
-    $headingColor: $activeLinkColor;
-    $linkHoverColor: $activeLinkColor;
+    $headingColor: $linkColor;
+    $linkHoverColor: $linkColor;
     $linkActiveColor: #30a700;
     $headingActiveColor: lightgrey;
     $headerDateColor: rgb(27, 176, 81);
@@ -17,19 +17,20 @@
         max-width: 900px;
     }
     
-    @mixin link {
+    @mixin link($color: $headingColor, $hoverColor: $linkHoverColor, $activeColor: $linkActiveColor) {
         text-decoration: none;
         font-weight: 400;
         transition: 0.2s;
-        color: $headingColor;
+        color: $color;
         border-bottom: 1px solid transparent;
         &:hover {
-            border-bottom: 1px solid $linkHoverColor;
+            color: $hoverColor;            
+            border-bottom: 1px solid $hoverColor;
             transition: 0.2s;
         }
         &:active {
-            color: $linkActiveColor;
-            border-bottom: 1px solid $linkActiveColor;
+            color: $activeColor;
+            border-bottom: 1px solid $activeColor;
             transition: 0.2s;
         }
     }
@@ -52,8 +53,8 @@
         position: relative;
         &:hover,
         &:focus {
-            color: gray;
-            transition: 0.3s;
+            color: lighten(indianred, 10%);
+            transition: 0.1s;
         }
         &:active {
             color: $headingActiveColor;
@@ -61,33 +62,20 @@
         }
     }
     
-    @mixin header-link-animated {
-        &::after {
-            content: "";
-            position: absolute;
-            display: block;
-            left: -4px;
-            height: 2px;
-            bottom: -6px;
-            width: 0;
-            background: lighten(gray, 10%);
-            transition: width 0.37s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        &:hover::after,
-        &:focus::after {
-            width: calc(100% + 8px);
-            transition: width 0.57s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        &:active::after {
-            width: 0;
-            background: lighten($headingActiveColor, 15%);
-            transition: width 0.01s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-    }
-    
-    @mixin header-date {
+    @mixin header-date-link {
         color: $headerDateColor;
         font-weight: 400;
+        text-decoration: none;
+        padding-bottom: 5px;
+        border-bottom: 1px solid transparent;
+        &:hover, &:focus {
+            color: $linkActiveColor;
+            border-bottom: 1px solid $linkActiveColor;
+        }
+        &:active {
+            color: gray;
+            border-bottom: 1px solid gray;            
+        }
     }
     
     @mixin article-strong {
@@ -98,38 +86,41 @@
     @mixin tags {
         display: block;
         & > span.title {
-            $fontSize: 14px;
+            $totalHeight: 14.0px;
+            $fontSize: 13px;
+            
             $backgroundColor: rgba(0, 0, 0, 0.03);
             position: relative;
             color: rgba(0, 0, 0, 0.6);
             display: inline-block;
             margin: 20px 10px 0 6px;
-            line-height: 12px;
+            line-height: $totalHeight;
             font-size: $fontSize;
-            padding: 6px 15px 10px 15px;
-            // border-right: 2px solid rgba(0, 0, 0, 0.08);
+            padding:#{($totalHeight/2.0)-1.0} 15px;
+            border-bottom: 2px solid transparent;
             background-color: $backgroundColor;
             &::before {
                 content: "";
                 position: absolute;
                 top: 0;
-                left: -$fontSize;
+                right: 100%;
                 width: 0;
                 height: 0;
                 border-color: transparent $backgroundColor transparent transparent;
                 border-style: solid;
-                border-width: $fontSize $fontSize $fontSize 0;
+                border-width: $totalHeight $totalHeight $totalHeight 0;
             }
             &::after {
+                $size: 4px;
                 content: "";
                 position: absolute;
-                top: $fontSize - 2px;
+                top: #{$totalHeight - ($size /2)};
                 left: 2px;
                 float: left;
-                width: 4px;
-                height: 4px;
-                border-radius: 2px;
-                box-shadow: 0 0 0.2px 0.2px rgba(0, 0, 0, 0.1);
+                width: $size;
+                height: $size;
+                border-radius: #{$size / 2};
+                //box-shadow: 0 0 0.2px 0.2px rgba(0, 0, 0, 0.1);
                 background: #fff;
             }
         }

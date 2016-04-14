@@ -27,7 +27,7 @@ export class Overview extends StatelessBase<any> {
         return (<section key={item.url}>
             <header>
                 <h2><Link href={"/" + item.url}>{item.name.toLowerCase() }</Link></h2>
-                <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
+                <Link href="/archives" className="date"><time dateTime={item.date}>{ ViewUtils.formatDate(item.date).toLowerCase() }</time></Link>
                 {TagHelper.renderTagList(item.tags)}
             </header>
             <article

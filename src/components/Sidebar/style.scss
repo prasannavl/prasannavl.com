@@ -23,8 +23,8 @@
                 border-bottom: 1px solid $fontColorBase;
             }
             &:active {
-                color: $activeLinkColor;
-                border-bottom: 1px solid $activeLinkColor;
+                color: $linkActiveColor;
+                border-bottom: 1px solid $linkActiveColor;
                 transition: 0.2s;
             }
         }
@@ -41,11 +41,11 @@
                     color: $fontColorBase;
                     &:hover,
                     &:focus {
-                        color: $fontActiveColor;
+                        color: palegreen;
                         transition: 0.3s;
                     }
                     &:active {
-                        color: $activeLinkColor;
+                        color: $linkActiveColor;
                         transition: 0.2s;
                     }
                 }
@@ -83,7 +83,7 @@
                     transition: 0.2s;
                 }
                 &:active {
-                    color: $activeLinkColor;
+                    color: $linkActiveColor;
                     transition: all 0.2s;
                 }
                 &.icon-envelope {
@@ -140,7 +140,7 @@
                     transition: 0.2s;
                 }
                 &:active {
-                    color: $activeLinkColor;
+                    color: $linkActiveColor;
                     transition: 0.2s;
                 }
                 &.highlight {

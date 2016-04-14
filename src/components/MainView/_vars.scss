@@ -1,5 +1,7 @@
 $sidebarWidth: 310px;
-$activeLinkColor: #0096d6;
-$fontActiveColor: palegreen;
+$linkColor: #0096d6;
+$linkFocusColor: $linkColor;
+$linkActiveColor: $linkColor;
+
 // Notable colors
-$linksOrange: #eb8315;
+$orange: #eb8315;

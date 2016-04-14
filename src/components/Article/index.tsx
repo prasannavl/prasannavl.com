@@ -112,7 +112,7 @@ export class Article extends StatelessBase<any> {
                                 <Link href={"/" + item.url}>
                                     {item.name.toLowerCase() }
                                 </Link></h1>
-                            <time>{ViewUtils.formatDate(item.date).toLowerCase() }</time>
+                                <Link href="/archives" className="date"><time dateTime={item.date}>{ ViewUtils.formatDate(item.date).toLowerCase() }</time></Link>
                             {TagHelper.renderTagList(item.tags) }
                         </header>
                         <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>
