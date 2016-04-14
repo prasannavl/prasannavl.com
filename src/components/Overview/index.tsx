@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import { StatelessBase } from "../Base";
 import marked from "marked";
 import createStyled from "../../modules/core/createStyled";
-import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
+import { ViewUtils } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
 import Link from "../fragments/Link";
-import { TagHelper } from "../Shared/TagHelper";
+import { ArticleHelper, ArticleDescriptor } from "../fragments/ArticleHelper";
 
 export class Overview extends StatelessBase<any> {
     private _articleDomElements: Array<HTMLElement>;
@@ -23,12 +23,12 @@ export class Overview extends StatelessBase<any> {
         this.onUpdate();
     }
 
-    renderItem(item: ViewItemDescriptor) {
+    renderItem(item: ArticleDescriptor) {
         return (<section key={item.url}>
             <header>
                 <h2><Link href={"/" + item.url}>{item.name.toLowerCase() }</Link></h2>
-                <Link href="/archives" className="date"><time dateTime={item.date}>{ ViewUtils.formatDate(item.date).toLowerCase() }</time></Link>
-                {TagHelper.renderTagList(item.tags)}
+                {ArticleHelper.renderDate(item.date) }
+                {ArticleHelper.renderTagList(item.tags) }
             </header>
             <article
                 dangerouslySetInnerHTML={{ __html: marked(item.content) }}
@@ -44,7 +44,7 @@ export class Overview extends StatelessBase<any> {
 
     render() {
         this._articleDomElements = new Array<HTMLElement>();
-        let data = this.props.data as Array<ViewItemDescriptor>;
+        let data = this.props.data as Array<ArticleDescriptor>;
 
         let items = data.map(item => this.renderItem(item));
         return (<div className={style.root}>

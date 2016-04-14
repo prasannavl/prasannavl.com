@@ -2,21 +2,21 @@ import React from "react";
 import { StatelessBase } from "../Base";
 import createStyled from "../../modules/core/createStyled";
 import marked from "marked";
-import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
 import Link from "../fragments/Link";
+import { ArticleDescriptor, ArticleHelper } from "../fragments/ArticleHelper";
 
 export class Archives extends StatelessBase<any> {
     componentWillMount() {
         this.getServices().title.set("Archives");
     }
 
-    renderSection(sectionTitle: string, sectionItems: Array<ViewItemDescriptor>) {
+    renderSection(sectionTitle: string, sectionItems: Array<ArticleDescriptor>) {
         let sortedItems = sectionItems.sort((c, n) => n.date.localeCompare(c.date));
         let items = sectionItems.map(item => {
             return (<div key={item.url}>
                     <Link href={"/" + item.url}>{item.name}</Link>
-                    <time>{ViewUtils.formatDate(item.date) }</time>
+                    <time>{ArticleHelper.getDateFromString(item.date).format("dddd, MMMM Do YYYY") }</time>
             </div>);
         });
         return <section  key={sectionTitle}>

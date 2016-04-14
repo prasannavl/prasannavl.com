@@ -2,14 +2,14 @@ import React from "react";
 import { StatelessBase } from "../Base";
 import marked from "marked";
 import createStyled from "../../modules/core/createStyled";
-import { ViewUtils, ViewItemDescriptor } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
 import { loadComments } from "../../modules/ext/disqus";
 import { show as showGoogleAds } from "../../modules/ext/googleAdSense";
 import Rx from "rxjs";
 import ReactDOM from "react-dom";
 import Link from "../fragments/Link";
-import { TagHelper } from "../Shared/TagHelper";
+import { ViewUtils } from "../../modules/utils/index";
+import { ArticleHelper, ArticleDescriptor } from "../fragments/ArticleHelper";
 
 export class Article extends StatelessBase<any> {
     private _articleDomElements: Array<HTMLElement>;
@@ -102,7 +102,7 @@ export class Article extends StatelessBase<any> {
 
     render() {
         this._articleDomElements = new Array<HTMLElement>();
-        let item = this.props.data as ViewItemDescriptor;
+        let item = this.props.data as ArticleDescriptor;
         return (
             <div className={style.root}>
                 <div id="article-items-container">
@@ -112,8 +112,8 @@ export class Article extends StatelessBase<any> {
                                 <Link href={"/" + item.url}>
                                     {item.name.toLowerCase() }
                                 </Link></h1>
-                                <Link href="/archives" className="date"><time dateTime={item.date}>{ ViewUtils.formatDate(item.date).toLowerCase() }</time></Link>
-                            {TagHelper.renderTagList(item.tags) }
+                            {ArticleHelper.renderDate(item.date) }
+                            {ArticleHelper.renderTagList(item.tags) }
                         </header>
                         <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>
                     </main>

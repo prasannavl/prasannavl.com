@@ -50,12 +50,6 @@ export class ContentResolver {
                     factory: data => <Overview data={data}/>
                 };
             }
-            case "archives": {
-                return {
-                    contentPath: "/content/indexes/archives.json",
-                    factory: data => <Archives data={data}/>
-                };
-            }
             case "about": {
                 return {
                     contentPath: null,
@@ -65,9 +59,15 @@ export class ContentResolver {
             case "feedback": {
                 return {
                     contentPath: null,
-                    factory: () => <Unknown svgText="yay!" documentTitle="Feedback" messageElement={getFeedbackContentElement()}/>
+                    factory: () => <Unknown svgText="yay!" documentTitle="Feedback" messageElement={getFeedbackContentElement() }/>
                 };
             }
+        }
+        if (pathname.match("archives(\/*)?")) {
+            return {
+                contentPath: "/content/indexes/archives.json",
+                factory: data => <Archives data={data}/>
+            };
         }
         return this.noResolution();
     }
