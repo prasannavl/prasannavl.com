@@ -10,8 +10,13 @@ import ReactDOM from "react-dom";
 import Link from "../fragments/Link";
 import { ViewUtils } from "../../modules/utils/index";
 import { ArticleHelper, ArticleDescriptor } from "../fragments/ArticleHelper";
+import { ContentChildProps } from "../ContentView/index";
 
-export class Article extends StatelessBase<any> {
+export interface ArticleProps extends ContentChildProps<Article> {
+    data: ArticleDescriptor;
+}
+
+export class Article extends StatelessBase<ArticleProps> {
     private _articleDomElements: Array<HTMLElement>;
 
     private _scrollEventSubject = new Rx.Subject<any>();
@@ -102,7 +107,7 @@ export class Article extends StatelessBase<any> {
 
     render() {
         this._articleDomElements = new Array<HTMLElement>();
-        let item = this.props.data as ArticleDescriptor;
+        let item = this.props.data;
         return (
             <div className={style.root}>
                 <div id="article-items-container">

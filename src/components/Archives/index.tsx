@@ -4,9 +4,14 @@ import createStyled from "../../modules/core/createStyled";
 import marked from "marked";
 import Footer from "../fragments/Footer";
 import Link from "../fragments/Link";
+import { ContentChildProps } from "../ContentView/index";
 import { ArticleDescriptor, ArticleHelper } from "../fragments/ArticleHelper";
 
-export class Archives extends StatelessBase<any> {
+export interface ArchiveProps extends ContentChildProps<Archives> {
+    data: any;
+}
+
+export class Archives extends StatelessBase<ArchiveProps> {
     componentWillMount() {
         this.getServices().title.set("Archives");
     }

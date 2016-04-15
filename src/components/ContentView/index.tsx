@@ -9,6 +9,10 @@ import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { IHeadlessContentManager, IDomContentManager } from "../../modules/content-manager/ContentManager";
 import { ScrollView } from "../fragments/ScrollView";
 
+export interface ContentChildProps<T> extends React.ClassAttributes<T> {
+    suspendParentAnimations?: boolean;
+}
+
 export class ContentView extends BaseWithHistory<any, {component: JSX.Element}> {
     private _contentManager: IDomContentManager | IHeadlessContentManager;
     private _pendingRequest: any = null;
@@ -83,7 +87,11 @@ export class ContentView extends BaseWithHistory<any, {component: JSX.Element}> 
         if (this._pendingRequest !== null) {
             this._pendingRequest = null;
         }
-        this.clearRequestStartedViewUpdateTimer();        
+        this.clearRequestStartedViewUpdateTimer();
+        let childProps = component.props as ContentChildProps<any>;
+        if (childProps.suspendParentAnimations) {
+            this._suspendAnimations = true;
+        }
         let cm = this._contentManager as IDomContentManager;
         if (this._suspendAnimations) {
             this.setState({ component });

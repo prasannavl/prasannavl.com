@@ -7,8 +7,13 @@ import { ViewUtils } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
 import Link from "../fragments/Link";
 import { ArticleHelper, ArticleDescriptor } from "../fragments/ArticleHelper";
+import { ContentChildProps } from "../ContentView/index";
 
-export class Overview extends StatelessBase<any> {
+export interface ArticleProps extends ContentChildProps<Overview> {
+    data: Array<ArticleDescriptor>;
+}
+
+export class Overview extends StatelessBase<ArticleProps> {
     private _articleDomElements: Array<HTMLElement>;
 
     componentWillMount() {
@@ -44,7 +49,7 @@ export class Overview extends StatelessBase<any> {
 
     render() {
         this._articleDomElements = new Array<HTMLElement>();
-        let data = this.props.data as Array<ArticleDescriptor>;
+        let data = this.props.data;
 
         let items = data.map(item => this.renderItem(item));
         return (<div className={style.root}>

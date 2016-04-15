@@ -9,6 +9,7 @@ export interface ArticleDescriptor {
     date: string;
     tags: Array<string>;
     content: string;
+    title: string;
 }
 
 export class ArticleHelper {
