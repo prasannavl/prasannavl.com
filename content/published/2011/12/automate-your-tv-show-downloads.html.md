@@ -9,7 +9,7 @@ tags:
  - Automation
 -->
 
-So, I've become quite a TV show addict lately. I found myself checking websites for new episodes often, and if available, download and add it to my Torrents download list. The same exact process. Should write a short program to do that, I thought. But never happened.
+So, TV shows. I found myself checking websites for new episodes often, and if available, download and add it to my Torrents download list. The same exact process. Should write a short program to do that, I thought. But never happened.
 
 And it all changed recently, as I had sat down for food waiting for my order. I had just discovered Scripting for Android a while back - I was able to write and run Python code off my phone. Pretty cool. And I happened to overhear a conversation about the latest episode of House. Hmmm.
 

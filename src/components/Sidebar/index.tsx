@@ -48,7 +48,8 @@ class Sidebar extends Base<any, any> {
                         <Tagline className="tagline" style={{ maxWidth: "210px" }} />
                     </header>
                     <CSSTransitionGroup component="nav" transitionName="sideLinks" transitionEnterTimeout={150} transitionLeaveTimeout={150}>
-                        { isContentPath ? <li key="ax"><NavLink href="/overview" className="highlight" style={{ cursor: "auto"}}>&larr; article</NavLink></li> :
+                    { isContentPath ?
+                        <li key="ax"><NavLink href="/overview" className="highlight" style={{ cursor: "auto" }}>&larr; article</NavLink></li> :
                         <li key="o"><NavLink href="/overview">overview</NavLink></li>}
                         <li key="ar"><NavLink href="/archives" activeClassMatcher={startsWithMatcher}>archives</NavLink></li>
                         <li key="ab"><NavLink href="/about">about</NavLink></li>
