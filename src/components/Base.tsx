@@ -58,7 +58,7 @@ export class StatelessBase<P> extends Base<P, any> {
     }
 }
 
-export class BaseWithHistoryContext<P, S> extends Base<P, S> {
+export class BaseWithHistory<P, S> extends Base<P, S> {
     private _childContext: { historyContext: IHistoryContext };
     private _disposeHistoryListener: () => void = null;
 
@@ -102,7 +102,7 @@ export class BaseWithHistoryContext<P, S> extends Base<P, S> {
     };
 }
 
-export class StatelessBaseWithHistory<P> extends BaseWithHistoryContext<P, any> {
+export class StatelessBaseWithHistory<P> extends BaseWithHistory<P, any> {
     constructor(props: P, context: any) {
         super(props, context);
     }

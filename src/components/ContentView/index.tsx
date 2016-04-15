@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import createStyled from "../../modules/core/createStyled";
-import { StatelessBaseWithHistory } from "../Base";
+import { BaseWithHistory } from "../Base";
 import { IHistoryContext } from "history-next";
 import { ContentManagerFactory } from "../../modules/content-manager/ContentManagerFactory";
 import LoadingView from "../LoadingView/index";
@@ -9,7 +9,7 @@ import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { IHeadlessContentManager, IDomContentManager } from "../../modules/content-manager/ContentManager";
 import { ScrollView } from "../fragments/ScrollView";
 
-export class ContentView extends StatelessBaseWithHistory<any> {
+export class ContentView extends BaseWithHistory<any, {component: JSX.Element}> {
     private _contentManager: IDomContentManager | IHeadlessContentManager;
     private _pendingRequest: any = null;
     private _pendingAnimationTimeline: TimelineMax;
@@ -79,7 +79,7 @@ export class ContentView extends StatelessBaseWithHistory<any> {
         cm.queuePath(context.pathname);
     }
 
-    onContentReady(component: any) {
+    onContentReady(component: JSX.Element) {
         if (this._pendingRequest !== null) {
             this._pendingRequest = null;
         }
