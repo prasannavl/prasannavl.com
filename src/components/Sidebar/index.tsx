@@ -18,7 +18,7 @@ class NavLink extends React.Component<LinkProps, any> {
 
 class Sidebar extends Base<any, any> {
     componentDidMount() {
-        if (this.context.historyContext.state === "fromExpose") {
+        if (this.getCurrentHistoryContext().state === "fromExpose") {
             let t = new TimelineMax();
             let root = ReactDOM.findDOMNode(this) as HTMLElement;
             t.from(root, 0.3, { x: "-=10" });
@@ -37,7 +37,7 @@ class Sidebar extends Base<any, any> {
     }
 
     render() {
-        let path = this.context.historyContext.pathname;
+        let path = this.getCurrentHistoryContext().pathname;
         let isContentPath = ContentResolver.isContentPath(path);
         const c = (
             <ScrollView className={style.root} viewProps={{ className: "sidebar" }}>

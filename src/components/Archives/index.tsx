@@ -4,14 +4,21 @@ import createStyled from "../../modules/core/createStyled";
 import marked from "marked";
 import Footer from "../fragments/Footer";
 import Link from "../fragments/Link";
-import { ContentChildProps } from "../ContentView/index";
 import { ArticleDescriptor, ArticleHelper } from "../fragments/ArticleHelper";
 
-export interface ArchiveProps extends ContentChildProps<Archives> {
+let style = require("./style.scss") as any;
+
+export interface ArchiveProps extends React.ClassAttributes<Archives> {
     data: any;
 }
 
-export class Archives extends StatelessBase<ArchiveProps> {
+// export class ArchiveFactory {
+//     static create(data: any, context: IAppContext) {
+//         let styled = createStyled(Archives, style);
+//     }
+// }
+
+export class Archives extends StatelessBase<ArchiveProps> {    
     componentWillMount() {
         this.getServices().title.set("Archives");
     }
@@ -48,5 +55,4 @@ export class Archives extends StatelessBase<ArchiveProps> {
     }
 }
 
-let style = require("./style.scss") as any;
 export default createStyled(Archives, style);

@@ -1,9 +1,11 @@
 import React from "react";
-import { PropTypes } from "react";
-import { IAppContext } from "../modules/core/AppContext";
+import { IAppContext, AppContext } from "../modules/core/AppContext";
+import { IHistoryContext } from "history-next/lib/HistoryContext";
 import Expose from "./Expose/index";
 import MainView from "./MainView/index";
-import { IHistoryContext } from "history-next";
+import { PromiseFactory } from "../modules/StaticCache";
+
+let PropTypes = React.PropTypes;
 
 interface Props extends React.Props<any> {
     context: IAppContext;
@@ -24,25 +26,21 @@ export class AppContainer extends React.Component<Props, any> {
         return context.pathname === "" ? Expose : MainView;
     }
 
-    setHistoryContext(context: IHistoryContext) {
-        this.props.context.historyContext = context;
-    }
-
-    setup(context: IHistoryContext) {
-        this.setHistoryContext(context);
+    update(context: IHistoryContext) {
         const component = this.getComponentForContext(context);
         this.setState({ component: component });
     }
 
     componentWillMount() {
-        const history = this.props.context.services.history;
+        let appContext = this.props.context;
+        const history = appContext.services.history;
 
         history.start();
-        this.setup(history.context);
+        this.update(history.current);
 
-        this._disposeHistoryListener = history.listen((ctx, next) => {
-            this.setup(ctx);
-            return next(ctx);
+        this._disposeHistoryListener = history.listen(context => {
+            this.update(context);
+            return PromiseFactory.EmptyResolved;
         });
     }
 
@@ -55,9 +53,9 @@ export class AppContainer extends React.Component<Props, any> {
     }
 
     static childContextTypes: React.ValidationMap<IAppContext> = {
-        historyContext: PropTypes.any,
         services: PropTypes.any,
         state: PropTypes.any,
+        events: PropTypes.any,
         rendererState: PropTypes.any,
     };
 }

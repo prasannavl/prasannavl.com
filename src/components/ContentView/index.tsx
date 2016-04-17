@@ -1,24 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import createStyled from "../../modules/core/createStyled";
-import { BaseWithHistory } from "../Base";
+import { Base } from "../Base";
+import { IAppContext, AppContext } from "../../modules/core/AppContext";
 import { IHistoryContext } from "history-next";
+import { PromiseFactory } from "../../modules/StaticCache";
 import { ContentManagerFactory } from "../../modules/content-manager/ContentManagerFactory";
 import LoadingView from "../LoadingView/index";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { IHeadlessContentManager, IDomContentManager } from "../../modules/content-manager/ContentManager";
 import { ScrollView } from "../fragments/ScrollView";
 
-export interface ContentChildProps<T> extends React.ClassAttributes<T> {
-    suspendParentAnimations?: boolean;
-}
-
-export class ContentView extends BaseWithHistory<any, {component: JSX.Element}> {
+export class ContentView extends Base<any, {component: JSX.Element}> {
     private _contentManager: IDomContentManager | IHeadlessContentManager;
     private _pendingRequest: any = null;
     private _pendingAnimationTimeline: TimelineMax;
     private _suspendAnimations = false;
     private _requestStartedViewUpdateTimer: any = null;
+    private _diposeHistoryListener: () => void = null;
     
     containerId = "content-container";
     scrollViewElementId = "content-scroll-view";
@@ -32,6 +31,7 @@ export class ContentView extends BaseWithHistory<any, {component: JSX.Element}> 
             services.localStoreProvider(), services.sessionStoreProvider());
         this.onContentReady = this.onContentReady.bind(this);
         this.onRequestStarted = this.onRequestStarted.bind(this);
+        this.onHistoryChange = this.onHistoryChange.bind(this);
     }
 
     componentWillMount() {
@@ -40,7 +40,11 @@ export class ContentView extends BaseWithHistory<any, {component: JSX.Element}> 
             let cm = this._contentManager as IDomContentManager;
             cm.addListener(cm.contentReadyEventName, this.onContentReady);
             cm.addListener(cm.requestStartEventName, this.onRequestStarted);
-            this.onHistoryChange(this.context.historyContext);
+            this._diposeHistoryListener = this.getServices().history.listen(context => {
+                this.onHistoryChange(context);
+                return PromiseFactory.EmptyResolved;
+            });
+            this.onHistoryChange(this.getCurrentHistoryContext());
         }
     }
 
@@ -49,6 +53,7 @@ export class ContentView extends BaseWithHistory<any, {component: JSX.Element}> 
             let cm = this._contentManager as IDomContentManager;
             cm.removeListener(cm.contentReadyEventName, this.onContentReady);
             cm.removeListener(cm.requestStartEventName, this.onRequestStarted);
+            this._diposeHistoryListener();
         }
         this.clearPendingTimeline();
         super.componentWillUnmount();
@@ -57,8 +62,9 @@ export class ContentView extends BaseWithHistory<any, {component: JSX.Element}> 
     getComponentForServerEnvironment() {
         if (!__DOM__) {
             let cm = this._contentManager as IHeadlessContentManager;
-            let pathname = this.context.historyContext.pathname;
-            let rendererState = this.getServices().rendererStateProvider() as IHeadlessRendererState;
+            let services = this.getServices();
+            let pathname = services.history.current.pathname;
+            let rendererState = services.rendererStateProvider() as IHeadlessRendererState;
             let resolution = cm.resolve(pathname);
             rendererState.data = cm.getContentForResolution(resolution);
             rendererState.isPrerenderedDom = true;
@@ -68,18 +74,18 @@ export class ContentView extends BaseWithHistory<any, {component: JSX.Element}> 
     }
 
     onHistoryChange(context: IHistoryContext) {
+        this.clearPendingTimeline();        
+        this.clearRequestStartedViewUpdateTimer();
         let req = this._pendingRequest;
         if (req !== null) {
             req.abort();
             this._pendingRequest = null;
         }
-        this.clearPendingTimeline();
         let cm = this._contentManager as IDomContentManager;
         if (cm.isDomPrerendered()) {
             this._suspendAnimations = true;
             cm.setDomPrerendered(false);
         }
-        this.clearRequestStartedViewUpdateTimer();
         cm.queuePath(context.pathname);
     }
 
@@ -88,10 +94,6 @@ export class ContentView extends BaseWithHistory<any, {component: JSX.Element}> 
             this._pendingRequest = null;
         }
         this.clearRequestStartedViewUpdateTimer();
-        let childProps = component.props as ContentChildProps<any>;
-        if (childProps.suspendParentAnimations) {
-            this._suspendAnimations = true;
-        }
         let cm = this._contentManager as IDomContentManager;
         if (this._suspendAnimations) {
             this.setState({ component });

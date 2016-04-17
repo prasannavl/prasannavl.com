@@ -1,21 +1,22 @@
 import { IServiceProvider, ServiceProviderFactory } from "./ServiceProvider";
-import { IHistoryContext } from "history-next/lib/HistoryContext";
 import { IRendererState, RendererStateFactory } from "./RendererState";
+import { EventEmitter } from "events";
 
 export interface IAppContext {
-    historyContext: IHistoryContext;
-    services: IServiceProvider;
+    services: IServiceProvider; 
     state: any;
+    events: EventEmitter;    
 }
 
 export class AppContext implements IAppContext {
     services: IServiceProvider;
-    historyContext: IHistoryContext;
+    events: EventEmitter;
     state: any;
 
     constructor(services: IServiceProvider) {
         this.services = services;
         this.state = {};
+        this.events = new EventEmitter();
     }
 }
 

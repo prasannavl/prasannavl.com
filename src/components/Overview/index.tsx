@@ -7,9 +7,8 @@ import { ViewUtils } from "../../modules/utils/index";
 import Footer from "../fragments/Footer";
 import Link from "../fragments/Link";
 import { ArticleHelper, ArticleDescriptor } from "../fragments/ArticleHelper";
-import { ContentChildProps } from "../ContentView/index";
 
-export interface ArticleProps extends ContentChildProps<Overview> {
+export interface ArticleProps extends React.ClassAttributes<Overview> {
     data: Array<ArticleDescriptor>;
 }
 

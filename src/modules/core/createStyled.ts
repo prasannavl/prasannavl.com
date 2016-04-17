@@ -35,7 +35,7 @@ export function createStyled<T>(InnerComponent: T, ...styles: any[]) {
         }
     }
     // Trick the type system into thinking its the same component
-    return StyledComponent;
+    return StyledComponent as any as T;
 }
 
 export function createStyledWith<T>(styleApplier: CssStyle.StyleApplierFunction, InnerComponent: T, ...styles: any[]) {
@@ -57,7 +57,7 @@ export function createStyledWith<T>(styleApplier: CssStyle.StyleApplierFunction,
         }
     }
     // Trick the type system into thinking its the same component
-    return StyledComponent;
+    return StyledComponent as any as T;
 }
 
 export default createStyled;

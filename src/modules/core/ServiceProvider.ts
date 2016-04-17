@@ -1,9 +1,8 @@
 import { ITitleService } from "./TitleService";
-import { IHistory } from "history-next/lib/HistoryCore";
-import { IHistoryContext } from "history-next/lib/HistoryContext";
 import AppContainer from "../../components/AppContainer";
 import { IRendererState } from "./RendererState";
 import { IStorage } from "../storage/Storage";
+import { IHistory } from "history-next/lib/HistoryCore";
 
 export type IServiceProvider = IServiceProviderCommonCore & IServiceProviderCore;
 

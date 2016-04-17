@@ -3,10 +3,11 @@ import Overview from "../../components/Overview/index";
 import Archives from "../../components/Archives/index";
 import Article from "../../components/Article/index";
 import Unknown from "../../components/Experiments/Unknown/index";
+import { IAppContext } from "../core/AppContext";
 
 export interface ContentResolution {
      contentPath: string;
-     factory: (data?: any) => JSX.Element;
+     factory: (data?: any, context?: IAppContext) => JSX.Element;
 }
 
 export class ContentResolver {
@@ -36,7 +37,7 @@ export class ContentResolver {
         if (match) {
             return {
                 contentPath: "/content/" + match[0] + ".json",
-                factory: data => <Article data={data}/>
+                factory: data => <Article data={data} />
             };
         }
         return this.noResolution();
@@ -66,7 +67,9 @@ export class ContentResolver {
         if (pathname.match("archives(\/*)?")) {
             return {
                 contentPath: "/content/indexes/archives.json",
-                factory: data => <Archives data={data}/>
+                factory: (data, context) => {
+                        return <Archives data={data} />;
+                }
             };
         }
         return this.noResolution();

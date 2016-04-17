@@ -47,13 +47,15 @@ export default class Link extends Base<LinkProps, any> {
 }
 
 export function defaultMatcher(component: Link) {
-    const historyContext = component.context.historyContext;
+    const historyContext = component.getCurrentHistoryContext();
     if (!historyContext) return false;
-    return historyContext.pathname === cleanPathNameSlashses(component.props.href);
+    let currentPath = historyContext.pathname;
+    return currentPath === cleanPathNameSlashses(component.props.href);
 }
 
 export function startsWithMatcher(component: Link) {
-    const historyContext = component.context.historyContext;
+    const historyContext = component.getCurrentHistoryContext();
     if (!historyContext) return false;
-    return historyContext.pathname.startsWith(cleanPathNameSlashses(component.props.href));
+    let currentPath = historyContext.pathname;
+    return currentPath.startsWith(cleanPathNameSlashses(component.props.href));
 }

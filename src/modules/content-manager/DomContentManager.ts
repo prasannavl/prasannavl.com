@@ -100,7 +100,7 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
                 this.emit(this.contentReadyEventName, resolved.factory(x));
             });
         } else {
-            this._lastKnownPathName = pathname;            
+            this._lastKnownPathName = pathname;    
             this.emit(this.contentReadyEventName, resolved.factory());
         }
     }

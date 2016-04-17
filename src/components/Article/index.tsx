@@ -10,9 +10,8 @@ import ReactDOM from "react-dom";
 import Link from "../fragments/Link";
 import { ViewUtils } from "../../modules/utils/index";
 import { ArticleHelper, ArticleDescriptor } from "../fragments/ArticleHelper";
-import { ContentChildProps } from "../ContentView/index";
 
-export interface ArticleProps extends ContentChildProps<Article> {
+export interface ArticleProps extends React.ClassAttributes<Article> {
     data: ArticleDescriptor;
 }
 
@@ -83,7 +82,7 @@ export class Article extends StatelessBase<ArticleProps> {
         if (this.getViewportHeightOffset(el) > -120) {
             this.disposeSubscriptions();
             showGoogleAds();
-            loadComments(this.context.historyContext.pathname);
+            loadComments(this.getCurrentHistoryContext().pathname);
         }
     }
 

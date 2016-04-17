@@ -28,7 +28,7 @@ class Expose extends StatelessBase<any> {
     }
 
     componentDidMount() {
-        if (this.context.historyContext.state === "fromMainView") {
+        if (this.getCurrentHistoryContext().state === "fromMainView") {
             document.body.style.background = "transparent";
         }
     }
