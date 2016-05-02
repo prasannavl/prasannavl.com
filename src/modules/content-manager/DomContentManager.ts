@@ -5,6 +5,7 @@ import { EventEmitter } from "events";
 import { IDomContentManager, CacheOptions } from "./ContentManager";
 import moment from "moment";
 import bluebird from "bluebird";
+import { IAppContext } from "../core/AppContext";
 
 export interface ICacheWrapper {
     data: any;
@@ -87,7 +88,8 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
         return Promise.resolve();
     }
 
-    queuePath(pathname: string, cacheOptions: CacheOptions = { check: true, store: true }) {
+    queueContext(context: IAppContext, cacheOptions: CacheOptions = { check: true, store: true }) {
+        let pathname = context.services.history.current.pathname;
         // If the same path is requested again, always refresh the data transparently.
         if (__DEV__ || (this._lastKnownPathName !== null && this._lastKnownPathName === pathname)) {
             cacheOptions.check = false;
@@ -97,11 +99,11 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
             this.getContentAsync(resolved.contentPath, cacheOptions)
             .then(x => {
                 this._lastKnownPathName = pathname;
-                this.emit(this.contentReadyEventName, resolved.factory(x));
+                this.emit(this.contentReadyEventName, resolved.factory(x, context));
             });
         } else {
             this._lastKnownPathName = pathname;    
-            this.emit(this.contentReadyEventName, resolved.factory());
+            this.emit(this.contentReadyEventName, resolved.factory(context));
         }
     }
 

@@ -41,10 +41,10 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
             cm.addListener(cm.contentReadyEventName, this.onContentReady);
             cm.addListener(cm.requestStartEventName, this.onRequestStarted);
             this._diposeHistoryListener = this.getServices().history.listen(context => {
-                this.onHistoryChange(context);
+                this.onHistoryChange();
                 return PromiseFactory.EmptyResolved;
             });
-            this.onHistoryChange(this.getCurrentHistoryContext());
+            this.onHistoryChange();
         }
     }
 
@@ -73,7 +73,7 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
         return null;
     }
 
-    onHistoryChange(context: IHistoryContext) {
+    onHistoryChange() {
         this.clearPendingTimeline();        
         this.clearRequestStartedViewUpdateTimer();
         let req = this._pendingRequest;
@@ -86,7 +86,7 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
             this._suspendAnimations = true;
             cm.setDomPrerendered(false);
         }
-        cm.queuePath(context.pathname);
+        cm.queueContext(this.context);
     }
 
     onContentReady(component: JSX.Element) {

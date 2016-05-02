@@ -1,5 +1,6 @@
 import { EventEmitter } from "events";
 import { ContentResolution, ContentResolver } from "./ContentResolver";
+import { IAppContext } from "../core/AppContext";
 
 // Note: These two interfaces are very different from one another
 // even though semantically they should ideally be similar. This is because
@@ -19,7 +20,7 @@ export interface IDomContentManager extends EventEmitter {
     backgroundRequestStartEventName: string;
     isDomPrerendered(): boolean;
     setDomPrerendered(value: boolean): void;
-    queuePath(pathname: string, cacheOptions?: CacheOptions): void;
+    queueContext(context: IAppContext, cacheOptions?: CacheOptions): void;
     getContentAsync(path: string, cacheOptions?: CacheOptions): Promise<any>;
     fetchRemoteAndStoreAsync(path: string, storeKey: string, cacheOptions: CacheOptions, broadcastRequest?: boolean): Promise<any>;
     fetchRemoteContentAsync(path: string, broadcastRequest: boolean): Promise<any>;
