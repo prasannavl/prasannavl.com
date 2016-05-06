@@ -21,7 +21,6 @@ before_script:
 - chmod 600 ./tools/deploy_key_master
 - ssh-add ./tools/deploy_key_master
 - mkdir build
-- ./node_modules/.bin/typings install
 after_success:
 - npm run build-static:p
 - npm run displace-sourcemaps
@@ -33,4 +32,3 @@ after_success:
 - git commit -m "Auto deployment"
 - git remote add deploy-master git@github.com:prasannavl/prasannavl.github.io.git
 - git push --force deploy-master master:master
-
