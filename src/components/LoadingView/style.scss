@@ -32,7 +32,7 @@
             background-color: #444;
             border-radius: 100%;
             display: inline-block;
-            animation: sk-bouncedelay 1.7s infinite ease-in-out both;
+            animation: bouncedelay 1.7s infinite ease-in-out both;
             margin-right: 10px;
         }
         .spinner div:nth-child(1) {
@@ -45,7 +45,7 @@
             animation-delay: -0s;
         }
         
-        @keyframes sk-bouncedelay {
+        @keyframes bouncedelay {
             0%, 100% {
                 transform: scale(0);
                 opacity: 0;
@@ -56,28 +56,4 @@
             }
         }
     }
-    // .infinity-loader-outline {
-    //     stroke: $outlineColor;
-    //     stroke-dasharray: 2.42777px, 242.77666px;
-    //     stroke-dashoffset: 0;
-    //     animation: af-infinity-loader 1.6s linear infinite;
-    // }
-    // .infinity-loader-static {
-    //     opacity: 0.1;
-    //     stroke: $staticColor;
-    // }
-    // @keyframes af-infinity-loader {
-    //     12.5% {
-    //         stroke-dasharray: 33.98873px, 242.77666px;
-    //         stroke-dashoffset: -26.70543px;
-    //     }
-    //     43.75% {
-    //         stroke-dasharray: 84.97183px, 242.77666px;
-    //         stroke-dashoffset: -84.97183px;
-    //     }
-    //     100% {
-    //         stroke-dasharray: 2.42777px, 242.77666px;
-    //         stroke-dashoffset: -240.34889px;
-    //     }
-    // }
 }

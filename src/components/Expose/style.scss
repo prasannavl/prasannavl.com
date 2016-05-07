@@ -143,7 +143,7 @@
             background-color: #fff;
             border-radius: 100%;
             display: inline-block;
-            animation: sk-bouncedelay 1.7s infinite ease-in-out both;
+            animation: bouncedelay 1.7s infinite ease-in-out both;
             margin-left: -3px;            
             margin-right: 13px;
         }
@@ -157,7 +157,7 @@
             animation-delay: -0s;
         }
         
-        @keyframes sk-bouncedelay {
+        @keyframes bouncedelay {
             0%, 100% {
                 transform: scale(0);
                 opacity: 0;
@@ -167,34 +167,4 @@
                 opacity: 1;
             }
         }
-        
-    // &::before {
-    //     content: "";
-    //     position: fixed;
-    //     width: 15px;
-    //     height: 15px;
-    //     margin-left: 15%;
-    //     margin-top: 7%;
-    //     margin-right: 10%;
-    //     margin-bottom: 10%;
-    //     border-radius: 50%;
-    //     display: block;
-    //     opacity: 0.9;
-    //     z-index: 9000;
-    //     animation: animate 2s linear infinite alternate;
-    // }
-    // @keyframes animate {
-    //     0% {
-    //         background-color: rgba(255, 255, 255, 1);
-    //         box-shadow: 24px 0px 0px 0px rgba(255, 255, 255, 0.2), 48px 0px 0px 0px rgba(255, 255, 255, 0.2),
-    //     }
-    //     25% {
-    //         background-color: rgba(255, 255, 255, 0.4);
-    //         box-shadow: 24px 0px 0px 0px rgba(255, 255, 255, 2), 48px 0px 0px 0px rgba(255, 255, 255, 0.2);
-    //     }
-    //     75% {
-    //         background-color: rgba(255, 255, 255, 0.4);
-    //         box-shadow: 24px 0px 0px 0px rgba(255, 255, 255, 0.2), 48px 0px 0px 0px rgba(255, 255, 255, 1);
-    //     }
-    // }
 }
