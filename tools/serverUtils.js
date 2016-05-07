@@ -7,6 +7,8 @@ import Promise from "bluebird";
 import utils from "./utils";
 import webpack from "webpack";
 
+const __DELAY__ = 0;
+
 function getServerConfig(webpackConfig) {
     let rootPath = webpackConfig.output.path;
     let indexPath = webpackConfig.devServer.publicPath;
@@ -31,6 +33,15 @@ export function createServer(rootPath, indexPath, handler = null, log = false) {
         server.use(function(req, res, next) {
             console.log(req.url);
             next();
+        });
+    }
+
+    if (__DELAY__) {
+        const delay = __DELAY__;
+        server.use((req, res, next) => {
+            setTimeout(function (){
+                next();
+            }, delay);
         });
     }
 
@@ -65,7 +76,13 @@ export function runServer(server, host, port, shouldOpen = false) {
         console.log(`Server listening on http://${host}:${port}`);
         if (shouldOpen) {
             let open = require("open");
-            open(`http://${host}:${port}/`);
+            let hostAddress;
+            if (host === "0.0.0.0") {
+                hostAddress = "localhost";
+            } else {
+                hostAddress = host;
+            }
+            open(`http://${hostAddress}:${port}/`);            
         }
     });
 }

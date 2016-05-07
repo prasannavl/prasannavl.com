@@ -31,7 +31,7 @@ if (routes.length > 0) {
     let firstRequest = routes[0];
 
     let appListener;
-    let endListen = function() {
+    let endListen = function () {
         if (!dontQuit) {
             if (appListener) appListener.close();
             console.log(chalk.green("Done."));
@@ -40,8 +40,8 @@ if (routes.length > 0) {
     };
 
     let listeners = 0;
-    let startOne = function() { listeners++; }
-    let doneOne = function() {
+    let startOne = function () { listeners++; }
+    let doneOne = function () {
         listeners--;
         if (listeners === 0) endListen();
     }
@@ -75,8 +75,14 @@ function generate(p, cb) {
     }
     // Strip the first "/", if it exists.
     const webPath = (requestPath.indexOf("/") === 0) ? requestPath.substring(1) : requestPath;
-
-    let url = `http://${ServerConfig.host}:${ServerConfig.port}${ServerConfig.publicPath}${webPath}`;
+    const host = ServerConfig.host;
+    let hostAddress;
+    if (host === "0.0.0.0") {
+        hostAddress = "localhost";
+    } else {
+        hostAddress = host;
+    }
+    let url = `http://${hostAddress}:${ServerConfig.port}${ServerConfig.publicPath}${webPath}`;
     let dest = path.join(resolve(Paths.outputDirRelativeName), filePath);
     console.log(p + " => " + filePath);
 
@@ -93,7 +99,7 @@ function generate(p, cb) {
     request
         .get(url)
         .buffer(true)
-        .end(function(err, res) {
+        .end(function (err, res) {
             if (!err && res.statusCode == 200) {
                 let dir = path.dirname(dest);
                 if (!fs.existsSync(dir)) {
