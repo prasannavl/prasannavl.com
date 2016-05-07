@@ -1,9 +1,20 @@
 import React from "react";
 
 function Html(options) {
-    const { title, description, css, js, content, inlineCss, inlineScripts, canonical, bodyClassNames } = options;
+    const { title, description, css, js, content, inlineCss, inlineScripts, canonical, bodyClassNames, additionalItems } = options;
     const isArray = Array.isArray;
-    let scripts = [].concat(inlineScripts).map(x => { if (!x.placement) x.placement = "body-end"; return x; });
+    let scripts;
+    if (inlineScripts) {
+        scripts = inlineScripts.map(x => { if (!x.placement) x.placement = "body-end"; return x; });
+    } else {
+        scripts = [];
+    }
+    let elements;
+    if (additionalItems) {
+        elements = additionalItems.map(x => { if (!x.placement) x.placement = "body-end"; return x; });        
+    } else {
+        elements = [];
+    }
     const html = (
         <html lang="en">
             <head>
@@ -42,8 +53,10 @@ function Html(options) {
             <body className={isArray(bodyClassNames) ? bodyClassNames.join(" ") : null}>
                 {scripts
                     .filter(x => x.placement === "body-start")
-                    .map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>)}
+                    .map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) }
+                {elements.length > 0 ? elements.filter(x => x.placement === "body-start").map(x => x.element) : null }
                 <div id="outlet" dangerouslySetInnerHTML= {{ __html: content }}></div>
+                {elements.length ? elements.filter(x => x.placement === "body-end").map(x => x.element) : null }                
                 {scripts
                     .filter(x => x.placement === "body-end")
                     .map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>)}

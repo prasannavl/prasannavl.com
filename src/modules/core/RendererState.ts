@@ -11,6 +11,7 @@ export interface IHeadlessRendererState {
     isPrerenderedDom: boolean;
     cssModules: CssStyle.CssModule[];
     htmlConfig: any;
+    additionalItems: Array<{ element: __React.ReactElement<any>, placement?: string }>;
 }
 
 export class RendererStateFactory {
@@ -19,7 +20,15 @@ export class RendererStateFactory {
             return { renderSurface: null } as IDomRendererState;
         }
         else {
-            return { data: null, isPrerenderedDom: false, error: null, statusCode: 0, cssModules: [], htmlConfig: null } as IHeadlessRendererState;
+            return {
+                data: null,
+                isPrerenderedDom: false,
+                error: null, 
+                statusCode: 0,
+                cssModules: [], 
+                htmlConfig: null, 
+                additionalItems: new Array <{ element: __React.ReactElement<any>, placement?: string }>()
+            } as IHeadlessRendererState;
         }
     }
 }

@@ -52,10 +52,13 @@ export class ContextManager implements IContextManager {
         inlineScripts.push({ content: dataScript, placement: "body-end" });
         htmlConfig.inlineScripts = inlineScripts;
 
+        let additionalItems = rendererState.additionalItems;
+        
         Object.assign(htmlConfig, {
             titleTemplate: null,
             title: titleService.get(),
             content,
+            additionalItems
         });
 
         rendererState.statusCode = 200;

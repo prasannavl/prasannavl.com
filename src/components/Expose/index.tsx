@@ -16,12 +16,20 @@ class Expose extends StatelessBase<any> {
 
     componentWillMount() {
         super.componentWillMount();
-        const preloaderClassName = "preloader";
+        const preloaderId = "expose-preloader";
         if (!__DOM__) {
             let state = this.getServices().rendererStateProvider() as IHeadlessRendererState;
-            state.htmlConfig.bodyClassNames.push(preloaderClassName);
+            let preloader = (
+                <div id={preloaderId}>
+                    <div/><div/><div/>
+                </div>
+            );
+            state.additionalItems.push({ element: preloader, placement: "body-start" });
         } else {
-            document.body.classList.remove(preloaderClassName);
+            let preloaderElement = document.getElementById(preloaderId);
+            if (preloaderElement) {
+                preloaderElement.remove();
+            }
         }
         this.getServices().title.reset();
         this.navigateToOverview = this.navigateToOverview.bind(this);
