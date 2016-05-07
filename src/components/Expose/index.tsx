@@ -27,9 +27,7 @@ class Expose extends StatelessBase<any> {
             state.additionalItems.push({ element: preloader, placement: "body-start" });
         } else {
             let preloaderElement = document.getElementById(preloaderId);
-            if (preloaderElement) {
-                preloaderElement.remove();
-            }
+            DomUtils.tryRemoveElement(preloaderElement);
         }
         this.getServices().title.reset();
         this.navigateToOverview = this.navigateToOverview.bind(this);

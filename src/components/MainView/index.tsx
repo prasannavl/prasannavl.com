@@ -5,6 +5,7 @@ import ContentView from "../ContentView/index";
 import createStyled from "../../modules/core/createStyled";
 import { Base } from "../Base";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
+import { DomUtils } from "../../modules/utils/DomUtils";
 
 let style = require("./style.scss") as any;
 
@@ -23,9 +24,7 @@ export class MainView extends Base<any,any> {
             state.additionalItems.push({ element: preloader, placement: "body-start" });
         } else {
             let preloaderElement = document.getElementById(preloaderId);
-            if (preloaderElement) {
-                preloaderElement.remove();
-            }
+            DomUtils.tryRemoveElement(preloaderElement);
         }
     }
 
