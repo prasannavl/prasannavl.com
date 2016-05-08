@@ -21,7 +21,7 @@ class Sidebar extends Base<any, any> {
         if (this.getCurrentHistoryContext().state === "fromExpose") {
             let t = new TimelineMax();
             let root = ReactDOM.findDOMNode(this) as HTMLElement;
-            t.from(root, 0.3, { x: "-=10" });
+            t.fromTo(root, 0.3, { x: "-=20", opacity: 0 }, { x: 0, opacity: 1, delay: 0.2 });
         }
     }
 
@@ -31,10 +31,10 @@ class Sidebar extends Base<any, any> {
         let outletElement = document.getElementById("outlet");
         let t = new TimelineMax();
         outletElement.style.backgroundColor = "#0096d6";
-        t.to(root, 0.2, { scale: 1.05, opacity: 0.1, ease: Sine.easeIn });
+        t.to(root, 0.2, { scale: 1.05, opacity: 0, ease: Sine.easeIn });
         t.addCallback(() => {
             this.navigateTo("/", false, null, "fromMainView");
-        }, t.totalDuration());
+        }, t.totalDuration() + 0.02);
     }
 
     render() {
