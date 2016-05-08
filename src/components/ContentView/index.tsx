@@ -163,8 +163,9 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
             t.from(scrollViewElement, 0.5, { x: -30, clearProps: "transform" }, 0);
         }
         if (contentElement) {
-            let h1Tags = contentElement.getElementsByTagName("h1");
-            let h2Tags = contentElement.getElementsByTagName("h2");
+            const maxHeight = scrollViewElement.clientHeight;
+            let h1Tags = Array.from(contentElement.getElementsByTagName("h1")).filter(x => x.getBoundingClientRect().top < maxHeight);
+            let h2Tags = Array.from(contentElement.getElementsByTagName("h2")).filter(x => x.getBoundingClientRect().top < maxHeight);
             if (h1Tags)
                 t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
             if (h2Tags)
