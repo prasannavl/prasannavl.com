@@ -154,15 +154,14 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
                 contentElement.scrollTop = 0;
                 scrollDuration = 0.3;
                 let y = scrollTop > 200 ? -scrollTop + 200 : 0;
-                t.to(contentElement, scrollDuration, { y, clearProps: "transform" }, 0);
-                t.to(scrollViewElement, scrollDuration, { opacity: 0.01 }, 0);                
+                t.to(contentElement, scrollDuration, { y, clearProps: "all" }, 0);
+                t.to(scrollViewElement, scrollDuration, { opacity: 0 }, 0);                
             }
             //t.to(scrollViewElement, scrollDuration || 0.3, { opacity: 0.01 }, 0);
             t.addCallback(() => {
                 let style = contentElement.style;
                 style.overflow = overFlowType;
-                style.transform = "none";
-                contentElement.scrollTop = 0;                
+                contentElement.scrollTop = 0;
                 res();
             }, t.totalDuration());
 
@@ -174,7 +173,7 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
         this.clearPendingTimeline();
         let t = new TimelineMax();
         if (scrollViewElement) {
-            t.fromTo(scrollViewElement, 0.4, { opacity: 0.4, immediateRender: true }, { opacity: 1});
+            t.fromTo(scrollViewElement, 0.4, { opacity: 0.4, immediateRender: true }, { opacity: 1, clearProps: "all" });
             //t.from(scrollViewElement, 0.5, { x: 30, clearProps: "transform" }, 0);
         }
         if (contentElement) {
@@ -182,9 +181,9 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
             let h1Tags = Array.from(contentElement.getElementsByTagName("h1")).filter(x => x.getBoundingClientRect().top < maxHeight);
             let h2Tags = Array.from(contentElement.getElementsByTagName("h2")).filter(x => x.getBoundingClientRect().top < maxHeight);
             if (h1Tags)
-                t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
+                t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "all" }, 0.2, 0);
             if (h2Tags)
-                t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "transform" }, 0.2, 0);
+                t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "all" }, 0.2, 0);
         }
         if (t.totalDuration() !== 0)
             t.addCallback(() => {

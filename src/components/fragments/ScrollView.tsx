@@ -31,6 +31,18 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
         this.instantiate();
     }
 
+    componentWillUpdate() {
+        this.dispose();
+    }
+
+    componentDidUpdate() {
+        this.instantiate();
+    }
+
+    componentWillUnmount() {
+        this.dispose();
+    }
+
     instantiate() {
         let rootElement = ReactDOM.findDOMNode(this) as HTMLElement;
         let viewElement = this.refs["view"] as HTMLElement;
@@ -71,18 +83,6 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
         if (this.scrollbar !== null) {
             this.scrollbar.update();
         }
-    }
-
-    componentWillUpdate() {
-        this.dispose();
-    }
-
-    componentDidUpdate() {
-        this.instantiate();
-    }
-
-    componentWillUnmount() {
-        this.dispose();
     }
 
     render() {
