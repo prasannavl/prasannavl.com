@@ -5,6 +5,7 @@
     $headingActiveColor: lightgrey;
     $headerDateColor: rgb(27, 176, 81);
     $horizontalLineColor: whitesmoke;
+    
     @mixin content-chrome-container {
         background: #fff;
         min-height: 100vh;
@@ -80,7 +81,7 @@
     
     @mixin article-strong {
         font-size: 15px;
-        font-weight: 500;
+        font-weight: 600;
     }
     
     @mixin tags {

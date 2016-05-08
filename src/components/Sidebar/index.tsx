@@ -28,8 +28,9 @@ class Sidebar extends Base<any, any> {
     showExpose(ev: React.SyntheticEvent) {
         ev.preventDefault();
         let root = document.getElementById("main-view");
+        let outletElement = document.getElementById("outlet");
         let t = new TimelineMax();
-        document.body.style.background = "#0096d6";
+        outletElement.style.backgroundColor = "#0096d6";
         t.to(root, 0.2, { scale: 1.05, opacity: 0.1, ease: Sine.easeIn });
         t.addCallback(() => {
             this.navigateTo("/", false, null, "fromMainView");

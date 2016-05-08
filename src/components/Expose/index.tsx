@@ -35,7 +35,8 @@ class Expose extends StatelessBase<any> {
 
     componentDidMount() {
         if (this.getCurrentHistoryContext().state === "fromMainView") {
-            document.body.style.background = "transparent";
+            let outletElement = document.getElementById("outlet");
+            outletElement.style.backgroundColor = "transparent";
         }
     }
 
