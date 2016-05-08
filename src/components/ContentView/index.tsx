@@ -59,6 +59,36 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
         super.componentWillUnmount();
     }
 
+    componentDidMount() {
+        this.setFocusContentView();
+    }
+
+    componentWillUpdate() {
+        this.clearPendingTimeline();
+    }
+
+    componentDidUpdate() {
+        if (this._pendingRequest) return;
+        if (this._suspendAnimations) {
+            // Currently animations are suspending only if the Dom is pre-rendered.
+            // So flip it back on. Can move it out later if disabling animations is 
+            // to be controlled manually.
+            this._suspendAnimations = false;
+        }
+        else {
+            this.animateViewIn(this.getScrollViewElementIfAvailable(), this.getContentElementIfAvailable());
+        }
+        this.setFocusContentView();
+    }
+
+    clearPendingTimeline() {
+        if (this._pendingAnimationTimeline != null) {
+            this._pendingAnimationTimeline.render(this._pendingAnimationTimeline.endTime(), true, true);
+            this._pendingAnimationTimeline.kill();
+            this._pendingAnimationTimeline = null;
+        }
+    }
+
     getComponentForServerEnvironment() {
         if (!__DOM__) {
             let cm = this._contentManager as IHeadlessContentManager;
@@ -124,9 +154,10 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
                 contentElement.scrollTop = 0;
                 scrollDuration = 0.3;
                 let y = scrollTop > 200 ? -scrollTop + 200 : 0;
-                t.to(contentElement, scrollDuration, { y, clearProps: "transform" }, 0)
+                t.to(contentElement, scrollDuration, { y, clearProps: "transform" }, 0);
+                t.to(scrollViewElement, scrollDuration, { opacity: 0.01 }, 0);                
             }
-            t.to(scrollViewElement, scrollDuration || 0.3, { opacity: 0.01 }, 0);
+            //t.to(scrollViewElement, scrollDuration || 0.3, { opacity: 0.01 }, 0);
             t.addCallback(() => {
                 let style = contentElement.style;
                 style.overflow = overFlowType;
@@ -139,28 +170,12 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
         });
     }
 
-    clearPendingTimeline() {
-        if (this._pendingAnimationTimeline != null) {
-            this._pendingAnimationTimeline.render(this._pendingAnimationTimeline.endTime(), true, true);
-            this._pendingAnimationTimeline.kill();
-            this._pendingAnimationTimeline = null;
-        }
-    }
-
-    componentDidMount() {
-        this.setFocusContentView();
-    }
-
-    componentWillUpdate() {
-        this.clearPendingTimeline();
-    }
-
     animateViewIn(scrollViewElement: HTMLElement, contentElement: HTMLElement) {
         this.clearPendingTimeline();
         let t = new TimelineMax();
         if (scrollViewElement) {
-            t.to(scrollViewElement, 0.4, { opacity: 1 });
-            t.from(scrollViewElement, 0.5, { x: -30, clearProps: "transform" }, 0);
+            t.fromTo(scrollViewElement, 0.4, { opacity: 0.4, immediateRender: true }, { opacity: 1});
+            //t.from(scrollViewElement, 0.5, { x: 30, clearProps: "transform" }, 0);
         }
         if (contentElement) {
             const maxHeight = scrollViewElement.clientHeight;
@@ -187,20 +202,6 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
                 window.dispatchEvent(resizeEvent);
             }, t.totalDuration());
         this._pendingAnimationTimeline = t;
-    }
-
-    componentDidUpdate() {
-        if (this._pendingRequest) return;
-        if (this._suspendAnimations) {
-            // Currently animations are suspending only if the Dom is pre-rendered.
-            // So flip it back on. Can move it out later if disabling animations is 
-            // to be controlled manually.
-            this._suspendAnimations = false;
-        }
-        else {
-            this.animateViewIn(this.getScrollViewElementIfAvailable(), this.getContentElementIfAvailable());
-        }
-        this.setFocusContentView();
     }
 
     getContentElementIfAvailable() {
