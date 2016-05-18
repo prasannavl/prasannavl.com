@@ -211,10 +211,11 @@ export function create(options) {
 
     const OpenBrowserPlugin = require("open-browser-webpack-plugin");
 
+    const openBrowserHost = serverConfig.host === "0.0.0.0" ? "localhost" : serverConfig.host;
     let devPlugins = [
         new webpack.NoErrorsPlugin(),
         new OpenBrowserPlugin({
-            url: `http://${serverConfig.host}:${serverConfig.port}`
+            url: `http://${openBrowserHost}:${serverConfig.port}`
         }),
     ];
 
