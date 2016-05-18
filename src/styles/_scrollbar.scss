@@ -9,19 +9,7 @@
   user-select: none;
 }
 
-
-/* fallback for native floating scrollbars */
-
-.gm-prevented {
-  -webkit-overflow-scrolling: touch;
-  &.gm-scrollbar {
-    display: none;
-  }
-}
-
-.gm-scrollbar-container {
-  overflow: hidden!important;
-  & > .gm-scroll-view {
+@mixin scroll-view-common {
     width: 100%;
     height: 100%;
     overflow: auto;
@@ -29,6 +17,23 @@
     &:focus {
       outline: none;
     }
+}
+
+/* fallback for native floating scrollbars */
+
+.gm-prevented {
+  & > .gm-scroll-view {
+    @include scroll-view-common;
+  }
+  & .gm-scrollbar {
+    display: none;
+  }
+}
+
+.gm-scrollbar-container {
+  overflow: hidden!important;
+  & > .gm-scroll-view {
+    @include scroll-view-common;    
   }
   & > .gm-scrollbar {
     position: absolute;
