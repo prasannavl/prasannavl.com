@@ -9,7 +9,8 @@
     "moment": "registry:npm/moment#2.10.5+20160211003958",
     "rxjs": "npm:rxjs",
     "tape": "registry:npm/tape#4.0.0+20160322235547",
-    "webpack": "registry:npm/webpack#1.12.9+20160418172948"
+    "webpack": "registry:npm/webpack#1.12.9+20160418172948",
+    "yargs": "registry:npm/yargs#3.31.0+20160316010718"
   },
   "ambientDevDependencies": {
     "compression": "registry:dt/compression#0.0.0+20160501162003",

@@ -115,7 +115,7 @@ class BuildHelper {
 			// extract date into path
 			// form url yyyy/mm/slug
 			let date = config.date;
-			let dateUrl = `${date.getYear()}/${date.getMonth()}/${config.slug}`;
+			let dateUrl = `${date.getFullYear()}/${date.getMonth()}/${slug}`;
 			config.url = dateUrl;
 		} else {
 			let url = config.url;
@@ -133,7 +133,7 @@ class BuildHelper {
 			}
 			return "";
 		});
-
+		//console.dir(config);
 		return Object.assign(config, { content: markdownContent });
 	}
 
@@ -173,16 +173,18 @@ class BuildHelper {
 }
 
 function sanitizeSlug(slug) {
+	let s = slug.slice(0);
 	let charsAsDash = [" ", "/", "&", "*", "\\", ";", ",", ":", "+", "%", "#", "(", "[", "=", "{", "<", "@"];
 	let removeChars = ["!", "@", "\"", "'", "?", ")", "]", "}", ">"];
-	let len = charsAsDash.length;
-	while (--len >= 0) {
-		slug.replace(charsAsDash[len], "-");
+	let len = removeChars.length;	
+	while (--len > -1) {
+		s.replace(removeChars[len], "");
 	}
-	len = removeChars.length;
-	while (--len >= 0) {
-		slug.replace(removeChars[len], "");
+	len = charsAsDash.length;
+	while (--len > -1) {
+		s.replace(charsAsDash[len], "-");
 	}
+	return s.toLowerCase();
 }
 
 const ConfigMode = {
@@ -387,18 +389,60 @@ function getIndexers() {
 	return indexers;
 }
 
-function run() {
+function runAll(opts) {
+	console.log(chalk.green("ContentManager: starting all"));
+	Commands.publishAll(opts.draftsDir, opts.publishedDir)
+		.then(() => Commands.buildAll(opts.publishedDir, opts.contentDir))
+		.then(() => Commands.buildIndexes(opts.contentDir, opts.indexDir, getIndexers()))
+		.then(() => console.log(chalk.green("ContentManager: done")));
+}
+
+function getOpts() {
 	let Paths = configConstantsFactory().Paths;	
 	const draftsDir = path.join(__dirname, "./drafts");	
 	const publishedDir = path.join(__dirname, "./published");
 	const contentDir = path.join(Paths.dir, Paths.generatedContentDirRelativeName);	
 	const indexDir = path.join(Paths.dir, Paths.generatedContentIndexesDirRelativeName);
-
-	console.log(chalk.green("ContentManager: starting"));	
-	Commands.publishAll(draftsDir, publishedDir)
-		.then(() => Commands.buildAll(publishedDir, contentDir))
-		.then(() => Commands.buildIndexes(contentDir, indexDir, getIndexers()))
-		.then(() => console.log(chalk.green("ContentManager: done")));
+	return { draftsDir, contentDir, indexDir, publishedDir };
 }
 
-run();
+function start() {
+	const args = require("yargs");	
+	const opts = getOpts();	
+	args
+		.command("publish", "publish a single draft", () => {
+			const sources = args.argv._.filter((v, i) => i !== 0);			
+			if (sources[0] === undefined) {
+				console.log(chalk.green("ContentManager: publishing all"));
+				Commands.publishAll(opts.draftsDir, opts.publishedDir)
+					.then(() => console.log(chalk.green("ContentManager: published all")));
+			} else {
+				sources.forEach(x => {
+					let src;
+					let p = path.join(process.cwd(), x);
+					if (fs.existsSync(p)) {
+						src = p;
+					} else {
+						p = path.join(opts.draftsDir, x);
+						if (fs.existsSync(p)) {
+							src = p;
+						} else {
+							console.error(chalk.red("Error: " + x + " not found"));
+						}
+					}
+					if (src) {
+						console.log(chalk.cyan("ContentManager: processing " + x));
+						Commands.publish(src, opts.publishedDir)
+							.then(() => console.log(chalk.green("ContentManager: published " + x)));
+					}
+				});
+			}
+		});
+	
+	const rest = args.argv._;
+	if (rest[0] === undefined) {
+		runAll(opts);
+	}
+}
+
+start();
