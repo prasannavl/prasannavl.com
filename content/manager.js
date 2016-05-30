@@ -5,11 +5,12 @@ import yaml from "js-yaml";
 import marked from "marked";
 import chalk from "chalk";
 import * as _ from "lodash";
+import * as os from "os";
 import configConstantsFactory from "../configConstants";
 
 class BuildHelper {
 	static processAllAsync(inputDirPath, outputDirPath, options) {
-		if (!fs.existsSync(inputDirPath)) return Promise.resolve();
+		if (!fs.existsSync(inputDirPath)) return Promise.reject(`Not found: ${inputDirPath}`);
 		
 		return BuildHelper.walkFsAsync(inputDirPath, (f, tasks) => {
 			if (!f.stats.isDirectory() && f.path.match(/\.md$/i)) {
@@ -23,7 +24,7 @@ class BuildHelper {
 	static processAsync(inputFile, outputDir, options) {
 		// TODO: forced/non-forced implementation: only write if fs timestamps are outdated. 	
 
-		if (!fs.existsSync(inputFile)) return Promise.resolve();
+		if (!fs.existsSync(inputFile)) return Promise.reject(`Not found: ${inputFile}`);
 		
 		const { mode, force } = options;
 		const isBuildMode = mode === ConfigMode.Build;
@@ -115,7 +116,11 @@ class BuildHelper {
 			// extract date into path
 			// form url yyyy/mm/slug
 			let date = config.date;
-			let dateUrl = `${date.getFullYear()}/${date.getMonth()}/${slug}`;
+			let monthStr = date.getMonth().toString();
+			if (monthStr.length === 1) {
+				monthStr = "0" + monthStr;
+			}
+			let dateUrl = `${date.getFullYear()}/${monthStr}/${slug}`;
 			config.url = dateUrl;
 		} else {
 			let url = config.url;
@@ -125,15 +130,17 @@ class BuildHelper {
 		}
 
 		let configText = Config.createYamlMarkdownCommentFrom(Config.createPublishConfigFrom(config));
-		let replace = true;
+		let optsCommentAdded = false;
 		let markdownContent = data.replace(new RegExp(Config.OptionsRegExpPattern, "gm"), (match) => {
-			if (replace) {
-				replace = false;
+			if (!optsCommentAdded) {
+				optsCommentAdded = true;
 				return configText;
 			}
 			return "";
 		});
-		//console.dir(config);
+		if (!optsCommentAdded) {
+			markdownContent = configText + os.EOL + os.EOL + markdownContent;
+		}
 		return Object.assign(config, { content: markdownContent });
 	}
 
@@ -173,18 +180,29 @@ class BuildHelper {
 }
 
 function sanitizeSlug(slug) {
-	let s = slug.slice(0);
-	let charsAsDash = [" ", "/", "&", "*", "\\", ";", ",", ":", "+", "%", "#", "(", "[", "=", "{", "<", "@"];
-	let removeChars = ["!", "@", "\"", "'", "?", ")", "]", "}", ">"];
-	let len = removeChars.length;	
-	while (--len > -1) {
-		s.replace(removeChars[len], "");
+	let res = "";
+	const charsAsDash = ["-", " ", "/", "&", "*", "\\", ";", ",", ":", "+", "%", "#", "(", "[", "=", "{", "<", "@"];
+	const removeChars = ["!", "@", "\"", "'", "?", ")", "]", "}", ">"];
+	let len = slug.length;
+	let lastCharIsDash = false;
+	for (let i = 0; i < len; i++) {
+		let supressDash = false;
+		if (lastCharIsDash) {
+			supressDash = true;
+			lastCharIsDash = false;
+		}
+		let c = slug[i];
+		if (charsAsDash.findIndex(x => x === c) > -1) {
+			if (!supressDash) res += "-";
+			lastCharIsDash = true;
+		}
+		else if (removeChars.findIndex(x => x === c) > -1) {
+			// Do nothing
+		} else {
+			res += c;
+		}
 	}
-	len = charsAsDash.length;
-	while (--len > -1) {
-		s.replace(charsAsDash[len], "-");
-	}
-	return s.toLowerCase();
+	return res.toLowerCase();
 }
 
 const ConfigMode = {
@@ -397,6 +415,13 @@ function runAll(opts) {
 		.then(() => console.log(chalk.green("ContentManager: done")));
 }
 
+function runAllPublished(opts) {
+	console.log(chalk.green("ContentManager: starting all published"));
+	Commands.buildAll(opts.publishedDir, opts.contentDir)
+		.then(() => Commands.buildIndexes(opts.contentDir, opts.indexDir, getIndexers()))
+		.then(() => console.log(chalk.green("ContentManager: done")));
+}
+
 function getOpts() {
 	let Paths = configConstantsFactory().Paths;	
 	const draftsDir = path.join(__dirname, "./drafts");	
@@ -411,7 +436,7 @@ function start() {
 	const opts = getOpts();	
 	args
 		.command("publish", "publish a single draft", () => {
-			const sources = args.argv._.filter((v, i) => i !== 0);			
+			const sources = args.argv._.filter((v, i) => i !== 0);
 			if (sources[0] === undefined) {
 				console.log(chalk.green("ContentManager: publishing all"));
 				Commands.publishAll(opts.draftsDir, opts.publishedDir)
@@ -437,6 +462,9 @@ function start() {
 					}
 				});
 			}
+		})
+		.command("run-nopublish", "run all that has already been published", () => {
+			runAllPublished(opts);
 		});
 	
 	const rest = args.argv._;
