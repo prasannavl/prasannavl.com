@@ -71,9 +71,9 @@ class BuildHelper {
 					let srcStatPromise = fs.statAsync(inputFilePath);
 					return Promise.all([destStatPromise, srcStatPromise])
 						.then(res => {
-							let destCTime = res[0].ctime;
-							let srcCTime = res[1].ctime;
-							return srcCTime > destCTime;
+							let destChangeTime = res[0].mtime;
+							let srcChangeTime = res[1].mtime;
+							return srcChangeTime > destChangeTime;
 						});
 				}
 				return true;
