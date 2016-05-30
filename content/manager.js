@@ -26,11 +26,14 @@ class BuildHelper {
 
 		if (!fs.existsSync(inputFile)) return Promise.reject(`Not found: ${inputFile}`);
 		
-		const { mode, force } = options;
+		const { mode, verbose } = options;
 		const isBuildMode = mode === ConfigMode.Build;
+		
+		if (verbose) {
+			let fileBasePath = path.basename(inputFile);
+			console.log(`processing ${fileBasePath}..`);
+		}
 
-		let fileBasePath = path.basename(inputFile);
-		console.log(`processing ${fileBasePath}..`);
 		let configFactory = isBuildMode ? BuildHelper.createBuildConfig : BuildHelper.createPublishConfig;
 
 		return fs.readFileAsync(inputFile, "utf-8")
@@ -39,8 +42,8 @@ class BuildHelper {
 				let config = configFactory(basename, data);
 				return config;
 			}).then(config => {
-				let finalizerAsync = isBuildMode ? BuildHelper.finalizeBuildAsync : BuildHelper.finalizePublishAsync;
-				return finalizerAsync(config, inputFile, outputDir);
+				let finalizer = isBuildMode ? BuildHelper.finalizeBuildAsync : BuildHelper.finalizePublishAsync;
+				return finalizer(config, inputFile, outputDir, options);
 			});
 	}
 
@@ -57,16 +60,41 @@ class BuildHelper {
 		return tasks.done;
 	}
 
-	static finalizeBuildAsync(config, inputFilePath, outputDirPath) {
+	static finalizeBuildAsync(config, inputFilePath, outputDirPath, options) {
+		let { forceBuild, verbose } = options;
 		let extName = ".json";
 		let destPath = path.join(outputDirPath, config.url + extName);
-		let data = JSON.stringify(config);
+		let shouldBuild = forceBuild ? Promise.resolve(true) : fs.existsAsync(destPath)
+			.then(exists => {
+				if (exists) {
+					let destStatPromise = fs.statAsync(destPath);
+					let srcStatPromise = fs.statAsync(inputFilePath);
+					return Promise.all([destStatPromise, srcStatPromise])
+						.then(res => {
+							let destCTime = res[0].ctime;
+							let srcCTime = res[1].ctime;
+							return srcCTime > destCTime;
+						});
+				}
+				return true;
+			}).catch(() => true);
 
-		return fs.ensureDirAsync(path.dirname(destPath))
-			.then(() => BuildHelper.writeFileAsync(path.basename(inputFilePath), destPath, data));
+		return shouldBuild
+			.then(res => {
+				if (res) {
+					let data = JSON.stringify(config);
+					return fs.ensureDirAsync(path.dirname(destPath))
+						.then(() => BuildHelper.writeFileAsync(path.basename(inputFilePath), destPath, data));
+				} else {
+					if (verbose) {
+						console.log(chalk.red(`skipped ${path.basename(inputFilePath)}`));
+					}
+					return Promise.resolve();
+				}
+			});
 	}
-
-	static finalizePublishAsync(config, inputFilePath, outputDirPath) {
+	
+	static finalizePublishAsync(config, inputFilePath, outputDirPath, options) {
 		let extName = ".md";
 		let urlPath = config.url;
 		let urlDirPath = path.join(outputDirPath, path.dirname(urlPath));
@@ -78,10 +106,10 @@ class BuildHelper {
 			.then(() => fs.removeAsync(inputFilePath));
 	}
 
-	static writeFileAsync(inFilePath, destPath, data) {
+	static writeFileAsync(inFileNotificationName, destPath, data) {
 		return fs.writeFileAsync(destPath, data, { flag: "w+", encoding: "utf-8" })
-			.then(() => console.log(`${inFilePath} => ${destPath}`))
-			.catch(err => console.log(`${inFilePath} => ${err}`));
+			.then(() => console.log(`${inFileNotificationName} => ${destPath}`))
+			.catch(err => console.log(`${inFileNotificationName} => ${err}`));
 	}
 
 	static createBuildConfig(name, data) {
@@ -214,8 +242,7 @@ class Config {
 
 	// WARNING: Exceptional pattern.
 	// Set as undefined instead of null to make sure they
-	// are skipped during the JSON process, and simply the
-	// process instead of a replacer.
+	// are skipped during the JSON processing.
 	constructor() {
 		this.name = undefined;
 		this.date = undefined;
@@ -224,14 +251,12 @@ class Config {
 		this.tags = [];
 
 		this.slug = undefined;
-		this.publish = undefined;
-
 		this.content = undefined;
 	}
 
 	static createPublishConfigFrom(config) {
 		const o = Object.assign({}, config);
-		o.slug = o.publish = o.content = undefined;
+		o.slug = o.content = undefined;
 		return o;
 	}
 
@@ -270,8 +295,11 @@ class Config {
 	}
 
 	static createBuildContent(config, contentString) {
+		// Clear options from build
 		let content = contentString.replace(new RegExp(Config.OptionsRegExpPattern, "gm"), "");
+		// Remove the heading if present. Its handled by name.
 		content = content.replace(new RegExp(`^\\s*#\\s+${config.name}`), "");
+		// Remove any blank lines in the beginning.
 		content = content.replace(/^[\s\n\r]*/, "");
 		return content;
 	}
@@ -312,24 +340,24 @@ class RefCount {
 }
 
 class Commands {
-	static buildAll(srcDir, destDir, force = false) {
+	static buildAll(srcDir, destDir, forceBuild = false) {
 		console.log(chalk.cyan("Building all published content.."));
-		return BuildHelper.processAllAsync(srcDir, destDir, { mode: ConfigMode.Build, force })
+		return BuildHelper.processAllAsync(srcDir, destDir, { mode: ConfigMode.Build, forceBuild })
 	}
 
-	static build(src, destDir, force = false) {
+	static build(src, destDir, forceBuild = false) {
 		console.log(chalk.cyan(`Building ${src}..`));
-		return BuildHelper.processAsync(src, destDir, { mode: ConfigMode.Build, force })
+		return BuildHelper.processAsync(src, destDir, { mode: ConfigMode.Build, forceBuild })
 	}
 
-	static publish(src, destDir, force = false) {
+	static publish(src, destDir) {
 		console.log(chalk.cyan(`Publishing ${src}..`));
-		return BuildHelper.processAsync(src, destDir, { mode: ConfigMode.Publish, force })
+		return BuildHelper.processAsync(src, destDir, { mode: ConfigMode.Publish })
 	}
 
-	static publishAll(srcDir, destDir, force = false) {
+	static publishAll(srcDir, destDir) {
 		console.log(chalk.cyan("Publishing all content.."));
-		return BuildHelper.processAllAsync(srcDir, destDir, { mode: ConfigMode.Publish, force });
+		return BuildHelper.processAllAsync(srcDir, destDir, { mode: ConfigMode.Publish });
 	}
 
 	static buildIndexes(srcDir, destDir, indexers) {
