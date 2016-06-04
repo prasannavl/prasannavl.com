@@ -22,8 +22,6 @@ class BuildHelper {
 	}
 
 	static processAsync(inputFile, outputDir, options) {
-		// TODO: forced/non-forced implementation: only write if fs timestamps are outdated. 	
-
 		if (!fs.existsSync(inputFile)) return Promise.reject(`Not found: ${inputFile}`);
 		
 		const { mode, verbose } = options;
