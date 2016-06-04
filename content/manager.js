@@ -249,7 +249,7 @@ class Config {
 		this.title = undefined;
 		this.url = undefined;
 		this.tags = [];
-
+		
 		this.slug = undefined;
 		this.content = undefined;
 	}

@@ -12,7 +12,7 @@
     "webpack": "registry:npm/webpack#1.12.9+20160418172948",
     "yargs": "registry:npm/yargs#3.31.0+20160316010718"
   },
-  "ambientDevDependencies": {
+  "globalDevDependencies": {
     "compression": "registry:dt/compression#0.0.0+20160501162003",
     "express": "registry:dt/express#4.0.0+20160317120654",
     "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160322035842",
@@ -26,7 +26,7 @@
     "mime": "registry:dt/mime#0.0.0+20160316155526",
     "minimatch": "registry:dt/minimatch#2.0.8+20160317120654",
     "node": "registry:dt/node#4.0.0+20160505172921",
-    "react": "registry:dt/react#0.14.0+20160423065914",
+    "react": "registry:dt/react#0.14.0+20160602151522",
     "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
     "serve-static": "registry:dt/serve-static#0.0.0+20160501131543",
     "superagent": "registry:dt/superagent#1.4.0+20160317120654",
