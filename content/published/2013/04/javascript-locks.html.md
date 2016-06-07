@@ -22,7 +22,7 @@ And that's exactly what the below tiny (<2kb) library provides.
 ###### GitHub: <a href="https://github.com/prasannavl/JsLocks" target="_blank">https://github.com/prasannavl/JsLocks</a> <span class="text-red text-wnormal">[No longer available]</span> 
 ###### Download: <a href="https://raw.github.com/prasannavl/JsLocks/master/JsLocks.min.js" target="_blank">JsLocks.min.js</a> <span class="text-red text-wnormal">[No longer available]</span>
 
-**API:**
+### API
 
 ```
 Locker.Lock(lockName, callbackFunction, [priority=0]);
@@ -36,7 +36,7 @@ Locker.LockIfInstant(lockName, callbackFunction, [priority=0]);
 
 ```
 
-**Basic usage:**
+### Basic usage
 
 ```
 function getALife() {
@@ -74,7 +74,7 @@ Locker.Lock("thebiglock", function() {
 
 The default priority of jobs is 10.  Higher the value, higher the priority.
 
-**Priority values example:**
+### Priority values example
 
 ```
 var test = function(no) {
@@ -91,7 +91,7 @@ for (var i=0; i<10; i++)
 } 
 ```
 
-**Output:**
+### Output
 
 ```
 Task no: 0, Priority: 8

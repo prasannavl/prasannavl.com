@@ -17,12 +17,12 @@ export class ArticleHelper {
         let links = Array<JSX.Element>(tags.length);
         let len = tags.length;
         tags.forEach((tag, i) => {
-            let displayTag = tag.toLowerCase();
-            links.push(<span><Link href={"/archives/tags/" + displayTag}>{displayTag}</Link>{i < len - 1 ? " | " : ""}</span>)
+            let displayTag = tag;
+            links.push(<span><Link href={"/archives/tags/" + displayTag.toLowerCase()}>{displayTag}</Link>{i < len - 1 ? " | " : ""}</span>)
         });
 
         return (<div className="tags">
-            <span className="title">tags</span>
+            <span className="title">Tags</span>
             {links}
         </div>);
     }
@@ -37,7 +37,7 @@ export class ArticleHelper {
         
         return (<Link href={"/archives/" + m.year() + "/"} className="date">
             <time dateTime={dateString}>
-                { date.toLowerCase() }
+                {date}
             </time>
         </Link>);
     }

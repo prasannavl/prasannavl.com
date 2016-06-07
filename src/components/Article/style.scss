@@ -1,5 +1,4 @@
 @import "../ContentView/vars";
-
 :local(.root) {
     @include content-chrome-container;
     & > div {
@@ -10,15 +9,17 @@
             }
             & > header {
                 & > h1 {
-                    font-weight: 500;
+                    font-weight: 400;
                     font-size: 38px;
                     color: lighten(gray, 30%);
-                }
-                & > h1 > a {
-                    @include header-link;
-                    cursor: default;
-                    &:hover, &:active {
-                        color: gray;
+                    text-transform: lowercase;
+                    & > a {
+                        @include header-link;
+                        font-weight: 400;
+                        cursor: default;
+                        &:hover, &:active {
+                            color: gray;
+                        }
                     }
                 }
                 & > .date {
@@ -37,18 +38,16 @@
                 }
             }
         }
-        
         & > .ext-container {
-            display:block;
+            display: block;
             width: 100%;
             height: 100%;
-            
             & > .ads-text {
                 height: 100% !important;
                 &:first-child {
                     padding: 0px 0 35px 0 !important;
                 }
             }
-        }   
+        }
     }
 }

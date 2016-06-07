@@ -104,6 +104,21 @@ export class Article extends StatelessBase<ArticleProps> {
         super.componentWillUnmount();
     }
 
+    renderHeader(item: ArticleDescriptor) {
+        let heading: JSX.Element = null;
+        if (item.name) {
+            heading = (<h1>{ "pvl " + "\u2215" + " " }
+                <Link href={"/" + item.url}>
+                    {item.name}
+                </Link></h1>);
+        }
+        return (<header>
+            {heading}   
+            {item.date ? ArticleHelper.renderDate(item.date) : null }
+            {item.tags && item.tags.length > 0 ? ArticleHelper.renderTagList(item.tags) : null }
+        </header>);
+    }
+
     render() {
         this._articleDomElements = new Array<HTMLElement>();
         let item = this.props.data;
@@ -111,14 +126,7 @@ export class Article extends StatelessBase<ArticleProps> {
             <div className={style.root}>
                 <div id="article-items-container">
                     <main>
-                        <header>
-                            <h1>{ "PVL ".toLocaleLowerCase() + "\u2215" + " " }
-                                <Link href={"/" + item.url}>
-                                    {item.name.toLowerCase() }
-                                </Link></h1>
-                            {ArticleHelper.renderDate(item.date) }
-                            {ArticleHelper.renderTagList(item.tags) }
-                        </header>
+                        {this.renderHeader(item)}
                         <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>
                     </main>
                     <div ref="extContainer" className="ext-container">

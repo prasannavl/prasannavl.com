@@ -31,8 +31,8 @@ export class Overview extends StatelessBase<ArticleProps> {
         return (<section key={item.url}>
             <header>
                 <h2><Link href={"/" + item.url}>{item.name.toLowerCase() }</Link></h2>
-                {ArticleHelper.renderDate(item.date) }
-                {ArticleHelper.renderTagList(item.tags) }
+                {item.date ? ArticleHelper.renderDate(item.date) : null }
+                {item.tags && item.tags.length > 0 ? ArticleHelper.renderTagList(item.tags) : null }
             </header>
             <article
                 dangerouslySetInnerHTML={{ __html: marked(item.content) }}

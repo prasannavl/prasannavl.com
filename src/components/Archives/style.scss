@@ -3,11 +3,6 @@
     @include content-chrome-container;
     & > div {
         @include content-chrome;
-        & > h1 {
-            font-weight: 300;
-            font-size: 38px;
-            color: gray;
-        }
         & > main > section {
             margin-top: 20px;
             & > header {

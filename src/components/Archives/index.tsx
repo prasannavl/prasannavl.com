@@ -48,6 +48,7 @@ export class Archives extends StatelessBase<ArchiveProps> {
                     {sections}
                     <section>
                         <header><span className="year">the dark ages</span></header>
+                        <br/><br/>
                     </section>
                 </main>
             </div>

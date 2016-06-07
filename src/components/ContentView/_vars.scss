@@ -69,6 +69,7 @@
         text-decoration: none;
         padding-bottom: 5px;
         border-bottom: 1px solid transparent;
+        text-transform: lowercase;
         &:hover, &:focus {
             color: $linkActiveColor;
             border-bottom: 1px solid $linkActiveColor;
@@ -89,7 +90,7 @@
         & > span.title {
             $totalHeight: 14.0px;
             $fontSize: 13px;
-            
+            text-transform: lowercase;
             $backgroundColor: rgba(0, 0, 0, 0.03);
             position: relative;
             color: rgba(0, 0, 0, 0.6);
@@ -127,6 +128,7 @@
         }
         & > span {
             font-weight: 400;
+            text-transform: lowercase;
             color: rgba(0, 0, 0, 0.6);
             & > a {
                 padding: 5px 0px;

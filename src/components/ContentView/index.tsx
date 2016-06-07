@@ -180,10 +180,11 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
             const maxHeight = scrollViewElement.clientHeight;
             let h1Tags = Array.from(contentElement.getElementsByTagName("h1")).filter(x => x.getBoundingClientRect().top < maxHeight);
             let h2Tags = Array.from(contentElement.getElementsByTagName("h2")).filter(x => x.getBoundingClientRect().top < maxHeight);
-            if (h1Tags)
-                t.staggerFrom(h1Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "all" }, 0.2, 0);
-            if (h2Tags)
-                t.staggerFrom(h2Tags, 0.2, { x: 100, opacity: 0.01, clearProps: "all" }, 0.2, 0);
+            
+            let headingElements = h1Tags.concat(h2Tags);
+            if (headingElements.length > 0) {
+                t.staggerFrom(headingElements, 0.2, { x: 100, opacity: 0.01, clearProps: "all" }, 0.2, 0);
+            }
         }
         if (t.totalDuration() !== 0)
             t.addCallback(() => {

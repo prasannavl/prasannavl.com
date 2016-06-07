@@ -8,7 +8,7 @@ tags:
  - General
 -->
 
-Well, thanks to two of my friends - Prassanna Ganesh and Abhinit Kumar, I now have a website under my name.
+Well, thanks to two of my friends - **Prassanna Ganesh** and **Abhinit Kumar**, I now have a website under my name.
 
 I'm a tad bit busy to do anything with it at the moment. But I'm sure to come up with something for this site, sooner or later. Until then, its just an empty cup waiting to be filled..
 

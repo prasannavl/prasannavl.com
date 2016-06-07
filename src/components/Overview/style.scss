@@ -5,8 +5,11 @@
         @include content-chrome;
         & > section {
             & > header {
-                & > h2 > a {
-                    @include header-link;
+                & > h2 {
+                    margin: 12px 0;
+                    & > a {
+                        @include header-link;
+                    }
                 }
                 & > .date {
                     @include header-date-link;        
@@ -21,6 +24,10 @@
                 }
                 a {
                     @include link;
+                }
+                h2 {
+                    font-size: 28px;
+                    color: rgba(0, 0, 0, 0.6);
                 }
                 margin-bottom:30px;
             }

@@ -17,14 +17,13 @@ And so, I decided to give it base one of our upcoming projects fully on MongoDB
 
 So, here's a session provider for ASP.NET.
 
-**Installation:**
+### Installation
 > PM> Install-Package PVL.MongoSessionProvider
-
 
 ###### **NuGet Pacakge Link:** <a href="https://nuget.org/packages/PVL.MongoSessionProvider" target="_blank">https://nuget.org/packages/PVL.MongoSessionProvider</a>
 ###### **Code:** <a href="https://github.com/prasannavl/MongoSessionProvider" target="_blank">https://github.com/prasannavl/MongoSessionProvider</a>
 
-**Example session document:**
+### Example session document
 
 ```js
 use SessionState;
@@ -44,10 +43,10 @@ db.Sessions.find().pretty();
 }
 ```
 
-**Scheduled session cleanup command:**
+### Scheduled session cleanup command
 > db.Sessions.remove({"Expires" : {$lt : new Date() }})
 
-**Example web.config settings:**
+### Example web.config settings
 
 ```xml
 <connectionStrings>
@@ -68,5 +67,3 @@ db.Sessions.find().pretty();
      </sessionState>
 </system.web>
 ```
-
- Happy Coding!

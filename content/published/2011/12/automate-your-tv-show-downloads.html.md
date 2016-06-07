@@ -7,6 +7,7 @@ url: 2011/12/automate-your-tv-show-downloads.html
 tags:
  - Tech
  - Automation
+ - Python
 -->
 
 So, TV shows. I found myself checking websites for new episodes often, and if available, download and add it to my Torrents download list. The same exact process. Should write a short program to do that, I thought. But never happened.

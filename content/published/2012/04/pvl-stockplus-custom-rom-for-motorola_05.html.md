@@ -20,9 +20,12 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 **Base:** DEFYPLUS_U3_4.5.1-134_DFP-231-AsiaRetail<br/>
 **Languages:** en_US, en_GB, fr_FR, it_IT, es_ES, es_US, de_DE, de_AT, nl_NL, zh_CN, vi_VN, tl_PH, th_TH, id_ID.
 
-**Compatible Devices:** Motorola Defy Plus (MB526), Motorola Defy (MB525+, MB525 - Bayer camera module only, devices with green lens is not supported)
+### Compatible Devices
+ - Motorola Defy Plus - MB526
+ - Motorola Defy - MB525+
+ - Motorola Defy - MB525 (Bayer camera module only, devices with green lens is **NOT** supported)
 
-**Core Additions:**
+### Core Additions
 
 - Rooted.
 - Added Busybox.
@@ -40,7 +43,7 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 - Dalvik Tweaks.
 - Fully De-Odexed.
 
-**UI Changes:**
+### UI Changes
 
 - Full black status bar.
 - Full ICS animations.
@@ -48,7 +51,7 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 - Simple circle battery icon.
 - A much simpler and more elegant loading icon.
 
-**System Application Changes:**
+### System Application Changes
 
 - Added Google Play Music.
 - Removed ZinioReader. (Download it from Market if you'd like)
@@ -56,7 +59,7 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 - Removed MotoLounge Stub.
 - Removed HelpCentre Stub.
 
-**Ramscript Configurations:**
+### Ramscript Configurations
 
 - minfree - 1536,2048,4096,10240,14800,20360
 - swapiness - 20
@@ -66,21 +69,21 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 - dirty_ratio - 15
 - dirty_background_ratio - 3
 
-**Download Links:**
+### Download Links
 
 - Version 2 : <a href="http://www.mediafire.com/download.php?t7v2wl8l22x722a" target="_blank">PVL-StockPlus-v2.zip</a> [194MB]
 - Version 1 : <a href="http://www.mediafire.com/?l6knpemg37znl8b" target="_blank">PVL-StockPlus-v1.zip</a> [191MB]
 
 **Note:** If you're installing it on a Defy (not Defy+), you need to only restore "system" using "Advanced Restore", and flash 4.5.3-109-DHT Kernel from here - <a href="http://ge.tt/969Z8xC/v/3" target="_blank">http://ge.tt/969Z8xC/v/3</a>.
 
-**Updates:**
+### Updates
 
 **Note:** All the updates below are already integrated into Version 2. You don't have to download any of these below.
 
 <a href="http://www.mediafire.com/?tb605505kdttbd0" target="_blank">ResponsivenessUpdate.zip</a> [156Kb] (Will work on any ROM with init.d support - Tweaks to ramscript)
 <a href="http://www.mediafire.com/?4n6u3b7o8a1sk55" target="_blank">MP4VideoUpdate.zip</a> [158Kb] - VGA+ resolution videos including 720p now use MP4 containers. (Info: 720p uses generic MPEG4 Part-2 encoding while others use H264 (Part-10 AVC) as frame-rate with 720p using H264 is too low, although it provides better quality. Edit `/system/build.prop` if you wish to change that.)
 
-**Screenshots:**
+### Screenshots
 
 <style>
     .content-imageset {
@@ -95,7 +98,7 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 <img src="//2.bp.blogspot.com/-Nw0A4u00yUM/T3zi8P5P5QI/AAAAAAAAAI8/wa23Bj2mo_0/s320/Screenshot4.png" alt="Screenshot 4" class="content-imageset" />
 </p>
 
-**How to Install:**
+### How to Install
 
 1. Root your Phone and Install Bootmenu (<a href="https://forum.xda-developers.com/attachment.php?attachmentid=792601&d=1322064151" target="_blank">SndInitDefy_2.0.apk</a>)
 1. Extract the downloaded file to the SD card at: `/sdcard/clockworkmod/backup`
@@ -107,7 +110,7 @@ So, after staying at CM for a long time, I came across the recent release of Mot
 1. Wipe data (Optional but recommended) and cache (Strictly required).
 1. Reboot
 
-**Changelog:**
+### Changelog
 
 **Version 2 - 17th April 2012 :**
 
