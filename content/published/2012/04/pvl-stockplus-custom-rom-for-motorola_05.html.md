@@ -92,10 +92,10 @@ So, after staying at CM for a long time, I came across the recent release of Mot
     }
 </style>
 <p style="display:flex; flex-flow: row wrap;">
-<img src="//3.bp.blogspot.com/-_uIDBm9ReK0/T3y5llUcL4I/AAAAAAAAAIg/dLcS8y8h1Lc/s1600/Screenshot1.jpg" alt="Screenshot 1" class="content-imageset" />
-<img src="//2.bp.blogspot.com/-2SO1pSNyAuo/T3y5nUf2QNI/AAAAAAAAAIo/IH-1OA2Jn9s/s320/Screenshot2.png" alt="Screenshot 2" class="content-imageset" />
-<img src="//3.bp.blogspot.com/--4RgtNQRnMY/T3y5o8upjrI/AAAAAAAAAIw/ECc7-E0q2go/s320/Screenshot3.png" alt="Screenshot 3" class="content-imageset" />
-<img src="//2.bp.blogspot.com/-Nw0A4u00yUM/T3zi8P5P5QI/AAAAAAAAAI8/wa23Bj2mo_0/s320/Screenshot4.png" alt="Screenshot 4" class="content-imageset" />
+<img src="//3.bp.blogspot.com/-_uIDBm9ReK0/T3y5llUcL4I/AAAAAAAAAIg/dLcS8y8h1Lc/s1600/Screenshot1.jpg" alt="[Screenshot 1]" class="content-imageset" />
+<img src="//2.bp.blogspot.com/-2SO1pSNyAuo/T3y5nUf2QNI/AAAAAAAAAIo/IH-1OA2Jn9s/s320/Screenshot2.png" alt="[Screenshot 2]" class="content-imageset" />
+<img src="//3.bp.blogspot.com/--4RgtNQRnMY/T3y5o8upjrI/AAAAAAAAAIw/ECc7-E0q2go/s320/Screenshot3.png" alt="[Screenshot 3]" class="content-imageset" />
+<img src="//2.bp.blogspot.com/-Nw0A4u00yUM/T3zi8P5P5QI/AAAAAAAAAI8/wa23Bj2mo_0/s320/Screenshot4.png" alt="[Screenshot 4]" class="content-imageset" />
 </p>
 
 ### How to Install
