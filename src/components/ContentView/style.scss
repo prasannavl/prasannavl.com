@@ -1,5 +1,6 @@
 @import "./vars";
 :local(.root) {
+    // Scroll container
     $red: #e06666;
     margin-left: $sidebarWidth;
     height: 100vh;
@@ -64,12 +65,12 @@
         font-weight: normal;
     }
     pre {
-        padding: 30px;
         background: #f4f7f8;
         border-left: 4px solid #e1e9e9;
         line-height: 22px;
         font-family: "Consolas", "Roboto Mono", "Droid Sans Mono", "DejaVu Sans Mono", "monospace";
         code {
+            padding: 30px;            
             font-size: 14px;
             max-width: 900px;
             display: block;
