@@ -196,6 +196,7 @@ export class ContentView extends Base<any, ContentViewState> {
             
             let headingElements = h1Tags.concat(h2Tags);
             if (headingElements.length > 0) {
+                // hide the horizontal scrollbar during animation-in.
                 contentOverflowX = contentElement.style.overflowX;
                 contentElement.style.overflowX = "hidden";
                 horizontalScrollbar = scrollViewElement.querySelector(".scrollbar.-horizontal") as HTMLElement;
@@ -206,6 +207,7 @@ export class ContentView extends Base<any, ContentViewState> {
         if (t.totalDuration() !== 0) {
             t.addCallback(() => {
                 if (horizontalScrollbar != null) {
+                    // restore horizontal scroll bar state.                    
                     contentElement.style.overflowX = contentOverflowX;
                     horizontalScrollbar.style.visibility = "";                    
                 }
