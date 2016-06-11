@@ -1,17 +1,17 @@
 @import "../MainView/vars";
 :local(.root) {
-    $fontColorBase: rgba(#fff, 0.9);
-    $fontColorBright: #fff;
     position: fixed;
     width: $sidebarWidth;
     height: 100%;
     .sidebar {
-        display:flex;
+        width: $sidebarWidth;
+        height: 100vh;
+        $fontColorBase: rgba(#fff, 0.9);
+        $fontColorBright: #fff;
+        display: flex;
         flex-flow: column;
         align-items: stretch;
         justify-content: flex-start;
-        width: $sidebarWidth;        
-        height: 100%;
         background: #3f5660;
         color: $fontColorBase;
         @mixin white-link {
@@ -39,8 +39,7 @@
                     font-weight: 200;
                     transition: 0.3s;
                     color: $fontColorBase;
-                    &:hover,
-                    &:focus {
+                    &:hover, &:focus {
                         color: palegreen;
                         transition: 0.3s;
                     }
@@ -77,8 +76,7 @@
                 text-decoration: none;
                 transition: all 0.3s;
                 user-select: none;
-                &:hover,
-                &:focus {
+                &:hover, &:focus {
                     color: $fontColorBright;
                     transition: 0.2s;
                 }
@@ -134,8 +132,7 @@
                 text-decoration: none;
                 font-weight: 400;
                 outline: 0;
-                &:hover,
-                &:focus {
+                &:hover, &:focus {
                     background: rgba($fontColorBright, 0.1);
                     transition: 0.2s;
                 }

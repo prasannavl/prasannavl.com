@@ -10,8 +10,13 @@ import LoadingView from "../LoadingView/index";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { IHeadlessContentManager, IDomContentManager } from "../../modules/content-manager/ContentManager";
 import { ScrollView } from "../fragments/ScrollView";
+import { DomUtils } from "../../modules/utils/index";
 
-export class ContentView extends Base<any, {component: JSX.Element}> {
+interface ContentViewState {
+    component: JSX.Element;
+}
+
+export class ContentView extends Base<any, ContentViewState> {
     private _contentManager: IDomContentManager | IHeadlessContentManager;
     private _pendingRequest: any = null;
     private _pendingAnimationTimeline: TimelineMax;
@@ -20,7 +25,7 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
     private _diposeHistoryListener: () => void = null;
     
     containerId = "content-container";
-    scrollViewElementId = "content-scroll-view";
+    scrollViewElementId = "content-scrollview";
     contentElementId = "content-view";
 
     constructor(props: any, context: any) {
@@ -55,6 +60,7 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
             cm.removeListener(cm.requestStartEventName, this.onRequestStarted);
             this._diposeHistoryListener();
         }
+        
         this.clearPendingTimeline();
         super.componentWillUnmount();
     }
@@ -63,27 +69,31 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
         this.setFocusContentView();
     }
 
-    componentWillUpdate() {
-        this.clearPendingTimeline();
+    componentWillUpdate(nextProps: any, nextState: ContentViewState) {
+        if (this.state.component !== nextState.component) {
+            this.clearPendingTimeline();
+        }
     }
 
-    componentDidUpdate() {
-        if (this._pendingRequest) return;
-        if (this._suspendAnimations) {
-            // Currently animations are suspending only if the Dom is pre-rendered.
-            // So flip it back on. Can move it out later if disabling animations is 
-            // to be controlled manually.
-            this._suspendAnimations = false;
+    componentDidUpdate(prevProps: any, prevState: ContentViewState) {
+        if (this.state.component !== prevState.component) {
+            if (this._pendingRequest) return;
+            if (this._suspendAnimations) {
+                // Currently animations are suspending only if the Dom is pre-rendered.
+                // So flip it back on. Can move it out later if disabling animations is 
+                // to be controlled manually.
+                this._suspendAnimations = false;
+            }
+            else {
+                this.animateViewIn(this.getScrollViewElementIfAvailable(), this.getContentElementIfAvailable());
+            }
+            this.setFocusContentView();
         }
-        else {
-            this.animateViewIn(this.getScrollViewElementIfAvailable(), this.getContentElementIfAvailable());
-        }
-        this.setFocusContentView();
     }
 
     clearPendingTimeline() {
         if (this._pendingAnimationTimeline != null) {
-            this._pendingAnimationTimeline.render(this._pendingAnimationTimeline.endTime(), true, true);
+            this._pendingAnimationTimeline.render(this._pendingAnimationTimeline.endTime(), false, true);
             this._pendingAnimationTimeline.kill();
             this._pendingAnimationTimeline = null;
         }
@@ -104,7 +114,7 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
     }
 
     onHistoryChange() {
-        this.clearPendingTimeline();        
+        this.clearPendingTimeline();                
         this.clearRequestStartedViewUpdateTimer();
         let req = this._pendingRequest;
         if (req !== null) {
@@ -135,36 +145,37 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
         }
     }
 
-    animateViewOut(scrollViewElement: HTMLElement, contentElement: HTMLElement) {
+    animateViewOut(scrollViewElement: HTMLElement, contentElement: HTMLElement) {        
         return new Promise((res, reject) => {
-            this.clearPendingTimeline();
+            this.clearPendingTimeline();            
             if (!scrollViewElement || !contentElement) {
                 res(); return;
             }
+            
             let t = new TimelineMax();
             let scrollDuration = 0;
             // Do the scrolling manually, by breaking the overflow visibility
             // and translating the element across, with forced hardware acceleration.
             // This is significantly faster on lower mobile devices.
-            let scrollTop = contentElement.scrollTop;
             let overFlowType = contentElement.style.overflow;
+            let savedHeight = contentElement.style.height;
+            let scrollTop = contentElement.scrollTop;
             if (scrollTop > 0) {
-                contentElement.style.overflow = "visible";
-                contentElement.style.transform = `translate3d(0, ${-scrollTop}px, 0)`
-                contentElement.scrollTop = 0;
+                contentElement.style.overflow = "scroll";
+                contentElement.style.height = contentElement.scrollHeight.toString() + "px";                
+                contentElement.style.transform = `translateY(${-scrollTop + DomUtils.getScrollbarWidth()}px)`;
                 scrollDuration = 0.3;
                 let y = scrollTop > 200 ? -scrollTop + 200 : 0;
                 t.to(contentElement, scrollDuration, { y, clearProps: "all" }, 0);
-                t.to(scrollViewElement, scrollDuration, { opacity: 0 }, 0);                
+                t.to(scrollViewElement, scrollDuration, { opacity: 0 }, 0);
             }
-            //t.to(scrollViewElement, scrollDuration || 0.3, { opacity: 0.01 }, 0);
-            t.addCallback(() => {
+            t.addCallback(() => {         
                 let style = contentElement.style;
+                style.height = savedHeight;     
                 style.overflow = overFlowType;
                 contentElement.scrollTop = 0;
                 res();
             }, t.totalDuration());
-
             this._pendingAnimationTimeline = t;
         });
     }
@@ -186,7 +197,7 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
                 t.staggerFrom(headingElements, 0.2, { x: 100, opacity: 0.01, clearProps: "all" }, 0.2, 0);
             }
         }
-        if (t.totalDuration() !== 0)
+        if (t.totalDuration() !== 0) {
             t.addCallback(() => {
                 // Workaround for gsap animations activating scrollbars, when 
                 // its custom scrollbars are used.
@@ -201,6 +212,8 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
                 }
                 window.dispatchEvent(resizeEvent);
             }, t.totalDuration());
+        }
+
         this._pendingAnimationTimeline = t;
     }
 
@@ -220,8 +233,9 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
         // and see if the content is available. If so, view change can be seamless by
         // averting the loading screen instead of momentarily switching views.
         this._requestStartedViewUpdateTimer = setTimeout(() => {
-            if (this._pendingRequest !== null)
+            if (this._pendingRequest !== null) {
                 this.forceUpdate();
+            }
         }, 100);
     }
 
@@ -233,8 +247,8 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
 
     wrapInScrollView(component: JSX.Element | JSX.Element[]) {
         return (
-            <ScrollView dynamicSize={true} id={this.scrollViewElementId} className={style.root}
-                viewProps={{ tabIndex: 0, id: this.contentElementId }}>
+            <ScrollView key={this.scrollViewElementId} id={this.scrollViewElementId} className={style.root}
+                targetProps={{ tabIndex: 0, id: this.contentElementId}}>
                 {component}
             </ScrollView>);
     }
@@ -251,7 +265,7 @@ export class ContentView extends Base<any, {component: JSX.Element}> {
             let component = this.state.component;
             return (<div id={this.containerId}>
                 { shouldRenderLoader ? <LoadingView/> : null }
-                { component ? this.wrapInScrollView(component) : null };                
+                { component ? this.wrapInScrollView(component) : null }           
             </div>);
         } else {
             return this.wrapInScrollView(this.getComponentForServerEnvironment());

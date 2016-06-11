@@ -40,7 +40,6 @@ import { DomUtils } from "../utils/index";
         this._thumbVerticalElement = null;
         this._scrollbarHorizontalElement = null;
         this._scrollbarHorizontalElement = null;
-        this._resizeSensorElement = null;
     }
 
     ScrollView.prototype.create = function create() {
@@ -88,7 +87,6 @@ import { DomUtils } from "../utils/index";
             this._thumbVerticalElement = this._scrollbarVerticalElement.querySelector("." + CLASSNAMES.thumb);
             this._scrollbarHorizontalElement = this.element.querySelector("." + CLASSNAMES.horizontalScrollbar.split(" ").join("."));
             this._thumbHorizontalElement = this._scrollbarHorizontalElement.querySelector("." + CLASSNAMES.thumb);
-            this._resizeSensorElement = this.element.querySelector("." + CLASSNAMES.resizeSensor);
         }
 
         DomUtils.addClass(this.element, CLASSNAMES.element);

@@ -1,26 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import _ from "lodash";
-import GeminiScrollbar from "gemini-scrollbar";
+import ScrollViewModule from "../../modules/scrollview/index";
 import { StringUtils } from "../../modules/utils/CoreUtils";
 import Features from "../../modules/utils/Features";
+import elementResizeDetectorMaker from "element-resize-detector";
 
 export interface ScrollViewProps extends React.HTMLProps<React.HTMLAttributes> {
     autoshow?: boolean;
     forceCustom?: boolean;
-    dynamicSize?: boolean;
-    viewProps?: React.HTMLProps<React.HTMLAttributes>;
+    targetProps?: React.HTMLProps<React.HTMLAttributes>;
+    dynamicResize?: boolean;
 }
 
 export class ScrollView extends React.Component<ScrollViewProps, any> {
-    scrollbar: any;
-    private _lastScrollHeight: number;
-    private _timer: any;
+    scrollViewModule: any;
+    resizeSensor: any;
 
     static defaultProps = {
         autoshow: false,
-        forceCustom: false,
-        dynamicSize: false,
+        dynamicResize: true,
     }
     
     constructor(props: any, context: any) {
@@ -29,14 +28,33 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
     
     componentDidMount() {
         this.instantiate();
-    }
-
-    componentWillUpdate() {
-        this.dispose();
+        if (this.props.dynamicResize) {
+            let viewElement = this.refs["view"] as HTMLElement;
+            let el: Element = null;
+            let childrenCount = viewElement.children.length;
+            if (childrenCount !== 1) {
+                el = viewElement;
+            } else {
+                el = viewElement.firstElementChild as Element;
+            }
+            this.bindResizeSensor(el);
+        }
     }
 
     componentDidUpdate() {
-        this.instantiate();
+        this.updateScroller();
+        if (this.props.dynamicResize) {
+            let viewElement = this.refs["view"] as HTMLElement;            
+            let el: Element = null;
+            let childrenCount = viewElement.children.length;
+            if (childrenCount !== 1) {
+                el = viewElement;
+            } else {
+                el = viewElement.firstElementChild as Element;
+            }
+            this.unbindResizeSensor(el);
+            this.bindResizeSensor(el);
+        }
     }
 
     componentWillUnmount() {
@@ -45,59 +63,67 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
 
     instantiate() {
         let rootElement = ReactDOM.findDOMNode(this) as HTMLElement;
-        let viewElement = this.refs["view"] as HTMLElement;
 
-        this.scrollbar = new GeminiScrollbar({
+        if (this.props.dynamicResize) {
+            this.createResizeSensor();
+        }
+
+        this.scrollViewModule = new ScrollViewModule({
             element: rootElement,
             autoshow: this.props.autoshow,
-            forceGemini: this.props.forceCustom,
-            createElements: false
+            forceCustom: this.props.forceCustom,
+            createElements: false,
         }).create();
+    }
 
-        if (this.scrollbar._created) {
-            if (this.props.dynamicSize) {
-                this._timer = setInterval(() => {
-                    let currentScrollHeight = viewElement.scrollHeight;
-                    if (currentScrollHeight !== this._lastScrollHeight) {
-                        this.updateScroller();
-                        this._lastScrollHeight = currentScrollHeight;
-                    }
-                }, 200);
-            }
-            this._lastScrollHeight = viewElement.scrollHeight;
+    createResizeSensor() {
+        this.resizeSensor = elementResizeDetectorMaker({
+            strategy: "scroll"
+        });
+    }
+
+    bindResizeSensor(element: Element) {
+        if (this.resizeSensor === null) this.createResizeSensor();
+        this.resizeSensor.listenTo(element, () => {
+            this.updateScroller();
+        });
+    }
+
+    unbindResizeSensor(element: Element) {
+        if (this.resizeSensor != null) {
+            this.resizeSensor.removeAllListeners(element);
         }
     }
 
     dispose() {
-        if (this.scrollbar != null) {
-            this.scrollbar.destroy();
-            this.scrollbar = null;
+        if (this.scrollViewModule != null) {
+            this.scrollViewModule.destroy();
+            this.scrollViewModule = null;
         }
-        if (this._timer != null) {
-            clearInterval(this._timer);
-            this._timer = null;
+        if (this.resizeSensor != null) {
+            this.resizeSensor = null;
         }
     }
 
     updateScroller() {
-        if (this.scrollbar !== null) {
-            this.scrollbar.update();
+        if (this.scrollViewModule != null) {
+            this.scrollViewModule.update();
         }
     }
 
     render() {
-        let { children, viewProps } = this.props;
-        let classNames = StringUtils.joinWithSpaceIfNotEmpty(viewProps.className, "gm-scroll-view");
+        let { children, targetProps } = this.props;
+        let targetClassNames = StringUtils.joinWithSpaceIfNotEmpty(targetProps.className, "scroll-target");
         let others = _.omit(this.props, ["children", "viewProps"]);
         return (
             <div {...others} ref="root">
-                <div className="gm-scrollbar -vertical">
+                <div className="scrollbar -vertical">
                     <div className="thumb"></div>
                 </div>
-                <div className="gm-scrollbar -horizontal">
+                <div className="scrollbar -horizontal">
                     <div className="thumb"></div>
                 </div>
-                <div { ...viewProps } className={classNames} ref="view">
+                <div { ...(targetProps as any) } className={targetClassNames} ref="view">
                     {children}
                 </div>
             </div>

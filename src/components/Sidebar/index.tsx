@@ -41,7 +41,7 @@ class Sidebar extends Base<any, any> {
         let path = this.getCurrentHistoryContext().pathname;
         let isContentPath = ContentResolver.isContentPath(path);
         const c = (
-            <ScrollView className={style.root} viewProps={{ className: "sidebar" }}>
+            <ScrollView className={style.root} targetProps={{ className: "sidebar" }}>
                     <header>
                         <h1>
                         <a href="/" onClick={this.showExpose.bind(this)}>Prasanna V. <br/>Loganathar</a>
