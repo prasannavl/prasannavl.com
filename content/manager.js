@@ -207,7 +207,7 @@ class BuildHelper {
 
 function sanitizeSlug(slug) {
 	let res = "";
-	const charsAsDash = ["-", " ", "/", "&", "*", "\\", ";", ",", ":", "+", "%", "#", "(", "[", "=", "{", "<", "@"];
+	const charsAsDash = ["-", " ", ".", "/", "&", "*", "\\", ";", ",", ":", "+", "%", "#", "(", "[", "=", "{", "<", "@"];
 	const removeChars = ["!", "@", "\"", "'", "?", ")", "]", "}", ">"];
 	let len = slug.length;
 	let lastCharIsDash = false;
