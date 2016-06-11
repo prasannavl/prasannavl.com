@@ -29,7 +29,7 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
     
     componentDidMount() {
         this.instantiate();
-        if (this.props.dynamicResize) {
+        if (this.props.dynamicResize && this.scrollViewModule) {
             let viewElement = this.refs["view"] as HTMLElement;
             let el: Element = null;
             let childrenCount = viewElement.children.length;
@@ -44,7 +44,7 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
 
     componentDidUpdate() {
         this.updateScroller();
-        if (this.props.dynamicResize) {
+        if (this.props.dynamicResize && this.scrollViewModule) {
             let viewElement = this.refs["view"] as HTMLElement;            
             let el: Element = null;
             let childrenCount = viewElement.children.length;
@@ -69,12 +69,16 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
             this.createResizeSensor();
         }
 
-        this.scrollViewModule = new ScrollViewModule({
+        let scroller = new ScrollViewModule({
             element: rootElement,
             autoshow: this.props.autoshow,
             forceCustom: this.props.forceCustom,
             createElements: false,
         }).create();
+
+        if ((scroller as any)._created) {
+            this.scrollViewModule = scroller;
+        }
     }
 
     createResizeSensor() {
