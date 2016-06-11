@@ -22,10 +22,11 @@ export default class ScrollView {
             this[propertyName] = config[propertyName];
         }, this);
 
+
         if (ScrollView.scrollbarWidth === null) {
             ScrollView.scrollbarWidth = DomUtils.getScrollbarWidth();
-        }
-        this.noCustom = ((ScrollView.scrollbarWidth === 0) && (this.forceCustom === false));
+        }        
+        this.useNative = ((ScrollView.scrollbarWidth === 0) && (this.forceCustom === false));
 
         this._cache = { events: {} };
         this._created = false;
@@ -44,7 +45,7 @@ export default class ScrollView {
 
 
     create() {
-        if (this.noCustom) {
+        if (this.useNative) {
             DomUtils.addClass(this.element, CLASSNAMES.native);
             return this;
         }
@@ -99,7 +100,7 @@ export default class ScrollView {
     }
 
     update() {
-        if (this.noCustom) {
+        if (this.useNative) {
             return this;
         }
 
@@ -130,7 +131,7 @@ export default class ScrollView {
     }
 
     destroy() {
-        if (this.noCustom) {
+        if (this.useNative) {
             return this;
         }
 

@@ -20,6 +20,7 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
     static defaultProps = {
         autoshow: false,
         dynamicResize: true,
+        forceCustom: false,
     }
     
     constructor(props: any, context: any) {
