@@ -23,7 +23,6 @@ export class LoremSegment extends React.Component<LoremProps, any> {
 }
 
 export class LoremLine extends React.Component<LoremProps, any> {
-
     render() {
         const rest = getRestProps(this.props);
         const lorem = (key: any) =>
@@ -35,7 +34,6 @@ export class LoremLine extends React.Component<LoremProps, any> {
 }
 
 export class LoremParagraph extends React.Component<LoremProps, any> {
-
     render() {
         const rest = getRestProps(this.props);
         const lorem = (key: any) =>

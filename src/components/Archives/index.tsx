@@ -12,12 +12,6 @@ export interface ArchiveProps extends React.ClassAttributes<Archives> {
     data: any;
 }
 
-// export class ArchiveFactory {
-//     static create(data: any, context: IAppContext) {
-//         let styled = createStyled(Archives, style);
-//     }
-// }
-
 export class Archives extends StatelessBase<ArchiveProps> {    
     componentWillMount() {
         this.getServices().title.set("Archives");

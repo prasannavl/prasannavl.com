@@ -18,7 +18,7 @@ export class ArticleHelper {
         let len = tags.length;
         tags.forEach((tag, i) => {
             let displayTag = tag;
-            links.push(<span><Link href={"/archives/tags/" + displayTag.toLowerCase()}>{displayTag}</Link>{i < len - 1 ? " | " : ""}</span>)
+            links.push(<span key={tag}><Link href={"/archives/tags/" + displayTag.toLowerCase()}>{displayTag}</Link>{i < len - 1 ? " | " : ""}</span>)
         });
 
         return (<div className="tags">

@@ -26,11 +26,15 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
     constructor(props: any, context: any) {
         super(props, context);
     }
+
+    getViewElement() {
+        return this.refs["view"] as HTMLElement;
+    }
     
     componentDidMount() {
         this.instantiate();
         if (this.props.dynamicResize && this.scrollViewModule) {
-            let viewElement = this.refs["view"] as HTMLElement;
+            let viewElement = this.getViewElement();
             let el: Element = null;
             let childrenCount = viewElement.children.length;
             if (childrenCount !== 1) {
@@ -45,7 +49,7 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
     componentDidUpdate() {
         this.updateScroller();
         if (this.props.dynamicResize && this.scrollViewModule) {
-            let viewElement = this.refs["view"] as HTMLElement;            
+            let viewElement = this.getViewElement();            
             let el: Element = null;
             let childrenCount = viewElement.children.length;
             if (childrenCount !== 1) {

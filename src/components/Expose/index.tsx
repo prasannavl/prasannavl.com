@@ -74,7 +74,7 @@ class Expose extends StatelessBase<any> {
                         <div className="info">
                             And I write stuff <b><a href="/overview" onClick={this.navigateToOverview}>here</a></b>.
                         </div>
-                        <a href="/overview" className="arrow icon-arrow_forward" onClick={this.navigateToOverview}></a>
+                        <a href="/overview" className="icon-arrow_forward arrow" onClick={this.navigateToOverview}></a>
                     </section>
                 </div>
             </div>
