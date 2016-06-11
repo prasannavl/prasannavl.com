@@ -65,10 +65,6 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
     instantiate() {
         let rootElement = ReactDOM.findDOMNode(this) as HTMLElement;
 
-        if (this.props.dynamicResize) {
-            this.createResizeSensor();
-        }
-
         let scroller = new ScrollViewModule({
             element: rootElement,
             autoshow: this.props.autoshow,
@@ -78,6 +74,9 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
 
         if ((scroller as any)._created) {
             this.scrollViewModule = scroller;
+            if (this.props.dynamicResize) {
+                this.createResizeSensor();
+            }
         }
     }
 
