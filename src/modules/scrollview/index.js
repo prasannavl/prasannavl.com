@@ -1,8 +1,6 @@
 import { DomUtils } from "../utils/index";
 
-var SCROLLBAR_WIDTH, DONT_CREATE_CUSTOM, CLASSNAMES;
-
-CLASSNAMES = {
+var CLASSNAMES = {
     element: "scroll-container",
     verticalScrollbar: "scrollbar -vertical",
     horizontalScrollbar: "scrollbar -horizontal",
@@ -24,8 +22,10 @@ export default class ScrollView {
             this[propertyName] = config[propertyName];
         }, this);
 
-        SCROLLBAR_WIDTH = DomUtils.getScrollbarWidth();
-        DONT_CREATE_CUSTOM = ((SCROLLBAR_WIDTH === 0) && (this.forceCustom === false));
+        if (ScrollView.scrollbarWidth === null) {
+            ScrollView.scrollbarWidth = DomUtils.getScrollbarWidth();
+        }
+        this.noCustom = ((ScrollView.scrollbarWidth === 0) && (this.forceCustom === false));
 
         this._cache = { events: {} };
         this._created = false;
@@ -44,7 +44,7 @@ export default class ScrollView {
 
 
     create() {
-        if (DONT_CREATE_CUSTOM) {
+        if (this.noCustom) {
             DomUtils.addClass(this.element, CLASSNAMES.native);
             return this;
         }
@@ -99,7 +99,7 @@ export default class ScrollView {
     }
 
     update() {
-        if (DONT_CREATE_CUSTOM) {
+        if (this.noCustom) {
             return this;
         }
 
@@ -112,8 +112,8 @@ export default class ScrollView {
         this._viewElement.style.width = "";
         this._viewElement.style.height = "";
 
-        var viewWidth = this.element.offsetWidth + SCROLLBAR_WIDTH;
-        var viewHeight = this.element.offsetHeight + SCROLLBAR_WIDTH;
+        var viewWidth = this.element.offsetWidth + ScrollView.scrollbarWidth;
+        var viewHeight = this.element.offsetHeight + ScrollView.scrollbarWidth;
 
         this._viewElement.style.width = viewWidth.toString() + "px";
         this._viewElement.style.height = viewHeight.toString() + "px";
@@ -130,7 +130,7 @@ export default class ScrollView {
     }
 
     destroy() {
-        if (DONT_CREATE_CUSTOM) {
+        if (this.noCustom) {
             return this;
         }
 
@@ -281,5 +281,6 @@ export default class ScrollView {
             this._viewElement.scrollLeft = (thumbPositionPercentage * this._viewElement.scrollWidth / 100);
         }
     }
-
 }
+
+ScrollView.scrollbarWidth = null;
