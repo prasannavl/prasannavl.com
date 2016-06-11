@@ -1,4 +1,4 @@
-import { DomUtils } from "../utils/index";
+var DomUtils = require("../utils/index").DomUtils;
 
 (function () {
     var SCROLLBAR_WIDTH, DONT_CREATE_CUSTOM, CLASSNAMES;
