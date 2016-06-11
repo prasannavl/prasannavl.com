@@ -1,20 +1,20 @@
-var DomUtils = require("../utils/index").DomUtils;
+import { DomUtils } from "../utils/index";
 
-(function () {
-    var SCROLLBAR_WIDTH, DONT_CREATE_CUSTOM, CLASSNAMES;
+var SCROLLBAR_WIDTH, DONT_CREATE_CUSTOM, CLASSNAMES;
 
-    CLASSNAMES = {
-        element: "scroll-container",
-        verticalScrollbar: "scrollbar -vertical",
-        horizontalScrollbar: "scrollbar -horizontal",
-        thumb: "thumb",
-        target: "scroll-target",
-        autoshow: "scroll-autoshow",
-        disable: "scroll-disable-selection",
-        native: "scroll-native",
-    };
+CLASSNAMES = {
+    element: "scroll-container",
+    verticalScrollbar: "scrollbar -vertical",
+    horizontalScrollbar: "scrollbar -horizontal",
+    thumb: "thumb",
+    target: "scroll-target",
+    autoshow: "scroll-autoshow",
+    disable: "scroll-disable-selection",
+    native: "scroll-native",
+};
 
-    function ScrollView(config) {
+export default class ScrollView {
+    constructor(config) {
         this.element = null;
         this.autoshow = false;
         this.createElements = true;
@@ -42,7 +42,8 @@ var DomUtils = require("../utils/index").DomUtils;
         this._scrollbarHorizontalElement = null;
     }
 
-    ScrollView.prototype.create = function create() {
+
+    create() {
         if (DONT_CREATE_CUSTOM) {
             DomUtils.addClass(this.element, CLASSNAMES.native);
             return this;
@@ -95,9 +96,9 @@ var DomUtils = require("../utils/index").DomUtils;
 
         this._created = true;
         return this._bindEvents().update();
-    };
+    }
 
-    ScrollView.prototype.update = function update() {
+    update() {
         if (DONT_CREATE_CUSTOM) {
             return this;
         }
@@ -113,7 +114,7 @@ var DomUtils = require("../utils/index").DomUtils;
 
         var viewWidth = this.element.offsetWidth + SCROLLBAR_WIDTH;
         var viewHeight = this.element.offsetHeight + SCROLLBAR_WIDTH;
-        
+
         this._viewElement.style.width = viewWidth.toString() + "px";
         this._viewElement.style.height = viewHeight.toString() + "px";
 
@@ -126,9 +127,9 @@ var DomUtils = require("../utils/index").DomUtils;
         this._scrollHandler();
 
         return this;
-    };
+    }
 
-    ScrollView.prototype.destroy = function destroy() {
+    destroy() {
         if (DONT_CREATE_CUSTOM) {
             return this;
         }
@@ -160,13 +161,13 @@ var DomUtils = require("../utils/index").DomUtils;
         this._document = null;
 
         return null;
-    };
+    }
 
-    ScrollView.prototype.getViewElement = function getViewElement() {
+    getViewElement() {
         return this._viewElement;
-    };
+    }
 
-    ScrollView.prototype._bindEvents = function _bindEvents() {
+    _bindEvents() {
         this._cache.events.scrollHandler = this._scrollHandler.bind(this);
         this._cache.events.clickVerticalTrackHandler = this._clickVerticalTrackHandler.bind(this);
         this._cache.events.clickHorizontalTrackHandler = this._clickHorizontalTrackHandler.bind(this);
@@ -185,9 +186,9 @@ var DomUtils = require("../utils/index").DomUtils;
         this._window.addEventListener("resize", this._cache.events.resizeHandler);
 
         return this;
-    };
+    }
 
-    ScrollView.prototype._unbinEvents = function _unbinEvents() {
+    _unbinEvents() {
         this._viewElement.removeEventListener("scroll", this._cache.events.scrollHandler);
         this._scrollbarVerticalElement.removeEventListener("mousedown", this._cache.events.clickVerticalTrackHandler);
         this._scrollbarHorizontalElement.removeEventListener("mousedown", this._cache.events.clickHorizontalTrackHandler);
@@ -198,9 +199,9 @@ var DomUtils = require("../utils/index").DomUtils;
         this._window.removeEventListener("resize", this._cache.events.resizeHandler);
 
         return this;
-    };
+    }
 
-    ScrollView.prototype._scrollHandler = function _scrollHandler() {
+    _scrollHandler() {
         var viewElement, x, y;
 
         viewElement = this._viewElement;
@@ -214,53 +215,53 @@ var DomUtils = require("../utils/index").DomUtils;
         this._thumbHorizontalElement.style.msTransform = "translateX(" + x + "%)";
         this._thumbHorizontalElement.style.webkitTransform = "translateX(" + x + "%)";
         this._thumbHorizontalElement.style.transform = "translateX(" + x + "%)";
-    };
+    }
 
-    ScrollView.prototype._resizeHandler = function _resizeHandler() {
+    _resizeHandler() {
         this.update();
-    };
+    }
 
-    ScrollView.prototype._clickVerticalTrackHandler = function _clickVerticalTrackHandler(e) {
+    _clickVerticalTrackHandler(e) {
         var offset = Math.abs(e.target.getBoundingClientRect().top - e.clientY)
             , thumbHalf = (this._thumbVerticalElement.offsetHeight / 2)
             , thumbPositionPercentage = ((offset - thumbHalf) * 100 / this._scrollbarVerticalElement.offsetHeight);
         this._viewElement.scrollTop = (thumbPositionPercentage * this._viewElement.scrollHeight / 100);
-    };
+    }
 
-    ScrollView.prototype._clickHorizontalTrackHandler = function _clickHorizontalTrackHandler(e) {
+    _clickHorizontalTrackHandler(e) {
         var offset = Math.abs(e.target.getBoundingClientRect().left - e.clientX)
             , thumbHalf = (this._thumbHorizontalElement.offsetWidth / 2)
             , thumbPositionPercentage = ((offset - thumbHalf) * 100 / this._scrollbarHorizontalElement.offsetWidth);
         this._viewElement.scrollLeft = (thumbPositionPercentage * this._viewElement.scrollWidth / 100);
-    };
+    }
 
-    ScrollView.prototype._clickVerticalThumbHandler = function _clickVerticalThumbHandler(e) {
+    _clickVerticalThumbHandler(e) {
         this._startDrag(e);
         this._prevPageY = (e.currentTarget.offsetHeight - (e.clientY - e.currentTarget.getBoundingClientRect().top));
-    };
+    }
 
-    ScrollView.prototype._clickHorizontalThumbHandler = function _clickHorizontalThumbHandler(e) {
+    _clickHorizontalThumbHandler(e) {
         this._startDrag(e);
         this._prevPageX = (e.currentTarget.offsetWidth - (e.clientX - e.currentTarget.getBoundingClientRect().left));
-    };
+    }
 
-    ScrollView.prototype._startDrag = function _startDrag(e) {
+    _startDrag(e) {
         e.stopImmediatePropagation();
         this._cursorDown = true;
         DomUtils.addClass(document.body, CLASSNAMES.disable);
         this._document.addEventListener("mousemove", this._cache.events.mouseMoveDocumentHandler);
         this._document.onselectstart = function () { return false; };
-    };
+    }
 
-    ScrollView.prototype._mouseUpDocumentHandler = function _mouseUpDocumentHandler() {
+    _mouseUpDocumentHandler() {
         this._cursorDown = false;
         this._prevPageX = this._prevPageY = 0;
         DomUtils.removeClass(document.body, CLASSNAMES.disable);
         this._document.removeEventListener("mousemove", this._cache.events.mouseMoveDocumentHandler);
         this._document.onselectstart = null;
-    };
+    }
 
-    ScrollView.prototype._mouseMoveDocumentHandler = function _mouseMoveDocumentHandler(e) {
+    _mouseMoveDocumentHandler(e) {
         if (this._cursorDown === false) { return; }
 
         var offset, thumbClickPosition, thumbPositionPercentage;
@@ -279,11 +280,6 @@ var DomUtils = require("../utils/index").DomUtils;
             thumbPositionPercentage = ((offset - thumbClickPosition) * 100 / this._scrollbarHorizontalElement.offsetWidth);
             this._viewElement.scrollLeft = (thumbPositionPercentage * this._viewElement.scrollWidth / 100);
         }
-    };
-
-    if (typeof exports === "object") {
-        module.exports = ScrollView;
-    } else {
-        window.ScrollView = ScrollView;
     }
-})();
+
+}
