@@ -187,6 +187,8 @@ export class ContentView extends Base<any, ContentViewState> {
             t.fromTo(scrollViewElement, 0.4, { opacity: 0.4, immediateRender: true }, { opacity: 1, clearProps: "all" });
             //t.from(scrollViewElement, 0.5, { x: 30, clearProps: "transform" }, 0);
         }
+        let contentOverflowX: string = null;
+        let horizontalScrollbar: HTMLElement = null;
         if (contentElement) {
             const maxHeight = scrollViewElement.clientHeight;
             let h1Tags = Array.from(contentElement.getElementsByTagName("h1")).filter(x => x.getBoundingClientRect().top < maxHeight);
@@ -194,11 +196,19 @@ export class ContentView extends Base<any, ContentViewState> {
             
             let headingElements = h1Tags.concat(h2Tags);
             if (headingElements.length > 0) {
+                contentOverflowX = contentElement.style.overflowX;
+                contentElement.style.overflowX = "hidden";
+                horizontalScrollbar = scrollViewElement.querySelector(".scrollbar.-horizontal") as HTMLElement;
+                horizontalScrollbar.style.visibility = "hidden";
                 t.staggerFrom(headingElements, 0.2, { x: 100, opacity: 0.01, clearProps: "all" }, 0.2, 0);
             }
         }
         if (t.totalDuration() !== 0) {
             t.addCallback(() => {
+                if (horizontalScrollbar != null) {
+                    contentElement.style.overflowX = contentOverflowX;
+                    horizontalScrollbar.style.visibility = "";                    
+                }
                 // Workaround for gsap animations activating scrollbars, when 
                 // its custom scrollbars are used.
                 let resizeEvent: UIEvent;
