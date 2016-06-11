@@ -33,7 +33,6 @@ export class MainView extends Base<any,any> {
             <div className={style.root} id="main-view">
                 <Sidebar />
                 <ContentView />
-                <div className="clear"></div>
             </div>
         );
         return view;
