@@ -53,8 +53,8 @@ const ServerConfig = {
 };
 
 const ExternalLibs = [
-    ["react", "https://fb.me/react-with-addons-0.14.7.js", "React"],
-    ["react-dom", "https://fb.me/react-dom-0.14.7.js", "ReactDOM"],
+    // ["react", "https://fb.me/react-with-addons-0.14.7.js", "React"],
+    // ["react-dom", "https://fb.me/react-dom-0.14.7.js", "ReactDOM"],
 ];
 
 const DefaultOptionsFactory = () => {
