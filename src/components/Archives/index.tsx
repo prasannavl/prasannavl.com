@@ -21,7 +21,7 @@ export class Archives extends StatelessBase<ArchiveProps> {
         let sortedItems = sectionItems.sort((c, n) => n.date.localeCompare(c.date));
         let items = sectionItems.map(item => {
             return (<div key={item.url}>
-                    <Link href={"/" + item.url}>{item.name}</Link>
+                    <div className="title"><Link href={"/" + item.url}>{item.name}</Link></div>
                     <time>{ArticleHelper.getDateFromString(item.date).format("dddd, MMMM Do YYYY") }</time>
             </div>);
         });

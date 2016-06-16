@@ -28,11 +28,19 @@
                 }
             }
             & > div {
-                & > a {
-                @include link;
-                display: inline-block;
-                font-size: 18px;
-                margin: 10px 20px 5px 0; 
+                &::after {
+                    content:"";
+                    display: block;
+                    clear:both;
+                }
+                & > .title {
+                    float: left;
+                    max-width: 70%;
+                    margin: 10px 20px 5px 0;                    
+                    a {
+                        @include link;
+                        font-size: 18px;
+                    }
                 }
                 & > time {
                     float: right;
