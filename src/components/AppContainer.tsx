@@ -16,6 +16,7 @@ export class AppContainer extends React.Component<Props, any> {
 
     constructor(props: Props, context: any) {
         super(props, context);
+        this.state = { component: null } as any;
     }
 
     getChildContext() {
