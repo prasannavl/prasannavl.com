@@ -6,8 +6,7 @@ date: 2012-04-05T00:00:00.000Z
 url: 2012/04/pvl-stockplus-custom-rom-for-motorola_05.html
 tags:
  - Tech
- - Mobile
- - Operating-Systems
+ - Android
 -->
 
 <blockquote class="green"><p class="italic">&ldquo;**wow i never seen a smoother and a faster rom, is very responsive and i love status bar, animations and roboto!! thanks for this awesome rom!!**&rdquo; - FraRiva91 (XDA)<br/><br/>
@@ -92,10 +91,10 @@ So, after staying at CM for a long time, I came across the recent release of Mot
     }
 </style>
 <p style="display:flex; flex-flow: row wrap;">
-<img src="//3.bp.blogspot.com/-_uIDBm9ReK0/T3y5llUcL4I/AAAAAAAAAIg/dLcS8y8h1Lc/s1600/Screenshot1.jpg" alt="[Screenshot 1]" class="content-imageset" />
-<img src="//2.bp.blogspot.com/-2SO1pSNyAuo/T3y5nUf2QNI/AAAAAAAAAIo/IH-1OA2Jn9s/s320/Screenshot2.png" alt="[Screenshot 2]" class="content-imageset" />
-<img src="//3.bp.blogspot.com/--4RgtNQRnMY/T3y5o8upjrI/AAAAAAAAAIw/ECc7-E0q2go/s320/Screenshot3.png" alt="[Screenshot 3]" class="content-imageset" />
-<img src="//2.bp.blogspot.com/-Nw0A4u00yUM/T3zi8P5P5QI/AAAAAAAAAI8/wa23Bj2mo_0/s320/Screenshot4.png" alt="[Screenshot 4]" class="content-imageset" />
+<img src="https://c3.staticflickr.com/8/7371/27678561826_ba6a63e08c_b.jpg" alt="[Screenshot 1]" class="content-imageset" />
+<img src="https://c3.staticflickr.com/8/7205/27611867682_e61d6c5231.jpg" alt="[Screenshot 2]" class="content-imageset" />
+<img src="https://c2.staticflickr.com/8/7322/27611867582_ceeb5f2f00_o.png" alt="[Screenshot 3]" class="content-imageset" />
+<img src="https://c2.staticflickr.com/8/7050/27637777461_8b0b05eec4_o.png" alt="[Screenshot 4]" class="content-imageset" />
 </p>
 
 ### How to Install

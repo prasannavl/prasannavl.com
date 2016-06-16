@@ -18,8 +18,8 @@ And so I started typing out a script to check for TV shows. By the time lunch ar
 
 And well, despite my temptations to code on my phone, touch is just not productive enough for coding. Not yet. And there, got back to my room and finished it.
 
-<img src="//1.bp.blogspot.com/-gwunt2vVy_w/TvyOrBVkLWI/AAAAAAAAAG0/KNM9EXAGC34/s640/Untitled2.png" alt="[Screenshot 1]"/><br/>
-<img src="//2.bp.blogspot.com/-zpOOo3K7Tws/TvyObRNE84I/AAAAAAAAAGs/thteWE5OkCE/s640/Untitled.png" alt="[Screenshot 2]"/>
+<img src="https://c2.staticflickr.com/8/7357/27434701750_f7d676ff37_o.png" alt="[Screenshot 1]"/><br/>
+<img src="https://c2.staticflickr.com/8/7302/27102444213_118bfb4be7_o.png" alt="[Screenshot 2]"/>
 
 So, thought I'll share it. Downlink link is at the end of this post. Download it. Put it in a folder where you normally download your shows. And open it. That's about it. If there's a newer episode of any of your shows, it automatically adds them to your Torrent Application.
 
