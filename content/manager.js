@@ -388,7 +388,7 @@ function getIndexers() {
 		let indexData = _.chain(fileDataItems)
 			.sortBy(x => new Date(x.date))
 			.reverse()
-			// .take(10)
+			.take(100)
 			.map(x => {
 				if (x.content.length > 1000) {
 					let content = x.content.slice(0, 1000);
