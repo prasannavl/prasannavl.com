@@ -13,8 +13,7 @@ cache:
   directories:
   - node_modules
 before_install:
-- openssl aes-256-cbc -K $encrypted_6f6183083e10_key -iv $encrypted_6f6183083e10_iv -in ./tools/deploy_key.enc -out ./tools/deploy_key -d
-- openssl aes-256-cbc -K $encrypted_639f1efd265b_key -iv $encrypted_639f1efd265b_iv -in ./tools/deploy_key_master.enc -out ./tools/deploy_key_master -d
+- openssl aes-256-cbc -K $encrypted_74e65e21c30f_key -iv $encrypted_74e65e21c30f_iv -in ./tools/deploy_key.enc -out ./tools/deploy_key -d
 before_script:
 - eval "$(ssh-agent -s)"
 - chmod 600 ./tools/deploy_key
