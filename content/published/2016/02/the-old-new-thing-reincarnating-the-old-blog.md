@@ -60,6 +60,6 @@ Well, when I started this, I thought of writing how all the parts come together 
 - A local content manger for managing drafts, pre-processing and publishing. (Markdown + YAML to JSON).
 - A set of tools to handle full server-side rendering of the whole app into a fully pre-generated static site.
 - A neat standard webpack pipeline that handles TypeScript, JavaScript ES6+, SASS, CSS, common image types, SVG and JSON with minification, compaction, and dead-code elimination where-ever applicable, both for server-side and client side runtimes.
-- A build system which involves Travis, CloudFare, and GitHub.
+- A build system which involves Travis, CloudFlare, and GitHub.
 
 And as always, all the code is on GitHub: <a href="https://github.com/prasannavl/prasannavl.com" target="_blank">https//github.com/prasannavl/prasannavl.com</a>

@@ -82,7 +82,8 @@ fffff801`6d400000 fffff801`6d789000   Netwbw02   (no symbols)
 0b ffffd001`00e62c60 00000000`00000000 nt!KiStartSystemThread+0x16
 ```
 
-And then the last `0xdead7495` error:
+Moving on to the next: `0xdead7495`
+
 ```
 Unknown bugcheck code (dead7495)
 Unknown bugcheck description
