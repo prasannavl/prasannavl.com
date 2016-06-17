@@ -66,11 +66,16 @@ if (routes.length > 0) {
 function generate(p, cb) {
     // Setup index.html as default
     let requestPath, filePath;
+    
+    function getFileName(contextPath) {
+        return contextPath.endsWith("/") ? contextPath + "index.html" : contextPath + "/index.html"
+    }
+
     if (typeof p === "object") {
         requestPath = p.route;
-        filePath = p.file || requestPath;
+        filePath = getFileName(p.file || requestPath);
     } else {
-        filePath = p.endsWith("/") ? p + "index.html" : p + "/index.html";
+        filePath = getFileName(p);
         requestPath = p;
     }
     // Strip the first "/", if it exists.
