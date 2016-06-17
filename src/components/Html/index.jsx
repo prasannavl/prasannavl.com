@@ -38,7 +38,7 @@ function Html(options) {
                 <link rel="icon" type="image/png" href="/icons/favicon-16x16.png" sizes="16x16"/>
                 <link rel="manifest" href="/icons/manifest.json"/>
                 <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#0096d6"/>
-                <link rel="shortcut icon" type="image/x-icon" href={"/favicon.ico?" + Date.now()}/>
+                <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
                 <meta name="msapplication-TileColor" content="#0096d6"/>
                 <meta name="msapplication-TileImage" content="/icons/mstile-144x144.png"/>
                 <meta name="msapplication-config" content="/icons/browserconfig.xml"/>

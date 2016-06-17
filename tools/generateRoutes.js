@@ -7,12 +7,12 @@ let { Paths, ArtifactConfig } = configConstantsFactory();
 
 function getRoutes() {
 	let routes = [
-		"/",
-		{ route: "/404.html", file: "/404.html" },
-		"/overview",
-		"/about",
-		"/archives",
-		"/feedback",
+		{ route: "/", changefreq: "weekly", priority: 1 },
+		{ route: "/overview", changefreq: "daily", priority: 0.7 }, 
+		{ route: "/archives", changefreq: "daily", priority: 0.9 }, 
+		{ route: "/about", changefreq: "daily", priority: 0.8 }, 
+		{ route: "/feedback", changefreq: "monthly", priority: 0.4 },
+		{ route: "/404.html", file: "/404.html", priority: 0.2 },
     ];
     
 	routes = routes.concat(getContentRoutes());
@@ -24,7 +24,7 @@ function getContentRoutes() {
 		Paths.generatedContentIndexesDirRelativeName,
 		"all.json");
 	let data = JSON.parse(fs.readFileSync(staticIndexPath, "utf-8"));
-	return data.map(x => "/" + x.url);
+	return data.map(x => { return { route: "/" + x.url, routeTypeCode: 1 } });
 }
 
 function getRoutesFileName() {

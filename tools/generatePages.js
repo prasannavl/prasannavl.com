@@ -67,8 +67,8 @@ function generate(p, cb) {
     // Setup index.html as default
     let requestPath, filePath;
     if (typeof p === "object") {
-        filePath = p.file;
         requestPath = p.route;
+        filePath = p.file || requestPath;
     } else {
         filePath = p.endsWith("/") ? p + "index.html" : p + "/index.html";
         requestPath = p;
