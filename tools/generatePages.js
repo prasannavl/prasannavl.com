@@ -73,7 +73,7 @@ function generate(p, cb) {
 
     if (typeof p === "object") {
         requestPath = p.route;
-        filePath = getFileName(p.file || requestPath);
+        filePath = p.file || getFileName(requestPath);
     } else {
         filePath = getFileName(p);
         requestPath = p;
