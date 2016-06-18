@@ -74,24 +74,24 @@ export class Article extends StatelessBase<ArticleProps> {
         </header>);
     }
 
-    renderMediaAdFromGoogle() {
-        return (
-            <ins className="adsbygoogle ads-text"
-                style={{ display: "block"  }}
-                data-ad-client="ca-pub-1693387204520380"
-                data-ad-slot="8634084491"
-                data-ad-format="auto"></ins>
-        );
-    }
+    // renderMediaAdFromGoogle() {
+    //     return (
+    //         <ins className="adsbygoogle ads-text"
+    //             style={{ display: "block"  }}
+    //             data-ad-client="ca-pub-1693387204520380"
+    //             data-ad-slot="8634084491"
+    //             data-ad-format="auto"></ins>
+    //     );
+    // }
 
-        renderMediaAd2FromGoogle() {
-            return (
-                <ins className="adsbygoogle"
-                    style={{display:"inline-block", width:"728px", height:"90px"}}
-                    data-ad-client="ca-pub-1693387204520380"
-                    data-ad-slot="1110817699"></ins>
-            );
-    }
+    // renderMediaAd2FromGoogle() {
+    //     return (
+    //         <ins className="adsbygoogle"
+    //             style={{ display: "inline-block", width: "728px", height: "90px" }}
+    //             data-ad-client="ca-pub-1693387204520380"
+    //             data-ad-slot="1110817699"></ins>
+    //     );
+    // }
 
     renderTextAdFromGoogle() {
         return (<ins className="adsbygoogle ads-text"
@@ -103,15 +103,6 @@ export class Article extends StatelessBase<ArticleProps> {
     render() {
         this._articleDomElements = new Array<HTMLElement>();
         let item = this.props.data;
-        let gAdType = (window as any)._gAdType;
-        let gAdRenderer: Function;
-        if (gAdType != null) {
-            if (gAdType === 1) gAdRenderer = this.renderMediaAdFromGoogle;
-            else if (gAdType === 2) gAdRenderer = this.renderMediaAd2FromGoogle;
-            else gAdRenderer = this.renderTextAdFromGoogle;
-        } else {
-            gAdRenderer = this.renderTextAdFromGoogle;
-        }
         return (
             <div className={style.root}>
                 <div id="article-items-container">
@@ -120,7 +111,7 @@ export class Article extends StatelessBase<ArticleProps> {
                         <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>
                     </main>
                     <div ref="extContainer" className="ext-container">
-                        { gAdRenderer() }
+                        { this.renderTextAdFromGoogle() }
                         <div id="disqus_thread"></div>
                     </div>
                     <Footer/>
