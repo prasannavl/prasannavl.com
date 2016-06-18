@@ -5,6 +5,7 @@ export function show() {
         let tags = Array.from(head.getElementsByClassName(gAdsClassKey));
         tags.forEach(x => document.head.removeChild(x));
         let tag = document.createElement("script");
+        tag.async = true;        
         tag.src = "//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
         tag.className = gAdsClassKey;
         head.appendChild(tag);
