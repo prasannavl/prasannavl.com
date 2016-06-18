@@ -17,6 +17,7 @@ export default class ScrollView {
         this.autoshow = false;
         this.createElements = true;
         this.forceCustom = false;
+        this.forceNative = false;
 
         Object.keys(config || {}).forEach(function (propertyName) {
             this[propertyName] = config[propertyName];
@@ -25,8 +26,8 @@ export default class ScrollView {
 
         if (ScrollView.scrollbarWidth === null) {
             ScrollView.scrollbarWidth = DomUtils.getScrollbarWidth();
-        }        
-        this.useNative = ((ScrollView.scrollbarWidth === 0) && (this.forceCustom === false));
+        }
+        this.useNative = ((ScrollView.scrollbarWidth === 0) && (this.forceCustom === false)) || this.forceNative;
 
         this._cache = { events: {} };
         this._created = false;

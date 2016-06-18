@@ -14,7 +14,7 @@ export interface ScrollViewProps extends React.HTMLProps<React.HTMLAttributes> {
 }
 
 export class ScrollView extends React.Component<ScrollViewProps, any> {
-    scrollViewModule: any;
+    _scrollView: any;
     resizeSensor: any;
 
     static defaultProps = {
@@ -45,21 +45,19 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
 
     componentDidMount() {
         this.instantiate();
-        if (this.props.dynamicResize && this.scrollViewModule) {
-            let el = this.getResizableElement();
-            this.bindResizeSensor(el);
-        }
     }
 
     componentDidUpdate() {
-        this.updateScroller();
-        if (this.props.dynamicResize && this.scrollViewModule) {
-            let el = this.getResizableElement();
-            this.unbindResizeSensor(el);
-            this.bindResizeSensor(el);
+        if (this._scrollView) {
+            if (this.props.dynamicResize) {
+                let el = this.getResizableElement();
+                this.unbindResizeSensor(el);
+                this.bindResizeSensor(el);
+            } else {
+                this.updateScroller();
+            }
         }
     }
-
 
 
     componentWillUnmount() {
@@ -69,17 +67,18 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
     instantiate() {
         let rootElement = ReactDOM.findDOMNode(this) as HTMLElement;
 
-        let scroller = new ScrollViewModule({
+        let _scrollView = new ScrollViewModule({
             element: rootElement,
             autoshow: this.props.autoshow,
             forceCustom: this.props.forceCustom,
             createElements: false,
         }).create();
 
-        if ((scroller as any)._created) {
-            this.scrollViewModule = scroller;
+        if ((_scrollView as any)._created) {
+            this._scrollView = _scrollView;
             if (this.props.dynamicResize) {
-                this.createResizeSensor();
+                let el = this.getResizableElement();
+                this.bindResizeSensor(el);
             }
         }
     }
@@ -91,24 +90,8 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
     }
 
     bindResizeSensor(element: Element) {
-        if (this.resizeSensor === null) this.createResizeSensor();
-
-        // Workaround for: https://github.com/wnr/element-resize-detector/pull/53         
-        let opts = {
-            onReady: () => {
-                let list = Array.from((element as HTMLElement).children);
-                let items = list.filter(x => x.classList.contains("erd_scroll_detection_container"));
-                let el = items[items.length - 1] as HTMLElement;
-                if (el) {
-                    el.style.margin = "0";
-                    el.style.padding = "0";
-                } else {
-                    console.error("ScrollView: Unable to find resizor element");
-                }
-            }
-        };
-
-        this.resizeSensor.listenTo(opts, element, () => {
+        if (this.resizeSensor == null) this.createResizeSensor();
+        this.resizeSensor.listenTo(element, () => {
             this.updateScroller();
         });
     }
@@ -120,18 +103,19 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
     }
 
     dispose() {
-        if (this.scrollViewModule != null) {
-            this.scrollViewModule.destroy();
-            this.scrollViewModule = null;
-        }
         if (this.resizeSensor != null) {
+            this.resizeSensor.uninstall(this.getResizableElement());
             this.resizeSensor = null;
+        }
+        if (this._scrollView != null) {
+            this._scrollView.destroy();
+            this._scrollView = null;
         }
     }
 
     updateScroller() {
-        if (this.scrollViewModule != null) {
-            this.scrollViewModule.update();
+        if (this._scrollView != null) {
+            this._scrollView.update();
         }
     }
 
