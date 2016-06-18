@@ -1,17 +1,21 @@
 /* eslint-disable camelcase */
 /* global DISQUS */
-export function loadComments(path) {
+export function loadComments(path, title = null) {
     if (__DEV__) {
         window.disqus_developer = 1;
     }
+
+    function configFactory() {
+        this.page.identifier = path;
+        if (title) this.page.title = title;
+        this.page.url = path;
+    }
+
     try {
         const domain = "http://www.prasannavl.com";
         let canonicalPath = domain + "/" + path;
         if (!window.disqus_config) {
-            window.disqus_config = function () {
-                this.page.url = canonicalPath;
-                this.page.identifier = canonicalPath;
-            };
+            window.disqus_config = configFactory;
             (function () {
                 var d = document,
                     s = d.createElement('script');
@@ -22,10 +26,7 @@ export function loadComments(path) {
         } else {
             DISQUS.reset({
                 reload: true,
-                config: function () {
-                    this.page.identifier = canonicalPath;
-                    this.page.url = canonicalPath;
-                }
+                config: configFactory
             });
         }
     } catch (err) {

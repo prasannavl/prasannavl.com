@@ -51,8 +51,8 @@ export class Article extends StatelessBase<ArticleProps> {
 
     onUpdate() {
         this._articleDomElements.forEach(x => ViewUtils.captureRouteLinks(this, x));
-        loadComments(this.getCurrentHistoryContext().pathname);
-        setTimeout(() => showGoogleAds(), 0);
+        setTimeout(() => showGoogleAds(), 20);
+        setTimeout(() => loadComments(this.getCurrentHistoryContext().pathname, this.props.data.name), 40);   
     }
 
     componentWillUnmount() {

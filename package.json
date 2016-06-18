@@ -1,7 +1,7 @@
 {
   "name": "prasannavl.com",
   "version": "1.0.0",
-  "description": "Personal website",
+  "description": "Prasanna's Weblog",
   "main": "index.js",
   "scripts": {
     "preinstall": "typings install",

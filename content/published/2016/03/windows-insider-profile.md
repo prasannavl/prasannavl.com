@@ -1,7 +1,7 @@
-# Windows Insider - My Kid-Mode Profile
+# Windows Insider - My kid-mode profile
 
 <!--[options]
-name: Windows Insider - My Kid-Mode Profile
+name: Windows Insider - My kid-mode profile
 date: 2016-03-19T12:05:32.230Z
 url: 2016/03/windows-insider-my-kid-mode-profile
 tags:

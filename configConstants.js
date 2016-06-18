@@ -3,7 +3,7 @@ import _ from "lodash";
 
 const HtmlConfig = {
     templatePath: "./src/components/Html",
-    description: "Prasanna V. Loganathar's Weblog",
+    description: "Prasanna's Weblog",
     titleTemplate: "%s | Prasanna V. Loganathar",
     titleOnEmpty: "Prasanna V. Loganathar",
     canonical: "",
@@ -47,7 +47,7 @@ const ArtifactConfig = {
 
 const ServerConfig = {
     publicPath: "/",
-    host: process.env.HOST || "localhost",
+    host: process.env.HOST || "0.0.0.0",
     port: process.env.PORT || "8000",
     indexPath: "/index.html",
 };
