@@ -49,7 +49,6 @@ function Html(options) {
                 {scripts
                     .filter(x => x.placement === "head-end")
                     .map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) }
-                <script src="//prasannavl.disqus.com/embed.js"></script>
             </head>
             <body className={isArray(bodyClassNames) ? bodyClassNames.join(" ") : null}>
                 {scripts
