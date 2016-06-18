@@ -18,11 +18,6 @@ export interface ArticleProps extends React.ClassAttributes<Article> {
 export class Article extends StatelessBase<ArticleProps> {
     private _articleDomElements: Array<HTMLElement>;
 
-    private _scrollEventSubject = new Rx.Subject<any>();
-    private _delayedScrollEventTriggerSubject = new Rx.Subject<any>();
-    private _scrollEventSubscription: Rx.Subscription;
-    private _scrollNativeEventSubscription: Rx.Subscription;
-
     setupTitle() {
         const { name, title } = this.props.data;
         let titleService = this.getServices().title;
@@ -56,51 +51,11 @@ export class Article extends StatelessBase<ArticleProps> {
 
     onUpdate() {
         this._articleDomElements.forEach(x => ViewUtils.captureRouteLinks(this, x));
-        this.ensureSubscriptions();
-        this._delayedScrollEventTriggerSubject.next(null);
-    }
-
-    ensureSubscriptions() {
-        if (!this._scrollEventSubscription || this._scrollEventSubscription.isUnsubscribed) {
-            this._scrollEventSubscription = this._scrollEventSubject.subscribe(() => {
-                this.validateCommentView();
-            });
-        }
-        if (!this._scrollNativeEventSubscription || this._scrollNativeEventSubscription.isUnsubscribed) {
-            let view = document.getElementById("content-view");
-            if (view) {
-                this._scrollNativeEventSubscription = Rx.Observable.fromEvent(view, "scroll")
-                    .merge(this._delayedScrollEventTriggerSubject.delay(1000))
-                    .debounceTime(300)
-                    .subscribe(this._scrollEventSubject);
-            }
-        }
-    }
-
-    validateCommentView() {
-        let el = this.refs["extContainer"] as HTMLElement;
-        if (this.getViewportHeightOffset(el) > -120) {
-            this.disposeSubscriptions();
-            showGoogleAds();
-            loadComments(this.getCurrentHistoryContext().pathname);
-        }
-    }
-
-    getViewportHeightOffset(element: HTMLElement) {
-        if (element == null) return;
-        let offset = (window.innerHeight || document.documentElement.clientHeight) - element.getBoundingClientRect().top;
-        return offset;
-    }
-
-    disposeSubscriptions() {
-        if (this._scrollNativeEventSubscription && !this._scrollNativeEventSubscription.isUnsubscribed)
-            this._scrollNativeEventSubscription.unsubscribe();
-        if (this._scrollEventSubscription && !this._scrollEventSubscription.isUnsubscribed)
-            this._scrollEventSubscription.unsubscribe();
+        setTimeout(() => showGoogleAds(), 0);
+        setTimeout(() => loadComments(this.getCurrentHistoryContext().pathname), 0);
     }
 
     componentWillUnmount() {
-        this.disposeSubscriptions();
         super.componentWillUnmount();
     }
 
