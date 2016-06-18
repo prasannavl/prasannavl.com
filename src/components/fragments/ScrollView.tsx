@@ -52,6 +52,9 @@ export class ScrollView extends React.Component<ScrollViewProps, any> {
             if (this.props.dynamicResize) {
                 let el = this.getResizableElement();
                 this.unbindResizeSensor(el);
+                // It seems updateScroller is called when an event handler is attached
+                // to the resize sensor. So, there's no need to call the updateScroller here
+                // again. 
                 this.bindResizeSensor(el);
             } else {
                 this.updateScroller();
