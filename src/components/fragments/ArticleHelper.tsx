@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "../fragments/Link";
-import { ViewUtils } from "../../modules/utils/index";
 import moment from "moment";
 
 export interface ArticleDescriptor {
@@ -18,7 +17,7 @@ export class ArticleHelper {
         let len = tags.length;
         tags.forEach((tag, i) => {
             let displayTag = tag;
-            links.push(<span key={tag}><Link href={"/archives/tags/" + displayTag.toLowerCase()}>{displayTag}</Link>{i < len - 1 ? " | " : ""}</span>)
+            links.push(<span key={tag}><Link href={"/archives#tag=" + displayTag.toLowerCase()}>{displayTag}</Link>{i < len - 1 ? " | " : ""}</span>)
         });
 
         return (<div className="tags">
@@ -35,7 +34,7 @@ export class ArticleHelper {
         let m = ArticleHelper.getDateFromString(dateString);
         let date = m.format("dddd, MMMM Do YYYY");
         
-        return (<Link href={"/archives/" + m.year() + "/"} className="date">
+        return (<Link href={"/archives#year=" + m.year()} className="date">
             <time dateTime={dateString}>
                 {date}
             </time>
