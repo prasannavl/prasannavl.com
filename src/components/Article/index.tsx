@@ -7,7 +7,7 @@ import { loadComments } from "../../modules/ext/disqus";
 import Rx from "rxjs";
 import ReactDOM from "react-dom";
 import Link from "../fragments/Link";
-import { ViewUtils } from "../../modules/utils/index";
+import { ViewUtils } from "../../modules/app-utils/index";
 import { ArticleHelper, ArticleDescriptor } from "../fragments/ArticleHelper";
 
 export interface ArticleProps extends React.ClassAttributes<Article> {
