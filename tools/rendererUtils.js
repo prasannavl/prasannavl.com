@@ -1,6 +1,7 @@
 import React from "react"; // eslint-disable-line
 import { renderToStaticMarkup } from "react-dom/server";
 import path from "path";
+import chalk from "chalk";
 
 class RendererUtils {
     renderHtml(htmlConfig) {
@@ -20,31 +21,16 @@ class RendererUtils {
         if (!(cssModules && Array.isArray(cssModules) && cssModules.length > 0))
             return [];
 
-        let inlinedCssModules = [];        
-        let currentModules = new Map();
+        let inlinedCssModules = [];
         const externalKey = "_extRoot";
 
-        // Organize as `{ (id): [] }` for modules.
+        // Modules are { id: number, content: string }
         cssModules.forEach(x => {
             const id = (x.id === null || x.id === undefined) ? externalKey : x.id;
-            let m = currentModules.get(id);
-            if (!m) {
-                m = [];
-                currentModules.set(id, m);
-            }
-            m.push(x.content);
-        });
-
-        // Push each item in module to inlineCss as { content, attr }
-        currentModules.forEach((contentArray, id) => {
-            let i = 0;
-            contentArray.forEach(content => {
-                let icss = { content, attributes: null };
-                if (id !== externalKey)
-                    icss.attributes = { "className": "_svx" };
-                inlinedCssModules.push(icss);
-                i++;
-            });
+            let icss = { content: x.content, attributes: null };
+            if (id !== externalKey)
+                icss.attributes = { "className": "_svx" };
+            inlinedCssModules.push(icss);
         });
 
         return inlinedCssModules;

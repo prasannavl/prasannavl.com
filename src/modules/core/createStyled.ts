@@ -12,14 +12,21 @@ function getCssApplier(context: IAppContext) {
 
 let createStyled: <T>(InnerComponent: T, ...styles: any[]) => T;
 
-if (false) {
+if (__DOM__) {
 
     let refTracker: any = {};
+    let createId: () => number;
+    (function () {
+        let id = 0;
+        createId = function () {
+            return id++;
+        };
+    })();
 
     function createStyledForDom<T>(InnerComponent: T, ...styles: any[]) {
         class StyledComponent extends React.Component<any, any> {
             static displayName = getDisplayName(InnerComponent);
-            static cacheKey = (InnerComponent as any).name;
+            static cacheKey = "c" + createId();
 
             static contextTypes: any = {
                 services: React.PropTypes.any,
@@ -81,7 +88,7 @@ if (false) {
             componentWillUnmount() {
                 let remove = this.removeCss;
                 if (remove)
-                    setTimeout(() => remove(), 0);
+                    remove();
             }
 
             render() {
