@@ -89,7 +89,7 @@ function generate(p, cb) {
     }
     let url = `http://${hostAddress}:${ServerConfig.port}${ServerConfig.publicPath}${webPath}`;
     let dest = path.join(resolve(Paths.outputDirRelativeName), filePath);
-    console.log(p + " => " + filePath);
+    console.log(typeof p === "object" ? p.route : p, " => " + filePath);
 
     function writeResult(filePath, content) {
         fs.writeFile(filePath, content, err => {
