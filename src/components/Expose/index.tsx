@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { StatelessBase } from "../Base";
 import createStyled from "../../modules/core/createStyled";
 import Tagline from "../fragments/Tagline";
@@ -16,7 +17,7 @@ class Expose extends StatelessBase<any> {
 
     componentWillMount() {
         super.componentWillMount();
-        const preloaderId = "expose-preloader";
+        const preloaderId = "expose__preloader";
         if (!__DOM__) {
             let state = this.getServices().rendererStateProvider() as IHeadlessRendererState;
             let preloader = (
@@ -35,16 +36,17 @@ class Expose extends StatelessBase<any> {
 
     componentDidMount() {
         if (this.getCurrentHistoryContext().state === "fromMainView") {
-            let outletElement = document.getElementById("outlet");
-            outletElement.style.backgroundColor = "transparent";
+            let appElement = document.getElementById("app");
+            // Restore non-owned.
+            appElement.style.backgroundColor = "transparent";
         }
     }
 
     navigateToOverview(ev: React.MouseEvent) {
         if (DomUtils.shouldDispatchDefaultClickEvent(ev)) return;        
         ev.preventDefault();
-        let content = this.refs["content"] as HTMLElement;
-        let root = this.refs["expose"] as HTMLElement;
+        let root = ReactDOM.findDOMNode(this) as HTMLElement;
+        let content = root.firstChild as HTMLElement;
         content.style.animation = "none";
         let t = new TimelineMax();
         t.to(content, 0.3, { scale: 0.9, ease: Sine.easeOut });
@@ -58,12 +60,12 @@ class Expose extends StatelessBase<any> {
 
     render() {
         return (
-            <div className={style.root} ref="expose">
-                <div ref="content" className="content">
-                <header>
-                    <h1>Prasanna V. Loganathar</h1>
-                    <Tagline />
-                </header>
+            <div className={style.root}>
+                <div>
+                    <header>
+                        <h1>Prasanna V. Loganathar</h1>
+                        <Tagline />
+                    </header>
                     <section>
                         <address className="icons">
                             <a href="https://www.twitter.com/prasannavl" className="icon-twitter" target="_blank"></a>

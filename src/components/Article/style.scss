@@ -1,11 +1,12 @@
-@import "../ContentView/vars";
+@import "../ContentView/shared";
+
 :local(.root) {
     @include content-chrome-container;
     & > div {
         @include content-chrome;
         & > main {
             &::after {
-                @include horizontal-line-on-after;
+                @include after--horizontal-line;
             }
             & > header {
                 & > h1 {

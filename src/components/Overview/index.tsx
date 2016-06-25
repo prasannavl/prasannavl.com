@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { StatelessBase } from "../Base";
 import marked from "marked";
 import createStyled from "../../modules/core/createStyled";
-import { ViewUtils } from "../../modules/utils/index";
+import { ViewUtils } from "../../modules/app-utils/index";
 import Footer from "../fragments/Footer";
 import Link from "../fragments/Link";
 import { ArticleHelper, ArticleDescriptor } from "../fragments/ArticleHelper";

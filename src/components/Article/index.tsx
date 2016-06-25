@@ -58,7 +58,7 @@ export class Article extends StatelessBase<ArticleProps> {
     }
 
     renderHeader(item: ArticleDescriptor) {
-        let heading: JSX.Element = null;
+        let heading: JSX.Element = null;        
         if (item.name) {
             heading = (<h1>{ "pvl " + "\u2215" + " " }
                 <Link href={"/" + item.url}>
@@ -77,12 +77,12 @@ export class Article extends StatelessBase<ArticleProps> {
         let item = this.props.data;
         return (
             <div className={style.root}>
-                <div id="article-items-container">
+                <div>
                     <main>
                         {this.renderHeader(item)}
                         <article dangerouslySetInnerHTML={{ __html: marked(item.content) }} ref={(r) => r && this._articleDomElements.push(r) }></article>
                     </main>
-                    <div ref="extContainer" className="ext-container">
+                    <div className="ext-container">
                         <div id="disqus_thread"></div>
                     </div>
                     <Footer/>

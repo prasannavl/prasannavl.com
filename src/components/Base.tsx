@@ -15,6 +15,25 @@ export class StatelessComponent<P> extends React.Component<P, any> {
     }
 }
 
+// export interface HistoryState {
+//     previous: {
+//         pathname: string;
+//         key: string;
+//         scrollTop: number;
+//     };
+//     data: any;
+// }
+
+// export class HistoryStateFactory {
+//     static create(previous: string = null, data: any = null) {
+//         return { previous, data };
+//     }
+
+//     static createEmpty() {
+//         return { previous: null, data: null } as HistoryState;
+//     }
+// }
+
 export class Base<P, S> extends React.Component<P, S> {
     context: IAppContext;
 
@@ -33,15 +52,27 @@ export class Base<P, S> extends React.Component<P, S> {
         return this.getServices().history.current;
     }
 
+    // getCurrentHistoryState(context?: IHistoryContext): HistoryState {
+    //     context = context || this.getServices().history.current;
+    //     let res = context.state;
+    //     if (!res) {
+    //         res = HistoryStateFactory.create(this.getServices().history.current.pathname);
+    //         context.state = res;
+    //     }
+    //     return res;
+    // }
+
     navigateTo(path: string, replaceCurrent: boolean = false, ev: React.SyntheticEvent | UIEvent = null, state: any = null) {
         if (ev !== null) {
             ev.preventDefault();
         }
         const history = this.getServices().history;
+        // let nextState = HistoryStateFactory.create(history.current.pathname, state);
+        let nextState = state;
         if (replaceCurrent) {
-            history.replace(path, state);
+            history.replace(path, nextState);
         } else {
-            history.push(path, state);
+            history.push(path, nextState);
         }
     }
 

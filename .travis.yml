@@ -1,3 +1,4 @@
+sudo: false
 language: node_js
 node_js:
 - '6'
@@ -15,12 +16,15 @@ cache:
 before_install:
 - openssl aes-256-cbc -K $encrypted_d2e2b63e72c8_key -iv $encrypted_d2e2b63e72c8_iv -in ./tools/deploy_key.enc -out ./tools/deploy_key -d
 before_script:
+- npm prune
+- npm run ready-env
 - eval "$(ssh-agent -s)"
 - chmod 600 ./tools/deploy_key
 - ssh-add ./tools/deploy_key
 - mkdir build
-after_success:
+script:
 - npm run build-static:p
+after_success:
 - npm run displace-sourcemaps
 - cd build
 - git init
@@ -28,5 +32,5 @@ after_success:
 - git config user.email "ci-bot@prasannavl.com"
 - git add .
 - git commit -m "Auto deployment"
-- git remote add deploy-master git@github.com:prasannavl/prasannavl.github.io.git
-- git push --force deploy-master master:master
+- git remote add ghps git@github.com:prasannavl/prasannavl.github.io.git
+- git push --force ghps master:master

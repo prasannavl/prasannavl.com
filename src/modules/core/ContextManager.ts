@@ -1,4 +1,4 @@
-import { IAppContext, AppContextFactory } from "./AppContext";
+import { IAppContext } from "./AppContext";
 
 export interface IContextManager {
     createContext(): IAppContext;

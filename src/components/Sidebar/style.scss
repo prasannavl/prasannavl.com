@@ -1,59 +1,55 @@
-@import "../MainView/vars";
+@import "../MainView/shared";
 :local(.root) {
-    position: fixed;
     width: $sidebarWidth;
     height: 100%;
-    .sidebar {
-        width: $sidebarWidth;
-        height: 100vh;
-        $fontColorBase: rgba(#fff, 0.9);
-        $fontColorBright: #fff;
-        display: flex;
-        flex-flow: column;
-        align-items: stretch;
-        justify-content: flex-start;
-        background: #3f5660;
+    $fontColorBase: rgba(#fff, 0.9);
+    $fontColorBright: #fff;
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    background: #3f5660;
+    color: $fontColorBase;
+    overflow: auto;
+    @mixin white-link {
+        text-decoration: none;
+        font-weight: 400;
+        transition: 0.2s;
         color: $fontColorBase;
-        @mixin white-link {
-            text-decoration: none;
-            font-weight: 400;
-            transition: 0.2s;
-            color: $fontColorBase;
-            &:hover {
-                border-bottom: 1px solid $fontColorBase;
-            }
-            &:active {
-                color: $linkActiveColor;
-                border-bottom: 1px solid $linkActiveColor;
-                transition: 0.2s;
-            }
+        &:hover {
+            border-bottom: 1px solid $fontColorBase;
         }
-        header {
-            h1 {
-                font-size: 24px;
-                display: block;
-                margin: 60px 20px 20px 30px;
-                text-align: left;
-                & > a {
-                    text-decoration: none;
-                    font-weight: 200;
+        &:active {
+            color: $linkActiveColor;
+            border-bottom: 1px solid $linkActiveColor;
+            transition: 0.2s;
+        }
+    }
+    & > header {
+        h1 {
+            font-size: 24px;
+            display: block;
+            margin: 60px 20px 20px 30px;
+            text-align: left;
+            & > a {
+                text-decoration: none;
+                font-weight: 200;
+                transition: 0.3s;
+                color: $fontColorBase;
+                &:hover, &:focus {
+                    color: palegreen;
                     transition: 0.3s;
-                    color: $fontColorBase;
-                    &:hover, &:focus {
-                        color: palegreen;
-                        transition: 0.3s;
-                        text-decoration: none;
-                        outline:none;
-                        -webkit-tap-highlight-color:  rgba(0, 0, 0, 0);
-                    }
-                    &:active {
-                        color: $linkActiveColor;
-                        transition: 0.2s;
-                    }
+                    text-decoration: none;
+                    outline: none;
+                    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                }
+                &:active {
+                    color: $linkActiveColor;
+                    transition: 0.2s;
                 }
             }
         }
-        .tagline {
+        & > .tagline {
             font-size: 16px;
             margin: 40px 20px 60px 30px;
             font-weight: 300;
@@ -65,89 +61,89 @@
                 @include white-link;
             }
         }
-        address {
-            margin: 30px auto;
-            align-self: center;
-            a {
-                $fontSize: 28px;
-                display: inline-block;
-                position: relative;
-                margin-right: 18px;
-                border-bottom: none;
-                font-size: $fontSize;
-                color: rgba($fontColorBright, 0.5);
-                text-decoration: none;
-                transition: all 0.3s;
-                user-select: none;
-                &:hover, &:focus {
-                    color: $fontColorBright;
-                    transition: 0.2s;
-                }
-                &:active {
-                    color: $linkActiveColor;
-                    transition: all 0.2s;
-                }
-                &.icon-envelope {
-                    margin-left: 3px;
-                }
-                &.icon-mark-github {
-                    font-size: $fontSize - 2px;
-                }
-                &:last-of-type {
-                    margin-right: 9px;
-                }
+    }
+    & > address {
+        margin: 30px auto;
+        align-self: center;
+        a {
+            $fontSize: 28px;
+            display: inline-block;
+            position: relative;
+            margin-right: 18px;
+            border-bottom: none;
+            font-size: $fontSize;
+            color: rgba($fontColorBright, 0.5);
+            text-decoration: none;
+            transition: all 0.3s;
+            user-select: none;
+            &:hover, &:focus {
+                color: $fontColorBright;
+                transition: 0.2s;
+            }
+            &:active {
+                color: $linkActiveColor;
+                transition: all 0.2s;
+            }
+            &.icon-envelope {
+                margin-left: 3px;
+            }
+            &.icon-mark-github {
+                font-size: $fontSize - 2px;
+            }
+            &:last-of-type {
+                margin-right: 9px;
             }
         }
-        nav {
-            flex: 1 0 auto;
-            margin: 10px 0 20px 0;
-            list-style-type: none;
-            & > li {
-                &.sideLinks-enter {
-                    opacity: 0.01;
-                    position: absolute;
-                    width: $sidebarWidth;
-                    transform: translate(0px, -20px);
-                    & > a.highlight {
-                        background: transparent;
-                    }
-                }
-                &.sideLinks-enter.sideLinks-enter-active {
-                    transform: translate(0px, 0);
-                    opacity: 1;
-                    transition: 150ms ease-in-out;
-                }
-                &.sideLinks-leave {
-                    opacity: 1;
-                }
-                &.sideLinks-leave.sideLinks-leave-active {
-                    opacity: 0.01;
-                    transition: 50ms ease-in-out;
+    }
+    & > nav {
+        flex: 1 0 auto;
+        margin: 10px 0 20px 0;
+        list-style-type: none;
+        & > li {
+            &.sideLinks-enter {
+                opacity: 0.01;
+                position: absolute;
+                width: $sidebarWidth;
+                transform: translate(0px, -20px);
+                & > a.highlight {
+                    background: transparent;
                 }
             }
-            & > li > a {
-                display: block;
-                padding: 10px 30px;
-                font-weight: 400;
-                cursor: pointer;
+            &.sideLinks-enter.sideLinks-enter-active {
+                transform: translate(0px, 0);
+                opacity: 1;
+                transition: 150ms ease-in-out;
+            }
+            &.sideLinks-leave {
+                opacity: 1;
+            }
+            &.sideLinks-leave.sideLinks-leave-active {
+                opacity: 0.01;
+                transition: 50ms ease-in-out;
+            }
+        }
+        & > li > a {
+            display: block;
+            padding: 10px 30px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: 0.2s;
+            color: $fontColorBase;
+            text-decoration: none;
+            font-weight: 400;
+            outline: 0;
+            &:hover, &:focus {
+                background: rgba($fontColorBright, 0.1);
                 transition: 0.2s;
-                color: $fontColorBase;
-                text-decoration: none;
-                font-weight: 400;
-                outline: 0;
-                &:hover, &:focus {
-                    background: rgba($fontColorBright, 0.1);
-                    transition: 0.2s;
-                }
-                &:active {
-                    color: $linkActiveColor;
-                    transition: 0.2s;
-                }
-                &.highlight {
-                    background: rgba(#000, 0.4);
-                    cursor: default;
-                    transition: 0.9s;
-                }
+            }
+            &:active {
+                color: $linkActiveColor;
+                transition: 0.2s;
+            }
+            &.highlight {
+                background: rgba(#000, 0.4);
+                cursor: default;
+                transition: 0.9s;
             }
         }
     }

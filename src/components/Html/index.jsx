@@ -55,7 +55,7 @@ function Html(options) {
                     .filter(x => x.placement === "body-start")
                     .map(x => <script dangerouslySetInnerHTML={{ __html: x.content }}></script>) }
                 {elements.length > 0 ? elements.filter(x => x.placement === "body-start").map(x => x.element) : null }
-                <div id="outlet" dangerouslySetInnerHTML= {{ __html: content }}></div>
+                <div id="app" dangerouslySetInnerHTML= {{ __html: content }}></div>
                 {elements.length ? elements.filter(x => x.placement === "body-end").map(x => x.element) : null }                
                 {scripts
                     .filter(x => x.placement === "body-end")
@@ -66,9 +66,5 @@ function Html(options) {
 
     return html;
 }
-
-Html.propTypes = {
-    htmlConfig: React.PropTypes.object,
-};
 
 export default Html;

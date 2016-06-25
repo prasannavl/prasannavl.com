@@ -9,7 +9,7 @@ export class App {
     private contextManager: IContextManager = null;
     private context: IAppContext = null;
 
-    start(renderTargetId: string = "outlet", url?: string) {
+    start(renderTargetId: string = "app", url?: string) {
         this._hintRequisites();
         this.setupGlobalRequisites();
         if (__DOM__) {

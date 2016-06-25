@@ -10,54 +10,88 @@ function getCssApplier(context: IAppContext) {
     return context.services.applyCss;
 }
 
-export function createStyled<T>(InnerComponent: T, ...styles: any[]) {
-    class StyledComponent extends React.Component<any, any> {
-        static displayName = getDisplayName(InnerComponent);
+let createStyled: <T>(InnerComponent: T, ...styles: any[]) => T;
 
-        static contextTypes: any = {
-            services: React.PropTypes.any,
-        };
+if (false) {
 
-        private removeCss: () => void;
+    let refTracker: any = {};
 
-        componentWillMount() {
-            const applyCss = getCssApplier(this.context as IAppContext);
-            this.removeCss = applyCss.apply(null, styles);
+    function createStyledForDom<T>(InnerComponent: T, ...styles: any[]) {
+        class StyledComponent extends React.Component<any, any> {
+            static displayName = getDisplayName(InnerComponent);
+            static cacheKey = (InnerComponent as any).name;
+
+            static contextTypes: any = {
+                services: React.PropTypes.any,
+            };
+
+            componentWillMount() {
+                let key = StyledComponent.cacheKey;
+                let trackerObj = refTracker[key];
+                if (!trackerObj) {
+                    const applyCss = getCssApplier(this.context as IAppContext);
+                    trackerObj = {
+                        refCount: 1,
+                        removeCss: applyCss.apply(null, styles)
+                    };
+                    refTracker[key] = trackerObj;
+                } else {
+                    trackerObj.refCount++;
+                }
+            }
+
+            componentWillUnmount() {
+                let key = StyledComponent.cacheKey;
+                let trackerObj = refTracker[key];
+                if (trackerObj) {
+                    let refCount = trackerObj.refCount;
+                    if (refCount > 1) {
+                        trackerObj.refCount--;
+                    } else {
+                        delete refTracker[key];
+                        setTimeout(trackerObj.removeCss, 0);
+                    }
+                }
+            }
+
+            render() {
+                return React.createElement(InnerComponent as any, this.props);
+            }
         }
-
-        componentWillUnmount() {
-            const removeCss = this.removeCss;
-            setTimeout(removeCss, 0);
-        }
-
-        render() {
-            return React.createElement(InnerComponent as any, this.props);
-        }
+        return StyledComponent;
     }
-    // Trick the type system into thinking its the same component
-    return StyledComponent as any as T;
-}
 
-export function createStyledWith<T>(styleApplier: CssStyle.StyleApplierFunction, InnerComponent: T, ...styles: any[]) {
-    class StyledComponent extends React.Component<any, any> {
-        static displayName = getDisplayName(InnerComponent);
-        private removeCss: () => void;
+    createStyled = createStyledForDom;
 
-        componentWillMount() {
-            this.removeCss = styleApplier.apply(null, styles);
+} else {
+
+    function createStyledHeadless<T>(InnerComponent: T, ...styles: any[]) {
+        class StyledComponent extends React.Component<any, any> {
+            static displayName = getDisplayName(InnerComponent);
+            static contextTypes: any = {
+                services: React.PropTypes.any,
+            };
+            private removeCss: () => void;
+
+            componentWillMount() {
+                let applier = getCssApplier(this.context as IAppContext);
+                this.removeCss = applier.apply(null, styles);
+            }
+
+            componentWillUnmount() {
+                let remove = this.removeCss;
+                if (remove)
+                    setTimeout(() => remove(), 0);
+            }
+
+            render() {
+                return React.createElement(InnerComponent as any, this.props);
+            }
         }
-
-        componentWillUnmount() {
-            const removeCss = this.removeCss;
-            setTimeout(removeCss, 0);
-        }
-
-        render() {
-            return React.createElement(InnerComponent as any, this.props);
-        }
+        return StyledComponent;
     }
-    // Trick the type system into thinking its the same component
-    return StyledComponent as any as T;
+
+    createStyled = createStyledHeadless;
 }
 
 export default createStyled;

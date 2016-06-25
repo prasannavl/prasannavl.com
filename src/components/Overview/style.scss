@@ -1,4 +1,4 @@
-@import "../ContentView/vars";
+@import "../ContentView/shared";
 :local(.root) {
     @include content-chrome-container;
     & > main {
@@ -41,7 +41,7 @@
             }
         }
         & > section::after {
-            @include horizontal-line-on-after;
+            @include after--horizontal-line;
         }
     }
 }

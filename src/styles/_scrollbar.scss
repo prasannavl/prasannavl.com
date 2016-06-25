@@ -1,89 +1,42 @@
-@import "./mixins";
-
-@mixin scroll-target-common {
-  width: 100%;
-  height: 100%;
-  &:focus {
-    outline: none;
+::-webkit-scrollbar {
+  box-sizing: content-box;
+  width: 12px;
+  height: 12px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 }
 
-/* disable selection while dragging */
+::-webkit-scrollbar-button {}
 
-.scroll-disable-selection {
-  @include disable-selection;
+::-webkit-scrollbar-track {}
+
+::-webkit-scrollbar-track-piece {}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px solid transparent;
+  background-clip: content-box;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  &:active {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 }
 
-/* fallback for native floating scrollbars */
-
-.scroll-native {}
-
-.scroll-target {
-  @include scroll-target-common;
-  overflow: auto;
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.1);
 }
 
-.scrollbar {
-  position: absolute;
-  display: none;
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+//   background-color: rgba(0, 0, 0, 0.05);
+//   border: 1px solid transparent;
+//   background-clip: content-box;
 }
 
-.scroll-container {
-  overflow: hidden!important;
-  position: relative;
-  & > .scroll-target {
-    @include scroll-target-common;
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch;
-  }
-  & > .scrollbar {
-    display: block;
-    right: 0px;
-    bottom: 0px;
-    z-index: 10;
-    border-radius: 0px;
-    &:hover, &:active {
-      background: rgba(0, 0, 0, 0.1);
-    }
-    & > .thumb {
-      position: relative;
-      display: block;
-      width: 0;
-      height: 0;
-      cursor: pointer;
-      border-radius: inherit;
-      background-color: rgba(0, 0, 0, .2);
-      &:hover {
-        background-color: rgba(0, 0, 0, .3);
-      }
-      &:active, {
-        background-color: rgba(0, 0, 0, .4);
-      }
-    }
-    &.-horizontal {
-      height: 12px;
-      left: 0px;
-      border: 2px solid transparent;
-      & > .thumb {
-        height: 100%;
-      }
-    }
-    &.-vertical {
-      width: 12px;
-      top: 0px;
-      border: 2px solid transparent;
-      & > .thumb {
-        width: 100%;
-      }
-    }
-  }
-  /* @option: autoshow */
-  &.scroll-autoshow > .scrollbar {
-    opacity: 0;
-    transition: opacity 120ms ease-out;
-  }
-  &.scroll-autoshow:hover > .scrollbar, &.scroll-autoshow:focus > .scrollbar {
-    opacity: 1;
-    transition: opacity 340ms ease-out;
-  }
+::-webkit-resizer {
+  border-bottom: 4px rgba(0, 0, 0, 0.05) solid;
+  border-right: 4px rgba(0, 0, 0, 0.05) solid;
 }

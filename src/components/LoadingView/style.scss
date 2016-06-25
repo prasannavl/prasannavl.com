@@ -1,12 +1,11 @@
-@import "../MainView/vars";
+@import "../MainView/shared";
 :local(.root) {
     z-index: 9999;
     position: absolute;
     pointer-events: none;
     $outlineColor: #3f5660;
     $staticColor: #000;
-    margin-left: $sidebarWidth;
-    .opacifier {
+    & > .opacifier {
         z-index: 0;
         background: #fff;
         opacity: 0.7;
@@ -17,12 +16,11 @@
         position: fixed;
         top: 0;
     }
-    .container {
+    & > .container {
         z-index: 1;
-        left: calc(#{$sidebarWidth} + (100% - #{$sidebarWidth}) * 0.5);
+        left: calc(#{$sidebarWidth} + ((100vw - #{$sidebarWidth}) * 0.5));
         top: 45%;
         position: fixed;
-        transform: translate(-50%, -50%) matrix(1, 0, 0, 1, 0, 0);
         .spinner {
             text-align: center;
         }

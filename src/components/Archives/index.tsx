@@ -36,7 +36,7 @@ export class Archives extends StatelessBase<ArchiveProps> {
         let sectionKeys = Object.keys(data).sort((c, n) => n.localeCompare(c));
         let sections = sectionKeys.map(x => this.renderSection(x, data[x]));
         return (<div className={style.root}>
-            <div id="archives-items-container">
+            <div>
                 <h1>archives</h1>
                 <main>
                     {sections}

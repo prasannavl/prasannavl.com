@@ -71,6 +71,15 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
         return flag ? true : false;
     }
 
+    hasPathChanged(context: IAppContext) {
+        let pathname = this.getPathName(context);
+        return this._lastKnownPathName === null || this._lastKnownPathName !== pathname;
+    }
+
+    getPathName(context: IAppContext) {
+        return context.services.history.current.pathname;
+    }
+
     setDomPrerendered(value: boolean) {
         (window as any)[ContentResolver.IsPrerenderedDomKey] = value;
     }
@@ -89,9 +98,8 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
     }
 
     queueContext(context: IAppContext, cacheOptions: CacheOptions = { check: true, store: true }) {
-        let pathname = context.services.history.current.pathname;
-        // If the same path is requested again, always refresh the data transparently.
-        if (__DEV__ || (this._lastKnownPathName !== null && this._lastKnownPathName === pathname)) {
+        let pathname = this.getPathName(context);
+        if (__DEV__) {
             cacheOptions.check = false;
         }
         let resolved = this._resolver.resolve(pathname);

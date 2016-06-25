@@ -20,6 +20,7 @@ export interface IDomContentManager extends EventEmitter {
     backgroundRequestStartEventName: string;
     isDomPrerendered(): boolean;
     setDomPrerendered(value: boolean): void;
+    hasPathChanged(context: IAppContext): boolean;
     queueContext(context: IAppContext, cacheOptions?: CacheOptions): void;
     getContentAsync(path: string, cacheOptions?: CacheOptions): Promise<any>;
     fetchRemoteAndStoreAsync(path: string, storeKey: string, cacheOptions: CacheOptions, broadcastRequest?: boolean): Promise<any>;

@@ -1,4 +1,5 @@
-@import "../ContentView/vars";
+@import "../ContentView/shared";
+
 :local(.root) {
     @include content-chrome-container;
     & > div {

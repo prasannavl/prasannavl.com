@@ -10,7 +10,6 @@ if (!__DOM__) {
 import { App } from "./modules/core/App";
 
 let app = new App();
-app.start();
 
 if (__DOM__) {
     (window as any)["app"] = app;
@@ -18,3 +17,5 @@ if (__DOM__) {
     const webpackAppKey = "_webpack_app";
     (global as any)[webpackAppKey] = app;
 }
+
+app.start();

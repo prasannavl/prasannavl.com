@@ -7,7 +7,7 @@
     background: #0096d6;
     display: block;
     color: #fff;
-    .content {
+    & > div {
         position: relative;
         max-width: 750px;
         margin-left: 15%;
@@ -138,7 +138,7 @@
     }
 }
 
-#expose-preloader {
+#expose__preloader {
         position: fixed;
         margin-left: 15%;
         margin-top: 7%;

@@ -9,7 +9,6 @@ import { ContentManagerFactory } from "../../modules/content-manager/ContentMana
 import LoadingView from "../LoadingView/index";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { IHeadlessContentManager, IDomContentManager } from "../../modules/content-manager/ContentManager";
-import { ScrollView } from "../fragments/ScrollView";
 import { DomUtils } from "../../modules/utils/index";
 
 interface ContentViewState {
@@ -23,10 +22,6 @@ export class ContentView extends Base<any, ContentViewState> {
     private _suspendAnimations = false;
     private _requestStartedViewUpdateTimer: any = null;
     private _diposeHistoryListener: () => void = null;
-    
-    containerId = "content-container";
-    scrollViewElementId = "content-scrollview";
-    contentElementId = "content-view";
 
     constructor(props: any, context: any) {
         super(props, context);
@@ -60,7 +55,7 @@ export class ContentView extends Base<any, ContentViewState> {
             cm.removeListener(cm.requestStartEventName, this.onRequestStarted);
             this._diposeHistoryListener();
         }
-        
+
         this.clearPendingTimeline();
         super.componentWillUnmount();
     }
@@ -85,7 +80,7 @@ export class ContentView extends Base<any, ContentViewState> {
                 this._suspendAnimations = false;
             }
             else {
-                this.animateViewIn(this.getScrollViewElementIfAvailable(), this.getContentElementIfAvailable());
+                this.animateViewIn(this.getRootElement(), this.getContentElementIfAvailable());
             }
             this.setFocusContentView();
         }
@@ -114,19 +109,21 @@ export class ContentView extends Base<any, ContentViewState> {
     }
 
     onHistoryChange() {
-        this.clearPendingTimeline();                
+        this.clearPendingTimeline();
         this.clearRequestStartedViewUpdateTimer();
-        let req = this._pendingRequest;
-        if (req !== null) {
-            req.abort();
-            this._pendingRequest = null;
-        }
         let cm = this._contentManager as IDomContentManager;
-        if (cm.isDomPrerendered()) {
-            this._suspendAnimations = true;
-            cm.setDomPrerendered(false);
+        if (cm.hasPathChanged(this.context)) {
+            let req = this._pendingRequest;
+            if (req !== null) {
+                req.abort();
+                this._pendingRequest = null;
+            }
+            if (cm.isDomPrerendered()) {
+                this._suspendAnimations = true;
+                cm.setDomPrerendered(false);
+            }
+            cm.queueContext(this.context);
         }
-        cm.queueContext(this.context);
     }
 
     onContentReady(component: JSX.Element) {
@@ -138,104 +135,86 @@ export class ContentView extends Base<any, ContentViewState> {
         if (this._suspendAnimations) {
             this.setState({ component });
         } else {
-            this.animateViewOut(this.getScrollViewElementIfAvailable(), this.getContentElementIfAvailable())
+            this.animateViewOut(this.getRootElement())
                 .then(() => {
                     this.setState({ component });
                 });
         }
     }
 
-    animateViewOut(scrollViewElement: HTMLElement, contentElement: HTMLElement) {        
+    animateViewOut(rootElement: HTMLElement) {
         return new Promise((res, reject) => {
-            this.clearPendingTimeline();            
-            if (!scrollViewElement || !contentElement) {
+            this.clearPendingTimeline();
+            if (!rootElement) {
                 res(); return;
             }
-            
             let t = new TimelineMax();
-            let scrollDuration = 0;
             // Do the scrolling manually, by breaking the overflow visibility
             // and translating the element across, with forced hardware acceleration.
             // This is significantly faster on lower mobile devices.
-            let overFlowType = contentElement.style.overflow;
-            let savedHeight = contentElement.style.height;
-            let scrollTop = contentElement.scrollTop;
+            let overFlowYType = rootElement.style.overflowY;
+            let savedHeight = rootElement.style.height;
+            let savedTransform = rootElement.style.transform;
+            let scrollTop = rootElement.scrollTop;
             if (scrollTop > 0) {
-                contentElement.style.overflow = "scroll";
-                contentElement.style.height = contentElement.scrollHeight.toString() + "px";                
-                contentElement.style.transform = `translateY(${-scrollTop + DomUtils.getScrollbarWidth()}px)`;
-                scrollDuration = 0.3;
+                rootElement.style.overflowY = "scroll";
+                rootElement.style.height = rootElement.scrollHeight.toString() + "px";
+                rootElement.style.transform = `translateY(${-scrollTop}px)`;
                 let y = scrollTop > 200 ? -scrollTop + 200 : 0;
-                t.to(contentElement, scrollDuration, { y, clearProps: "all" }, 0);
-                t.to(scrollViewElement, scrollDuration, { opacity: 0 }, 0);
-            }
-            t.addCallback(() => {         
-                let style = contentElement.style;
-                style.height = savedHeight;     
-                style.overflow = overFlowType;
-                contentElement.scrollTop = 0;
+                t.to(rootElement, 0.3, { y, opacity: 0 }, 0);
+                t.addCallback(() => {
+                    if (scrollTop > 0) {
+                        let style = rootElement.style;
+                        rootElement.scrollTop = 0;
+                        style.transform = savedTransform;
+                        style.height = savedHeight;
+                        style.overflowY = overFlowYType;
+                    }
+                    res();
+                }, t.totalDuration());
+            } else {
                 res();
-            }, t.totalDuration());
+            }
             this._pendingAnimationTimeline = t;
         });
     }
 
-    animateViewIn(scrollViewElement: HTMLElement, contentElement: HTMLElement) {
+    animateViewIn(rootElement: HTMLElement, contentElement: HTMLElement) {
         this.clearPendingTimeline();
         let t = new TimelineMax();
-        if (scrollViewElement) {
-            t.fromTo(scrollViewElement, 0.4, { opacity: 0.4, immediateRender: true }, { opacity: 1, clearProps: "all" });
-            //t.from(scrollViewElement, 0.5, { x: 30, clearProps: "transform" }, 0);
+        if (rootElement) {
+            t.fromTo(rootElement, 0.4, { opacity: 0.4, immediateRender: true }, { opacity: 1, clearProps: "all" });
+            //t.from(rootElement, 0.5, { x: -30, clearProps: "all" }, 0);
         }
-        let contentOverflowX: string = null;
-        let horizontalScrollbar: HTMLElement = null;
+        let rootOverflowX: string = null;
         if (contentElement) {
-            const maxHeight = scrollViewElement.clientHeight;
+            const maxHeight = rootElement.clientHeight;
             let h1Tags = Array.from(contentElement.getElementsByTagName("h1")).filter(x => x.getBoundingClientRect().top < maxHeight);
             let h2Tags = Array.from(contentElement.getElementsByTagName("h2")).filter(x => x.getBoundingClientRect().top < maxHeight);
-            
+
             let headingElements = h1Tags.concat(h2Tags);
             if (headingElements.length > 0) {
                 // hide the horizontal scrollbar during animation-in.
-                contentOverflowX = contentElement.style.overflowX;
-                contentElement.style.overflowX = "hidden";
-                horizontalScrollbar = scrollViewElement.querySelector(".scrollbar.-horizontal") as HTMLElement;
-                horizontalScrollbar.style.visibility = "hidden";
+                rootOverflowX = rootElement.style.overflowX;
+                rootElement.style.overflowX = "hidden";
                 t.staggerFrom(headingElements, 0.2, { x: 100, opacity: 0.01, clearProps: "all" }, 0.2, 0);
             }
-        }
-        if (t.totalDuration() !== 0) {
             t.addCallback(() => {
-                if (horizontalScrollbar != null) {
-                    // restore horizontal scroll bar state.                    
-                    contentElement.style.overflowX = contentOverflowX;
-                    horizontalScrollbar.style.visibility = "";                    
+                if (rootOverflowX !== null) {
+                    rootElement.style.overflowX = rootOverflowX;
                 }
-                // Workaround for gsap animations activating scrollbars, when 
-                // its custom scrollbars are used.
-                let resizeEvent: UIEvent;
-                if (typeof (Event) === "function") {
-                    resizeEvent = new UIEvent("resize");
-                } else {
-                    // IE doesn't support the Event constructor.
-                    // So fallback to deprecated method.
-                    resizeEvent = document.createEvent("UIEvent");
-                    resizeEvent.initUIEvent("resize", true, true, window, 1);
-                }
-                window.dispatchEvent(resizeEvent);
             }, t.totalDuration());
         }
-
         this._pendingAnimationTimeline = t;
     }
 
     getContentElementIfAvailable() {
-        let el = document.getElementById(this.contentElementId);
+        let el = this.refs["content"] as HTMLElement;
         return el;
     }
 
-    getScrollViewElementIfAvailable() {
-        let el = document.getElementById(this.scrollViewElementId);
+    getRootElement() {
+        let el = ReactDOM.findDOMNode(this) as HTMLElement;
         return el;
     }
 
@@ -257,31 +236,28 @@ export class ContentView extends Base<any, ContentViewState> {
         }
     }
 
-    wrapInScrollView(component: JSX.Element | JSX.Element[]) {
-        return (
-            <ScrollView key={this.scrollViewElementId} id={this.scrollViewElementId} className={style.root}
-                targetProps={{ tabIndex: 0, id: this.contentElementId}}>
-                {component}
-            </ScrollView>);
-    }
-
     setFocusContentView(view?: HTMLElement) {
-        view = view || document.getElementById(this.contentElementId);
+        view = view || ReactDOM.findDOMNode(this) as HTMLElement;
         if (view == null) return;
         view.focus();
     }
-    
+
+    renderWrappedComponent(component: JSX.Element) {
+        let shouldRenderLoader = this._pendingRequest !== null;
+        return (<div className={style.root} tabIndex="0">
+            { shouldRenderLoader ? <LoadingView/> : null }
+            { component ? <div ref="content" className="content-container">{component}</div> : null }
+        </div>);
+    }
+
     render() {
+        let component: JSX.Element;
         if (__DOM__) {
-            let shouldRenderLoader = this._pendingRequest !== null;
-            let component = this.state.component;
-            return (<div id={this.containerId}>
-                { shouldRenderLoader ? <LoadingView/> : null }
-                { component ? this.wrapInScrollView(component) : null }           
-            </div>);
+            component = this.state.component;
         } else {
-            return this.wrapInScrollView(this.getComponentForServerEnvironment());
+            component = this.getComponentForServerEnvironment();
         }
+        return this.renderWrappedComponent(component);
     }
 }
 
