@@ -391,9 +391,21 @@ function getIndexers() {
 			.take(100)
 			.map(x => {
 				if (x.content.length > 1000) {
-					let content = x.content.slice(0, 1000);
-					// TODO: Use better excerpt generation.
-					// WARNING: Could cut out links.
+					let content = x.content;
+					let startIndex = 0;
+					let endIndex = 1000;
+					let summaryRegEx = /<!--summary-(start|end)-->/g;					
+					let match;
+					while (match = summaryRegEx.exec(content)) { // eslint-disable-line
+						let c = match[1];
+						if (c === "end") {
+							endIndex = match.index;
+							break;
+						} else if (c === "start") {
+							startIndex = match.index + 20;
+						}
+					}
+					content = x.content.slice(startIndex, endIndex);
 					content = stripStaticPattern(content, "```");
 					content = content.replace(/\s+$/, "");
 					return Object.assign({}, x, { content: content + " ..." });

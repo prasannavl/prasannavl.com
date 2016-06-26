@@ -18,6 +18,8 @@ And so I started typing out a script to check for TV shows. By the time lunch ar
 
 And well, despite my temptations to code on my phone, touch is just not productive enough for coding. Not yet. And there, got back to my room and finished it.
 
+<!--summary-end-->
+
 <img src="https://c2.staticflickr.com/8/7357/27434701750_f7d676ff37_o.png" alt="[Screenshot 1]"/><br/>
 <img src="https://c2.staticflickr.com/8/7302/27102444213_118bfb4be7_o.png" alt="[Screenshot 2]"/>
 
