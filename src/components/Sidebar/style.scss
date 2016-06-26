@@ -69,7 +69,7 @@
             $fontSize: 28px;
             display: inline-block;
             position: relative;
-            margin-right: 18px;
+            margin-right: 20px;
             border-bottom: none;
             font-size: $fontSize;
             color: rgba($fontColorBright, 0.5);
@@ -85,13 +85,13 @@
                 transition: all 0.2s;
             }
             &.icon-envelope {
-                margin-left: 3px;
+                margin-left: 4px;
             }
             &.icon-mark-github {
                 font-size: $fontSize - 2px;
             }
             &:last-of-type {
-                margin-right: 9px;
+                margin-right: 10px;
             }
         }
     }
