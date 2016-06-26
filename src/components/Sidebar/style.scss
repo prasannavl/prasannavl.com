@@ -5,9 +5,10 @@
     $fontColorBase: rgba(#fff, 0.9);
     $fontColorBright: #fff;
     display: flex;
-    flex-flow: column;
+    flex-flow: column nowrap;
     align-items: stretch;
     justify-content: flex-start;
+    align-content: stretch;
     background: #3f5660;
     color: $fontColorBase;
     overflow: auto;
@@ -27,6 +28,7 @@
         }
     }
     & > header {
+        flex: 0 0 auto;        
         h1 {
             font-size: 24px;
             display: block;
@@ -64,6 +66,7 @@
         }
     }
     & > address {
+        flex: 0 0 auto;        
         margin: 30px auto;
         align-self: center;
         a {
