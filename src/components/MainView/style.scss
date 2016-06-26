@@ -6,7 +6,7 @@
     & > div:first-child {
         position: fixed;
         width: $sidebarWidth;
-        height: 100vh;
+        height: 100%;
     }
     & > div:nth-child(2) {
         margin-left: $sidebarWidth;

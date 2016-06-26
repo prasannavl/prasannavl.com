@@ -120,6 +120,7 @@
     & > address {
         flex: 0 0 auto;
         margin: 35px auto;
+        align-self: center;
         a {
             $fontSize: 28px;
             display: inline-block;

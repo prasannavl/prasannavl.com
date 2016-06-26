@@ -5,11 +5,13 @@
 html {
     box-sizing: border-box;
     background: white;
+    height: 100%;
 }
 
 body {
     font-family: "Segoe UI", "Segoe WP", "Helvetica Neue", "Roboto", "Open Sans", "Helvetica", "Arial", "sans-serif";
     overflow: hidden;
+    height: 100%;
 }
 
 *, *:before, *:after {
