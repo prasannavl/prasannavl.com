@@ -123,6 +123,8 @@ export class ContentView extends Base<any, ContentViewState> {
                 cm.setDomPrerendered(false);
             }
             cm.queueContext(this.context);
+        } else {
+            this.forceUpdate();
         }
     }
 
