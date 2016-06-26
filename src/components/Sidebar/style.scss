@@ -28,7 +28,7 @@
         }
     }
     & > header {
-        flex: 0 0 auto;        
+        flex: 0 0 auto;
         h1 {
             font-size: 24px;
             display: block;
@@ -62,40 +62,6 @@
             }
             a {
                 @include white-link;
-            }
-        }
-    }
-    & > address {
-        flex: 0 0 auto;        
-        margin: 30px auto;
-        align-self: center;
-        a {
-            $fontSize: 28px;
-            display: inline-block;
-            position: relative;
-            margin-right: 20px;
-            border-bottom: none;
-            font-size: $fontSize;
-            color: rgba($fontColorBright, 0.5);
-            text-decoration: none;
-            transition: all 0.3s;
-            user-select: none;
-            &:hover, &:focus {
-                color: $fontColorBright;
-                transition: 0.2s;
-            }
-            &:active {
-                color: $linkActiveColor;
-                transition: all 0.2s;
-            }
-            &.icon-envelope {
-                margin-left: 4px;
-            }
-            &.icon-mark-github {
-                font-size: $fontSize - 2px;
-            }
-            &:last-of-type {
-                margin-right: 10px;
             }
         }
     }
@@ -148,6 +114,39 @@
                 background: rgba(#000, 0.4);
                 cursor: default;
                 transition: 0.9s;
+            }
+        }
+    }
+    & > address {
+        flex: 0 0 auto;
+        margin: 35px auto;
+        a {
+            $fontSize: 28px;
+            display: inline-block;
+            position: relative;
+            margin-right: 20px;
+            border-bottom: none;
+            font-size: $fontSize;
+            color: rgba($fontColorBright, 0.5);
+            text-decoration: none;
+            transition: all 0.3s;
+            user-select: none;
+            &:hover, &:focus {
+                color: $fontColorBright;
+                transition: 0.2s;
+            }
+            &:active {
+                color: $linkActiveColor;
+                transition: all 0.2s;
+            }
+            &.icon-envelope {
+                margin-left: 4px;
+            }
+            &.icon-mark-github {
+                font-size: $fontSize - 2px;
+            }
+            &:last-of-type {
+                margin-right: 10px;
             }
         }
     }
