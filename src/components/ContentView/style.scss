@@ -5,7 +5,8 @@
     $red: #e06666;
     height: 100vh;
     overflow: auto;
-    background-color: white; 
+    -webkit-overflow-scrolling: touch;
+    background-color: white;
     &:focus {
         outline: none;
     }
