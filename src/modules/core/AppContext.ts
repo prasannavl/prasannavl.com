@@ -5,7 +5,7 @@ import { EventEmitter } from "events";
 export interface IAppContext {
     services: IServiceProvider; 
     state: any;
-    events: EventEmitter;    
+    events: EventEmitter; 
 }
 
 export class AppContext implements IAppContext {

@@ -22,7 +22,7 @@ export interface IServiceProviderCore {
 export class ServiceProviderFactory {
     static create() {
         let commonCoreProvider: IServiceProviderCommonCore = {
-            appContainerProvider: () => AppContainer,
+            appContainerProvider: () => AppContainer
         };
 
         let coreProviderFactory: Core.IFactory<IServiceProviderCore>;

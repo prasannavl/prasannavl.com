@@ -78,17 +78,10 @@ if (__DOM__) {
             static contextTypes: any = {
                 services: React.PropTypes.any,
             };
-            private removeCss: () => void;
-
+            
             componentWillMount() {
                 let applier = getCssApplier(this.context as IAppContext);
-                this.removeCss = applier.apply(null, styles);
-            }
-
-            componentWillUnmount() {
-                let remove = this.removeCss;
-                if (remove)
-                    remove();
+                applier.apply(null, styles);
             }
 
             render() {

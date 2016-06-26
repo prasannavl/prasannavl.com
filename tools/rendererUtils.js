@@ -21,17 +21,29 @@ class RendererUtils {
         if (!(cssModules && Array.isArray(cssModules) && cssModules.length > 0))
             return [];
 
+        console.log(cssModules.map(x => ({ id: x.id })));        
+        
         let inlinedCssModules = [];
         const externalKey = "_extRoot";
+        let map = new Map();
 
         // Modules are { id: number, content: string }
         cssModules.forEach(x => {
-            const id = (x.id === null || x.id === undefined) ? externalKey : x.id;
-            let icss = { content: x.content, attributes: null };
+            let id = x.id;
+            if (id === null || id === undefined) {
+                id = externalKey;
+            } else if (map.has(id)) {
+                return;
+            }
+            map.set(id, null);
+            let icss = { content: x.content, attributes: null, id };
             if (id !== externalKey)
                 icss.attributes = { "className": "_svx" };
             inlinedCssModules.push(icss);
         });
+
+        console.log(map);
+        console.log(inlinedCssModules.map(x => ({ id: x.id })));
 
         return inlinedCssModules;
     }
