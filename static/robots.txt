@@ -1,3 +1,3 @@
 User-agent: *
 Host: www.prasannavl.com
-Sitemap: https://www.prasannavl.com/sitemap.xml
+Sitemap: http://www.prasannavl.com/sitemap.xml
