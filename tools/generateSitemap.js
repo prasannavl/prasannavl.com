@@ -22,9 +22,10 @@ function runAsync() {
         dir: outputResolve("./" + outputDirName),
         index: outputResolve("./" + indexPathName + ext),
     }
-
+    let hostname = "http://www.prasannavl.com";
+    
     let mainOpts = {
-        hostname: 'https://www.prasannavl.com',
+        hostname,
         name: "core",
         urls: routes
             .filter(x => !x.routeTypeCode)
@@ -32,7 +33,7 @@ function runAsync() {
     };
 
     let contentOpts = {
-        hostname: 'https://www.prasannavl.com',
+        hostname,
         name: "content",
         urls: routes
             .filter(x => x.routeTypeCode && x.routeTypeCode === 1)
