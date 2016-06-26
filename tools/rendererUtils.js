@@ -20,8 +20,6 @@ class RendererUtils {
     getInlinedCssModules(cssModules) {
         if (!(cssModules && Array.isArray(cssModules) && cssModules.length > 0))
             return [];
-
-        console.log(cssModules.map(x => ({ id: x.id })));        
         
         let inlinedCssModules = [];
         const externalKey = "_extRoot";
@@ -41,9 +39,6 @@ class RendererUtils {
                 icss.attributes = { "className": "_svx" };
             inlinedCssModules.push(icss);
         });
-
-        console.log(map);
-        console.log(inlinedCssModules.map(x => ({ id: x.id })));
 
         return inlinedCssModules;
     }
