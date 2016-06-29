@@ -4,10 +4,7 @@
     height: 100%;
     $fontColorBase: rgba(#fff, 0.9);
     $fontColorBright: #fff;
-    // display: -webkit-flex;
     display: flex;
-    // -webkit-flex-direction: column;
-    // -webkit-flex-wrap: nowrap;
     flex-flow: column nowrap;
     align-items: stretch;
     justify-content: flex-start;
