@@ -152,8 +152,8 @@ export function create(options) {
                     require("postcss-reduce-idents"),
                     require("postcss-merge-rules"),
                     require("postcss-merge-idents"),
-                    //require("postcss-discard-duplicates"),
-                    require("autoprefixer"),
+                    require("postcss-discard-duplicates"),
+                    require("autoprefixer")({ browsers: ['last 3 versions'] }),
                 ],
             };
         }
