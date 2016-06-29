@@ -152,7 +152,7 @@ export function create(options) {
                     require("postcss-reduce-idents"),
                     require("postcss-merge-rules"),
                     require("postcss-merge-idents"),
-                    require("postcss-discard-duplicates"),
+                    //require("postcss-discard-duplicates"),
                     require("autoprefixer"),
                 ],
             };
