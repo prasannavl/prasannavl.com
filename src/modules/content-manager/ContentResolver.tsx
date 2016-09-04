@@ -85,24 +85,22 @@ export class ContentResolver {
 }
 
 function getProjectsContentElement() {
-    return (<div style={{ maxWidth: 960, marginLeft: "auto", marginRight: "auto" }}><div style={{ maxWidth: 520, marginLeft: "auto", marginRight: "auto", paddingBottom: "10px" }}><p style={{ fontSize: "23px" }}>Still working on this page. Meanwhile, here are some of my open source projects from GitHub.</p></div>
-    <p>
-    <a className="button" target="_blank" href={"https://github.com/prasannavl/LiquidState"}>LiquidState</a>
-    <a className="button" target="_blank" href={"https://github.com/prasannavl/Liara"}>Liara</a>
-    <a className="button" target="_blank" href={"https://github.com/prasannavl/WinApi"}>WinApi</a>
-    <a className="button" target="_blank" href={"https://github.com/prasannavl/prasannavl.com"}>prasannavl.com</a>
-    <a className="button" target="_blank" href={"https://github.com/prasannavl/SharpLog"}>SharpLog</a>       
-    <a className="button" target="_blank" href={"https://github.com/prasannavl/MongoSessionProvider"}>MongoSessionProvider</a>
-    <a className="button" target="_blank" href={"https://github.com/prasannavl/history-next"}>history-next</a>
-    <a className="button" target="_blank" href={"https://github.com/prasannavl/ConsoleUtils"}>ConsoleUtils</a>
-    <a className="button" target="_blank" href={"https://github.com/prasannavl/Wrex"}>Wrex</a>
-    <a className="button" target="_blank" href={"https://github.com/prasannavl/TextUtils"}>TextUtils</a>
-    <a className="button" target="_blank" href={"https://github.com/prasannavl/Benchmarks"}>Benchmarks</a>
-    <a className="button" target="_blank" href={"https://github.com/prasannavl/MSP430-IR-Based-Codes"}>MSP430-IR-Based-Codes</a>
-    </p></div>);
+    return (<div style={{ maxWidth: 960, marginLeft: "auto", marginRight: "auto" }}>
+        <div style={{ maxWidth: 520, marginLeft: "auto", marginRight: "auto", paddingBottom: "10px" }}>
+            <p style={{ fontSize: "23px" }}>Still working on this page. Meanwhile, here are some of my open source projects from GitHub.</p>
+        </div>
+        <p>{getProjects() }</p></div>);
 }
 
-function getFeedbackLink() {
-    const message = encodeURIComponent("@prasannavl, #weblog ");
-    return `https://twitter.com/intent/tweet?text=${message}`;
+function getProjects() {
+    let p = ["LiquidState", "Liara", "WinApi",
+        "prasannavl.com", "SharpLog", "MongoSessionProvider",
+        "history-next", "ConsoleUtils", "Wrex",
+        "TextUtils", "Benchmarks", "MSP430-IR-Based-Codes"];
+    return p.map(x => getLinkElementForProject(x));
+}
+
+function getLinkElementForProject(project: string) {
+    const url = "https://github.com/prasannavl/" + project;
+    return (<a className="button" target="_blank" href={ url } key={project}>{project}</a>);
 }
