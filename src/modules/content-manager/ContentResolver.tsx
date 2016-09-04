@@ -85,7 +85,7 @@ export class ContentResolver {
 }
 
 function getProjectsContentElement() {
-    return (<div style={{ maxWidth: 620, marginLeft: "auto", marginRight: "auto" }}><p style={{ fontSize: "23px" }}>Still working on this page. Meanwhile, here are some of my open source projects from GitHub: </p>
+    return (<div style={{ maxWidth: 960, marginLeft: "auto", marginRight: "auto" }}><div style={{ maxWidth: 520, marginLeft: "auto", marginRight: "auto", paddingBottom: "10px" }}><p style={{ fontSize: "23px" }}>Still working on this page. Meanwhile, here are some of my open source projects from GitHub.</p></div>
     <p>
     <a className="button" target="_blank" href={"https://github.com/prasannavl/LiquidState"}>LiquidState</a>
     <a className="button" target="_blank" href={"https://github.com/prasannavl/Liara"}>Liara</a>
