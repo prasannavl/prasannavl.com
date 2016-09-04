@@ -11,7 +11,7 @@ function getRoutes() {
 		{ route: "/overview", changefreq: "daily", priority: 0.7 }, 
 		{ route: "/archives", changefreq: "daily", priority: 0.9 }, 
 		{ route: "/about", changefreq: "daily", priority: 0.8 }, 
-		{ route: "/feedback", changefreq: "monthly", priority: 0.4 },
+		{ route: "/projects", changefreq: "daily", priority: 0.9 },
 		{ route: "/404.html", file: "/404.html", priority: 0.2 },
     ];
     
