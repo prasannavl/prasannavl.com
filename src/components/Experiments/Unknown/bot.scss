@@ -8,7 +8,7 @@
 		overflow:hidden;
 	}
 	.bottom-half {
-		padding: 20px;
+		padding: 5px 20px 20px 20px;
 		h2 {
 			font-size: 36px;
 			font-weight: 300;
@@ -31,10 +31,10 @@
 			}
 		}
 		
-		a.tweet {
+		a.button {
 			display: inline-block;
 			padding: 10px 60px;
-			margin-top:10px;
+			margin: 5px 2px 2px 2px;
 			text-decoration: none;
 			background: #55acee;
 			color: white;
@@ -61,7 +61,7 @@
 		padding:0;
 	}
 	#brokebotSVG {
-		height:239px;
+		height:210px;
 		margin-left:auto;
 		margin-right:auto;
 		margin-top:7%;

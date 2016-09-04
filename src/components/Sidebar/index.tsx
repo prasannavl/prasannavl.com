@@ -52,8 +52,8 @@ class Sidebar extends Base<any, any> {
                         <li key="1"><NavLink href="/overview" className="highlight" style={{ cursor: "pointer" }}>&larr; article</NavLink></li> :
                         <li key="2"><NavLink href="/overview">overview</NavLink></li>}
                     <li><NavLink href="/archives" activeClassMatcher={startsWithMatcher}>archives</NavLink></li>
+                    <li><NavLink href="/projects">projects</NavLink></li>
                     <li><NavLink href="/about">about</NavLink></li>
-                    <li><NavLink href="/feedback">feedback</NavLink></li>
                 </CSSTransitionGroup>
                 <address className="icons">
                     <a href="https://www.twitter.com/prasannavl" className="icon-twitter" target="_blank"></a>

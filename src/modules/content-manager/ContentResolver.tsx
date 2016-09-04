@@ -57,10 +57,10 @@ export class ContentResolver {
                     factory: () => <Unknown error="000" documentTitle="About"/>
                 };
             }
-            case "feedback": {
+            case "projects": {
                 return {
                     contentPath: null,
-                    factory: () => <Unknown svgText="yay!" documentTitle="Feedback" messageElement={getFeedbackContentElement() }/>
+                    factory: () => <Unknown svgText="&lt;/&gt;" documentTitle="Projects" messageElement={getProjectsContentElement() }/>
                 };
             }
         }
@@ -84,8 +84,22 @@ export class ContentResolver {
     static CachedNoResolution = { contentPath: null, factory: null } as ContentResolution;
 }
 
-function getFeedbackContentElement() {
-    return (<div style={{ maxWidth: 520, marginLeft: "auto", marginRight: "auto" }}><p style={{ fontSize: "25px" }}>Thank you for the taking the time to provide your feedback. Just drop it in as a direct tweet to me, with the hash-tag <strong>#weblog</strong>.</p><p><a className="tweet" target="_blank" href={getFeedbackLink()}>Tweet</a></p></div>);
+function getProjectsContentElement() {
+    return (<div style={{ maxWidth: 620, marginLeft: "auto", marginRight: "auto" }}><p style={{ fontSize: "23px" }}>Still working on this page. Meanwhile, here are some of my projects from GitHub: </p>
+    <p>
+    <a className="button" target="_blank" href={"https://github.com/prasannavl/LiquidState"}>LiquidState</a>
+    <a className="button" target="_blank" href={"https://github.com/prasannavl/Liara"}>Liara</a>
+    <a className="button" target="_blank" href={"https://github.com/prasannavl/WinApi"}>WinApi</a>
+    <a className="button" target="_blank" href={"https://github.com/prasannavl/prasannavl.com"}>prasannavl.com</a>
+    <a className="button" target="_blank" href={"https://github.com/prasannavl/SharpLog"}>SharpLog</a>       
+    <a className="button" target="_blank" href={"https://github.com/prasannavl/MongoSessionProvider"}>MongoSessionProvider</a>
+    <a className="button" target="_blank" href={"https://github.com/prasannavl/history-next"}>history-next</a>
+    <a className="button" target="_blank" href={"https://github.com/prasannavl/ConsoleUtils"}>ConsoleUtils</a>
+    <a className="button" target="_blank" href={"https://github.com/prasannavl/Wrex"}>Wrex</a>
+    <a className="button" target="_blank" href={"https://github.com/prasannavl/TextUtils"}>TextUtils</a>
+    <a className="button" target="_blank" href={"https://github.com/prasannavl/Benchmarks"}>Benchmarks</a>
+    <a className="button" target="_blank" href={"https://github.com/prasannavl/MSP430-IR-Based-Codes"}>MSP430-IR-Based-Codes</a>
+    </p></div>);
 }
 
 function getFeedbackLink() {
