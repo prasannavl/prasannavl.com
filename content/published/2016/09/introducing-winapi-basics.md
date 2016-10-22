@@ -12,7 +12,7 @@ tags:
 
 > GitHub: https://github.com/prasannavl/WinApi 
 
-In the previous article here, I discussed the evolution of programs that use the Windows API with C/C++ and C# snippets, and it ultimately ended out with this C# snippet:
+In the previous article <a href="/2016/09/introducing-winapi-the-evolution">here</a>, I discussed the evolution of programs that use the Windows API with C/C++ and C# snippets, and it ultimately ended out with this C# snippet:
 
 ```c#
     static int Main(string[] args)
@@ -25,7 +25,7 @@ In the previous article here, I discussed the evolution of programs that use the
     }
 ```
 
-Yes. That's fully functional code that works. Just add references to `WinApi`, and `WinApi.Controls` which are both `less than 150kb` combined, and it'll do what its excepted to do. However, before I get into samples that look nifty, let's look at a precise translation of the C++ programs, without the use of the `Window` abstraction that `WinApi` provides in the helper namespace `WinApi.Windows`.
+Yup. That's fully functional code that works. Just add references to `WinApi`, and `WinApi.Controls` which are both `less than 150kb` combined, and it'll do what its excepted to do. However, before I get into samples that look nifty, let's look at a precise translation of the C/C++ program in the previous article, without the use of the `Window` abstraction that `WinApi` provides in the helper namespace `WinApi.Windows`.
 
 A very raw program that uses the Windows API would look like this:
 
@@ -129,8 +129,8 @@ However, this program above is probably purely academic - not because it has to 
 
 ## WinApi structure
 
-Before getting to the `WinApi.Windows` namespace, I'd like briefly touch on how `WinApi` is organized.
-Each library that corresponds to a `windows dll` gets its own namespace. 
+Before getting to the `WinApi.Windows` namespace, I'd like to briefly touch on how `WinApi` is organized.
+Each library that corresponds to a `windows dll` gets its own namespace.
 
 Examples, `kernel32.dll` functions all are in the `WinApi.Kernel32` namespace, `user32.dll` into `WinApi.User32` namespace, and so on.
 
@@ -145,7 +145,7 @@ As an example `User32Methods` has the following method defined:
 
 It takes all inputs in the form of `IntPtr`, which allows any kind of marshalling.
 
-At the same time, `User32Helpers` has the implementations:
+At the same time, `User32Helpers` has the following implementations:
 
 ```c#
         public static unsafe int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, ref Point point)
@@ -192,25 +192,25 @@ win.Close();
 
 ### Class: `WindowFactory`
 
-This is the class that's very similar to a `CLASSEX` manager for Win32. It registers a class, and manages its lifetime, and creates Windows of a particular class.
+This is the class that's a `WNDCLASSEX` registration manager for Win32. It registers a class, and manages its lifetime, and creates Windows of a particular class.
 
-It also provides all the convenience methods to be able to create classes as `NativeWindow`, or as any other derivative of `NativeWindow`, and provides attachment, and connection implementations.
+It also provides all the convenience methods to be able to create classes as `NativeWindow`, or as any other derivative of `WindowCore`, and provides attachment, and connection implementations. It also has generic methods that are able to project the created class to any C# type that derives from `WindowCore`.
 
 Take a look at the source code of the several static methods to see what it does. Naturally, you also provide any `CS` styles while creating a new factory, which for all practical purposes can be thought of as a Win32 equivalent of class registration.
 
 ### Class `WindowCore`
 
-Now this is the class where all the magic happens. It provides the real connection by attaching your handle and connecting your `WindowProc` to the class instances. If you look at `ATL` code, this is done using a concept called `thunking` and its done in assembly which may seem like dark magic. However, `WinApi` does it very transparently, and with no performance impact.
+Now this is the class where all the magic happens. It provides the real connection by attaching your handle and connecting your `WindowProc` to the class instances. If you look at the internals of `ATL` code, this is done using a concept called `thunking` and its done in assembly which may seem like dark magic. However, `WinApi` does this very transparently, and with no performance impact.
 
-It does this with the help of `WindowFactory`, and swapping out its procedure during the creation of the window (more precisely `WM_NCCREATE`.
+It does this with the help of `WindowFactory`, and swapping out its procedure during the creation of the window (more precisely during the `WM_NCCREATE` message).
 
-Once it provides the connections, the `OnMessage` instance method can be used directly from C# to use the messages.
+Once it provides the connections, the `OnMessage` instance method can be used directly from C# to process the messages.
 
 ### Class `EventedWindowCore`
 
-`WindowCore` is still a super light weight class that does no message processing. Its still almost entirely native processing. Its stays completely out of the way, except for being able to control your message loop. But the keyword is `being able`. It doesn't not by default process any message by itself. Its simple passes it down to it default procedure. This is the lightest class that's fully functional.
+`WindowCore` is still a super light weight class that does no message processing. Its stays completely out of the way, except for being able to control your message loop. But the keyword is `being able`. It doesn't not by default process any message by itself. Its simply passes it down to it default procedure. This is the lightest class that's fully functional.
 
-Then comes the `EventedWindowCore` - this class decodes all the window messages, and breaks it down to its components, and process them to the relatives class methods.
+Then comes the `EventedWindowCore` - this class decodes all the window messages, and breaks it down to its components, and passes them down to the relatives class instance's event methods.
 
 For example
 
@@ -249,7 +249,34 @@ So, similar to ATL/WTL, if you use the `WindowCore` you could manually build onl
 
 That should be cool! You can use the `EventedWindowCore`, derive all its benefits, but yet maintain performance very similar to writing native code in `ATL` with C++. However, for some reason you still want to use `WindowCore`, all the decoders are directly available in `MessageDecoder` to build manually, as you like. No more dealing with `wparam` and `lparam`.
 
-And the `MessageDecoder` is highly optimized to pass values on without any marshalling and additional copies of data. Even though many of the pointers are very naturally exposed in C# as its counterpart structs, they are involve additional copying. It uses very neat interop techniques to perform `reinterpret` casting into the C# managed boundary.
+Infact, the way `EventedWindowCore` is implemented very similar to this:
+
+```C#
+
+public class EventedWindowCore : WindowCore {
+    protected override OnMessage(ref WindowMessage msg) {
+        switch (msg.Id) {
+            ...
+            case WM.MOVE {
+                MessageDecoder.ProcessMove(ref msg, this.OnMove);
+                break;
+            }
+            ...
+            default:
+            {
+                this.OnMessageDefault(ref msg);
+            }
+        }
+    }
+
+    protected virtual OnMove(ref WindowMessage msg, ref Point point) => this.OnMessageDefault(ref msg);
+}
+
+```
+
+And in the above case `OnMessageDefault` translates into calling the base window procedure, which would be the `DefWindowProc` method in `user32.dll` if its an plain window, or the window's default procedure if its an in-built class like `STATIC`, `EDIT`, etc.
+
+Also, the `MessageDecoder` class is highly optimized to pass values on without any marshalling and additional copies of data. Even though many of the pointers are very naturally exposed in C# as its counterpart structs, they are involve additional copying. It uses very neat interop techniques to perform `reinterpret` casting into the C# managed boundary.
 
 ## Putting it all together
 
