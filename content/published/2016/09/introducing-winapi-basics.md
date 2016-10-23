@@ -12,7 +12,7 @@ tags:
 
 > GitHub: https://github.com/prasannavl/WinApi 
 
-In the previous article <a href="/2016/09/introducing-winapi-the-evolution">here</a>, I discussed the evolution of programs that use the Windows API with C/C++ and C# snippets, and it ultimately ended out with this C# snippet:
+In the previous article <a href="/2016/09/introducing-winapi-the-evolution" class="route">here</a>, I discussed the evolution of programs that use the Windows API with C/C++ and C# snippets, and it ultimately ended out with this C# snippet:
 
 ```c#
     static int Main(string[] args)
@@ -176,9 +176,7 @@ Then comes the one namespace that is special - This is not named after any nativ
 
 ### Class: `NativeWindow`
 
-This is the class that is the thinnest layer of Window. It simply wraps the original `Win32` handle. And it only has a single member - an IntPtr of `Handle`, and provides a way to attach itself to any Handle, and allows nice wrappers to be used through out. 
-
-For example:
+This is the class that is the thinnest layer of Window. It simply wraps the original `Win32` handle. And it only has a single member - an IntPtr of `Handle`, and provides a way to attach itself to any Handle, and allows nice wrappers to be used through out.
 
 ```c#
 
@@ -327,7 +325,7 @@ Also, the `MessageDecoder` class is highly optimized to pass values on without a
                     // basis, when I need it since all the default methods
                     // are publicly, exposed with the MessageDecoder class.
                     //
-                    // MessageDecoder.OnEraseBkgnd(ref msg, this.OnMove);
+                    // MessageDecoder.ProcessEraseBkgnd(ref msg, this.OnMove);
                     // return;
 
                     msg.Result = new IntPtr(1);
