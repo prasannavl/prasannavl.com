@@ -3,9 +3,9 @@ name: 'Introducing WinApi: Basics'
 date: 2016-10-22T14:01:11.533Z
 url: 2016/09/introducing-winapi-basics
 tags: 
- - winapi
- - dotnet
- - c#
+ - WinApi
+ - DotNet
+ - C#
 -->
 
 # Introducing WinApi: Basics

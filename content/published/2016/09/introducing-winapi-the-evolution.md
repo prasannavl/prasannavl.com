@@ -3,9 +3,9 @@ name: 'Introducing WinApi: The Evolution'
 date: 2016-10-22T13:51:30.195Z
 url: 2016/09/introducing-winapi-the-evolution
 tags:
- - winapi
- - dotnet
- - c#
+ - WinApi
+ - DotNet
+ - C#
 -->
 
 # Introducing WinApi: The Evolution

@@ -9,7 +9,7 @@ tags:
   - Microsoft
 -->
 
-I've been a Microsoft Insider ever since its inception, and I have a habit of sending detailed bug reports and patches if I have the time to pretty much most of the open source software I tend to use for over a few hours. Keeping with that habit, there's quite a lot feedback that I had submitted early on (At the time of writing this, I probably have around a hundred feedbacks already). And not long ago, the Insider Hub app got a bunch of Achievements (a potential attempt at a basic *gamification* to encourage participation). And well, seems like as of a few days ago, I've gotten all of the so-called **"Achievements"**. Ha! - I did think it was rather childish of me to write about this. However, it's simple, easy and helps shape the platform. Perhaps it may add a little more motivation for someone.
+I've been a Microsoft Insider ever since its inception, and I have a habit of sending detailed bug reports and patches if I have the time to pretty much most of the open source software I tend to use for over a few hours. Keeping with that habit, there's quite a lot feedback that I had submitted early on (At the time of writing this, I probably have around a hundred feedbacks already). And not long ago, the Insider Hub app got a bunch of Achievements (a potential attempt at a basic *gamification* to encourage participation). And well, seems like as of a few days ago, I've gotten all of the so-called **"Achievements"**. Ha! - **I did think it was rather childish of me to write about this. However, it's simple, easy and helps shape the platform.** Perhaps it may add a little more motivation for someone.
 
 <img src="https://c2.staticflickr.com/8/7431/27713705015_ba7fec646e_b_d.jpg" style="width:100%;" alt="[Screenshot]"/>
 
