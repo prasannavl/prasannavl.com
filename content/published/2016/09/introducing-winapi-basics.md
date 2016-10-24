@@ -190,25 +190,25 @@ win.Close();
 
 ### Class: `WindowFactory`
 
-This is the class that's a `WNDCLASSEX` registration manager for Win32. It registers a class, and manages its lifetime, and creates Windows of a particular class.
+This is the class that acts as a `WNDCLASSEX` registration manager for Win32. It registers a class, manages its lifetime, and creates Windows of that particular class.
 
 It also provides all the convenience methods to be able to create classes as `NativeWindow`, or as any other derivative of `WindowCore`, and provides attachment, and connection implementations. It also has generic methods that are able to project the created class to any C# type that derives from `WindowCore`.
 
-Take a look at the source code of the several static methods to see what it does. Naturally, you also provide any `CS` styles while creating a new factory, which for all practical purposes can be thought of as a Win32 equivalent of class registration.
+Take a look at the source code of the several static methods to see what it does. Naturally, you also provide any `CS` styles, background brush, class name and others while creating a new factory - for all practical purposes it is the equivalent of Win32 class registration.
 
 ### Class `WindowCore`
 
-Now this is the class where all the magic happens. It provides the real connection by attaching your handle and connecting your `WindowProc` to the class instances. If you look at the internals of `ATL` code, this is done using a concept called `thunking` and its done in assembly which may seem like dark magic. However, `WinApi` does this very transparently, and with no performance impact.
+Now this is the class where all the magic happens. It provides the actual connection by attaching your handle and connecting your `WindowProc` to the class instances. If you look at the internals of `ATL` code, this is done using a concept called `thunking` and its done in assembly which may seem like dark magic to many. However, `WinApi` does this very transparently, and with no performance impact.
 
 It does this with the help of `WindowFactory`, and swapping out its procedure during the creation of the window (more precisely during the `WM_NCCREATE` message).
 
 Once it provides the connections, the `OnMessage` instance method can be used directly from C# to process the messages.
 
-### Class `EventedWindowCore`
-
 `WindowCore` is still a super light weight class that does no message processing. Its stays completely out of the way, except for being able to control your message loop. But the keyword is `being able`. It doesn't not by default process any message by itself. Its simply passes it down to it default procedure. This is the lightest class that's fully functional.
 
-Then comes the `EventedWindowCore` - this class decodes all the window messages, and breaks it down to its components, and passes them down to the relatives class instance's event methods.
+### Class `EventedWindowCore`
+
+Directly derived from `WindowCore` is the `EventedWindowCore` - this class decodes all the window messages, and breaks it down to its components, and passes them down to the relatives class instance's event methods.
 
 For example
 
@@ -227,7 +227,7 @@ For example
     }
 ```
 
-Internally it uses the `MessageDecoder` class that transparently decodes every message into its parameters. The `EventedWindowCore` handles most of the common window messages.
+Internally it uses the `MessageDecoder` class that transparently decodes every message into its parameters. The `EventedWindowCore` handles most of the common window messages. That's actually all it does. The implementation can be thought of as nothing but one giant switch case that does simply decodes and propagates the parameters to your handler. 
 
 For example,
 
