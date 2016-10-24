@@ -20,7 +20,7 @@ As I introduced the basics of `WinApi` in my previous articles, it may make sens
 
 Actually, the title probably includes every major drawing library other than `Cairo`, but I choose `Skia` for the purposes of demonstration here, since its at the crux of both *Google Chrome* and *Firefox*. It may seem overwhelming that I'm demoing all of these technologies in a single article, but this is where the helpers of `WinApi` gives a hand to make all this super easy, without compromising on the performance.
 
-## A GDI Window
+## The GDI Window
 
 Let's start with the most fundamental and built-in 2D graphics library with Windows - GDI.
 
@@ -65,7 +65,7 @@ So, this should look open up this window:
 
 That's about it. Nothing special to be done here, and all the Gdi methods can be used as usual.
 
-## A Skia Window
+## The Skia Window
 
 I'm going to skip right off to using `Skia` next. The best way to use Skia from C# is by using the `SkiaSharp` library from the Xamarin team.
 
@@ -189,9 +189,11 @@ And the result:
 
 <img src="https://c1.staticflickr.com/9/8676/29889574054_94206b699b_b_d.jpg" alt="[Image]" style="width:100%;" />
 
-## An OpenGL Window
+## The OpenGL Window
 
-Moving on to OpenGL, I'm going to use `OpenGL.Net` as a raw wrapper to OpenGL. However, I'm going to leave the initialization of GL out of the sample here, since its quite complicated. I've already written a class `OpenGlWindow` that wraps over all of that in the sample that's already there in the `WinApi` repo: https://github.com/prasannavl/WinApi/tree/master/Samples/Sample.OpenGL
+Moving on to OpenGL, I'm going to use `OpenGL.Net` as a raw wrapper to OpenGL. However, I'm going to leave the initialization of GL out of the sample here, since its quite complicated. I've already written a class `OpenGlWindow` that wraps over all of that in the sample that's already there in the `WinApi` repo:
+
+https://github.com/prasannavl/WinApi/tree/master/Samples/Sample.OpenGL
 
 Reusing the class from there:
 
@@ -256,7 +258,7 @@ And here's the result:
 
 <img src="https://c1.staticflickr.com/9/8599/30222129330_bb84398a1b_b_d.jpg" alt="[Image]" style="width:100%;" />
 
-## Direct3D and Direct2D
+## The Direct3D and Direct2D Window
 
 And finally to DirectX. I kept this for the last, because its generally considered to the most complex of it all - It requires in-depth knowledge of how the GPU pipeline actually works, swap chains, color formats and life-cycle management of the GPU meta resources, and a lot more. However, with `WinApi.DxUtils`, you don't have do any of that.
 
@@ -274,7 +276,8 @@ First off, I'm going to create a window with `WS_EX_NOREDIRECTIONBITMAP` style. 
                 using (
                     var win = factory.CreateWindow(() => new MainWindow(), "Hello",
                         constructionParams: new FrameWindowConstructionParams(),
-                        exStyles: WindowExStyles.WS_EX_APPWINDOW | WindowExStyles.WS_EX_NOREDIRECTIONBITMAP))
+                        exStyles: WindowExStyles.WS_EX_APPWINDOW
+                         | WindowExStyles.WS_EX_NOREDIRECTIONBITMAP))
                 {
                     win.CenterToScreen();
                     win.Show();
@@ -300,7 +303,8 @@ So, in all its glory, the entire management of D3D11, D2D1, DirectWrite and DCom
     {
         private readonly Dx11Component m_dx = new Dx11Component();
 
-        protected override CreateWindowResult OnCreate(ref WindowMessage msg, ref CreateStruct createStruct)
+        protected override CreateWindowResult OnCreate(ref WindowMessage msg, 
+            ref CreateStruct createStruct)
         {
             m_dx.Initialize(Handle, GetClientSize());
             return base.OnCreate(ref msg, ref createStruct);
@@ -322,7 +326,8 @@ So, in all its glory, the entire management of D3D11, D2D1, DirectWrite and DCom
             }
         }
 
-        protected override void OnSize(ref WindowMessage msg, WindowSizeFlag flag, ref Size size)
+        protected override void OnSize(ref WindowMessage msg, WindowSizeFlag flag,
+             ref Size size)
         {
             m_dx.Resize(size);
         }
@@ -364,12 +369,15 @@ So, all you need to do, is derive from `DxWindow`:
 
             for (var i = 0; i < 10; i++)
             {
-                b.Color = new RawColor4(rand.NextFloat(), rand.NextFloat(), rand.NextFloat(), 0.4f);
+                b.Color = new RawColor4(rand.NextFloat(), rand.NextFloat(), 
+                    rand.NextFloat(), 0.4f);
                 context.FillEllipse(
-                    new Ellipse(new RawVector2(rand.NextFloat(0, w), rand.NextFloat(0, h)), rand.NextFloat(0, w),
+                    new Ellipse(new RawVector2(rand.NextFloat(0, w), 
+                        rand.NextFloat(0, h)), rand.NextFloat(0, w),
                         rand.Next(0, h)), b);
                 context.FillRectangle(
-                    new RawRectangleF(rand.NextFloat(0, w), rand.NextFloat(0, h), rand.NextFloat(0, w),
+                    new RawRectangleF(rand.NextFloat(0, w), 
+                        rand.NextFloat(0, h), rand.NextFloat(0, w),
                         rand.NextFloat(0, h)), b);
             }
             b.Dispose();
@@ -383,6 +391,3 @@ As far as I know, this is probably the quickest way that exists to date, to star
 And the result:
 
 <img src="https://c2.staticflickr.com/6/5824/30222132320_b302694543_b_d.jpg" alt="[Image]" style="width:100%;" />
-
-
-
