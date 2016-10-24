@@ -206,24 +206,24 @@ With the CLR, came WinForms - Microsoft's recommended way of accessing the Windo
 And soon, the above code, looked something like this:
 
 ```c#
-    internal static class Program
-    {
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
-        }
-    }
+internal static class Program
+{
+	[STAThread]
+	static void Main()
+	{
+		Application.EnableVisualStyles();
+		Application.SetCompatibleTextRenderingDefault(false);
+		Application.Run(new MainWindow());
+	}
+}
 
-    public partial class MainWindow : Form
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-    }
+public partial class MainWindow : Form
+{
+	public MainWindow()
+	{
+		InitializeComponent();
+	}
+}
 ```
 
 Looks much nicer. But lets get the fact that this is not C++ out of the way first - in most scenarios the advanced capabilities really aren't required and you can always use C++ when you really need and simply PInvoke even though `a C# idiomatic high-performance solution almost always exists as well with techniques like memory pooling, structs, and stackalloc`. Because, when you realize you need such optimizations especially memory pooling, chances are C/C++ would benefit with memory pooling as well. And **once you start efficiently pooling memory and reducing the GC pressure, the performance differences between the two languages start to disappear for the most part**. That aside, there are still some inherent problems.
@@ -245,14 +245,14 @@ All of this brought me to this - **You need a clean, stable way to access the Wi
 And that brings us to the `WinApi` which ultimately lets you do this, while solving all of the problems above:
 
 ```c#
-    static int Main(string[] args)
-    {
-        using (var win = Window.Create(text: "Hello"))
-        {
-            win.Show();
-            return new EventLoop().Run(win);
-        }
-    }
+static int Main(string[] args)
+{
+	using (var win = Window.Create(text: "Hello"))
+	{
+		win.Show();
+		return new EventLoop().Run(win);
+	}
+}
 ```
 
 I'll discuss more about how it solves the problems, and how to use it in the next article.

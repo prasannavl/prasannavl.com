@@ -15,14 +15,14 @@ tags:
 In the previous article <a href="/2016/09/introducing-winapi-the-evolution" class="route">here</a>, I discussed the evolution of programs that use the Windows API with C/C++ and C# snippets, and it ultimately ended out with this C# snippet:
 
 ```c#
-    static int Main(string[] args)
+static int Main(string[] args)
+{
+    using (var win = Window.Create(text: "Hello"))
     {
-        using (var win = Window.Create(text: "Hello"))
-        {
-            win.Show();
-            return new EventLoop().Run(win);
-        }
+        win.Show();
+        return new EventLoop().Run(win);
     }
+}
 ```
 
 Yup. That's fully functional code that works. Just add references to `WinApi`, and `WinApi.Controls` which are both `less than 150kb` combined, and it'll do what its excepted to do. However, before I get into samples that look nifty, let's look at a precise translation of the C/C++ program in the previous article, without the use of the `Window` abstraction that `WinApi` provides in the helper namespace `WinApi.Windows`.
@@ -139,8 +139,8 @@ And inside each namespace is a static class which ends with `Methods`. Ex: `User
 As an example `User32Methods` has the following method defined:
 
 ```c#
-        [DllImport(LibraryName, ExactSpelling = true)]
-        public static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, IntPtr lpPoints, int cPoints);
+[DllImport(LibraryName, ExactSpelling = true)]
+public static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, IntPtr lpPoints, int cPoints);
 ```
 
 It takes all inputs in the form of `IntPtr`, which allows any kind of marshalling.
@@ -148,20 +148,20 @@ It takes all inputs in the form of `IntPtr`, which allows any kind of marshallin
 At the same time, `User32Helpers` has the following implementations:
 
 ```c#
-        public static unsafe int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, ref Point point)
-        {
-            fixed (Point* ptr = &point)
-                return User32Methods.MapWindowPoints(hWndFrom, hWndTo, new IntPtr(ptr), 1);
-        }
+public static unsafe int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, ref Point point)
+{
+    fixed (Point* ptr = &point)
+        return User32Methods.MapWindowPoints(hWndFrom, hWndTo, new IntPtr(ptr), 1);
+}
 
-        public static unsafe int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, ref Rectangle rect)
-        {
-            fixed (Rectangle* ptr = &rect)
-            {
-                var ptPtr = (Point*) ptr;
-                return User32Methods.MapWindowPoints(hWndFrom, hWndTo, new IntPtr(ptPtr), 2);
-            }
-        }
+public static unsafe int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, ref Rectangle rect)
+{
+    fixed (Rectangle* ptr = &rect)
+    {
+        var ptPtr = (Point*) ptr;
+        return User32Methods.MapWindowPoints(hWndFrom, hWndTo, new IntPtr(ptPtr), 2);
+    }
+}
 ```
 
 Again, this provides straight forward Marshalling without any performance impact, since it simply pins the struct which already have C-Layouts, and passes in the pointers.
@@ -212,19 +212,19 @@ Directly derived from `WindowCore` is the `EventedWindowCore` - this class decod
 
 For example
 
-```C#
-   public sealed class MainWindow : EventedWindowCore
+```c#
+public sealed class MainWindow : EventedWindowCore
+{
+    protected override CreateWindowResult OnCreate(ref WindowMessage msg, ref CreateStruct createStruct)
     {
-        protected override CreateWindowResult OnCreate(ref WindowMessage msg, ref CreateStruct createStruct)
-        {
-            return base.OnCreate(ref msg, ref createStruct);
-        }
-
-        protected override void OnSize(ref WindowMessage msg, WindowSizeFlag flag, ref Size size)
-        {
-            base.OnSize(ref msg, flag, ref size);
-        }
+        return base.OnCreate(ref msg, ref createStruct);
     }
+
+    protected override void OnSize(ref WindowMessage msg, WindowSizeFlag flag, ref Size size)
+    {
+        base.OnSize(ref msg, flag, ref size);
+    }
+}
 ```
 
 Internally it uses the `MessageDecoder` class that transparently decodes every message into its parameters. The `EventedWindowCore` handles most of the common window messages. That's actually all it does. The implementation can be thought of as nothing but one giant switch case that does simply decodes and propagates the parameters to your handler. 
@@ -232,13 +232,13 @@ Internally it uses the `MessageDecoder` class that transparently decodes every m
 For example,
 
 ```c#
-        public static void ProcessMove(ref WindowMessage msg, MoveHandler handler)
-        {
-            Point point;
-            msg.LParam.BreakSafeInt32To16Signed(out point.Y, out point.X);
-            handler(ref msg, ref point);
-            // Standard return. 0 if already processed
-        }
+public static void ProcessMove(ref WindowMessage msg, MoveHandler handler)
+{
+    Point point;
+    msg.LParam.BreakSafeInt32To16Signed(out point.Y, out point.X);
+    handler(ref msg, ref point);
+    // Standard return. 0 if already processed
+}
 ```
 
 This is the implementation for `WM_MOVE` message decoder. It provides a very nice way to handle `WM_MOVE` as a `MoveHandler` that takes receives the original message, and a well decoded `Point` struct as input.
@@ -267,7 +267,8 @@ public class EventedWindowCore : WindowCore {
         }
     }
 
-    protected virtual OnMove(ref WindowMessage msg, ref Point point) => this.OnMessageDefault(ref msg);
+    protected virtual OnMove(ref WindowMessage msg, ref Point point) 
+        => this.OnMessageDefault(ref msg);
 }
 
 ```
@@ -279,62 +280,62 @@ Also, the `MessageDecoder` class is highly optimized to pass values on without a
 ## Putting it all together
 
 ```c#
-   internal class Program
+internal class Program
+{
+    static int Main(string[] args)
     {
-        static int Main(string[] args)
+        // Window is just a wrapper over EventedWindowCore,
+        // that provides more convinience methods, which has
+        // its own self registered factory.
+        //
+        // Window is a part of WinApi.Windows.Controls.
+        //
+        // Samples contain code that also directly initiates
+        // EventedWindowCore without depending on 
+        // WinApi.Windows.Controls simply by creating 
+        // WindowFactory
+        using (var win = Window.Create<AppWindow>("Hello"))
         {
-            // Window is just a wrapper over EventedWindowCore,
-            // that provides more convinience methods, which has
-            // its own self registered factory.
-            //
-            // Window is a part of WinApi.Windows.Controls.
-            //
-            // Samples contain code that also directly initiates
-            // EventedWindowCore without depending on 
-            // WinApi.Windows.Controls simply by creating 
-            // WindowFactory
-            using (var win = Window.Create<AppWindow>("Hello"))
-            {
-                win.Show();
-                return new EventLoop().Run(win);
-            }
+            win.Show();
+            return new EventLoop().Run(win);
         }
     }
+}
 
-    public class AppWindow : Window
+public class AppWindow : Window
+{
+    protected override void OnMove(ref WindowMessage msg, ref Point point)
     {
-        protected override void OnMove(ref WindowMessage msg, ref Point point)
-        {
-            base.OnPaint(ref msg, ref point);
-        }
-
-        protected override void OnMessage(ref WindowMessage msg)
-        {
-            switch (msg.Id)
-            {
-                // Note: OnEraseBkgnd method is already available in 
-                // EventedWindowCore, but directly intercepted here
-                // just for the sake of overriding the
-                // message loop.
-                // Also, note that the message loop is 
-                // short-cicuited here.
-
-                case WM.ERASEBKGND:
-                {
-                    // I can even build the loop only on pay-per-use
-                    // basis, when I need it since all the default methods
-                    // are publicly, exposed with the MessageDecoder class.
-                    //
-                    // MessageDecoder.ProcessEraseBkgnd(ref msg, this.OnMove);
-                    // return;
-
-                    msg.Result = new IntPtr(1);
-                    return;
-                }
-            }
-            base.OnMessage(ref msg);
-        }
+        base.OnPaint(ref msg, ref point);
     }
+
+    protected override void OnMessage(ref WindowMessage msg)
+    {
+        switch (msg.Id)
+        {
+            // Note: OnEraseBkgnd method is already available in 
+            // EventedWindowCore, but directly intercepted here
+            // just for the sake of overriding the
+            // message loop.
+            // Also, note that the message loop is 
+            // short-cicuited here.
+
+            case WM.ERASEBKGND:
+            {
+                // I can even build the loop only on pay-per-use
+                // basis, when I need it since all the default methods
+                // are publicly, exposed with the MessageDecoder class.
+                //
+                // MessageDecoder.ProcessEraseBkgnd(ref msg, this.OnMove);
+                // return;
+
+                msg.Result = new IntPtr(1);
+                return;
+            }
+        }
+        base.OnMessage(ref msg);
+    }
+}
 ```
 
 The Samples included in the `WinApi` repository also has several programs that use DirectX, OpenGL, Skia, to paint windows. There are tons of other things that `WinApi` does, including one of the simplest ways of using `SendInput` with the helpers built right in, `DxUtils` that relives all the pain of managing the numerous Direct3D, Direct2D and also manages its versioning with ease, all while maintaining high-performance without any pressure on the GC.

@@ -24,7 +24,7 @@ And that's exactly what the below tiny (<2kb) library provides.
 
 ### API
 
-```
+```js
 Locker.Lock(lockName, callbackFunction, [priority=0]);
 Locker.LockManual(lockName, callbackFunction, [priority=0]);
 Locker.Release(lockName);
@@ -38,7 +38,7 @@ Locker.LockIfInstant(lockName, callbackFunction, [priority=0]);
 
 ### Basic usage
 
-```
+```js
 function getALife() {
         Locker.Lock("thebiglock", function() {
         DoSomeWork();
@@ -51,7 +51,7 @@ You could see how the above just cannot work without locking. Without this locki
 
 The above is a auto-release lock. If you want manual control over the locks, just use the ManualLock and Release functions. It'd be incredibly useful to nest it deep down in the async callback hierarchy. Say, to couple it with jQuery animate's call back.
 
-```
+```js
 Locker.LockManual("thebiglock", function() {
     DoSomeWork();
     $("MyLife").animate( "fast", function() {
@@ -65,7 +65,7 @@ Now this makes it work exactly as you'd except. And you can call the Locker.Rele
 
 And last but not the least - Priorities.
 
-```
+```js
 Locker.Lock("thebiglock", function() {
     DoSomeWork();
     FetchNewAjaxContentAndReplaceMyMainContent();
@@ -76,7 +76,7 @@ The default priority of jobs is 10.  Higher the value, higher the priority.
 
 ### Priority values example
 
-```
+```js
 var test = function(no) {
     var priority = Math.ceil(Math.random() * 10);
     Locker.Lock("t1", function () { 
