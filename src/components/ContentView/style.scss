@@ -3,6 +3,7 @@
     position: relative;
     word-wrap: break-word;
     $red: #e06666;
+    $gray: #383838;
     height: 100vh;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
@@ -48,6 +49,12 @@
         font-weight: 400;
     }
     blockquote {
+        & > h4 {
+            font-size: 24px;
+            color: #666666;
+            padding-bottom: 15px;
+            font-weight: 200;
+        }
         & > p {
             margin: 0;
             padding: 0;
@@ -65,12 +72,19 @@
         &.green {
             border-left: 4px solid green;
         }
+
     }
     .text-red {
         color: $red;
     }
+    .text-gray {
+        color: $gray;
+    }
     .text-wnormal {
         font-weight: normal;
+    }
+    .caption-small {
+        font-weight: 200;
     }
     pre {
         background: #f4f7f8;
