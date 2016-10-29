@@ -1,7 +1,7 @@
 <!--[options]
 name: 'Introducing WinApi: Basics'
 date: 2016-10-22T14:01:11.533Z
-url: 2016/09/introducing-winapi-basics
+url: 2016/10/introducing-winapi-basics
 tags: 
  - WinApi
  - DotNet
@@ -12,7 +12,7 @@ tags:
 
 > GitHub: https://github.com/prasannavl/WinApi 
 
-In the previous article <a href="/2016/09/introducing-winapi-the-evolution" class="route">here</a>, I discussed the evolution of programs that use the Windows API with C/C++ and C# snippets, and it ultimately ended out with this C# snippet:
+In the previous article <a href="/2016/10/introducing-winapi-the-evolution" class="route">here</a>, I discussed the evolution of programs that use the Windows API with C/C++ and C# snippets, and it ultimately ended out with this C# snippet:
 
 ```c#
 static int Main(string[] args)
@@ -215,48 +215,50 @@ For example
 ```c#
 public sealed class MainWindow : EventedWindowCore
 {
-    protected override CreateWindowResult OnCreate(ref WindowMessage msg, ref CreateStruct createStruct)
+    protected override void OnCreate(ref CreateWindowPacket packet)
     {
-        return base.OnCreate(ref msg, ref createStruct);
+        base.OnCreate(ref packet);
     }
 
-    protected override void OnSize(ref WindowMessage msg, WindowSizeFlag flag, ref Size size)
+    protected override void OnSize(ref SizePacket packet)
     {
-        base.OnSize(ref msg, flag, ref size);
+        var size = packet.Size;
+        var flags = packet.Flag;
+        base.OnSize(ref packet);
     }
 }
 ```
 
-Internally it uses the `MessageDecoder` class that transparently decodes every message into its parameters. The `EventedWindowCore` handles most of the common window messages. That's actually all it does. The implementation can be thought of as nothing but one giant switch case that does simply decodes and propagates the parameters to your handler. 
+Internally it uses the `Packetizer` class that simples create a corresponding `Packet` struct, and transparently decodes every message into its parameters. The `EventedWindowCore` handles most of the common window messages. That's actually all it does. The implementation can be thought of as nothing but one giant switch case that does simply creates a packet and propagates the packet to its appropriate handler method.
 
 For example,
 
 ```c#
-public static void ProcessMove(ref WindowMessage msg, MoveHandler handler)
+public static unsafe void ProcessMove(ref WindowMessage msg, EventedWindowCore window)
 {
-    Point point;
-    msg.LParam.BreakSafeInt32To16Signed(out point.Y, out point.X);
-    handler(ref msg, ref point);
-    // Standard return. 0 if already processed
+    fixed (WindowMessage* ptr = &msg)
+    {
+        var packet = new MovePacket(ptr);
+        window.OnMove(ref packet);
+    }
 }
 ```
 
-This is the implementation for `WM_MOVE` message decoder. It provides a very nice way to handle `WM_MOVE` as a `MoveHandler` that takes receives the original message, and a well decoded `Point` struct as input.
+This is the implementation for `WM_MOVE` handler. The `MovePacket` provides a very nice way to handle `WM_MOVE`, since it can both decode or encode the WM_MOVE messages into its parameter. It has the property `Point` as one of its properties.
 
-So, similar to ATL/WTL, if you use the `WindowCore` you could manually build only the events you want to handle, by using the `MessageDecoder` - though in really, there's really no reason to do it, since the `JIT` will optimize away the `EventedWindowCore` to give you similar code in the end.
+So, similar to ATL/WTL, if you use the `WindowCore` you could manually build only the events you want to handle, by using the corresponding `Packet` manually - though in really, there's really no reason to do it, since the `JIT` will optimize away the `EventedWindowCore` to give you similar code in the end.
 
-That should be cool! You can use the `EventedWindowCore`, derive all its benefits, but yet maintain performance very similar to writing native code in `ATL` with C++. However, for some reason you still want to use `WindowCore`, all the decoders are directly available in `MessageDecoder` to build manually, as you like. No more dealing with `wparam` and `lparam`.
+You can use the `EventedWindowCore`, derive all its benefits, but yet maintain performance very similar to writing native code in `ATL` with C++. However, for some reason you still want to use `WindowCore`, simply create the packet, to be able to decode the messages and build the logic manually, as you like. No more dealing with `wparam` and `lparam`.
 
 Infact, the way `EventedWindowCore` is implemented very similar to this:
 
-```C#
-
+```c#
 public class EventedWindowCore : WindowCore {
     protected override OnMessage(ref WindowMessage msg) {
         switch (msg.Id) {
             ...
             case WM.MOVE {
-                MessageDecoder.ProcessMove(ref msg, this.OnMove);
+                Packetizer.ProcessMove(ref msg, this);
                 break;
             }
             ...
@@ -267,15 +269,19 @@ public class EventedWindowCore : WindowCore {
         }
     }
 
-    protected virtual OnMove(ref WindowMessage msg, ref Point point) 
-        => this.OnMessageDefault(ref msg);
+    ...
+    protected internal virtual void OnMove(ref MovePacket packet)
+    {
+        // Call the OnMessageDefault here.
+    }
+    ...
 }
 
 ```
 
 And in the above case `OnMessageDefault` translates into calling the base window procedure, which would be the `DefWindowProc` method in `user32.dll` if its an plain window, or the window's default procedure if its an in-built class like `STATIC`, `EDIT`, etc.
 
-Also, the `MessageDecoder` class is highly optimized to pass values on without any marshalling and additional copies of data. Even though many of the pointers are very naturally exposed in C# as its counterpart structs, they are involve additional copying. It uses very neat interop techniques to perform `reinterpret` casting into the C# managed boundary.
+Also, the every single `Packet` variant is highly optimized to pass values on without any marshalling and additional copies of data. Even though many of the pointers are very naturally exposed in C# as its counterpart structs, they involve no additional copying. It uses very neat interop techniques to perform `reinterpret` casting across the C# managed boundary.
 
 ## Putting it all together
 
@@ -304,9 +310,9 @@ internal class Program
 
 public class AppWindow : Window
 {
-    protected override void OnMove(ref WindowMessage msg, ref Point point)
+    protected override void OnMove(ref MovePacket packet)
     {
-        base.OnPaint(ref msg, ref point);
+        base.OnMove(ref packet);
     }
 
     protected override void OnMessage(ref WindowMessage msg)
@@ -323,10 +329,15 @@ public class AppWindow : Window
             case WM.ERASEBKGND:
             {
                 // I can even build the loop only on pay-per-use
-                // basis, when I need it since all the default methods
-                // are publicly, exposed with the MessageDecoder class.
+                // basis, when I need it since all the Packets decoding,
+                // and encoding are cleanly abstracted away into the Packet
+                // structs itself.
                 //
-                // MessageDecoder.ProcessEraseBkgnd(ref msg, this.OnMove);
+                // fixed (var msgPtr = &msg)
+                // {
+                //    var packet = new EraseBkgndPacket(msg);
+                //    // Do anything you want with the packet.
+                // }
                 // return;
 
                 msg.Result = new IntPtr(1);

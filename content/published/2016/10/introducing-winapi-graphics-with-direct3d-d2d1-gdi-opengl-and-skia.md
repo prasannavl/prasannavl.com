@@ -1,7 +1,7 @@
 <!--[options]
 name: 'Introducing WinApi: Graphics with Direct3D, D2D1, GDI, OpenGL and Skia'
 date: 2016-10-23T19:42:37.156Z
-url: 2016/09/introducing-winapi-graphics-with-direct3d-d2d1-gdi-opengl-and-skia
+url: 2016/10/introducing-winapi-graphics-with-direct3d-d2d1-gdi-opengl-and-skia
 tags:
  - WinApi
  - DotNet
@@ -42,7 +42,7 @@ internal class Program
 
 public class MainWindow : Window
 {
-    protected override void OnPaint(ref WindowMessage msg, IntPtr cHdc)
+    protected override void OnPaint(ref PaintPacket packet)
     {
         PaintStruct ps;
         var hdc = BeginPaint(out ps);
@@ -52,7 +52,7 @@ public class MainWindow : Window
         User32Methods.FillRect(hdc, ref rect, brush);
         Gdi32Methods.DeleteObject(brush);
         EndPaint(ref ps);
-        base.OnPaint(ref msg, cHdc);
+        base.OnPaint(ref packet);
     }
 }
 ```
@@ -76,10 +76,10 @@ With all that out of the way, I'm going to start off with a paint handler given 
 ```c#
 public class SkiaPainter
 {
-    public static void ProcessPaint(ref WindowMessage msg, NativePixelBuffer pixelBuffer,
+    public static void ProcessPaint(ref PaintPacket packet, NativePixelBuffer pixelBuffer,
         Action<SKSurface> handler)
     {
-        var hwnd = msg.Hwnd;
+        var hwnd = packet.Hwnd;
         Rectangle clientRect;
         User32Methods.GetClientRect(hwnd, out clientRect);
         var size = clientRect.GetSize();
@@ -106,15 +106,14 @@ public class SkiaPainter
         }
         finally
         {
-            if (skPainted) Gdi32Helpers.SetRgbBitsToDevice(hdc, 
-                size.Width, size.Height, pixelBuffer.Handle);
+            if (skPainted) Gdi32Helpers.SetRgbBitsToDevice(hdc, size.Width, size.Height, pixelBuffer.Handle);
             User32Methods.EndPaint(hwnd, ref ps);
         }
     }
 }
 ```
 
-Looks simple enough. It simply creates a surface, and calls in a delegate that does all the painting. This can technically be optimized further by pooling, or caching the `SKSurface`, but I'm going to skip it for now.
+Looks simple enough. It simply creates a surface, and calls in a delegate that does all the painting. **This can technically be optimized further by pooling, or caching the `SKSurface`, but I'm going to skip it for now**.
 
 The interesting method here is the `Gdi32Helpers.SetRgbBitsToDevice`. Its simply a helper for `SetDIBitsToDevice` GDI method, that takes care of the bitmap header parameters, and blitting the surface over.
 
@@ -127,14 +126,14 @@ public class SkiaWindowBase : EventedWindowCore
 
     protected virtual void OnSkiaPaint(SKSurface surface) {}
 
-    protected override void OnPaint(ref WindowMessage msg, IntPtr cHdc)
+    protected override void OnPaint(ref PaintPacket packet)
     {
-        SkiaPainter.ProcessPaint(ref msg, m_pixelBuffer, OnSkiaPaint);
+        SkiaPainter.ProcessPaint(ref packet, this.m_pixelBuffer, this.OnSkiaPaint);
     }
 
     protected override void Dispose(bool disposing)
     {
-        m_pixelBuffer.Dispose();
+        this.m_pixelBuffer.Dispose();
         base.Dispose(disposing);
     }
 }
@@ -303,15 +302,14 @@ public sealed class DxWindow : EventedWindowCore
 {
     private readonly Dx11Component m_dx = new Dx11Component();
 
-    protected override CreateWindowResult OnCreate(ref WindowMessage msg, 
-        ref CreateStruct createStruct)
+    protected override void OnCreate(ref CreateWindowPacket packet)
     {
-        m_dx.Initialize(Handle, GetClientSize());
-        return base.OnCreate(ref msg, ref createStruct);
+        this.Dx.Initialize(this.Handle, this.GetClientSize());
+        base.OnCreate(ref packet);
     }
 
     protected virtual void OnDxDraw(Dx11Component dx) {}
-    protected override void OnPaint(ref WindowMessage msg, IntPtr hdc)
+    protected override void OnPaint(ref PaintPacket packet)
     {
         m_dx.EnsureInitialized();
         try
@@ -326,10 +324,10 @@ public sealed class DxWindow : EventedWindowCore
         }
     }
 
-    protected override void OnSize(ref WindowMessage msg, WindowSizeFlag flag,
-            ref Size size)
+    protected override void OnSize(ref SizePacket packet)
     {
-        m_dx.Resize(size);
+        this.Dx.Resize(packet.Size);
+        base.OnSize(ref packet);
     }
 
     protected override void Dispose(bool disposing)
