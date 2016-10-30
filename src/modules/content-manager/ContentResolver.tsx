@@ -34,7 +34,7 @@ export class ContentResolver {
             var staticViewCode = win[ContentResolver.StaticViewCodeKey];
             if (staticViewCode != null) {
                 win[ContentResolver.StaticViewCodeKey] = null;
-                return { contentPath: null, factory: () => <Unknown error={staticViewCode}/> };
+                return { contentPath: null, factory: () => <Unknown error={staticViewCode.toString()}/> };
             }
         }
         return this.noResolution();
