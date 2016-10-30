@@ -19,7 +19,7 @@ tags:
 <span class="text-gray caption-small">Memory page faults (Soft):</span> **0.005%** - A mere **5k vs. roughly 1 million** faults/100k messages)<br/>
 </blockquote>
 
-WinApi's primary objective is to provide access to the native layers of the Windows API from the CLR. However, even on first look it should be clear that the `WinApi.Windows` namespace infringes on the `WinForms` territory, even though its a tiny sub-fraction of the size of WinForms. Over the years WinForms has been well optimized to be **decent** - It's not the most efficient beast, but for common programs, it probably takes up less than 2-5% percent of your application's time that it doesn't matter on modern hardware - or so is the general line of thought. However, what's agreed is that it was never the same as say, `ATL/WTL` in C++ or direct Win32 programming to be able to handle message loop heavy applications, or high-performance games.
+<a href="https://github.com/prasannavl/WinApi">WinApi's</a> primary objective is to provide access to the native layers of the Windows API from the CLR. However, even on first look it should be clear that the `WinApi.Windows` namespace infringes on the `WinForms` territory, even though its a tiny sub-fraction of the size of WinForms. Over the years WinForms has been well optimized to be **decent** - It's not the most efficient beast, but for common programs, it probably takes up less than 2-5% percent of your application's time that it doesn't matter on modern hardware - or so is the general line of thought. However, what's one can refute is that it never was the same as say, `ATL/WTL` in C++ or direct Win32 programming to be able to handle message loop heavy applications, or high-performance games.
 
 ## The WinApi.Windows advantage
 
@@ -37,15 +37,17 @@ Measuring GUI performance, is in general very tricky. Instead, I'm going to skip
 
 The reason I'm doing this, is not just to do a really quick estimate, but traditional models will be unfair to `WinForms`. Why? Because, `WinApi.Windows` is a very efficient and light-weight wrapper. And it has no GC allocations during the message loop. So, a hefty framework like WinForms is always going to lose in micro-performance tests, and the results will be misleading.
 
-Rather, what I'm going to do, is to open up a simple window, and give it a ton of messages to chew. But the idea is that these messages have to go through the entire process loop, but not generate additional calls to other areas such as the graphics API for example, since that would end up benchmarking the 2D, and 3D libraries.
+Rather, what I'm going to do, is to open up a simple window and give it a ton of messages to chew. But the idea is that these messages have to go through the entire process loop, but not generate additional calls to other areas such as the graphics API for example, since that would end up benchmarking the 2D, and 3D libraries.
 
-What's the simplest way to do this? Well, resize the window! Win32 sends off `WM_POSITIONCHANGING`, `WM_SIZE`, `WM_MOVE`, `WM_POSITIONCHANGED` as you resize. This also ends up generating `WM_NCPAINT` and `WM_PAINT` messages. Perfect - except for the painting part. I do want it being generated since its one of the high-frequency messages, but I just don't want any of graphics API calls.
+What's the simplest way to do this? Well, `resize the window`! Win32 sends off `WM_POSITIONCHANGING`, `WM_POSITIONCHANGED`, which in turn generates `WM_SIZE`, `WM_MOVE` by the `DefWindowProc` as you resize. This also ends up generating `WM_NCPAINT` and `WM_PAINT` messages as long as the `CS_REDRAW` styles are set. Perfect - except for the painting part. I do want `WM_PAINT` being generated since its one of the high-frequency messages, but I just don't want any of graphics API calls.
 
 > **The key here is that, we don't care too much about how quickly the program runs to completion.**
 
 Wait. What? Isn't that the whole point of this? - Not at all. Why? Because, no developer in the right mind would make a program that just goes on resizing itself and call it a useful piece of software. It's way too simple to emulate the conditions of a real-life program to provide any useful timing comparisons. However, the interesting part is that since we trigger the whole layout-paint cycle, we can indeed collect useful information on how the memory allocations take place, memory faults, garbage collections, and a few more - which in turns translates to very significant performance aspects in real-life programs.
 
-> **Note:** Most of the allocations for a program that's as simple as this will likely end up in `Generation-0`, which will `commonly mislead many developers to think its okay`. Gen-0 is after-all the most efficient, isn't it? However, in most practical scenarios, `they get bumped up the generations since a lot of them survive the entire course of the event`, and havoc with fragmentation starts to show earlier than most would expect. Large objects are a whole another story which **almost** never gets defragmented during the course of the program.
+`The trick is to use this otherwise useless program to give us useful data that's practically applicable.`
+
+> **Note:** Most of the allocations for a program that's as simple as this will likely end up in `Generation-0`, which will `commonly mislead many developers to think its okay`. Gen-0 is after-all the most efficient, isn't it? However, in most practical scenarios `they get bumped up the generations since a lot of them survive the entire course of the event`, and havoc with fragmentation starts to show earlier than most would expect. Large objects are a whole another story which **almost** never gets defragmented during the course of the program.
 
 ### The high-level test program
 
@@ -122,7 +124,7 @@ That's it. Very simple! Now, lets run it and wait until it ends.
 
 <img src="https://c2.staticflickr.com/6/5701/30011237464_425bfd3b1e_b_d.jpg" alt="[Image]" style="width:100%;" />
 
-So, it took about `4 minutes and 34 seconds`.<br/>
+So, on my `i7` machine, it took about `4 minutes and 34 seconds`.<br/>
 Okay, now, let's look at the more interesting data.
 
 <img src="https://c2.staticflickr.com/6/5491/30009361433_1a0974ebb6_b_d.jpg" alt="[Image]" style="width:100%;" />
@@ -136,7 +138,7 @@ The key data, that's of interest are:
 - Total Bytes Allocated: **749.18MB**<br/>
 </blockquote>
 
-Yikes! That's a lot of allocations. Now, 186 Gen-1 is no small task. Infact, event if we ignore the fact that its Gen-1, and total all of them as Gen-0, its `370+186=556` collections. That's **one GC collection every 180 messages!**. And so, **totally it allocation three-quarters of a gigabyte of memory for nothing, but just to process the messages** - Add your application logic on top of that, not just for allocations, but also for GC's and more importantly, more of those from Gen 0 could very well have been promoted to Gen 1. 
+Yikes! That's a lot of allocations. Now, 186 Gen-1 is no small task. Infact, even if we ignore the fact that its Gen-1, and total all of them as Gen-0, its `370+186=556` collections. That's **one GC collection every 180 messages!**. And so, **totally it allocates three-quarters of a gigabyte of memory for nothing, but just to process the messages** - Add your application logic on top of that - not just for allocations, but also for GCs and more importantly, more of those from Gen 0 could very well have been promoted to Gen 1.
 
 Clearly, that's a lot of stuff that's going on. Let's just look at a little more data.
 
@@ -150,7 +152,7 @@ Clearly, that's a lot of stuff that's going on. Let's just look at a little more
 - Page faults: **1,119,365**<br/>
 </blockquote>
 
-Note that while the `page faults` here is just the soft faults, it still means certain CPU caches will have to invalidated a lot more. We'll just leave it here. That's sufficient information, for making a rough estimate. Let's move on.
+Note that while the `page faults` here is just the soft faults, it still means certain CPU caches will have to invalidated a lot more. We'll just leave it here. That's sufficient information for making a rough estimate. Let's move on.
 
 ### The WinApi.Windows program
 
@@ -264,7 +266,7 @@ There we go. It does exactly what the WinForms application does. Now, lets run t
 <img src="https://c2.staticflickr.com/6/5483/30011238294_fe206e692a_b_d.jpg" alt="[Image]" style="width:100%;" />
 
 It took about `3 minutes and 16 seconds`. That's **over a minute faster!**. <br/>
-So, something clearly is more efficient. But how much? Let's take a look at the memory stats.
+So, something clearly is more efficient. But why? Let's take a look at the memory stats.
 
 <img src="https://c2.staticflickr.com/6/5808/30011238124_13c53c41a8_b_d.jpg" alt="[Image]" style="width:100%;" />
 
@@ -275,7 +277,7 @@ So, something clearly is more efficient. But how much? Let's take a look at the 
 - Total Bytes Allocated: **0**<br/>
 </blockquote>
 
-What!? To be candid, this is quite misleading. I use the excellent `Process Hacker` to collect the details of the CLR. However, the way this works, is that, its needs to do a GC in order to get more details. 100k message loops, but not even a single GC has happened! That's really cool. Now we're barking up the C/C++ tree, and in style :)
+What!? To be candid, this is quite misleading, though its *kinda* true. I use the excellent `Process Hacker` to collect the details of the CLR. However, the way this works is that, its needs to do a GC in order to get these statistics. But what happened here, is that a GC never took place. 100k message loops, but not even a single GC has happened!. That's really cool. Now we're barking up the C/C++ tree, and in style :)
 
 Let's look at the other bits of data.
 
@@ -289,7 +291,7 @@ Let's look at the other bits of data.
 - Page faults: **5494**<br/>
 </blockquote>
 
-Here most of the stuff, including the `Cycles` doesn't interest us much, since we already know that from the timing. While these aren't very accurate (since there could have been a small difference when the application has been running beyond the life time of the test), it isn't in anyway going to skew our results. Evidently, WinApi has been highly efficient. But why? Look at the `Page faults`. Its a mere 5.5k as opposed to the 1 million 120 thousand that happened with windows forms. By using the stack for almost everything, `WinApi takes the C#/.NET Win32 desktop applications right into the C++ performance arena`.
+Here most of the stuff, including the `Cycles` doesn't interest us much, since we already know that from the timing. While these aren't very accurate (since there could have been a small difference when the application has been running beyond the life time of the test), it isn't in anyway going to skew our results. Evidently, WinApi has been highly efficient. But why? Look at the `Page faults`. Its a mere 5.5k as opposed to the 1 million 120 thousand that happened with windows forms. That should give a clue. By using the stack for almost everything, leaving the GC entirely for your application, `WinApi takes the C#/.NET Win32 desktop applications right into the C++ performance arena`.
 
 ## What WinApi.Windows doesn't do
 
