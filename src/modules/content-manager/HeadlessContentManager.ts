@@ -8,6 +8,10 @@ export class HeadlessContentManager implements IHeadlessContentManager {
         this._resolver = resolver;
     }
 
+    getResolver() {
+        return this._resolver;
+    }
+
     resolve(pathname: string) {
         return this._resolver.resolve(pathname);
     }

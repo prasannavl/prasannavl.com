@@ -10,6 +10,7 @@ import LoadingView from "../LoadingView/index";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { IHeadlessContentManager, IDomContentManager } from "../../modules/content-manager/ContentManager";
 import { DomUtils } from "../../modules/utils/index";
+import Unknown from "../../components/Experiments/Unknown/index";
 
 interface ContentViewState {
     component: JSX.Element;
@@ -32,6 +33,7 @@ export class ContentView extends Base<any, ContentViewState> {
         this.onContentReady = this.onContentReady.bind(this);
         this.onRequestStarted = this.onRequestStarted.bind(this);
         this.onHistoryChange = this.onHistoryChange.bind(this);
+        this.onRequestFailed = this.onRequestFailed.bind(this);
     }
 
     componentWillMount() {
@@ -40,6 +42,7 @@ export class ContentView extends Base<any, ContentViewState> {
             let cm = this._contentManager as IDomContentManager;
             cm.addListener(cm.contentReadyEventName, this.onContentReady);
             cm.addListener(cm.requestStartEventName, this.onRequestStarted);
+            cm.addListener(cm.requestFailedEventName, this.onRequestFailed);
             this._diposeHistoryListener = this.getServices().history.listen(context => {
                 this.onHistoryChange();
                 return PromiseFactory.EmptyResolved;
@@ -53,6 +56,7 @@ export class ContentView extends Base<any, ContentViewState> {
             let cm = this._contentManager as IDomContentManager;
             cm.removeListener(cm.contentReadyEventName, this.onContentReady);
             cm.removeListener(cm.requestStartEventName, this.onRequestStarted);
+            cm.removeListener(cm.requestFailedEventName, this.onRequestFailed);            
             this._diposeHistoryListener();
         }
 
@@ -113,11 +117,7 @@ export class ContentView extends Base<any, ContentViewState> {
         this.clearRequestStartedViewUpdateTimer();
         let cm = this._contentManager as IDomContentManager;
         if (cm.hasPathChanged(this.context)) {
-            let req = this._pendingRequest;
-            if (req !== null) {
-                req.abort();
-                this._pendingRequest = null;
-            }
+            this.clearPendingRequests(true);
             if (cm.isDomPrerendered()) {
                 this._suspendAnimations = true;
                 cm.setDomPrerendered(false);
@@ -129,11 +129,8 @@ export class ContentView extends Base<any, ContentViewState> {
     }
 
     onContentReady(component: JSX.Element) {
-        if (this._pendingRequest !== null) {
-            this._pendingRequest = null;
-        }
+        this.clearPendingRequests();
         this.clearRequestStartedViewUpdateTimer();
-        let cm = this._contentManager as IDomContentManager;
         if (this._suspendAnimations) {
             this.setState({ component });
         } else {
@@ -232,10 +229,22 @@ export class ContentView extends Base<any, ContentViewState> {
         }, 100);
     }
 
+    clearPendingRequests(abort: boolean = false) {
+        let req = this._pendingRequest;
+        if (req !== null) {
+            if (abort) req.abort();
+            this._pendingRequest = null;
+        }
+    }
+    
     clearRequestStartedViewUpdateTimer() {
         if (this._requestStartedViewUpdateTimer != null) {
             clearTimeout(this._requestStartedViewUpdateTimer);
         }
+    }
+
+    onRequestFailed(req: any, err: any) {
+        this.onContentReady(<Unknown error={err.status}/>);
     }
 
     setFocusContentView(view?: HTMLElement) {

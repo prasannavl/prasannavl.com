@@ -45,6 +45,10 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
         this.tagSession(sessionStore);
     }
 
+    getResolver() {
+        return this._resolver;
+    }
+
     getAppVersion(versionString: string) {
         let major = 0, minor = 0;
         if (versionString) {
@@ -177,26 +181,28 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
                 if (isBackgroundRequest) {
                     if (this._pendingBackgroundRequest) {
                         this._pendingBackgroundRequest.abort();
-                        this.emit(this.backgroundRequestFailedEventName, this._pendingBackgroundRequest);                        
+                        this._pendingBackgroundRequest = req;
                     }
                 } else {
                     if (this._pendingForegroundRequest) {
                         this._pendingForegroundRequest.abort();
-                        this.emit(this.requestFailedEventName, this._pendingForegroundRequest);                        
+                        this._pendingForegroundRequest = req;                        
                     }
                 }
             }
             req.end((err, res) => {
                 if (tracked) {
                     if (isBackgroundRequest) {
-                        this._pendingBackgroundRequest = null;
-                        if (err) this.emit(this.backgroundRequestFailedEventName, req)
+                        let pending = this._pendingBackgroundRequest;
+                        if (pending == req) this._pendingBackgroundRequest = null;
+                        if (err) this.emit(this.backgroundRequestFailedEventName, req, err);
                         else this.emit(this.backgroundRequestCompleteEventName, req);
                     }
                     else {
-                        this._pendingForegroundRequest = null;
-                        if (err) this.emit(this.requestFailedEventName, req)
-                        else this.emit(this.requestCompleteEventName, req);                        
+                        let pending = this._pendingForegroundRequest;
+                        if (pending == req) this._pendingForegroundRequest = null;
+                        if (err) this.emit(this.requestFailedEventName, req, err);
+                        else this.emit(this.requestCompleteEventName, req);
                     }
                 }
                 if (err) reject(err);
@@ -205,11 +211,8 @@ export class DomContentManager extends EventEmitter implements IDomContentManage
             });
 
             if (tracked) {
-                if (isBackgroundRequest) {
-                    this.emit(this.backgroundRequestStartEventName, req);
-                } else {
-                    this.emit(this.requestStartEventName, req);
-                }
+                if (isBackgroundRequest) this.emit(this.backgroundRequestStartEventName, req);
+                else this.emit(this.requestStartEventName, req);
             }
         });
     }

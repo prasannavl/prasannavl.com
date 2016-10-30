@@ -17,7 +17,12 @@ import { IAppContext } from "../core/AppContext";
 export interface IDomContentManager extends EventEmitter {
     contentReadyEventName: string;
     requestStartEventName: string;
+    requestCompleteEventName: string;
+    requestFailedEventName: string;
     backgroundRequestStartEventName: string;
+    backgroundRequestCompleteEventName: string;
+    backgroundRequestFailedEventName: string;
+    getResolver(): ContentResolver;
     isDomPrerendered(): boolean;
     setDomPrerendered(value: boolean): void;
     hasPathChanged(context: IAppContext): boolean;
@@ -28,6 +33,7 @@ export interface IDomContentManager extends EventEmitter {
 }
 
 export interface IHeadlessContentManager {
+    getResolver(): ContentResolver;    
     resolve(pathname: string): ContentResolution;
     getComponentForResolution(resolution: ContentResolution): JSX.Element;
     getComponent(pathname: string): JSX.Element;
