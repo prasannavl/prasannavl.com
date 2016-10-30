@@ -2,6 +2,7 @@ import React from "react";
 import { StatelessBase } from "../../Base";
 import createStyled from "../../../modules/core/createStyled";
 import { createErrorCodeMap } from "./ErrorCodeMap";
+import { IHeadlessRendererState } from "../../modules/core/RendererState";
 
 let svg = require("!raw!./bot.svg") as any;
 let style = require("./bot.scss") as any;
@@ -54,6 +55,10 @@ export class Robot extends StatelessBase<RobotProps> {
     }
 
     componentDidMount() {
+        if (!__DOM__) {
+            const rendererState = this.context.services.rendererStateProvider() as IHeadlessRendererState;
+            rendererState.staticViewCode = this.props.error;
+        }
         this.startAnimation();
     }
 

@@ -9,6 +9,7 @@ export interface IHeadlessRendererState {
     error: any;
     data: string;
     isPrerenderedDom: boolean;
+    staticViewCode: string;
     cssModules: CssStyle.CssModule[];
     htmlConfig: any;
     additionalItems: Array<{ element: __React.ReactElement<any>, placement?: string }>;
@@ -23,6 +24,7 @@ export class RendererStateFactory {
             return {
                 data: null,
                 isPrerenderedDom: false,
+                staticViewCode: null,
                 error: null, 
                 statusCode: 0,
                 cssModules: [], 

@@ -14,14 +14,30 @@ export class ContentResolver {
     static DefaultPathKeyPrefix = "_#_";
     static InlineDataCacheKey = "__xDataCache__";
     static IsPrerenderedDomKey = "__xIsPrerenderedDom__";
+    static StaticViewCodeKey = "__xStaticViewCode__";
     
     resolve(pathname: string): ContentResolution {
         let res: ContentResolution;
+        res = this.tryResolveStaticView();
+        if (res.factory) return res;
         res = this.tryResolveDirect(pathname);
         if (res.factory) return res;
         res = this.tryResolveContent(pathname);
         if (res.factory) return res;
         return this.getResolutionForFailure();
+    }
+
+    tryResolveStaticView() {
+        if (__DOM__)
+        {
+            let win = (window as any);
+            var staticViewCode = win[ContentResolver.StaticViewCodeKey];
+            if (staticViewCode != null) {
+                win[ContentResolver.StaticViewCodeKey] = null;
+                return { contentPath: null, factory: () => <Unknown error={staticViewCode}/> };
+            }
+        }
+        return this.noResolution();
     }
 
     noResolution(): ContentResolution {
