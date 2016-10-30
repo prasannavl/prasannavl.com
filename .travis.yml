@@ -14,6 +14,7 @@ cache:
   directories:
   - node_modules
 before_install:
+- export TZ='Asia/Kolkata'
 - openssl aes-256-cbc -K $encrypted_d2e2b63e72c8_key -iv $encrypted_d2e2b63e72c8_iv -in ./tools/deploy_key.enc -out ./tools/deploy_key -d
 before_script:
 - npm prune
