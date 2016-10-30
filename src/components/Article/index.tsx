@@ -4,6 +4,7 @@ import marked from "marked";
 import createStyled from "../../modules/core/createStyled";
 import Footer from "../fragments/Footer";
 import { loadComments } from "../../modules/ext/disqus";
+import { HighlightJs } from "../../modules/ext/highlight";
 import Rx from "rxjs";
 import ReactDOM from "react-dom";
 import Link from "../fragments/Link";
@@ -16,6 +17,7 @@ export interface ArticleProps extends React.ClassAttributes<Article> {
 
 export class Article extends StatelessBase<ArticleProps> {
     private _articleDomElements: Array<HTMLElement>;
+    private _highligher: HighlightJs = new HighlightJs();
 
     setupTitle() {
         const { name, title } = this.props.data;
@@ -43,6 +45,10 @@ export class Article extends StatelessBase<ArticleProps> {
         this.onUpdate();
     }
 
+    componentWillUpdate() {
+        this._articleDomElements = [];
+    }
+
     componentDidUpdate() {
         this.setupTitle();
         this.onUpdate();
@@ -51,9 +57,25 @@ export class Article extends StatelessBase<ArticleProps> {
     onUpdate() {
         this._articleDomElements.forEach(x => ViewUtils.captureRouteLinks(this, x));
         setTimeout(() => loadComments(this.getCurrentHistoryContext().pathname, this.props.data.name), 20);
+        setTimeout(() => this.highlightCodeBlocks(), 40);
+    }
+
+    highlightCodeBlocks() {
+        this._highligher.executeInitialized(() => {
+            this._articleDomElements.forEach(x => { 
+                let items = x.querySelectorAll("pre code");
+                if (items == null) return;
+                let blocks = Array.from(items);
+                let hljs = (window as any)["hljs"];
+                if (hljs) {
+                    blocks.forEach(b => hljs.highlightBlock(b));
+                }
+            });
+        });
     }
 
     componentWillUnmount() {
+        this._articleDomElements = [];
         super.componentWillUnmount();
     }
 
