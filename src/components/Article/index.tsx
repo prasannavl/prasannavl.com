@@ -17,7 +17,7 @@ export interface ArticleProps extends React.ClassAttributes<Article> {
 
 export class Article extends StatelessBase<ArticleProps> {
     private _articleDomElements: Array<HTMLElement>;
-    private _highligher: HighlightJs = new HighlightJs();
+    private _highligher: HighlightJs;
 
     setupTitle() {
         const { name, title } = this.props.data;
@@ -42,6 +42,7 @@ export class Article extends StatelessBase<ArticleProps> {
     }
 
     componentDidMount() {
+        this._highligher = new HighlightJs();
         this.onUpdate();
     }
 
@@ -57,12 +58,12 @@ export class Article extends StatelessBase<ArticleProps> {
     onUpdate() {
         this._articleDomElements.forEach(x => ViewUtils.captureRouteLinks(this, x));
         setTimeout(() => loadComments(this.getCurrentHistoryContext().pathname, this.props.data.name), 20);
-        setTimeout(() => this.highlightCodeBlocks(), 40);
+        setTimeout(() => this.highlightCodeBlocks(), 100);
     }
 
     highlightCodeBlocks() {
         this._highligher.executeInitialized(() => {
-            this._articleDomElements.forEach(x => { 
+            this._articleDomElements.forEach(x => {
                 let items = x.querySelectorAll("pre code");
                 if (items == null) return;
                 let blocks = Array.from(items);
