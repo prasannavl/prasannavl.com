@@ -34,7 +34,8 @@ export class ContentResolver {
             var staticViewCode = win[ContentResolver.StaticViewCodeKey];
             if (staticViewCode != null) {
                 win[ContentResolver.StaticViewCodeKey] = null;
-                return { contentPath: null, factory: () => <Unknown error={staticViewCode.toString()}/> };
+                let code = staticViewCode || "0";
+                return { contentPath: null, factory: () => <Unknown error={code}/> };
             }
         }
         return this.noResolution();
@@ -70,7 +71,7 @@ export class ContentResolver {
             case "about": {
                 return {
                     contentPath: null,
-                    factory: () => <Unknown error="000" documentTitle="About"/>
+                    factory: () => <Unknown error="-1" documentTitle="About"/>
                 };
             }
             case "projects": {
@@ -102,8 +103,8 @@ export class ContentResolver {
 
 function getProjectsContentElement() {
     return (<div style={{ maxWidth: 960, marginLeft: "auto", marginRight: "auto" }}>
-        <div style={{ maxWidth: 520, marginLeft: "auto", marginRight: "auto", paddingBottom: "10px" }}>
-            <p style={{ fontSize: "23px" }}>Still working on this page. Meanwhile, here are some of my open source projects from GitHub.</p>
+        <div style={{ maxWidth: 590, marginLeft: "auto", marginRight: "auto", paddingBottom: "10px" }}>
+            <p style={{ fontSize: "23px" }}>Haven't quite had the time to finish this page yet. Meanwhile, here are some of my open source projects from GitHub.</p>
         </div>
         <p>{getProjects() }</p></div>);
 }

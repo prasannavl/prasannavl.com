@@ -32,8 +32,10 @@ export class Robot extends StatelessBase<RobotProps> {
     getContent() {
         let { error, svgText, title, messageElement, extraMessageElement, documentTitle } = this.props;
         if (error) {
-            if (error === "000") {
+            if (error === "-1") {
                 return createContent(this.props, "Construction Zone", "o-o", getConstructionMessageElement);
+            } else if (error === "0") {
+                return createContent(this.props, "Network Offline", "0x0", getOfflineMessageElement);
             } else {
                 return createContent(this.props, createErrorCodeMap().get(error), error, getErrorMessageElement);
             }
@@ -97,9 +99,19 @@ export class Robot extends StatelessBase<RobotProps> {
 export default createStyled(Robot, style);
 
 function getConstructionMessageElement() {
-    return (<p>
-        Hello there. This area is still under construction.
-        <br/>Please check back later.</p>);
+    return (<div><p>
+         Hi. I haven't been able to make time for this yet.<br/>
+         Please feel free to drop me an email in the meantime.</p></div>);
+}
+
+function getOfflineMessageElement() {
+    return (<div>
+            <p>
+            Please make sure your internet is working. <br/>
+            If you think this is a mistake, try refreshing the page.<br/>
+            </p>
+            <p className="note">May the force guide you.</p>
+            </div>);
 }
 
 function getErrorMessageElement() {

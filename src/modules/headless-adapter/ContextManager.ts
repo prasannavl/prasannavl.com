@@ -47,7 +47,7 @@ export class ContextManager implements IContextManager {
             dataScript += `window.${ContentResolver.InlineDataCacheKey} = ${JSON.stringify(rendererState.data)};`;
         }
         if (rendererState.staticViewCode != null) {
-            dataScript += `window.${ContentResolver.StaticViewCodeKey} = ${rendererState.staticViewCode};`;
+            dataScript += `window.${ContentResolver.StaticViewCodeKey} = "${rendererState.staticViewCode}";`;
         }
         
         let inlineScripts = htmlConfig.inlineScripts;
