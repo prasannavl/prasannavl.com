@@ -100,9 +100,9 @@ function getErrorMessageElement() {
     return (<div>
             <p>
             This is not the page you're looking for. <br/>
-            If you have a bad feeling about this, let the force guide you.<sup>*</sup><br/>
+            If you think this is a mistake, try refreshing the page.<br/>
             </p>
-            <p className="note">[*] : Look to the sidebar on the left.</p>
+            <p className="note">May the force guide you.</p>
             </div>);
 }
 

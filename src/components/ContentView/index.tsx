@@ -244,7 +244,7 @@ export class ContentView extends Base<any, ContentViewState> {
     }
 
     onRequestFailed(req: any, err: any) {
-        this.onContentReady(<Unknown error={err.status}/>);
+        this.onContentReady(<Unknown error={err.status.toString()}/>);
     }
 
     setFocusContentView(view?: HTMLElement) {
