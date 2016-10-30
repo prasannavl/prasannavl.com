@@ -55,10 +55,6 @@ export class Robot extends StatelessBase<RobotProps> {
     }
 
     componentDidMount() {
-        if (!__DOM__) {
-            const rendererState = this.context.services.rendererStateProvider() as IHeadlessRendererState;
-            rendererState.staticViewCode = this.props.error;
-        }
         this.startAnimation();
     }
 
@@ -75,6 +71,11 @@ export class Robot extends StatelessBase<RobotProps> {
     }
 
     render() {
+        if (!__DOM__) {
+            const rendererState = this.context.services
+                .rendererStateProvider() as IHeadlessRendererState;
+            rendererState.staticViewCode = this.props.error;
+        }
         let content = this.getContent();
         this.context.services.title.set(content.documentTitle);
         let svgContainerProps: any;
