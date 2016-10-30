@@ -106,7 +106,8 @@ public class SkiaPainter
         }
         finally
         {
-            if (skPainted) Gdi32Helpers.SetRgbBitsToDevice(hdc, size.Width, size.Height, pixelBuffer.Handle);
+            if (skPainted) Gdi32Helpers.SetRgbBitsToDevice(
+                hdc, size.Width, size.Height, pixelBuffer.Handle);
             User32Methods.EndPaint(hwnd, ref ps);
         }
     }
