@@ -142,7 +142,7 @@ class BuildHelper {
 			// extract date into path
 			// form url yyyy/mm/slug
 			let date = config.date;
-			let monthStr = date.getMonth().toString();
+			let monthStr = (date.getMonth() + 1).toString();
 			if (monthStr.length === 1) {
 				monthStr = "0" + monthStr;
 			}
