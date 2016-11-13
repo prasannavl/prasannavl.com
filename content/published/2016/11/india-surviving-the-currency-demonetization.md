@@ -83,7 +83,7 @@ This should rather be obvious. **A lot of the bills in India can now be payed on
 
 Wait. What? Aren't they the precious ones? **Yes. So, stop protecting, hiding, and locking them up to be uselessly sitting in your secret stash.** If you're a part of the middle class, and you the do the above correctly, you don't need a lot of this. Set aside some for an emergency, and spend the rest. And by giving away, I don't mean some dramatic gesture - **Start small. Most Indian households have a maid or two working part-time. That's a good start. Advance some of their salaries. If you live in an apartment, you also have a few security guards - give them some, or atleast offer to exchange.** If you run a business, you know you can do more. Enough people do this, the lesser rush on the ATMs - eases the transition. Puts more valid currency in the streets.
 
-<blockquote class="green">**It's unfortunate most Indians are either so self-centered, or underestimate themselves that they think they don't have an impact on the society. They do. Small numbers add up.**</blockquote>
+<blockquote class="green">**It's unfortunate that a lot Indians are either so self-centered, or underestimate themselves that they think they don't have an impact on the society. They do. Small numbers add up.**</blockquote>
 
 ## Is this all worth it?
 
