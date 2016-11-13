@@ -92,7 +92,7 @@ Wait. What? Aren't they the precious ones? **Yes. So, stop protecting, hiding, a
 
 ## So, how do we beat the crisis?
 
-> **By being a proud and responsible Indian.**
+> **By being a responsible citizen.**
 
 Yup, it's just a fancy phrase. But it's high time to give it some real meaning. The above suggestions, could be a good start. The whole idea is to give the Government that is evidently making an effort, and the banks more time to stabilize.
 
