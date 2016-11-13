@@ -25,10 +25,7 @@
                 a {
                     @include link;
                 }
-                h2 {
-                    font-size: 28px;
-                    color: rgba(0, 0, 0, 0.6);
-                }
+                h2 { }
                 margin-bottom:30px;
             }
             & > .readmore {
