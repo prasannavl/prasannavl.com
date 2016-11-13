@@ -41,6 +41,7 @@ Now, that we got that out of the way, let's look at how to ease the transition a
     .cax-h3 {
         color: #5ebe5e !important;
         position: relative;
+        overflow: hidden;
     }
     .cax-h3 > span {
         position: relative;
