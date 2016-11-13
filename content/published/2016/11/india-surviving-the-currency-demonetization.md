@@ -35,7 +35,7 @@ Why? Because, you have already been given all the tools - `Credit cards, Debit c
 
 Now, that we got that out of the way, let's look at how to ease the transition as a responsible citizen.
 
-## The Simple Five-Step Solution
+## A Simple Five-Step Process
 
 <style type="text/css">
     .cax-h3 {
@@ -95,8 +95,6 @@ Wait. What? Aren't they the precious ones? **Yes. So, stop protecting, hiding, a
 
 > **By being a proud and responsible Indian.**
 
-Yup, it's just a fancy phrase. But it's high time to give it some real meaning. The above suggestions, could be a good start.
-
-The whole idea is to give the Government that is evidently making an effort, and the banks more time to stabilize.
+Yup, it's just a fancy phrase. But it's high time to give it some real meaning. The above suggestions, could be a good start. The whole idea is to give the Government that is evidently making an effort, and the banks more time to stabilize.
 
 **PS: If you found this article useful, all credits go those angry ranters who motivated me to take a moment to pen this down.**
