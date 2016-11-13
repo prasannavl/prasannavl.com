@@ -91,16 +91,6 @@ Wait. What? Aren't they the precious ones? **Yes. So, stop protecting, hiding, a
 
 **I strongly believe so**. The country is just its people. Making a difference involves people making an effort. **This move certainly is not a single silver bullet, nor is it shot in sky. Its a well targeted, ONE-step forward.** The whole plan relied on its secrecy. Was there a debate, this would just sat down in the parliament for years with no action, while everyone had ample opportunities to *invest* their black money on beautiful islands in the west. Let's not forget, the sole reason we have to go through this, is because of the accumulated non-action in the past.
 
-## What's with all the scam-talk?
-
-Well, let's see.
-
-On one hand, **you have upper middle, or upper class politicians who can afford to take a lot of media time, sitting in front of fancy cameras, or creating nation-wide panic that it's a scam from their nice, well-maintained offices and media rooms**. They could have chosen to spend their time actually helping in more ways than I had expressed above, given all their resources. But what I am saying, that could actually ease the transition. How could we? Besides, we don't want to make the media poorer by a puny millions doing so, do we?
-
-On the other hand, **you have people like Narendra Modi, who's constantly on the move - visiting other countries lobbying investors to bring big money, and hence jobs to Indian economy**. (If you've traveled constantly, you'll know it's not as exotic as it sounds, regardless of the luxuries). Well, he was just in Japan trying to get them to bring us great transport (**Great transport = better infrastructure = more industries = more jobs = more money, to the poor or rich alike, since it's apparently too hard for certain great politicians and media to comprehend**). While at the same putting a plan in motion here, to ensure all that money that's entering into the country doesn't go to the wrong people.
-
-I'll leave it upto you to decide which is the scam.
-
 ## So, how do we beat the crisis?
 
 > **By being a proud and responsible Indian.**
