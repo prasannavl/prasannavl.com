@@ -107,4 +107,6 @@ I'll leave it upto you to decide which is the scam.
 
 Yup, it's just a fancy phrase. But it's high time to give it some real meaning. The above suggestions, could be a good start.
 
+The whole idea is to give the Government that is evidently making an effort, and the banks more time to stabilize.
+
 **PS: If you found this article useful, all credits go those angry ranters who motivated me to take a moment to pen this down.**
