@@ -29,8 +29,6 @@ I ran into quite a few social posts in the past two days, which were all mostly 
 
 Well, let's face it. **Change is not always easy**. If you're a part of the lower class, I can't even pretend to understand the pain you're going through. However, if you're reading this, there's good chance that you're a part of the middle+ class. **If you have a bank account, a computer or smartphone with internet, and don't live on a day to day salary - you simply forfeit the right to say that this change is disrupting your life**. Yes, you certainly may come across certain **inconveniences** - but that's not a life-disruption. If it somehow is, you've brought that upon yourself by your own choices, not the Government.
 
-<blockquote class="red">**It's not the Government's job to baby sit you, and keep your wallets re-filled for you.**</blockquote>
-
 Why? Because, you have already been given all the tools - `Credit cards, Debit cards, NetBanking`. Use them. If you do not like to get along with society and choose not to - that's entirely up to you too - but **do not complain**.
 
 Now, that we got that out of the way, let's look at how to ease the transition as a responsible citizen.
@@ -58,7 +56,7 @@ Now, that we got that out of the way, let's look at how to ease the transition a
     }
 </style>
 
-Here are some very simple ways to mitigate the inconveniences, as a middle+ class citizen. I'm not going to pretend to comprehend the troubles of the lower class, so these steps are targeted towards the middle+ class - and in turn, this helps both yourself, and the lower class society. **This is all assuming that you don't have black money, and your money is all well-accounted (or atleast reasonably).** If not, well - you know your whining has nothing to with the Modi Government in particular.
+Here are some very simple ways to mitigate the inconveniences, as a middle+ class citizen. I'm not going to pretend to comprehend the troubles of the lower class, so these steps are targeted towards the middle+ class - and in turn, this helps both yourself, and the lower class society. **This is all assuming that you don't have black money, and your money is all well-accounted (or atleast reasonably).** If not, well.. that's a completely different story.
 
 <h3 class="cax-h3"><span>1. Stop complaining</span></h3>
 
