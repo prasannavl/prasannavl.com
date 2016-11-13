@@ -51,4 +51,16 @@
             }
         }
     }
+
+    .block-links-container {
+        @include block-links-container;
+    }
+
+    .block-link {
+        @include block-link;
+    }
+
+    .subheader-link {
+        @include subheader-link;
+    }
 }

@@ -140,3 +140,36 @@
             }
         }
     }
+
+    @mixin block-link {
+        display: inline-block;
+        padding: 10px 20px;
+        text-decoration: none;
+        background: #55acee;
+        color: white;
+        font-weight: 400;
+        border:0;
+        &:hover {
+            background: darken(#55acee, 50%);
+            border:0;
+            color: white;            
+        }
+        &:active {
+            background: green;
+            color: white;
+            border: 0;            		
+        }
+    }
+
+    @mixin subheader-link {
+        @include block-link;
+        padding: 4px 20px;
+    }
+
+    @mixin block-links-container {
+        margin: 30px 0 40px 0;
+        & > a {
+            @include block-link;
+            display: inline;            
+        }
+    }
