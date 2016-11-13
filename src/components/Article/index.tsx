@@ -83,7 +83,7 @@ export class Article extends StatelessBase<ArticleProps> {
     renderHeader(item: ArticleDescriptor) {
         let heading: JSX.Element = null;        
         if (item.name) {
-            heading = (<h1>{ "pvl " + "\u2215" + " " }
+            heading = (<h1>
                 <Link href={"/" + item.url}>
                     {item.name}
                 </Link></h1>);
