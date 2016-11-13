@@ -11,6 +11,9 @@ tags:
  - MongoDB
 -->
 
+<a href="https://github.com/prasannavl/MongoSessionProvider" class="subheader-link">GitHub: MongoSessionProvider</a>
+<a href="https://nuget.org/packages/PVL.MongoSessionProvider" class="subheader-link">Nuget</a>
+
 I've been pretty impressed with the recent development of MongoDB, and it seems to me that their one biggest problem of data consistency has now been solved.
 
 And so, I decided to give it base one of our upcoming projects fully on MongoDB. But after some Googling I found out all the session providers out there are pretty outdated using deprecated libraries, or not suited for high-performance needs.
@@ -19,9 +22,6 @@ So, here's a session provider for ASP.NET.
 
 ### Installation
 > PM> Install-Package PVL.MongoSessionProvider
-
-###### **NuGet Pacakge Link:** <a href="https://nuget.org/packages/PVL.MongoSessionProvider" target="_blank">https://nuget.org/packages/PVL.MongoSessionProvider</a>
-###### **Code:** <a href="https://github.com/prasannavl/MongoSessionProvider" target="_blank">https://github.com/prasannavl/MongoSessionProvider</a>
 
 ### Example session document
 

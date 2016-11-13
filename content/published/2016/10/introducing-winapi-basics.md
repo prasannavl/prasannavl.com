@@ -10,7 +10,7 @@ tags:
 
 # Introducing WinApi: Basics
 
-> GitHub: https://github.com/prasannavl/WinApi 
+<a href="https://github.com/prasannavl/WinApi" class="subheader-link">GitHub: WinApi</a>
 
 In the previous article <a href="/2016/10/introducing-winapi-the-evolution" class="route">here</a>, I discussed the evolution of programs that use the Windows API with C/C++ and C# snippets, and it ultimately ended out with this C# snippet:
 

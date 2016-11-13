@@ -10,6 +10,8 @@ tags:
  - Hacks
 -->
 
+<a href="https://forum.xda-developers.com/showthread.php?t=1552152" class="subheader-link">XDA Thread</a>
+
 Motorola has a strange way of controlling their phone. They release an update which prevents us from upgrading to newer kernels released for the same phone in different geographic regions. So, after almost bricking my phone, I finally was able to find a way to downgrade my kernel, so that I can upgrade to an even newer version again.
 
 **So, here's my post regarding the same on XDA:**
@@ -34,4 +36,3 @@ If you want to get into a custom recovery (only if you already have it), then yo
 ### Files
 
 BL6Downgrade.SBF [34MB] - <a href="http://www.mediafire.com/download.php?vdpp0nnr5f12e95" target="_blank">http://www.mediafire.com/download.php?vdpp0nnr5f12e95</a><br/>
-Original XDA Thread: <a href="https://forum.xda-developers.com/showthread.php?t=1552152" target="_blank">https://forum.xda-developers.com/showthread.php?t=1552152</a>

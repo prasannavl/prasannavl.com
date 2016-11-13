@@ -11,13 +11,15 @@ tags:
 
 # Introducing WinApi: Comparing GC pressure and performance with WinForms
 
-
-<blockquote>
-<h4>td;lr - performance stats</h4>
-<span class="text-gray caption-small">Direct message loop performance:</span> **20-35% faster**.<br/>
-<span class="text-gray caption-small">Heap allocation:</span> **0MB vs. roughly, 0.75GB** / 100k messages.<br/>
-<span class="text-gray caption-small">Memory page faults (Soft):</span> **0.005%** - A mere **5k vs. roughly 1 million** faults/100k messages)<br/>
-</blockquote>
+<div style="margin: 16px 0 25px 0">
+    <a href="https://github.com/prasannavl/WinApi" class="subheader-link">GitHub: WinApi</a>
+    <blockquote style="margin: 12px 0 0 0">
+    <h4>td;lr - performance stats</h4>
+    <span class="text-gray caption-small">Direct message loop performance:</span> **20-35% faster**.<br/>
+    <span class="text-gray caption-small">Heap allocation:</span> **0MB vs. roughly, 0.75GB** / 100k messages.<br/>
+    <span class="text-gray caption-small">Memory page faults (Soft):</span> **0.005%** - A mere **5k vs. roughly 1 million** faults/100k messages)<br/>
+    </blockquote>
+</div>
 
 <a href="https://github.com/prasannavl/WinApi">WinApi's</a> primary objective is to provide access to the native layers of the Windows API from the CLR. However, even on first look it should be clear that the `WinApi.Windows` namespace infringes on the `WinForms` territory, even though its a tiny sub-fraction of the size of WinForms. Over the years WinForms has been well optimized to be **decent** - It's not the most efficient beast, but for common programs, it probably takes up less than 2-5% percent of your application's time that it doesn't matter on modern hardware - or so is the general line of thought. However, what's one can refute is that it never was the same as say, `ATL/WTL` in C++ or direct Win32 programming to be able to handle message loop heavy applications, or high-performance games.
 

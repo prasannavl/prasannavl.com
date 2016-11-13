@@ -10,6 +10,8 @@ tags:
 
 # The old new thing - Reincarnation of my blog
 
+<a href="https://github.com/prasannavl/prasannavl.com" class="subheader-link">GitHub: prasannavl.com</a>
+
 My blog was never really alive. A few posts years ago, and that was about it. Off late, I've been working with web technologies again after a long time. The last I had worked with JavaScript - V8 was in its infancy, and JavaScript outside of `V8` wasn't exactly a great language, especially for someone like myself who lived in the dual ecosystem of C/C++, and .NET. But today a lot has changed, and even the sheer number of web technologies can be over-whelming. So, I decided build myself a website with the cutting edge web pieces of today. Technically, its really *a single web application*, complemented by server-side static site generation to provide all the goodness of a more traditional *website*.
 
 ## Today's Web

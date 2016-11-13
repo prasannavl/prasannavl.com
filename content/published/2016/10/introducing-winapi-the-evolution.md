@@ -10,7 +10,7 @@ tags:
 
 # Introducing WinApi: The Evolution
 
-> GitHub: https://github.com/prasannavl/WinApi 
+<a href="https://github.com/prasannavl/WinApi" class="subheader-link">GitHub: WinApi</a>
 
 The Windows API is over two decades old - yet one of the most used APIs that has stood the test of time. In today's short lived software world, you don't see a lot of user mode public APIs that stay the same for even a short time. But even a program that was written 20 years ago (assuming only the official and documented APIs by Microsoft were used) will run spot-on as intended, with almost no changes - That's quite cool if you think about it. You can't say that even about some of the oldest user mode UNIX APIs. It's a testimony to the well-design architecture and the amount of work Microsoft put into compatibility while modernizing everything both underneath, and above it, while keeping the core user mode APIs exactly the same.
 
