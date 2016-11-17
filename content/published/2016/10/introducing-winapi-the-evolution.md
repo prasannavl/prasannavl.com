@@ -226,9 +226,9 @@ public partial class MainWindow : Form
 }
 ```
 
-Looks much nicer. But lets get the fact that this is not C++ out of the way first - in most scenarios the advanced capabilities really aren't required and you can always use C++ when you really need and simply PInvoke even though `a C# idiomatic high-performance solution almost always exists as well with techniques like memory pooling, structs, and stackalloc`. Because, when you realize you need such optimizations especially memory pooling, chances are C/C++ would benefit with memory pooling as well. And **once you start efficiently pooling memory and reducing the GC pressure, the performance differences between the two languages start to disappear for the most part**. That aside, there are still some inherent problems.
+Looks much nicer. But lets get the fact that this is not C++ out of the way first - in most scenarios the advanced capabilities really aren't required and you can always use C++ when you really need and simply PInvoke even though `a C# idiomatic high-performance solution almost always exists as well - with techniques like memory pooling, structs, and stackalloc`. Because, when you realize you need such optimizations especially memory pooling, chances are C/C++ would benefit with memory pooling as well. And **once you start efficiently pooling memory and reducing the GC pressure, the performance differences between the two languages start to disappear for the most part**. That aside, there are still some inherent problems.
 
-Even though it used all the native layers, `it provided no way to use any of them directly without going through the abstractions` - which actually makes a lot of sense since you want to new APIs to be built on the abstractions, and not the layers below. But fast-forward a decade later - and its not exactly as appealing as it once was. While most of the abstractions make sense, the inability to access the native layers without a whole bunch of redundant PInvoke isn't.
+Even though it used all the native layers, `it provided no way to use any of them directly without going through the abstractions` - which actually makes a lot of sense since you want new APIs to be built on the abstractions, not the layers below. But fast-forward a decade later - and its not exactly as appealing as it once was. While most of the abstractions make sense, the inability to access the native layers without a whole bunch of redundant PInvoke isn't.
 
 This also comes with the GC tax - `Every message sent to a Windows Message Loop, ends up adding pressure to GC`. While much of this is very well optimized today, and practically a non-issue - for high-performance scenarios like games, and high-frame rate AV, it does come into significance.
 
@@ -240,9 +240,9 @@ Apart from WinForms, there's really no other idiomatic way to access the Windows
 
 What if you'd like to combine, GDI, DirectX, and GDI plus. There's no clean way to do this in .NET. But a more practical requirement, is you want to control the underlying graphics technology, and use a framework like Cario, Skia or raw DirectX.
 
-All of this brought me to this - **You need a clean, stable way to access the Windows API from .NET.** And most importantly, I wanted to solve the problems I mentioned above with WinForms.
+All of this brought me to this - **We need a clean, stable way to access the Windows API from .NET.** And along the way, I also decided to solve the above mentioned issues with WinForms.
 
-And that brings us to the `WinApi` which ultimately lets you do this, while solving all of the problems above:
+And that brings us to `WinApi` which ultimately lets you do this below, while solving all of the problems above:
 
 ```c#
 static int Main(string[] args)
