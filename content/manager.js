@@ -386,6 +386,7 @@ function getIndexers() {
 		console.log("overview..");
 
 		let indexData = _.chain(fileDataItems)
+			.filter(x => x.overviewShown !== false)	
 			.sortBy(x => new Date(x.date))
 			.reverse()
 			.take(100)

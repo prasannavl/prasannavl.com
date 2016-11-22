@@ -2,6 +2,7 @@
 name: 'India: Surviving the Currency Demonetization as a Nation'
 date: 2016-11-12T20:51:14.131Z
 url: 2016/11/india-surviving-the-currency-demonetization
+overviewShown: false
 tags:
  - india
  - politics
