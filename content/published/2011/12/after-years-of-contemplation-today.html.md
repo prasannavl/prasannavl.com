@@ -4,6 +4,7 @@
 name: 'And I blog!'
 date: 2011-12-07T00:00:00.000Z
 url: 2011/12/after-years-of-contemplation-today.html
+overviewShown: false
 tags:
  - General
 -->
