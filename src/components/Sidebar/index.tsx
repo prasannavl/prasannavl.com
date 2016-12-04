@@ -7,7 +7,7 @@ import { default as Link, LinkProps, startsWithMatcher } from "../fragments/Link
 import CSSTransitionGroup from "react-addons-css-transition-group";
 import { ContentResolver } from "../../modules/content-manager/ContentResolver";
 import { MainView } from "../MainView/index";
-
+import Address from "../fragments/Address";
 
 let style = require("./style.scss") as any;
 
@@ -55,12 +55,7 @@ class Sidebar extends Base<any, any> {
                     <li><NavLink href="/projects">projects</NavLink></li>
                     <li><NavLink href="/about">about</NavLink></li>
                 </CSSTransitionGroup>
-                <address className="icons">
-                    <a href="https://www.twitter.com/prasannavl" className="icon-twitter" target="_blank"></a>
-                    <a href="https://www.github.com/prasannavl" className="icon-mark-github" target="_blank"></a>
-                    <a href="https://www.facebook.com/prasannavl" className="icon-facebook-square" target="_blank"></a>
-                    <a href="mailto:Prasanna V. Loganathar <pvl@prasannavl.com>" className="icon-envelope"></a>
-                </address>
+                <Address />
             </div>
         );
         return c;

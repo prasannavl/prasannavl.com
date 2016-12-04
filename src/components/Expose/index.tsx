@@ -6,6 +6,7 @@ import Tagline from "../fragments/Tagline";
 import { IAppContext } from "../../modules/core/AppContext";
 import { IHeadlessRendererState } from "../../modules/core/RendererState";
 import { DomUtils } from "../../modules/utils/DomUtils";
+import Address from "../fragments/Address";
 
 const style = require("./style.scss") as any;
 
@@ -67,12 +68,7 @@ class Expose extends StatelessBase<any> {
                         <Tagline />
                     </header>
                     <section>
-                        <address className="icons">
-                            <a href="https://www.twitter.com/prasannavl" className="icon-twitter" target="_blank"></a>
-                            <a href="https://www.github.com/prasannavl" className="icon-mark-github" target="_blank"></a>
-                            <a href="https://www.facebook.com/prasannavl" className="icon-facebook-square" target="_blank"></a>
-                            <a href="mailto:Prasanna V. Loganathar <pvl@prasannavl.com>" className="icon-envelope"></a>
-                        </address>
+                        <Address />
                         <div className="info">
                             And I write stuff <b><a href="/overview" onClick={this.navigateToOverview}>here</a></b>.
                         </div>
