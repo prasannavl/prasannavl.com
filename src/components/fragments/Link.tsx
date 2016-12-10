@@ -32,7 +32,7 @@ export default class Link extends Base<LinkProps, any> {
     }
 
     render() {
-        const { activeClassName, activeClassMatcher, ...rest} = this.props;        
+        const { activeClassName, activeClassMatcher, replaceState, ...rest} = this.props;        
         let classNames = this.props.className;
         if (this.props.activeClassName && this.isActive()) {
            classNames = StringUtils.joinWithSpaceIfNotEmpty(classNames, this.props.activeClassName);
