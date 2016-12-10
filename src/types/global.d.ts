@@ -1,5 +1,3 @@
-/// <reference path="../../typings/index.d.ts" />
-
 // Global vars
 
 declare var __DEV__: boolean;

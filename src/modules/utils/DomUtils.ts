@@ -3,7 +3,7 @@ import { StringUtils } from "./CoreUtils";
 export class DomUtils {
     static cache: any = {};
 
-    static shouldDispatchDefaultClickEvent(e: MouseEvent | __React.MouseEvent): boolean {
+    static shouldDispatchDefaultClickEvent(e: MouseEvent | React.MouseEvent<any>): boolean {
         return (e.button !== 0 || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey);
     }
 

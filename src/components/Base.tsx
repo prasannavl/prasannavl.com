@@ -1,7 +1,7 @@
 import React from "react";
 import { IAppContext } from "../modules/core/AppContext";
 import shallowCompare from "react-addons-shallow-compare";
-import { IHistoryContext } from "history-next";
+import { IHistoryContext } from "history-next/lib/HistoryContext";
 
 const PropTypes = React.PropTypes;
 
@@ -62,7 +62,7 @@ export class Base<P, S> extends React.Component<P, S> {
     //     return res;
     // }
 
-    navigateTo(path: string, replaceCurrent: boolean = false, ev: React.SyntheticEvent | UIEvent = null, state: any = null) {
+    navigateTo(path: string, replaceCurrent: boolean = false, ev: React.SyntheticEvent<any> | UIEvent = null, state: any = null) {
         if (ev !== null) {
             ev.preventDefault();
         }

@@ -5,7 +5,7 @@ import createStyled from "../../modules/core/createStyled";
 import Footer from "../fragments/Footer";
 import { loadComments } from "../../modules/ext/disqus";
 import { HighlightJs } from "../../modules/ext/highlight";
-import Rx from "rxjs";
+import Rx from 'rxjs';
 import ReactDOM from "react-dom";
 import Link from "../fragments/Link";
 import { ViewUtils } from "../../modules/app-utils/index";

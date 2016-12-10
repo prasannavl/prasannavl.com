@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/server";
-import { HistoryContext, MemoryHistory } from "history-next";
+import { HistoryContext } from "history-next/lib/HistoryContext";
+import { MemoryHistory } from "history-next/lib/MemoryHistory"
 import { getPathName } from "history-next/lib/utils";
 import { IContextManager } from "../core/ContextManager";
 import { IAppContext, AppContextFactory } from "../core/AppContext";

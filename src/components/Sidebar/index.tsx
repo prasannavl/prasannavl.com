@@ -31,7 +31,7 @@ class Sidebar extends Base<any, any> {
         }
     }
 
-    showExpose(ev: React.SyntheticEvent) {
+    showExpose(ev: React.SyntheticEvent<any>) {
         ev.preventDefault();
         this.context.events.emit(MainView.TransitionToExposeEventName);
     }

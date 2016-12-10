@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import createStyled from "../../modules/core/createStyled";
 import { Base } from "../Base";
 import { IAppContext, AppContext } from "../../modules/core/AppContext";
-import { IHistoryContext } from "history-next";
+import { IHistoryContext } from "history-next/lib/HistoryContext";
 import { PromiseFactory } from "../../modules/StaticCache";
 import { ContentManagerFactory } from "../../modules/content-manager/ContentManagerFactory";
 import LoadingView from "../LoadingView/index";
@@ -258,7 +258,7 @@ export class ContentView extends Base<any, ContentViewState> {
 
     renderWrappedComponent(component: JSX.Element) {
         let shouldRenderLoader = this._pendingRequest !== null;
-        return (<div className={style.root} tabIndex="0">
+        return (<div className={style.root} tabIndex={0}>
             { shouldRenderLoader ? <LoadingView/> : null }
             { component ? <div ref="content" className="content-container">{component}</div> : null }
         </div>);

@@ -12,7 +12,7 @@ export interface IHeadlessRendererState {
     staticViewCode: string;
     cssModules: CssStyle.CssModule[];
     htmlConfig: any;
-    additionalItems: Array<{ element: __React.ReactElement<any>, placement?: string }>;
+    additionalItems: Array<{ element: React.ReactElement<any>, placement?: string }>;
 }
 
 export class RendererStateFactory {
@@ -29,7 +29,7 @@ export class RendererStateFactory {
                 statusCode: 0,
                 cssModules: [], 
                 htmlConfig: null, 
-                additionalItems: new Array <{ element: __React.ReactElement<any>, placement?: string }>()
+                additionalItems: new Array <{ element: React.ReactElement<any>, placement?: string }>()
             } as IHeadlessRendererState;
         }
     }

@@ -43,7 +43,7 @@ class Expose extends StatelessBase<any> {
         }
     }
 
-    navigateToOverview(ev: React.MouseEvent) {
+    navigateToOverview(ev: React.MouseEvent<any>) {
         if (DomUtils.shouldDispatchDefaultClickEvent(ev)) return;        
         ev.preventDefault();
         let root = ReactDOM.findDOMNode(this) as HTMLElement;

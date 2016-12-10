@@ -22,7 +22,7 @@ export default class Link extends Base<LinkProps, any> {
         return matcher(this);
     }
 
-    onClick(e: React.MouseEvent) {
+    onClick(e: React.MouseEvent<any>) {
         if (DomUtils.shouldDispatchDefaultClickEvent(e)) return;        
         if (this.props.onClick) {
             this.props.onClick(e);
@@ -32,17 +32,16 @@ export default class Link extends Base<LinkProps, any> {
     }
 
     render() {
+        const { activeClassName, activeClassMatcher, ...rest} = this.props;        
         let classNames = this.props.className;
-        const href = this.props.href;
         if (this.props.activeClassName && this.isActive()) {
            classNames = StringUtils.joinWithSpaceIfNotEmpty(classNames, this.props.activeClassName);
         }
-        const props = Object.assign({}, this.props, {
+        const props = Object.assign({}, rest, {
             onClick: this.onClick,
-            href: href,
             className: classNames
         });
-        return React.DOM.a(props, this.props.children || href);
+        return React.DOM.a(props, this.props.children || rest.href);
     }
 }
 
