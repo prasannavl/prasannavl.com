@@ -14,7 +14,7 @@ tags:
 <div style="margin: 16px 0 25px 0">
     <a href="https://github.com/prasannavl/WinApi" class="subheader-link">GitHub: WinApi</a>
     <blockquote style="margin: 12px 0 0 0">
-    <h4>td;lr - performance stats</h4>
+    <h4>tl;dr - performance stats</h4>
     <span class="text-gray caption-small">Direct message loop performance:</span> **20-35% faster**.<br/>
     <span class="text-gray caption-small">Heap allocation:</span> **0MB vs. roughly, 0.75GB** / 100k messages.<br/>
     <span class="text-gray caption-small">Memory page faults (Soft):</span> **0.005%** - A mere **5k vs. roughly 1 million** faults/100k messages)<br/>
