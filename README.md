@@ -2,4 +2,4 @@
 
 Prasanna's Weblog
 
-![Build status](https://travis-ci.org/prasannavl/prasannavl.com.svg)
+[![Build status](https://travis-ci.org/prasannavl/prasannavl.com.svg)](https://travis-ci.org/prasannavl/prasannavl.com)
