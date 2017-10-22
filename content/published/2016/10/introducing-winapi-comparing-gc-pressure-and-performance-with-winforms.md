@@ -21,7 +21,7 @@ tags:
     </blockquote>
 </div>
 
-<a href="https://github.com/prasannavl/WinApi">WinApi's</a> primary objective is to provide access to the native layers of the Windows API from the CLR. However, even on first look it should be clear that the `WinApi.Windows` namespace infringes on the `WinForms` territory, even though its a tiny sub-fraction of the size of WinForms. Over the years WinForms has been well optimized to be **decent** - It's not the most efficient beast, but for common programs, it probably takes up less than 2-5% percent of your application's time that it doesn't matter on modern hardware - or so is the general line of thought. However, what's one can refute is that it never was the same as say, `ATL/WTL` in C++ or direct Win32 programming to be able to handle message loop heavy applications, or high-performance games.
+<a href="https://github.com/prasannavl/WinApi">WinApi's</a> primary objective is to provide access to the native layers of the Windows API from the CLR. However, even on first look it should be clear that the `WinApi.Windows` namespace infringes on the `WinForms` territory, even though its a tiny sub-fraction of the size of WinForms. Over the years WinForms has been well optimized to be **decent** - It's not the most efficient beast, but for common programs, it probably takes up less than 2-5% percent of your application's time that it doesn't matter on modern hardware - or so is the general line of thought. However, what one cannot refute is that it never was the same as say, `ATL/WTL` in C++ or direct Win32 programming to be able to handle message loop heavy applications, or high-performance games.
 
 ## The WinApi.Windows advantage
 
