@@ -70,7 +70,7 @@ Somewhere along my journey, VB led to VB.NET which in turn led to **the language
 
 And so I ended up interfacing with the operating system, and created a GUI program in C# after being up all night for a few days, while still somehow going to school everyday half-dead - EasyXvid - a little tool, that allowed you to put *pause* on a video encoding, so I could turn off my computer when I went to school, and *resume* the moment I got back with a very easy GUI and a lot of automation, all you have to do was just drop-in your video file, and EasyXvid calculated all the overwhelming numbers for you, while still having precise control over the advanced matrices and encoding elements. And it went on to be used by a lot of the folks who’d use Doom9 forums (a forum dedicated to all things video). *pvltech* - a name I went by then. After I gained more proficiency in C#, the world became my playground - I felt like Voldemort - * Evil laugh * - I could create pretty much any kind of desktop application - or so I thought. And then, I went on a journey to create what I then called EasyAVC (which I never completed) - which used H264 encoding with a clean GUI that involved a lot of custom drawing that Windows or .NET Framework wouldn’t easily allow for. So, I had to dip into Win32, which meant learning C/C++, this time for real, with all it’s nitty gritty details.
 
-I loved C#. More so because of "Intelli-sense" and the tooling around it by Microsoft. WinForms were great. I was just able to easily drag and drop items, and quickly code my C# app. No fuzzing with so many dependencies, or complex build orchestration systems. This was not the age of NuGet, and great internet. So, external libraries were a pain. But it was amazing that most things you need for applications of that age, were built into or at-least integrated beautifully with VS.NET (Oh yeah, the days when VS was in so many variants).
+> I loved C#. More so because of "Intelli-sense" and the tooling around it by Microsoft. WinForms were great. I was just able to easily drag and drop items, and quickly code my C# app. No fuzzing with so many dependencies, or complex build orchestration systems. This was not the age of NuGet, and great internet. So, external libraries were a pain. But it was amazing that most things you need for applications of that age, were built into or at-least integrated beautifully with VS.NET (Oh yeah, the days when VS was in so many variants).
 
 ### Language 11: C again, C++ (Year: 2006-07)
 
@@ -86,7 +86,7 @@ The first semester was mostly lost in acclimation. By the second semester, each 
 
 <hr/>
 
-> That about sums up the first 8 or so years of my computing life. These were fast-moving and involved hacking things up. While my language background helps me in picking up new computing languages fast, the majority of the next 12 years, however are rather slow - more focused on architecture, design, and maintainability.
+> That about sums up the first 8 or so years of my computing life. These were **fast-moving and involved hacking things up.** While my language background helps me in picking up new computing languages fast, the **majority of the next 12 years, however are rather slow - more focused on architecture, design, and maintainability**.
 
 **Up next:**
 
