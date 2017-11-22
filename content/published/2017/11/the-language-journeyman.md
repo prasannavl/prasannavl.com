@@ -105,11 +105,11 @@ The first semester was mostly lost in acclimation. By the second semester, each 
 - **Language 25:** Rust (Year: 2015+) 
 
   
-- **Familiar with:** (Not enough to justify calling it as learnt): VBScript, Lua, Erlang, Scala, Matlab, Assembly. 
+- **Familiar with:** (Not enough to justify calling it as learnt): VBScript, Lua, Erlang, Scala, Swift, Matlab, Nim, Assembly. 
 - **Daily heros left-out:** Powershell, Bash, Awk 
 
   
-- **Significant languages that I never bothered to learn:** Haskell, Ruby, D, Lisp
+- **Significant languages that I never bothered to learn:** Haskell, Ruby, D, Lisp, Clojure
 - **Languages that I consider myself proficient in today:** Rust, C#, Go, TypeScript (JS), C. 
 
     
