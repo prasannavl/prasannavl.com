@@ -1,10 +1,11 @@
 <!--[options]
-name: 'The Language Journeyman: How I learnt (almost) every significant computer language in the last 20 years'
 date: 2017-11-22T07:09:32.191Z
-url: 2017/11/the-language-journeyman-1
+url: 2017/11/the-language-journeyman
 tags:
  - Lang 
 -->
+
+# The Language Journeyman: How I learnt (almost) every significant computer language in the last 20 years
 
 As a kid, during my school days, apart from English, I learnt 3 other languages with frequent alternations due to change of school, Govt. policies (I think), etc - Tamil (my native language), Hindi, and French - all of them half-baked, and now my French completely forgotten. But little did I know then - that my mind was preparing itself a template for another set of languages, one that’s spoken through electronics, and computer keyboards.
 
@@ -78,11 +79,15 @@ So, as my journey into video encoding went deeper, I got lost into learning C++,
 
 This was the point when I really got my bearings together on C/C++, memory allocations, the numerous dark magic that go with the heap, stack, and better idea on Windows internals. Believe it or not, for a high school kid, this information was so hard to find freely on the internet those days. I had to put the pieces together little by little.
 
+<hr/>
+
 **Detour: College!**
 
 The first semester was mostly lost in acclimation. By the second semester, each of us had gotten our own laptops, and so, the many troubleshooting that came along with it. My room became the defacto computer shop in the hostel block, fixing up issues, and eventually improving my own efficiency by making my room the 24x7 stop shop for 20 minute guaranteed software fixes (yup, that was time it took for my Acronis OS image snapshot with hand-picked base software to unroll on our slow mechanical HDDs) and did other inconspicuous things that involved network security and bandwidth limitations that I won’t get into ;) -- The languages here for tiny tasks were almost always C#, or C/C++. Just more networking, and troubleshooting - no new languages.
 
 > That about sums up the first 8 or so years of my computing life. These were fast-moving and involved hacking things up. While my language background helps me in picking up new computing languages fast, the majority of the next 12 years, however are rather slow - more focused on architecture, design, and maintainability.
+
+<hr/>
 
 **Up next:**
 
@@ -95,11 +100,14 @@ The first semester was mostly lost in acclimation. By the second semester, each 
 - **Language 22-23:** NodeJS + Javascript ES6+, TypeScript 
 - **Language 24:** Go (Year: 2016+) 
 - **Language 25:** Rust (Year: 2015+) 
+
   
 - **Familiar with:** (Not enough to justify calling it as learnt): VBScript, Lua, Erlang, Scala, Matlab, Assembly. 
 - **Daily heros left-out:** Powershell, Bash, Awk 
+
   
 - **Significant languages that I never bothered to learn:** Haskell, Ruby, D 
 - **Languages that I consider myself proficient in today:** Rust, C#, Go, TypeScript (JS), C. 
-  
+
+    
 > **The final two:** Well, it should rather be simple looking at the above list. But I'll leave it be until my next article.
