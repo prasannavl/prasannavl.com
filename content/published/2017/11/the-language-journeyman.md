@@ -1,4 +1,5 @@
 <!--[options]
+name: 'The Language Journeyman: How I learnt (almost) every significant computer language in the last 20 years'
 date: 2017-11-22T07:09:32.191Z
 url: 2017/11/the-language-journeyman
 tags:
