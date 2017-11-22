@@ -6,8 +6,6 @@ tags:
  - Lang 
 -->
 
-# The Language Journeyman: How I learnt (almost) every significant computer language in the last 20 years
-
 As a kid, during my school days, apart from English, I learnt 3 other languages with frequent alternations due to change of school, Govt. policies (I think), etc - Tamil (my native language), Hindi, and French - all of them half-baked, and now my French completely forgotten. But little did I know then - that my mind was preparing itself a template for another set of languages, one that’s spoken through electronics, and computer keyboards.
 
 > **Note:** This focuses largely on a walk down my childhood computing lane, and is a reflection of hopefully authentic understanding I had then. So if you’re looking for technical details, you may want to wait for the last part of my article - in which I hope to focus on my learnings from being a language journeyman, that hopefully helps you in making in the right language choices for the future.
@@ -30,7 +28,7 @@ The first computer I ever had was a Compaq Presario! Looked exactly like this be
 
 ![How my trusty Presario looked](https://kaitlinring.files.wordpress.com/2011/07/5726.jpg)
 
-Overtime, I had reinstalled Windows 98 a bunch of times (a recovery CD came along and I had to find out what it did), meddled with the BIOS, and ordered **Ubuntu CDs online that would ship all the way from South Africa to suburban India for free** (though I had to jump through hoops to see an actual desktop on my PC).
+Sporting the fantastic JBL speakers, a fancy looking CPU case, 10GB HDD and Intel Pentium 3 - it was top notch! Overtime, I had reinstalled Windows 98 a bunch of times (a recovery CD came along and I had to find out what it did), meddled with the BIOS, and ordered **Ubuntu CDs online that would ship all the way from South Africa to suburban India for free** (though I had to jump through hoops to see an actual desktop on my PC).
 
 My clean install obsession aside, meddling further led me to C, and started writing simple C programs that would do basic math and crash in funny ways, and at times, even take the whole OS down with it. 
 
@@ -86,9 +84,9 @@ This was the point when I really got my bearings together on C/C++, memory alloc
 
 The first semester was mostly lost in acclimation. By the second semester, each of us had gotten our own laptops, and so, the many troubleshooting that came along with it. My room became the defacto computer shop in the hostel block, fixing up issues, and eventually improving my own efficiency by making my room the 24x7 stop shop for 20 minute guaranteed software fixes (yup, that was time it took for my Acronis OS image snapshot with hand-picked base software to unroll on our slow mechanical HDDs) and did other inconspicuous things that involved network security and bandwidth limitations that I won’t get into ;) -- The languages here for tiny tasks were almost always C#, or C/C++. Just more networking, and troubleshooting - no new languages.
 
-> That about sums up the first 8 or so years of my computing life. These were fast-moving and involved hacking things up. While my language background helps me in picking up new computing languages fast, the majority of the next 12 years, however are rather slow - more focused on architecture, design, and maintainability.
-
 <hr/>
+
+> That about sums up the first 8 or so years of my computing life. These were fast-moving and involved hacking things up. While my language background helps me in picking up new computing languages fast, the majority of the next 12 years, however are rather slow - more focused on architecture, design, and maintainability.
 
 **Up next:**
 
