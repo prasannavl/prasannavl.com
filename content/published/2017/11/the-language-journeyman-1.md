@@ -1,5 +1,5 @@
 <!--[options]
-name: 'The Language Journeyman: How I learnt (almost) every significant computer language in the last 15 odd years'
+name: 'The Language Journeyman: How I learnt (almost) every significant computer language in the last 20 years'
 date: 2017-11-22T07:09:32.191Z
 url: 2017/11/the-language-journeyman-1
 tags:
@@ -96,4 +96,4 @@ The first semester was mostly lost in acclimation. By the second semester, each 
 - **Significant languages that I never bothered to learn:** Haskell, Ruby, D
 - **Languages that I consider myself proficient in today:** Rust, C#, Go, TypeScript (JS), C.
 
-> The final two: Well, it should rather be simple looking at the above list. But I'll leave it be until my next article.
+> **The final two:** Well, it should rather be simple looking at the above list. But I'll leave it be until my next article.
