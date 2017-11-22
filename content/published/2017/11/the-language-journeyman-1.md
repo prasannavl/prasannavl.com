@@ -6,11 +6,9 @@ tags:
  - Lang
 -->
 
-# The Language Journeyman: How I learnt (almost) every significant computer language in the last 20 years
-
 As a kid, during my school days, apart from English, I learnt 3 other languages with frequent alternations due to change of school, Govt. policies (I think), etc - Tamil (my native language), Hindi, and French - all of them half-baked, and now my French completely forgotten. But little did I know then - that my mind was preparing itself a template for another set of languages, one that’s spoken through electronics, and computer keyboards.
 
-> **Note:** This is a part of a 3 part series: The first 2 focuses largely on a walk down my childhood computing lane, and is a reflection of hopefully authentic understanding I had then. So if you’re looking for technical details, you may want to wait for part 3 - in which I hope to focus on my learnings from being a language journeyman, that hopefully helps you in making in the right language choices for the future.
+> **Note:** This is **part 1 of a 3 part series**: The first 2 focuses largely on a walk down my childhood computing lane, and is a reflection of hopefully authentic understanding I had then. So if you’re looking for technical details, you may want to wait for part 3 - in which I hope to focus on my learnings from being a language journeyman, that hopefully helps you in making in the right language choices for the future.
 
 ## THE FIRST DECADE
 
@@ -32,7 +30,9 @@ The first computer I ever had was a Compaq Presario! Looked exactly like this be
 
 Overtime, I had reinstalled Windows 98 a bunch of times (a recovery CD came along and I had to find out what it did), meddled with the BIOS, and ordered **Ubuntu CDs online that would ship all the way from South Africa to suburban India for free** (though I had to jump through hoops to see an actual desktop on my PC).
 
-> My clean install obsession aside, meddling further lead me to C, and started writing simple C programs that would do basic math and crash in funny ways, and at times, even take the whole OS down with it. This is the first real language that I brought upon myself to learn. Not sure how this journey really began to this day. Note, however, I ‘really’ learned C much later in life.
+My clean install obsession aside, meddling further led me to C, and started writing simple C programs that would do basic math and crash in funny ways, and at times, even take the whole OS down with it. 
+
+> This is the first real language that I brought upon myself to learn. Not sure how this journey really began to this day. Note, however, I ‘really’ learned C much later in life.
 
 ### Language 4: HTML/CSS (Year: Early 200x)
 
@@ -42,21 +42,25 @@ I’m not sure if I even want to dedicate a section to HTML, but well, the `L` i
 
 ### Language 5: Java  (Year: Early 200x)
 
-Java, was a name that was all over computers at that time - even in suburban India. I would walk through the computer section in the biggest bookstore in the town, called *"Eagle Book Centre"* (It was nice to find out that it still exists), I’d see sections dedicated to just this thing called ‘Java’. And somehow, I convinced my grandfather that I absolutely, positively needed to pick up the fattest book I had ever bought in my life, and a very expensive one at that - Java something, with over 2000 pages. Everyone thought I was nuts!
+Java, was a name that was all over computers at that time - even in suburban India. I would walk through the computer section in the biggest bookstore in the town, called *"Eagle Book Centre"* (It was nice to find out that it still exists), I’d see sections dedicated to just this thing called ‘Java’. And somehow, I convinced my grandfather that **I absolutely, positively needed to pick up the fattest book I had ever bought in my life**, and a very expensive one at that - Java something, with over 2000 pages. Everyone thought I was nuts!
 
 After I churned through it and finished in three or so weeks later, I don’t suppose I got everything in the book, but I did understand the fundamentals of Java, and *"got familiar"* with HTTP, sockets, servers, and some networking basics, but never really explored more than building some windows and toolboxes - and being unhappy with how Java applications looked so awful (AWT never looked native), I decided to look for something that looked nicer. Little did I know then, that you don’t have to completely switch languages for it - but in retrospect, I’m thankful I didn’t know, or I’d have stuck with Java.
 
 ### Language 6-7: VB, Delphi (Year: Early 200x)
 
-In the pursuit of better looking applications, next in line came VB6 (the native one), and I ended up making a few windows and toolbars. VB.NET was introduced a little later, running on top of the .NET framework. But after a little research I found the big language of the day was Delphi. But it didn’t help that those days everything was commercial. Unless I had a few thousand dollars up my sleeve, there was no way to get them. So how does a kid in suburban South India get access to them? Thanks to a service engineer whom I had befriended. After learning about my computer adventures, he would give me access to all kinds of software (ahem, ahem.. access), including later Windows ME (sigh), Windows 2000, and Windows 2000 Server, each of which I was all too eager to get take for a spin on my trusty old Compaq Presario, and thus began my adventures of operating systems. And not long after, I was spinning up windows, and toolbars with Delphi for fun.
+In the pursuit of better looking applications, next in line came `VB6` (the native one), and I ended up making a few windows and toolbars. `VB.NET` was introduced by Microsoft a little later, running on top of the .NET framework. But after a little research I found the big language of the day was `Delphi`. But it didn’t help that those days everything was commercial. **Unless I had a few thousand dollars up my sleeve, there was no way to get them**. So how does a kid in suburban South India get access to them? Thanks to a service engineer whom I had befriended. After learning about my computer adventures, he would give me access to all kinds of software (ahem, ahem.. access), including later Windows ME (sigh), Windows 2000, and Windows 2000 Server, each of which I was all too eager to get take for a spin on my trusty old Compaq Presario, and thus began my adventures of operating systems. And not long after, I was spinning up windows, and toolbars with Delphi for fun.
 
 ### Language 8-9: Pascal, Fortran (Year Early 200x)
 
-My aunt who was a computer engineer, had come to India briefly, and knowing my interest gave me a book on either Pascal or Fortran. I actually don’t remember which one. But learning one also prompted me to learn the other though they don’t really have anything in common. I used Turbo Pascal, thanks to my newly found trusted friend. However, after C in Linux (try building GUIs in Windows with C as a kid) and Delphi on Windows, I don’t think I ever really enjoyed it. Fortran was nicer, but my experiments then didn’t revolve around numerics which Fortran would have been great at that time, but more on GUIs and interfacing with the OS. By the time I finished the hard and extremely difficult to read book, in just few weeks, I lost it’s knowledge just as fast as I learnt it, and as such my "religious" journey came to an end. Obviously, there was one phrase that stuck along, all these years.
+My aunt who was a computer engineer, had come to India briefly, and knowing my interest gave me a book on either Pascal or Fortran. I actually don’t remember which one. But learning one also prompted me to learn the other though they don’t really have anything in common. I used Turbo Pascal, thanks to my newly found trusted friend. However, after C in Linux (try building GUIs in Windows with C as a kid) and Delphi on Windows, I don’t think I ever really enjoyed it. Fortran was nicer, but my experiments then didn’t revolve around numerics which Fortran would have been great at that time, but more on GUIs and interfacing with the OS. By the time I finished the hard and extremely difficult to read book, in just few weeks, **I lost it’s knowledge just as fast as I learnt it**, and as such my *"religious"* journey came to an end. Obviously, there was one phrase that stuck along, all these years.
 
 > GOD is REAL, unless declared Integer.
 
-**Detour - **Until this point, everything I had learnt were just used for toying around, poking into the depths of the system, and writing my own simple programs to automate a few things. Nothing more. I was obsessed with the internals of operating systems. Since Windows, unlike Linux was closed, it made learning and understanding every bit of detail, a discovery in it’s own right. Never would I forget the tools of Mark Russinovich, and SysInternals, which eventually become a part of Microsoft, and is the first thing I unpack into every install of the Windows OS till today.
+<hr/>
+
+**Detour:** Until this point, everything I had learnt were just used for toying around, poking into the depths of the system, and writing my own simple programs to automate a few things. Nothing more. I was obsessed with the internals of operating systems. Since Windows, unlike Linux was closed, it made learning and understanding every bit of detail, a discovery in it’s own right. Never would I forget the tools of Mark Russinovich, and SysInternals, which eventually become a part of Microsoft, and is the first thing I unpack into every install of the Windows OS till today.
+
+<hr/>
 
 ### Language 10: C# (Year 2004+)
 
