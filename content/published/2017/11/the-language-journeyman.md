@@ -50,7 +50,7 @@ After I churned through it and finished in three or so weeks later, I don’t su
 
 In the pursuit of better looking applications, next in line came `VB6` (the native one), and I ended up making a few windows and toolbars. `VB.NET` was introduced by Microsoft a little later, running on top of the .NET framework. But after a little research I found the big language of the day was `Delphi`. But it didn’t help that those days everything was commercial. **Unless I had a few thousand dollars up my sleeve, there was no way to get them**. So how does a kid in suburban South India get access to them? Thanks to a service engineer whom I had befriended. After learning about my computer adventures, he would give me access to all kinds of software including later Windows ME (sigh), Windows 2000, and Windows 2000 Server, each of which I was all too eager to get take for a spin on my trusty old Compaq Presario, and thus began my adventures of operating systems. And not long after, I was spinning up windows, and toolbars with Delphi for fun.
 
-> PS: Access to essential software is a lot easier - Microsoft for instance, has numerous MSDN subscriptions to help startups. Companies like JetBrains provides a vast amount of software for open source development. Although, there's an overwhelming amount of open source alternatives today - many even better than the commercial ones.
+> Access to essential software is a lot easier today - Microsoft for instance, has numerous MSDN subscriptions to help startups. Companies like JetBrains provides a vast amount of software for open source development. Although, there's an overwhelming amount of open source alternatives today - many even better than the commercial ones.
 
 ### Language 8-9: Pascal, Fortran (Year: Early 200x)
 
@@ -78,7 +78,9 @@ After I gained more proficiency in C#, the world became my playground - I felt l
 
 So, as my journey into video encoding went deeper, I got lost into learning C++, as I had to use COM+ (Component Object Model), to access deeper Windows layers, which also led me to really master C, and not toy with it. However, the amount of learning I had to do overwhelmed me. I had eventually decided to stop EasyAVC, and I was nearing my high school exams, and already the diversions has made me go-to school sleep deprived on a regular basis. However, while I was proficient with C#, the marshalling layers, and interfacing with C still baffled the 16 year old me. Instead, I explored directly using C++ frameworks like WxWidgets, Qt, and GTK (C here). Now, the GTK and QT diversion took me into the depths of GNOME, KDE and Linux. I loved QT. Became quite proficient at it. But this is where my high school computing journey ends.
 
-This was the point when I really got my bearings together on C/C++, memory allocations, the numerous dark magic that go with the heap, stack, and better idea on Windows internals. Believe it or not, for a high school kid, this information was so hard to find freely on the internet those days. I had to put the pieces together little by little.
+This was the point when I really got my bearings together on C/C++, memory allocations, the numerous dark magic that go with the heap, stack, and better idea on Windows internals. Believe it or not, for a high school kid, this information was so hard to find freely on the internet those days. I had to put the pieces together little by little. 
+
+> I keep coming back to C/C++, to this day. After-all, C ABIs are at the core of everything we use today. Even for cross-platform GUIs,  Qt is something I dabble with more than just a few times.
 
 <hr/>
 
@@ -107,7 +109,7 @@ The first semester was mostly lost in acclimation. By the second semester, each 
 - **Daily heros left-out:** Powershell, Bash, Awk 
 
   
-- **Significant languages that I never bothered to learn:** Haskell, Ruby, D 
+- **Significant languages that I never bothered to learn:** Haskell, Ruby, D, Lisp
 - **Languages that I consider myself proficient in today:** Rust, C#, Go, TypeScript (JS), C. 
 
     
