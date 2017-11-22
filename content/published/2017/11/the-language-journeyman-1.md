@@ -3,12 +3,14 @@ name: 'The Language Journeyman: How I learnt (almost) every significant computer
 date: 2017-11-22T07:09:32.191Z
 url: 2017/11/the-language-journeyman-1
 tags:
- - Lang
+ - Lang 
 -->
+
+# The Language Journeyman: How I learnt (almost) every significant computer language in the last 20 years
 
 As a kid, during my school days, apart from English, I learnt 3 other languages with frequent alternations due to change of school, Govt. policies (I think), etc - Tamil (my native language), Hindi, and French - all of them half-baked, and now my French completely forgotten. But little did I know then - that my mind was preparing itself a template for another set of languages, one that’s spoken through electronics, and computer keyboards.
 
-> **Note:** This is **part 1 of a 3 part series**: The first 2 focuses largely on a walk down my childhood computing lane, and is a reflection of hopefully authentic understanding I had then. So if you’re looking for technical details, you may want to wait for part 3 - in which I hope to focus on my learnings from being a language journeyman, that hopefully helps you in making in the right language choices for the future.
+> **Note:** This focuses largely on a walk down my childhood computing lane, and is a reflection of hopefully authentic understanding I had then. So if you’re looking for technical details, you may want to wait for the last part of my article - in which I hope to focus on my learnings from being a language journeyman, that hopefully helps you in making in the right language choices for the future.
 
 ## THE FIRST DECADE
 
@@ -64,9 +66,9 @@ My aunt who was a computer engineer, had come to India briefly, and knowing my i
 
 ### Language 10: C# (Year 2004+)
 
-Somewhere along my journey, VB led to VB.NET which in turn led to the language that eventually became the one I’d love for years to come - C#.NET. At this point, I was obsessed with "The Lord of the Rings" movie, and being the computer savvy kid that I was - I knew exactly how to “get access” to it. However, after “getting access” to it, I realized my grand 10GB Hard disk couldn’t store it all. So, now, armed with my computing knowledge in all it’s glory I set on this journey to make it fit. Enter video encoding, and Xvid. I entered into this whole new world of image processing, and vectorization. I learnt about the then upcoming format H264 - The open source version being X264. But my trusty old Compaq couldn’t handle it. So, I had to only use Xvid. And since, even that would take my computer a whole night run a single pass of a movie, I needed better tools. Turns out, there was no tool out there that would actually survive a system shutdown, and/or hibernation - and all these tools were either too complicated to use, or lacked precise control over Xvid. 
+Somewhere along my journey, VB led to VB.NET which in turn led to **the language that eventually became the one I’d love for years to come - C#.NET**. At this point, I was obsessed with "The Lord of the Rings" movie, and being the computer savvy kid that I was - I knew exactly how to `"get access"` to it. However, after *getting access* to it, I realized **my grand 10GB Hard disk couldn’t store it all**. So, now, armed with my computing knowledge in all it’s glory I set on this journey to make it fit. Enter video encoding, and `Xvid`. I entered into this whole new world of image processing, and vectorization. I learnt about the then upcoming format H264 - The open source version being X264. But my trusty old Compaq couldn’t handle it. So, I had to only use Xvid. And since, even that would take my computer *a whole night run a single pass of a movie*, I needed better tools. Turns out, there was no tool out there that would actually survive a system shutdown, and/or hibernation - and all these tools were either too complicated to use, or lacked precise control over Xvid. 
 
-And so I ended up interfacing with the operating system, and created a GUI program in C# after being up all night for a few days, while still somehow going to school everyday half-dead - EasyXvid - a little tool, that allowed you to put "pause" on a video encoding, so I could turn off my computer when I went to school, and “resume” the moment I got back with a very easy GUI and a lot of automation, all you have to do was just drop-in your video file, and EasyXvid calculated all the overwhelming numbers for you, while still having precise control over the advanced matrices and encoding elements. And it went on to be used by a lot of the folks who’d use Doom9 forums (a forum dedicated to all things video). ‘pvltech’ - a name I went by then. After I gained more proficiency in C#, the world became my playground - I felt like Voldemort - * Evil laugh * - I could create pretty much any kind of desktop application - or so I thought. And then, I went on a journey to create what I then called EasyAVC (which I never completed) - which used H264 encoding with a clean GUI that involved a lot of custom drawing that Windows or .NET Framework wouldn’t easily allow for. So, I had to dip into Win32, which meant learning C/C++, this time for real, with all it’s nitty gritty details.
+And so I ended up interfacing with the operating system, and created a GUI program in C# after being up all night for a few days, while still somehow going to school everyday half-dead - EasyXvid - a little tool, that allowed you to put *pause* on a video encoding, so I could turn off my computer when I went to school, and *resume* the moment I got back with a very easy GUI and a lot of automation, all you have to do was just drop-in your video file, and EasyXvid calculated all the overwhelming numbers for you, while still having precise control over the advanced matrices and encoding elements. And it went on to be used by a lot of the folks who’d use Doom9 forums (a forum dedicated to all things video). *pvltech* - a name I went by then. After I gained more proficiency in C#, the world became my playground - I felt like Voldemort - * Evil laugh * - I could create pretty much any kind of desktop application - or so I thought. And then, I went on a journey to create what I then called EasyAVC (which I never completed) - which used H264 encoding with a clean GUI that involved a lot of custom drawing that Windows or .NET Framework wouldn’t easily allow for. So, I had to dip into Win32, which meant learning C/C++, this time for real, with all it’s nitty gritty details.
 
 I loved C#. More so because of "Intelli-sense" and the tooling around it by Microsoft. WinForms were great. I was just able to easily drag and drop items, and quickly code my C# app. No fuzzing with so many dependencies, or complex build orchestration systems. This was not the age of NuGet, and great internet. So, external libraries were a pain. But it was amazing that most things you need for applications of that age, were built into or at-least integrated beautifully with VS.NET (Oh yeah, the days when VS was in so many variants).
 
@@ -84,20 +86,20 @@ The first semester was mostly lost in acclimation. By the second semester, each 
 
 **Up next:**
 
-- **Language 12:** ActionScript(Flash) (Year: 2007-08)
-- **Language 13-14:** PHP, JavaScript
-- **Language 15-16:** Python, Perl
-- **Language 17:** C# again (Breaking the CLR open), F#
-- **Language 18-20:** OCaml, Elm, Dart
-- **Language 21:** Vala (The bastard kid of C and C#)
-- **Language 22-23:** NodeJS + Javascript ES6+, TypeScript
-- **Language 24:** Go (Year: 2016+)
-- **Language 25:** Rust (Year: 2015+)
-
-- **Familiar with:** (Not enough to justify calling it as learnt): VBScript, Lua, Erlang, Scala, Matlab, Assembly.
-- **Daily heros left-out:** Powershell, Bash, Awk
-
-- **Significant languages that I never bothered to learn:** Haskell, Ruby, D
-- **Languages that I consider myself proficient in today:** Rust, C#, Go, TypeScript (JS), C.
-
+- **Language 12:** ActionScript(Flash) (Year: 2007-08) 
+- **Language 13-14:** PHP, JavaScript 
+- **Language 15-16:** Python, Perl 
+- **Language 17:** C# again (Breaking the CLR open), F# 
+- **Language 18-20:** OCaml, Elm, Dart 
+- **Language 21:** Vala (The bastard kid of C and C#) 
+- **Language 22-23:** NodeJS + Javascript ES6+, TypeScript 
+- **Language 24:** Go (Year: 2016+) 
+- **Language 25:** Rust (Year: 2015+) 
+  
+- **Familiar with:** (Not enough to justify calling it as learnt): VBScript, Lua, Erlang, Scala, Matlab, Assembly. 
+- **Daily heros left-out:** Powershell, Bash, Awk 
+  
+- **Significant languages that I never bothered to learn:** Haskell, Ruby, D 
+- **Languages that I consider myself proficient in today:** Rust, C#, Go, TypeScript (JS), C. 
+  
 > **The final two:** Well, it should rather be simple looking at the above list. But I'll leave it be until my next article.
