@@ -110,10 +110,10 @@ function getProjectsContentElement() {
 }
 
 function getProjects() {
-    let p = ["LiquidState", "Liara", "WinApi",
-        "prasannavl.com", "SharpLog", "MongoSessionProvider",
-        "history-next", "ConsoleUtils", "Wrex",
-        "TextUtils", "Benchmarks", "MSP430-IR-Based-Codes"];
+    let p = ["WinApi", "LiquidState", "mchain",
+        "prasannavl.com", "go-gluons", "go-errors",
+        "Liara", "SharpLog", "Wrex",
+        "history-next", "ConsoleUtils", "MSP430-IR-Based-Codes"];
     return p.map(x => getLinkElementForProject(x));
 }
 
