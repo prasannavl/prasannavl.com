@@ -110,7 +110,7 @@ The first semester was mostly lost in acclimation. By the second semester, each 
 - **Significant languages that I never bothered to learn:** Haskell, Ruby, D, Lisp, Clojure
 
   
-- **Languages that I consider myself proficient in today:** Rust, C#, Go, TypeScript (JS), C. 
-- **The Language that I think will take over the world:** Rust. 
+- **Languages that I consider myself proficient in today:** Rust, C#, Go, TypeScript (JS). 
+- **The Language that I think will take over the world:** Rust.
   
 Hopefully, I'll add more on the next part of my language journey, and the technical as well as the business and logistical reasons why `Rust` will succeed in doing what no other languages have done in the past - **Provide a truly universal general purpose langauge that unifies the world.**
