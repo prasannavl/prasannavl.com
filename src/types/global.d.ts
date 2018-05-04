@@ -18,5 +18,6 @@ declare namespace DataModules {
 }
 
 declare module "title-service-data" {
-    export default {} as DataModules.ITitleServiceData;
+    const _default: DataModules.ITitleServiceData;
+    export default _default;
 }
