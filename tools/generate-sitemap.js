@@ -18,7 +18,7 @@ async function runAsync() {
         index: path.join(sitemapsRootPath, indexPathName + ext),
     }
     
-    let hostname = "http://www.prasannavl.com";
+    let hostname = "https://www.prasannavl.com";
     
     let routes = await fs.readJSON(routesFilePath);
 

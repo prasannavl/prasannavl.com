@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = ({ showTwitter }) => {
     const scrollToTopJs = "javascript:(function(){ window.location.hash='#top';setTimeout(function(){ window.scrollTo(0,0); },0); }())";
@@ -7,8 +8,8 @@ const Footer = ({ showTwitter }) => {
             <nav className="clearfix footer-nav">
                 <ul className="list-inline float-left">
                     <li className="list-inline-item"><a href={scrollToTopJs}>Top</a></li>
-                    <li className="list-inline-item"><a href="/">Home</a></li>
-                    <li className="list-inline-item"><a href="/archives/">Archives</a></li>
+                    <li className="list-inline-item"><Link to="/">Home</Link></li>
+                    <li className="list-inline-item"><Link to="/archives/">Archives</Link></li>
                 </ul>
             </nav>
             <p className="small text-muted mt-1 mb-0">
