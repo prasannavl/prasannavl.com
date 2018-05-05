@@ -14,7 +14,7 @@ before_script:
 - mkdir build
 script:
 - docker build . -t builder
-- docker run -i --rm -v ${PWD}/build:/app/build builder 'yarn run build-all'
+- docker run -i --rm -v ${PWD}/build:/app/build builder yarn run build-all
 - chown -R $(id -u):$(id -g) build
 after_success:
 - cd build
