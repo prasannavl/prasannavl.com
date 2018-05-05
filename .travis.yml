@@ -21,6 +21,6 @@ after_success:
 - git config user.name "Travis CI"
 - git config user.email "ci-bot@prasannavl.com"
 - git add .
-- git commit -m "Auto deployment"
+- git commit -m "auto deployment"
 - git remote add ghps git@github.com:prasannavl/prasannavl.github.io.git
 - git push --force ghps master:master
