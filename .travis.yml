@@ -15,14 +15,12 @@ before_script:
 script:
 - docker build . -t builder
 - docker run -i --rm -v ${PWD}/build:/app/build builder yarn run build-all
-- chown -R $(id -u):$(id -g) build
 after_success:
 - cd build
-- ls -lR build
-# - git init
-# - git config user.name "Travis CI"
-# - git config user.email "ci-bot@prasannavl.com"
-# - git add .
-# - git commit -m "Auto deployment"
-# - git remote add ghps git@github.com:prasannavl/prasannavl.github.io.git
-# - git push --force ghps master:master
+- git init
+- git config user.name "Travis CI"
+- git config user.email "ci-bot@prasannavl.com"
+- git add .
+- git commit -m "Auto deployment"
+- git remote add ghps git@github.com:prasannavl/prasannavl.github.io.git
+- git push --force ghps master:master
