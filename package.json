@@ -16,7 +16,7 @@
     "@neutrinojs/react": "^8.2.3",
     "bootstrap": "^4.1.0",
     "date-fns": "^1.29.0",
-    "fs-extra": "^5.0.0",
+    "fs-extra": "^6.0.0",
     "glob": "^7.1.2",
     "isomorphic-unfetch": "^2.0.0",
     "loadable-components": "^1.4.0",
