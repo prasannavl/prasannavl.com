@@ -19,7 +19,7 @@ const Footer = ({ showTwitter }) => {
 }
 
 const TwitterNote = () => {
-    return <aside className="my-3"><p><a href="https://www.twitter.com/prasannavl">@prasannavl</a> - If you enjoyed this post, please <a href={"https://twitter.com/intent/tweet?url=" + window.location.href.trim()} target="_blank">share it with your followers</a>.</p></aside>
+    return <aside className="my-3"><p><a href="https://www.twitter.com/prasannavl">@prasannavl</a> - If you enjoyed this post, please <a href={"javascript:window.open('https://twitter.com/intent/tweet?url=' + window.location.href, '_blank').focus()"}>share it with your followers</a>.</p></aside>
 }
 
 export default Footer;
