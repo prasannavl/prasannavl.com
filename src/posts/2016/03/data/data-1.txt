@@ -1,0 +1,26 @@
+1: kd> lmvm Netwbw02
+Browse full module list
+start             end                 module name
+fffff801`6d400000 fffff801`6d789000   Netwbw02   (no symbols)
+    Loaded symbol image file: Netwbw02.sys
+    Image path: \SystemRoot\System32\drivers\Netwbw02.sys
+    Image name: Netwbw02.sys
+    Browse all global symbols  functions  data
+    Timestamp:        Tue Nov 03 20:00:10 2015 (5638C4F2)
+    CheckSum:         00364A95
+    ImageSize:        00389000
+    Translations:     0000.04b0 0000.04e4 0409.04b0 0409.04e4
+1: kd> k
+ # Child-SP          RetAddr           Call Site
+00 ffffd001`00e627a8 fffff801`6d460470 nt!KeBugCheckEx
+01 ffffd001`00e627b0 fffff801`6d5f7475 Netwbw02+0x60470
+02 ffffd001`00e627f0 fffff801`6d5f8fe0 Netwbw02+0x1f7475
+03 ffffd001`00e62840 fffff801`6d5f55fa Netwbw02+0x1f8fe0
+04 ffffd001`00e62870 fffff801`6d5f5e3c Netwbw02+0x1f55fa
+05 ffffd001`00e628f0 fffff801`6d5f30b4 Netwbw02+0x1f5e3c
+06 ffffd001`00e62980 fffff801`6d45c3de Netwbw02+0x1f30b4
+07 ffffd001`00e629d0 fffff801`6800aa4e Netwbw02+0x5c3de
+08 ffffd001`00e62a00 fffff801`6802105d ndis!ndisQueuedMiniportDpcWorkItem+0x24e
+09 ffffd001`00e62b40 fffff802`f6c96125 ndis!ndisReceiveWorkerThread+0x21d
+0a ffffd001`00e62c10 fffff802`f6dd4916 nt!PspSystemThreadStartup+0x41
+0b ffffd001`00e62c60 00000000`00000000 nt!KiStartSystemThread+0x16

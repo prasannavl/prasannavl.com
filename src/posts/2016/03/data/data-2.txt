@@ -1,0 +1,7 @@
+Unknown bugcheck code (dead7495)
+Unknown bugcheck description
+Arguments:
+Arg1: 00000000121e0009
+Arg2: 000000000125027e
+Arg3: 0000000011af0000
+Arg4: 0000000000000000

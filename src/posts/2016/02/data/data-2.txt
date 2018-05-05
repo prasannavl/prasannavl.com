@@ -1,0 +1,141 @@
+VIDEO_TDR_TIMEOUT_DETECTED (117)
+The display driver failed to respond in timely fashion.
+(This code can never be used for a real bugcheck.)
+Arguments:
+Arg1: ffffe0011e57d4c0, Optional pointer to internal TDR recovery context (TDR_RECOVERY_CONTEXT).
+Arg2: fffff800a4c620f0, The pointer into responsible device driver module (e.g owner tag).
+Arg3: 0000000000000000, The secondary driver specific bucketing key.
+Arg4: 0000000000000000, Optional internal context dependent data.
+
+Debugging Details:
+------------------
+
+
+DUMP_CLASS: 1
+
+DUMP_QUALIFIER: 400
+
+BUILD_VERSION_STRING:  10586.63.amd64fre.th2_release.160104-1513
+
+DUMP_TYPE:  2
+
+BUGCHECK_P1: ffffe0011e57d4c0
+
+BUGCHECK_P2: fffff800a4c620f0
+
+BUGCHECK_P3: 0
+
+BUGCHECK_P4: 0
+
+FAULTING_IP: 
+igdkmd64+120f0
+fffff800`a4c620f0 ??              ???
+
+DEFAULT_BUCKET_ID:  GRAPHICS_DRIVER_TDR_TIMEOUT
+
+TAG_NOT_DEFINED_202b:  *** Unknown TAG in analysis list 202b
+
+
+CPU_COUNT: 4
+
+CPU_MHZ: 95a
+
+CPU_VENDOR:  GenuineIntel
+
+CPU_FAMILY: 6
+
+CPU_MODEL: 3d
+
+CPU_STEPPING: 4
+
+BUGCHECK_STR:  0x117
+
+PROCESS_NAME:  System
+
+CURRENT_IRQL:  0
+
+ANALYSIS_SESSION_HOST:  PVL-FALCON
+
+ANALYSIS_SESSION_TIME:  02-15-2016 06:26:31.0556
+
+ANALYSIS_VERSION: 10.0.10586.567 amd64fre
+
+STACK_TEXT:  
+ffffd000`275c3a00 fffff800`9d7671fc : ffffe001`1e57d4c0 00000000`80000000 ffffe001`1e57d4c0 ffffe001`32fd3010 : watchdog!WdDbgReportRecreate+0x104
+ffffd000`275c3a50 fffff800`9d76675f : ffffc000`00000000 ffffc000`cb9f1500 ffffe001`1e57d4c0 ffffe001`33482408 : dxgkrnl!TdrUpdateDbgReport+0xec
+ffffd000`275c3aa0 fffff800`9d753345 : ffffc000`d1c89c24 ffffe001`334823a0 ffffe001`334823a0 ffffe001`33482408 : dxgkrnl!TdrCollectDbgInfoStage2+0x1df
+ffffd000`275c3ad0 fffff800`9d766e65 : ffffe001`32370150 00000000`00000000 00000000`00000000 00000000`00000000 : dxgkrnl!DXGADAPTER::Reset+0x21d
+ffffd000`275c3b20 fffff800`9d766fbb : 00000000`00000200 fffff803`361a1340 ffffe001`1c208c90 fffff803`35e90910 : dxgkrnl!TdrResetFromTimeout+0x15
+ffffd000`275c3b50 fffff803`35e78b79 : ffffe001`333c7040 fffff800`9d766f60 ffffe001`1fe25610 fffff803`361a1340 : dxgkrnl!TdrResetFromTimeoutWorkItem+0x5b
+ffffd000`275c3b80 fffff803`35e17125 : 00000005`b19bbdff 00000000`00000080 ffffe001`1b8a2040 ffffe001`333c7040 : nt!ExpWorkerThread+0xe9
+ffffd000`275c3c10 fffff803`35f55916 : ffffd000`20720180 ffffe001`333c7040 fffff803`35e170e4 ffeceff1`ffeceff1 : nt!PspSystemThreadStartup+0x41
+ffffd000`275c3c60 00000000`00000000 : ffffd000`275c4000 ffffd000`275be000 00000000`00000000 00000000`00000000 : nt!KiStartSystemThread+0x16
+
+
+STACK_COMMAND:  kb
+
+THREAD_SHA1_HASH_MOD_FUNC:  26032a29a837a16b5eba8813d816bfe6c3aea8a7
+
+THREAD_SHA1_HASH_MOD_FUNC_OFFSET:  2a98f27881b30ef00b3362f6f34c45e22e7dcaf5
+
+THREAD_SHA1_HASH_MOD:  7558c67383100ca76738f2615528c656f1c43af3
+
+FOLLOWUP_IP: 
+igdkmd64+120f0
+fffff800`a4c620f0 ??              ???
+
+SYMBOL_NAME:  igdkmd64+120f0
+
+FOLLOWUP_NAME:  MachineOwner
+
+MODULE_NAME: igdkmd64
+
+IMAGE_NAME:  igdkmd64.sys
+
+DEBUG_FLR_IMAGE_TIMESTAMP:  5678d0a8
+
+FAILURE_BUCKET_ID:  LKD_0x117_IMAGE_igdkmd64.sys
+
+BUCKET_ID:  LKD_0x117_IMAGE_igdkmd64.sys
+
+PRIMARY_PROBLEM_CLASS:  LKD_0x117_IMAGE_igdkmd64.sys
+
+TARGET_TIME:  2016-02-02T11:24:05.000Z
+
+OSBUILD:  10586
+
+OSSERVICEPACK:  0
+
+SERVICEPACK_NUMBER: 0
+
+OS_REVISION: 0
+
+SUITE_MASK:  272
+
+PRODUCT_TYPE:  1
+
+OSPLATFORM_TYPE:  x64
+
+OSNAME:  Windows 10
+
+OSEDITION:  Windows 10 WinNt TerminalServer SingleUserTS
+
+OS_LOCALE:  
+
+USER_LCID:  0
+
+OSBUILD_TIMESTAMP:  2016-01-05 06:58:56
+
+BUILDDATESTAMP_STR:  160104-1513
+
+BUILDLAB_STR:  th2_release
+
+BUILDOSVER_STR:  10.0.10586.63.amd64fre.th2_release.160104-1513
+
+ANALYSIS_SESSION_ELAPSED_TIME: 5dc
+
+ANALYSIS_SOURCE:  KM
+
+FAILURE_ID_HASH_STRING:  km:lkd_0x117_image_igdkmd64.sys
+
+FAILURE_ID_HASH:  {df5cc292-6e03-34f8-7849-e22c43f13df4}

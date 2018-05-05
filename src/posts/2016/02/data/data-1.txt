@@ -1,0 +1,11 @@
+0: kd> k
+# Child-SP          RetAddr           Call Site
+00 ffffd000`275c3a00 fffff800`9d7671fc watchdog!WdDbgReportRecreate+0x104
+01 ffffd000`275c3a50 fffff800`9d76675f dxgkrnl!TdrUpdateDbgReport+0xec
+02 ffffd000`275c3aa0 fffff800`9d753345 dxgkrnl!TdrCollectDbgInfoStage2+0x1df
+03 ffffd000`275c3ad0 fffff800`9d766e65 dxgkrnl!DXGADAPTER::Reset+0x21d
+04 ffffd000`275c3b20 fffff800`9d766fbb dxgkrnl!TdrResetFromTimeout+0x15
+05 ffffd000`275c3b50 fffff803`35e78b79 dxgkrnl!TdrResetFromTimeoutWorkItem+0x5b
+06 ffffd000`275c3b80 fffff803`35e17125 nt!ExpWorkerThread+0xe9
+07 ffffd000`275c3c10 fffff803`35f55916 nt!PspSystemThreadStartup+0x41
+08 ffffd000`275c3c60 00000000`00000000 nt!KiStartSystemThread+0x16

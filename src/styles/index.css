@@ -1,0 +1,121 @@
+@import "../../node_modules/bootstrap/dist/css/bootstrap.css";
+
+body {
+    margin: 40px 0;
+    color: #333;
+    font-family: 'Helvetica Neue', Helvetica, 'Roboto', Arial, 'Liberation Sans', sans-serif;
+    line-height: 1.6;
+    /* overflow-y: scroll; */
+}
+
+.app-container {
+    max-width: 1200px;
+    overflow-wrap: break-word;
+    margin: 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+
+h1.title {
+    /* def: 40 */
+    font-size: 2.25rem;
+    margin-top: 1.88rem;
+}
+
+h2 {
+    /* def: f-size: 32 */
+    margin: 2rem 0 1rem 0;
+}
+
+h3 {
+    /* def: 28 */
+    font-size: 1.6rem;
+    margin: 1.5rem 0 0.88rem 0;
+}
+
+h4 {
+    /* def: 24 */
+    font-size: 1.35rem;
+    margin: 1.25rem 0 0.88rem 0;
+}
+
+code {
+    color: #333;
+    background-color: #fafafa;
+    padding: 0.3rem;
+    font-weight: 600;
+}
+
+pre code {
+    background-color: transparent;
+    font-weight: normal;
+    font-size: 0.94em;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;    
+}
+
+blockquote {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.banner>h1>a {
+    color: #333;
+}
+
+.banner>h1>a:hover {
+    color: #333;
+    text-decoration: none;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
+footer>.small {
+    font-size: 0.84rem;
+}
+
+.note {
+    margin: 1.5rem 0;
+    padding: 1rem 1.75rem;
+    background-color: rgba(0, 0, 0, .01);
+    border-left: 0.25rem solid #737373;
+    font-size: 0.9em;
+}
+
+.note-red {
+    margin: 1.5rem 0;
+    padding: 1rem 1.8rem;
+    background-color: transparent;
+    border-left: 0.25rem solid #e06666;
+    font-size: 0.9em;
+    color: #e06666;
+}
+
+ul.list-unstyled.list-dashed li::before {
+  content: "- ";
+}
+
+.footer-nav {
+    font-size: 1rem;
+}
+
+.footer-nav ul li::after {
+    color: rgba(0, 0, 0, 0.1);
+    margin-left: 0.625rem;
+    content: '|';
+}
+
+.footer-nav ul li:last-child::after {
+    margin:0;
+    content: '';
+}

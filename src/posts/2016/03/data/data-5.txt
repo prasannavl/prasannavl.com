@@ -1,0 +1,9 @@
+3: kd> k
+ # Child-SP          RetAddr           Call Site
+00 ffffd000`2843fb58 fffff803`085592e9 nt!KeBugCheckEx
+01 ffffd000`2843fb60 fffff803`08557ac7 nt!KiBugCheckDispatch+0x69
+02 ffffd000`2843fca0 fffff801`e956b3ac nt!KiPageFault+0x247
+03 ffffd000`2843fe30 ffffe001`96caf010 Netwbw02+0x3b3ac
+04 ffffd000`2843fe38 fffff801`e957f75c 0xffffe001`96caf010
+05 ffffd000`2843fe40 ffffe001`96caf010 Netwbw02+0x4f75c
+06 ffffd000`2843fe48 00000000`00000000 0xffffe001`96caf010

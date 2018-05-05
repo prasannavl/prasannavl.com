@@ -1,0 +1,20 @@
+1: kd> lmvm Netwbw02
+Browse full module list
+start             end                 module name
+fffff801`59c00000 fffff801`59f89000   Netwbw02 T (no symbols)
+    Loaded symbol image file: Netwbw02.sys
+    Image path: \SystemRoot\System32\drivers\Netwbw02.sys
+    Image name: Netwbw02.sys
+    Browse all global symbols  functions  data
+    Timestamp:        Tue Nov 03 20:00:10 2015 (5638C4F2)
+    CheckSum:         00364A95
+    ImageSize:        00389000
+    Translations:     0000.04b0 0000.04e4 0409.04b0 0409.04e4
+1: kd> k
+ # Child-SP          RetAddr           Call Site
+00 ffffd000`ac6b5b18 fffff803`281642e9 nt!KeBugCheckEx
+01 ffffd000`ac6b5b20 fffff803`28162ac7 nt!KiBugCheckDispatch+0x69
+02 ffffd000`ac6b5c60 fffff801`59c3b3ac nt!KiPageFault+0x247
+03 ffffd000`ac6b5df0 ffffe000`feeb5010 Netwbw02+0x3b3ac
+04 ffffd000`ac6b5df8 fffff801`59c4f80f 0xffffe000`feeb5010
+05 ffffd000`ac6b5e00 00000000`00000000 Netwbw02+0x4f80f
