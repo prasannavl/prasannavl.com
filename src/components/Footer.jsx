@@ -1,8 +1,11 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { Link, withRouter } from "react-router-dom";
 
 const Footer = ({ showTwitter }) => {
-    const scrollToTopJs = "javascript:(function(){ window.location.hash='#top';setTimeout(function(){ window.scrollTo(0,0); },0); }())";
+    const scrollToTopJs = "javascript:window.scroll(0,0)";
+    const scrollToBottomJs = "javascript:window.scroll(0,document.body.scrollHeight)";
+
     const c = (
         <footer className="mt-4"><hr />{showTwitter && (<React.Fragment><TwitterNoteWithRoute /><hr /></React.Fragment>)}
             <nav className="clearfix footer-nav">
@@ -19,7 +22,7 @@ const Footer = ({ showTwitter }) => {
 }
 
 const TwitterNote = ({ location }) => {
-    return <aside className="my-3"><p><a href="https://www.twitter.com/prasannavl">@prasannavl</a> - If you enjoyed this post, please <a href={"https://twitter.com/share?url=https://www.prasannavl.com" + location.pathname} target="_blank">share it with your followers</a>.</p></aside>
+    return <aside className="my-3"><p><a href="https://www.twitter.com/prasannavl">@prasannavl</a> - If you enjoyed this post, please <a href={"https://twitter.com/intent/tweet?url=https://www.prasannavl.com" + location.pathname} target="_blank">share it with your followers</a>.</p></aside>
 }
 
 const TwitterNoteWithRoute = withRouter(TwitterNote);

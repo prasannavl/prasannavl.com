@@ -31,14 +31,15 @@ async function getFeed() {
     _(posts).take(20).forEach(x => {
         feed.item({
             title: x.title,
-            description: x.description || "Blog article published on " + new Date(x.date).toUTCString(),
+            description: x.description ||
+                (x.note ? "Note published on " : "Blog article published on ") + new Date(x.date).toUTCString(),
             url: site + x.url,
             date: x.date
         });
     });
 
     return feed;
-}  
+}
 
 if (require.main === module) {
     runAsync();

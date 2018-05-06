@@ -47,6 +47,7 @@ export const Articles = ({ featured, recent }) => {
         <Link to={x.url}>
           {x.title}
         </Link>
+        {x.note && <small className="text-muted"> (Note)</small>}        
         &nbsp;&rsaquo;&nbsp;
         <small className="no-wrap"><time dateTime={x.date}>{formatDate(new Date(x.date), "Do MMM YYYY")}</time></small>
       </li>

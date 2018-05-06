@@ -29,6 +29,7 @@ export const Archives = ({ data }) => {
         let items = yearList[1].map(article => (
             <li>
                 <Link to={article.url}>{article.title}</Link>
+                {article.note && <small className="text-muted"> (Note)</small>}                
                 &nbsp;&rsaquo;&nbsp;
                 <small className="no-wrap"><time dateTime={article.date}>{formatDate(new Date(article.date), "Do MMM YYYY")}</time></small>
             </li>
