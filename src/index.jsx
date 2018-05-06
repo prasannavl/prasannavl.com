@@ -2,7 +2,7 @@ import React from 'react';
 import { hydrate, render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { getState } from "loadable-components";
-import Routes from "./Routes";
+import App from "./App";
 import context from "./modules/context";
 import { serializeDataToWindow } from "./modules/prerender-helper";
 
@@ -12,9 +12,9 @@ const run = function () {
   let Component;
 
   if (envHelper.devMode) {
-    Component = () => <AppContainer><Routes /></AppContainer>;
+    Component = () => <AppContainer><App /></AppContainer>;
   } else {
-    Component = Routes;
+    Component = App;
   }
   
   const rootElement = document.getElementById('root');
@@ -37,5 +37,5 @@ const run = function () {
 envHelper.onLoaded(ev => run());
 
 if (module.hot) {
-  module.hot.accept('./Routes', run);
+  module.hot.accept('./App', run);
 }
