@@ -1,17 +1,22 @@
 import React, { Component, Fragment } from 'react';
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Head from './components/Head';
 import Home from "./pages/Home";
 import Archives from "./pages/Archives";
 import Post from "./pages/Post";
 import NotFound from "./pages/NotFound";
-import context from "./modules/context";
+import appContext from './modules/app-context';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 
 class App extends Component {
-  state = {
-    error: null,
-    errorInfo: null,
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+      errorInfo: null,
+    }
   }
 
   componentDidCatch(error, errorInfo) {
@@ -21,7 +26,7 @@ class App extends Component {
   renderError() {
     let { error, errorInfo } = this.state;
     let devMode = context.envHelper.devMode;
-    return ReactDOM.createPortal(<div className="app-error">
+    return ReactDOM.createPortal(<div className="vc-container app-error">
       <div>
         <h1>Something went wrong.</h1>
         {devMode ?
@@ -34,7 +39,7 @@ class App extends Component {
     </div>, document.querySelector("body"));
   }
 
-  renderRouter() {
+  renderRoutes() {
     return <Fragment>
       <Head />
       <Router>
@@ -48,9 +53,10 @@ class App extends Component {
   }
 
   render() {
-    return this.state.error ?
+    let { error } = this.state;
+    return error ?
       this.renderError() :
-      this.renderRouter();
+      this.renderRoutes();
   }
 }
 

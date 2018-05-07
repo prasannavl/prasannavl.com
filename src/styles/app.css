@@ -34,17 +34,7 @@ footer>.small {
 
 .app-error {
     background-color: indianred;
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
     font-size: 1.4rem;
-    overflow: auto;
 }
 
 .app-error>div {
