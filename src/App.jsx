@@ -21,27 +21,14 @@ class App extends Component {
   renderError() {
     let { error, errorInfo } = this.state;
     let devMode = context.envHelper.devMode;
-    return ReactDOM.createPortal(<div style={{
-      backgroundColor: "indianred",
-      width: "100vw",
-      height: "100vh",
-      position: "absolute",
-      left: 0,
-      top: 0,
-      display: "flex",
-      flexFlow: "column wrap",
-      justifyContent: "center",
-      alignItems: "center",
-      fontSize: "1.4rem",
-      overflow: "auto",
-    }}>
-      <div style={{ width: "65vw", padding: "3rem" }}>
+    return ReactDOM.createPortal(<div className="app-error">
+      <div>
         <h1>Something went wrong.</h1>
         {devMode ?
-          <div style={{ fontSize: "1rem" }}>Error:<br />
+          <div>Error:<br />
             {JSON.stringify(errorInfo).split("\\n").map(x => <Fragment>{x}<br /></Fragment>)}
           </div>
-          : <p style={{ fontSize: "1rem" }}>Try refreshing the page to see if it helps.</p>
+          : <p>Try refreshing the page to see if it helps.</p>
         }
       </div>
     </div>, document.querySelector("body"));

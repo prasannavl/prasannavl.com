@@ -1,0 +1,54 @@
+.app-container {
+    max-width: 1200px;
+    overflow-wrap: break-word;
+    margin: 0 auto;
+}
+
+.banner>h1>a {
+    color: #333;
+}
+
+.banner>h1>a:hover {
+    color: #333;
+    text-decoration: none;
+}
+
+footer>.small {
+    font-size: 0.84rem;
+}
+
+.footer-nav {
+    font-size: 1rem;
+}
+
+.footer-nav ul li::after {
+    color: rgba(0, 0, 0, 0.1);
+    margin-left: 0.625rem;
+    content: '|';
+}
+
+.footer-nav ul li:last-child::after {
+    margin: 0;
+    content: '';
+}
+
+.app-error {
+    background-color: indianred;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    overflow: auto;
+}
+
+.app-error>div {
+    width: 65vw;
+    padding: 3rem;
+    font-size: 1rem;
+}

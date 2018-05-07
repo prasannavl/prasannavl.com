@@ -1,0 +1,11 @@
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
+ul.list-unstyled.list-dashed li::before {
+    content: "- ";
+}

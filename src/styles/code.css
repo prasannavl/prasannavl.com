@@ -1,0 +1,18 @@
+code {
+    color: #333;
+    background-color: #fafafa;
+    padding: 0.3rem;
+    font-weight: 600;
+}
+
+pre code {
+    background-color: transparent;
+    font-weight: normal;
+    font-size: 0.94em;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;    
+}

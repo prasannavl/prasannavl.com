@@ -67,9 +67,6 @@ module.exports = {
       config.entry('vendor')
         .add('react')
         .add('react-dom')
-        .add('react-hot-loader')
-        .add('react-router')
-        .add('react-router-dom')
         .add('react-helmet');
 
       if (process.env.WEBPACK_ANALYZE) {

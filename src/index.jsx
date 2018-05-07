@@ -1,6 +1,5 @@
 import React from 'react';
 import { hydrate, render } from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
 import { getState } from "loadable-components";
 import App from "./App";
 import context from "./modules/context";
@@ -12,6 +11,7 @@ const run = function () {
   let Component;
 
   if (envHelper.devMode) {
+    let AppContainer = require("react-hot-loader");
     Component = () => <AppContainer><App /></AppContainer>;
   } else {
     Component = App;

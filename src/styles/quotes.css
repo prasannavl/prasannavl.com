@@ -1,0 +1,21 @@
+blockquote {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.note {
+    margin: 1.5rem 0;
+    padding: 1rem 1.75rem;
+    background-color: rgba(0, 0, 0, .01);
+    border-left: 0.25rem solid #737373;
+    font-size: 0.9em;
+}
+
+.note-red {
+    margin: 1.5rem 0;
+    padding: 1rem 1.8rem;
+    background-color: transparent;
+    border-left: 0.25rem solid #e06666;
+    font-size: 0.9em;
+    color: #e06666;
+}
