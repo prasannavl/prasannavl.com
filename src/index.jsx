@@ -11,7 +11,7 @@ const run = function () {
   let Component;
 
   if (envHelper.devMode) {
-    let AppContainer = require("react-hot-loader");
+    let AppContainer = require("react-hot-loader").AppContainer;
     Component = () => <AppContainer><App /></AppContainer>;
   } else {
     Component = App;
