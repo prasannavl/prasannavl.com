@@ -1,5 +1,4 @@
 import React from "react";
-import { format as formatDate } from "date-fns";
 import Layout from "./Layout";
 import NotFound from "./NotFound";
 import { Link } from "react-router-dom";

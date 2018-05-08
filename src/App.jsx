@@ -25,7 +25,7 @@ class App extends Component {
 
   renderError() {
     let { error, errorInfo } = this.state;
-    let devMode = context.envHelper.devMode;
+    let devMode = appContext.envHelper.devMode;
     return ReactDOM.createPortal(<div className="vc-container app-error">
       <div>
         <h1>Something went wrong.</h1>
