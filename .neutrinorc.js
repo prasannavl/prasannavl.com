@@ -3,6 +3,9 @@ const path = require("path");
 module.exports = {
   use: [
     (neutrino) => {
+
+      const isProduction = process.env.NODE_ENV === "production";
+
       neutrino.use("@neutrinojs/react",
         {
           publicPath: "/",
@@ -34,7 +37,7 @@ module.exports = {
             ],
             extract: {
               plugin: {
-                filename: "css/[name].[id].[contenthash].css"
+                filename: "css/[name].[contenthash].css"
               }
             }
           },
@@ -51,9 +54,16 @@ module.exports = {
       const config = neutrino.config;
 
       config.output
-        .filename("js/[name].[hash].js")
         .chunkFilename("js/chunks/[name].[chunkhash].js")
-        .sourceMapFilename("js/[file].[hash].map");
+        .when(isProduction, output => {
+          output
+            .filename("js/[name].[chunkhash].js")
+            .sourceMapFilename("js/[file].[chunkhash].map");
+        }, output => {
+          output
+            .filename("js/[name].[hash].js")
+            .sourceMapFilename("js/[file].[hash].map");
+        });
 
       // config
       //   .resolve.alias.set("app", path.resolve(__dirname, "./src"));
