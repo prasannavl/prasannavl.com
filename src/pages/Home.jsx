@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "./Layout";
-import { format as formatDate } from "date-fns";
+import formatDate from "date-fns/format";
 import { Link } from "react-router-dom";
 import loadable from "loadable-components";
 import Banner from "../components/Banner";

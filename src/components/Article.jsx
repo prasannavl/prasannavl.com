@@ -1,6 +1,6 @@
 import React from "react";
 import { default as Head, Title, TwitterMeta, OpenGraphMeta } from "../components/Head";
-import { format as formatDate } from "date-fns";
+import formatDate from "date-fns/format";
 
 export { default as CodeBlock } from "./CodeBlock";
 export { Link } from "react-router-dom";

@@ -1,5 +1,5 @@
 import React from "react";
-import { format as formatDate } from "date-fns";
+import formatDate from "date-fns/format";
 import Layout from "./Layout";
 import { Link } from "react-router-dom";
 import loadable from "loadable-components";
