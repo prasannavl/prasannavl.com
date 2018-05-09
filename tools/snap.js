@@ -22,7 +22,6 @@ async function runAsync() {
     // gets resolved before it truly completes.
     process.once("beforeExit", () => {
         fs.unlink("./build/200.html");
-        fs.unlink("./build/404.html");
     });
 }
 
