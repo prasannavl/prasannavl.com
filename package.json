@@ -5,12 +5,14 @@
   "license": "MIT",
   "scripts": {
     "build": "neutrino build",
+    "build:current": "yarn run build && yarn run post && yarn run snap",
+    "build:all": "yarn run pre && yarn run build:current",
+    "build:snap": "yarn run build && yarn run snap",
     "start": "neutrino start",
     "test": "neutrino test",
-    "generate": "node ./tools/generate-all",
-    "snap": "node ./tools/snap",
-    "build:snap": "yarn run build && yarn run snap",    
-    "build:all": "yarn run generate && yarn run build && yarn run snap"
+    "pre": "node ./tools/prebuild",
+    "post": "node ./tools/postbuild",
+    "snap": "node ./tools/snap"
   },
   "dependencies": {
     "@neutrinojs/jest": "^8.2.3",

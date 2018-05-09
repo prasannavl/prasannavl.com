@@ -17,7 +17,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # app generated
-src/static/data
+src/data
 public/sitemaps
 public/sitemap.xml
 public/rss.xml

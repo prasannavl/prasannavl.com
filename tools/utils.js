@@ -20,7 +20,7 @@ function consoleOut(str) {
 async function getPosts() {
     let postsPath = "../src/posts/";
     return new Promise((resolve, reject) => {
-        glob(postsPath + "**/*.jsx", { cwd: __dirname }, (err, files) => {
+        glob(postsPath + "**/*.jsx", { cwd: __dirname, ignore: postsPath + "drafts/*" }, (err, files) => {
             if (err) reject(err);
             let p = [];
             files.map(x => {

@@ -67,9 +67,9 @@ module.exports = {
             .sourceMapFilename("js/[file].[hash].map");
         });
 
-      // config
-      //   .resolve.alias.set("app", path.resolve(__dirname, "./src"));
-
+      // config.resolve.alias
+        // .set("app", path.resolve(__dirname, "./src"));
+      
       config.module
         .rule("raw")
         .test(neutrino.regexFromExtensions(["txt"]))
@@ -80,6 +80,19 @@ module.exports = {
         .add('react')
         .add('react-dom')
         .add('react-helmet');
+      
+      const webpack = require("webpack");
+      
+      config.plugin("common-chunk")
+        .use(webpack.optimize.CommonsChunkPlugin, [{
+          async: "common",
+          chilren: true,
+          minChunks: function (m, count) {
+            return m.context && m.context.includes("node_modules");
+          }
+        }])
+        .before("vendor-chunk");
+      
 
       if (process.env.WEBPACK_ANALYZE) {
         enableBundleAnalyzer(config);

@@ -5,7 +5,7 @@ import { Link } from "../modules/router-utils";
 import Banner from "../components/Banner";
 import { Title } from "../components/Head";
 import Footer from "../components/Footer";
-import archivesData from "../static/data/archives.json";
+import archivesData from "../data/archives.json";
 
 export const Page = (props) => (
     <Layout>

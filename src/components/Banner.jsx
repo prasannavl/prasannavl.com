@@ -14,9 +14,7 @@ const Banner = ({ index }) => {
 
 const Subtitle = () => {
     return (
-        <React.Fragment>
-            <p>Explore more of <Link to="/">my blog</Link>, <Link to="/archives/">archives</Link> or subscribe to my <a rel="alternate" type="application/rss+xml" href="/rss.xml">feed</a>.</p>
-        </React.Fragment>
+        <p>Explore more of <Link to="/">my blog</Link>, <Link to="/archives/">archives</Link> or subscribe to my <a rel="alternate" type="application/rss+xml" href="/rss.xml">feed</a>.</p>
     );
 }
 

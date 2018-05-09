@@ -5,9 +5,9 @@ import { Link } from "../modules/router-utils";
 import Banner from "../components/Banner";
 import Footer from "../components/Footer";
 
-import featuredData from "../static/data/featured.json";
-import recentData from "../static/data/recent.json";
-import projectsData from "../static/data/projects.json";
+import featuredData from "../data/featured.json";
+import recentData from "../data/recent.json";
+import projectsData from "../data/projects.json";
 
 export const Page = (props) => (
   <Layout>
@@ -81,12 +81,10 @@ export const Projects = ({ data }) => {
       <h4>Most Popular</h4>
       <table className="table table-sm table-borderless">
         <tbody>
-          {data.map(x => <React.Fragment key={x.url}>
-            <tr>
+          {data.map(x => <tr key={x.url}>
               <th><a href={x.url}>{x.name}</a></th>
               <td>{x.description}</td>
-            </tr>
-          </React.Fragment>)}
+            </tr>)}
         </tbody>
       </table>
     </section>
