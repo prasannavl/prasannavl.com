@@ -23,36 +23,36 @@ export default () => {
         <p>Let's start with the most fundamental and built-in 2D graphics library with Windows - GDI.</p>
 
         <CodeBlock children={`
-    internal class Program
+internal class Program
+{
+    static int Main(string[] args)
     {
-        static int Main(string[] args)
+        var factory = WindowFactory.Create(
+            hBgBrush: Gdi32Helpers.GetStockObject(StockObject.WHITE_BRUSH));
+        using (var win = factory.CreateWindow(() => new MainWindow(),
+            "Hello", constructionParams: new FrameWindowConstructionParams()))
         {
-            var factory = WindowFactory.Create(
-                hBgBrush: Gdi32Helpers.GetStockObject(StockObject.WHITE_BRUSH));
-            using (var win = factory.CreateWindow(() => new MainWindow(),
-                "Hello", constructionParams: new FrameWindowConstructionParams()))
-            {
-                win.Show();
-                return new EventLoop().Run(win);
-            }
+            win.Show();
+            return new EventLoop().Run(win);
         }
     }
-    
-    public class MainWindow : Window
+}
+
+public class MainWindow : Window
+{
+    protected override void OnPaint(ref PaintPacket packet)
     {
-        protected override void OnPaint(ref PaintPacket packet)
-        {
-            PaintStruct ps;
-            var hdc = BeginPaint(out ps);
-            var rect = new Rectangle(500, 500);
-            RectangleHelpers.Translate(ref rect, 100, 100);
-            var brush = Gdi32Helpers.CreateSolidBrush(200, 140, 130);
-            User32Methods.FillRect(hdc, ref rect, brush);
-            Gdi32Methods.DeleteObject(brush);
-            EndPaint(ref ps);
-            base.OnPaint(ref packet);
-        }
+        PaintStruct ps;
+        var hdc = BeginPaint(out ps);
+        var rect = new Rectangle(500, 500);
+        RectangleHelpers.Translate(ref rect, 100, 100);
+        var brush = Gdi32Helpers.CreateSolidBrush(200, 140, 130);
+        User32Methods.FillRect(hdc, ref rect, brush);
+        Gdi32Methods.DeleteObject(brush);
+        EndPaint(ref ps);
+        base.OnPaint(ref packet);
     }
+}
         `} />
 
         <p>This should be straight-forward. I'm using <code>WindowFactory</code> here to register a new class, which has a background brush which is white. If not, it would end up with the default window brush, which is the windows mild gray, that you generally see. This can also be set to <code>IntPtr.Zero</code> (basically null), and take care of the erasing either in with the <code>OnEraseBkgnd</code>, or by directly handling the erase during paint method as well (which I'll do later for the DirectX samples).</p>
@@ -72,44 +72,44 @@ export default () => {
         <p>With all that out of the way, I'm going to start off with a paint handler given a <code>SKSurface</code>.</p>
 
         <CodeBlock children={`
-    public class SkiaPainter
+public class SkiaPainter
+{
+    public static void ProcessPaint(ref PaintPacket packet, NativePixelBuffer pixelBuffer,
+        Action<SKSurface> handler)
     {
-        public static void ProcessPaint(ref PaintPacket packet, NativePixelBuffer pixelBuffer,
-            Action<SKSurface> handler)
+        var hwnd = packet.Hwnd;
+        Rectangle clientRect;
+        User32Methods.GetClientRect(hwnd, out clientRect);
+        var size = clientRect.GetSize();
+        pixelBuffer.EnsureSize(size.Width, size.Height);
+        PaintStruct ps;
+        var hdc = User32Methods.BeginPaint(hwnd, out ps);
+        var skPainted = false;
+        try
         {
-            var hwnd = packet.Hwnd;
-            Rectangle clientRect;
-            User32Methods.GetClientRect(hwnd, out clientRect);
-            var size = clientRect.GetSize();
-            pixelBuffer.EnsureSize(size.Width, size.Height);
-            PaintStruct ps;
-            var hdc = User32Methods.BeginPaint(hwnd, out ps);
-            var skPainted = false;
-            try
+            using (var surface = SKSurface.Create(
+                size.Width,
+                size.Height,
+                SKColorType.Bgra8888,
+                SKAlphaType.Premul,
+                pixelBuffer.Handle,
+                pixelBuffer.Stride))
             {
-                using (var surface = SKSurface.Create(
-                    size.Width,
-                    size.Height,
-                    SKColorType.Bgra8888,
-                    SKAlphaType.Premul,
-                    pixelBuffer.Handle,
-                    pixelBuffer.Stride))
+                if (surface != null)
                 {
-                    if (surface != null)
-                    {
-                        handler(surface);
-                        skPainted = true;
-                    }
+                    handler(surface);
+                    skPainted = true;
                 }
             }
-            finally
-            {
-                if (skPainted) Gdi32Helpers.SetRgbBitsToDevice(
-                    hdc, size.Width, size.Height, pixelBuffer.Handle);
-                User32Methods.EndPaint(hwnd, ref ps);
-            }
+        }
+        finally
+        {
+            if (skPainted) Gdi32Helpers.SetRgbBitsToDevice(
+                hdc, size.Width, size.Height, pixelBuffer.Handle);
+            User32Methods.EndPaint(hwnd, ref ps);
         }
     }
+}
         `} />
 
         <p>Looks simple enough. It simply creates a surface, and calls in a delegate that does all the painting. <strong>This can technically be optimized further by pooling, or caching the <code>SKSurface</code>, but I'm going to skip it for now</strong>.</p>
@@ -119,68 +119,68 @@ export default () => {
         <p>Now, I can encapsulate a window that uses this:</p>
 
         <CodeBlock children={`
-    public class SkiaWindowBase : EventedWindowCore
+public class SkiaWindowBase : EventedWindowCore
+{
+    private readonly NativePixelBuffer m_pixelBuffer = new NativePixelBuffer();
+
+    protected virtual void OnSkiaPaint(SKSurface surface) {}
+
+    protected override void OnPaint(ref PaintPacket packet)
     {
-        private readonly NativePixelBuffer m_pixelBuffer = new NativePixelBuffer();
-    
-        protected virtual void OnSkiaPaint(SKSurface surface) {}
-    
-        protected override void OnPaint(ref PaintPacket packet)
-        {
-            SkiaPainter.ProcessPaint(ref packet, this.m_pixelBuffer, this.OnSkiaPaint);
-        }
-    
-        protected override void Dispose(bool disposing)
-        {
-            this.m_pixelBuffer.Dispose();
-            base.Dispose(disposing);
-        }
+        SkiaPainter.ProcessPaint(ref packet, this.m_pixelBuffer, this.OnSkiaPaint);
     }
+
+    protected override void Dispose(bool disposing)
+    {
+        this.m_pixelBuffer.Dispose();
+        base.Dispose(disposing);
+    }
+}
         `} />
 
         <p>Yup. That's about it. You can now go ahead and use Skia to handle all the painting.</p>
 
         <CodeBlock children={`
-    static int Main(string[] args)
+static int Main(string[] args)
+{
+    try
     {
-        try
+        ApplicationHelpers.SetupDefaultExceptionHandlers();
+        var factory = WindowFactory.Create(hBgBrush: IntPtr.Zero);
+        using (var win = factory.CreateWindow(() => new SkiaWindow(), "Hello",
+            constructionParams: new FrameWindowConstructionParams()))
         {
-            ApplicationHelpers.SetupDefaultExceptionHandlers();
-            var factory = WindowFactory.Create(hBgBrush: IntPtr.Zero);
-            using (var win = factory.CreateWindow(() => new SkiaWindow(), "Hello",
-                constructionParams: new FrameWindowConstructionParams()))
-            {
-                win.Show();
-                return new EventLoop().Run(win);
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBoxHelpers.ShowError(ex);
-            return 1;
+            win.Show();
+            return new EventLoop().Run(win);
         }
     }
-    
-    public sealed class SkiaWindow : SkiaWindowBase
+    catch (Exception ex)
     {
-        protected override void OnSkiaPaint(SKSurface surface)
-        {
-            var windowRect = GetWindowRect();
-            var clientRect = new Rectangle(windowRect.Width, windowRect.Height);
-            var canvas = surface.Canvas;
-            canvas.Clear(new SKColor(120, 50, 70, 200));
-            var textPainter = new SKPaint {TextSize = 35, IsAntialias = true};
-            var str = "Hello there!";
-            var textBounds = new SKRect();
-            var m = textPainter.MeasureText(str, ref textBounds);
-    
-            canvas.DrawText(str, (clientRect.Width - textBounds.Width)/2, 
-                (clientRect.Height - textBounds.Height)/2,
-                textPainter);
-    
-            base.OnSkiaPaint(surface);
-        }
+        MessageBoxHelpers.ShowError(ex);
+        return 1;
     }
+}
+
+public sealed class SkiaWindow : SkiaWindowBase
+{
+    protected override void OnSkiaPaint(SKSurface surface)
+    {
+        var windowRect = GetWindowRect();
+        var clientRect = new Rectangle(windowRect.Width, windowRect.Height);
+        var canvas = surface.Canvas;
+        canvas.Clear(new SKColor(120, 50, 70, 200));
+        var textPainter = new SKPaint {TextSize = 35, IsAntialias = true};
+        var str = "Hello there!";
+        var textBounds = new SKRect();
+        var m = textPainter.MeasureText(str, ref textBounds);
+
+        canvas.DrawText(str, (clientRect.Width - textBounds.Width)/2, 
+            (clientRect.Height - textBounds.Height)/2,
+            textPainter);
+
+        base.OnSkiaPaint(surface);
+    }
+}
         `} />
 
         <p>And the result:</p>
@@ -196,60 +196,60 @@ export default () => {
         <p>Reusing the class from there:</p>
 
         <CodeBlock children={`
-    class Program
+class Program
+{
+    static int Main(string[] args)
     {
-        static int Main(string[] args)
+        try
         {
-            try
+            ApplicationHelpers.SetupDefaultExceptionHandlers();
+            Gl.Initialize();
+            var factory = WindowFactory.Create(hBgBrush: 
+                Gdi32Helpers.GetStockObject(StockObject.BLACK_BRUSH));
+            using (var win = Window.Create<AppWindow>(factory: factory,
+                    text: "Hello"))
             {
-                ApplicationHelpers.SetupDefaultExceptionHandlers();
-                Gl.Initialize();
-                var factory = WindowFactory.Create(hBgBrush: 
-                    Gdi32Helpers.GetStockObject(StockObject.BLACK_BRUSH));
-                using (var win = Window.Create<AppWindow>(factory: factory,
-                        text: "Hello"))
-                {
-                    win.Show();
-                    return new EventLoop().Run(win);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBoxHelpers.ShowError(ex);
-                return 1;
+                win.Show();
+                return new EventLoop().Run(win);
             }
         }
+        catch (Exception ex)
+        {
+            MessageBoxHelpers.ShowError(ex);
+            return 1;
+        }
     }
-    
-    public sealed class AppWindow : OpenGlWindow
+}
+
+public sealed class AppWindow : OpenGlWindow
+{
+    protected override void OnGlContextCreated()
     {
-        protected override void OnGlContextCreated()
-        {
-            Gl.MatrixMode(MatrixMode.Projection);
-            Gl.LoadIdentity();
-            Gl.Ortho(0.0, 1.0f, 0.0, 1.0, 0.0, 1.0);
-    
-            Gl.MatrixMode(MatrixMode.Modelview);
-            Gl.LoadIdentity();
-            base.OnGlContextCreated();
-        }
-    
-        protected override void OnGlPaint(ref PaintStruct ps)
-        {
-            Gl.Clear(ClearBufferMask.ColorBufferBit);
-            var size = GetClientSize();
-            Gl.Viewport(0, 0, size.Width, size.Height);
-            Gl.Begin(PrimitiveType.Triangles);
-            Gl.Color3(1.0f, 0.0f, 0.0f);
-            Gl.Vertex2(0.0f, 0.0f);
-            Gl.Color3(0.0f, 1.0f, 0.0f);
-            Gl.Vertex2(0.5f, 1.0f);
-            Gl.Color3(0.0f, 0.0f, 1.0f);
-            Gl.Vertex2(1.0f, 0.0f);
-            Gl.End();
-            DeviceContext.SwapBuffers();
-        }
+        Gl.MatrixMode(MatrixMode.Projection);
+        Gl.LoadIdentity();
+        Gl.Ortho(0.0, 1.0f, 0.0, 1.0, 0.0, 1.0);
+
+        Gl.MatrixMode(MatrixMode.Modelview);
+        Gl.LoadIdentity();
+        base.OnGlContextCreated();
     }
+
+    protected override void OnGlPaint(ref PaintStruct ps)
+    {
+        Gl.Clear(ClearBufferMask.ColorBufferBit);
+        var size = GetClientSize();
+        Gl.Viewport(0, 0, size.Width, size.Height);
+        Gl.Begin(PrimitiveType.Triangles);
+        Gl.Color3(1.0f, 0.0f, 0.0f);
+        Gl.Vertex2(0.0f, 0.0f);
+        Gl.Color3(0.0f, 1.0f, 0.0f);
+        Gl.Vertex2(0.5f, 1.0f);
+        Gl.Color3(0.0f, 0.0f, 1.0f);
+        Gl.Vertex2(1.0f, 0.0f);
+        Gl.End();
+        DeviceContext.SwapBuffers();
+    }
+}
         `} />
 
         <p>And here's the result:</p>
@@ -265,29 +265,29 @@ export default () => {
         <p>First off, I'm going to create a window with <code>WS_EX_NOREDIRECTIONBITMAP</code> style. This works on Win 8+, designed specially for high-performance compositing to direct DWM to not allocate a redirection bitmap - The DXGI surface is shared with DWM directly on the GPU, making per-pixel alpha compositing super-performant. Internally, this is one of the things, all the modern Windows Runtime apps use, by default.</p>
 
         <CodeBlock children={`
-    static int Main(string[] args)
+static int Main(string[] args)
+{
+    try
     {
-        try
+        ApplicationHelpers.SetupDefaultExceptionHandlers();
+        var factory = WindowFactory.Create(hBgBrush: IntPtr.Zero);
+        using (
+            var win = factory.CreateWindow(() => new MainWindow(), "Hello",
+                constructionParams: new FrameWindowConstructionParams(),
+                exStyles: WindowExStyles.WS_EX_APPWINDOW
+                    | WindowExStyles.WS_EX_NOREDIRECTIONBITMAP))
         {
-            ApplicationHelpers.SetupDefaultExceptionHandlers();
-            var factory = WindowFactory.Create(hBgBrush: IntPtr.Zero);
-            using (
-                var win = factory.CreateWindow(() => new MainWindow(), "Hello",
-                    constructionParams: new FrameWindowConstructionParams(),
-                    exStyles: WindowExStyles.WS_EX_APPWINDOW
-                        | WindowExStyles.WS_EX_NOREDIRECTIONBITMAP))
-            {
-                win.CenterToScreen();
-                win.Show();
-                return new EventLoop().Run(win);
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBoxHelpers.ShowError(ex);
-            return 1;
+            win.CenterToScreen();
+            win.Show();
+            return new EventLoop().Run(win);
         }
     }
+    catch (Exception ex)
+    {
+        MessageBoxHelpers.ShowError(ex);
+        return 1;
+    }
+}
         `} />
 
         <p>This ends up with a window without no surface at all, and just the non-client frames. And then, I'm going to use the <code>Dx11Component</code> for <code>WinApi.DxUtils</code>. This is <strong>a meta-resource manager that manages all of DXGI, D3D11, D2D1, DirectWrite, and DirectComposition</strong>.</p>
@@ -297,44 +297,44 @@ export default () => {
         <p>So, in all its glory, the entire management of D3D11, D2D1, DirectWrite and DComp which can usually takes up a lot of code, now simply translates into:</p>
 
         <CodeBlock children={`
-    public sealed class DxWindow : EventedWindowCore
+public sealed class DxWindow : EventedWindowCore
+{
+    private readonly Dx11Component m_dx = new Dx11Component();
+
+    protected override void OnCreate(ref CreateWindowPacket packet)
     {
-        private readonly Dx11Component m_dx = new Dx11Component();
-    
-        protected override void OnCreate(ref CreateWindowPacket packet)
+        this.Dx.Initialize(this.Handle, this.GetClientSize());
+        base.OnCreate(ref packet);
+    }
+
+    protected virtual void OnDxDraw(Dx11Component dx) {}
+    protected override void OnPaint(ref PaintPacket packet)
+    {
+        m_dx.EnsureInitialized();
+        try
         {
-            this.Dx.Initialize(this.Handle, this.GetClientSize());
-            base.OnCreate(ref packet);
+            OnDxDraw(m_dx);
+            this.Validate();
         }
-    
-        protected virtual void OnDxDraw(Dx11Component dx) {}
-        protected override void OnPaint(ref PaintPacket packet)
+        catch (SharpDXException ex)
         {
-            m_dx.EnsureInitialized();
-            try
-            {
-                OnDxDraw(m_dx);
-                this.Validate();
-            }
-            catch (SharpDXException ex)
-            {
-                if (!m_dx.PerformResetOnException(ex))
-                    throw;
-            }
-        }
-    
-        protected override void OnSize(ref SizePacket packet)
-        {
-            this.Dx.Resize(packet.Size);
-            base.OnSize(ref packet);
-        }
-    
-        protected override void Dispose(bool disposing)
-        {
-            m_dx.Dispose();
-            base.Dispose(disposing);
+            if (!m_dx.PerformResetOnException(ex))
+                throw;
         }
     }
+
+    protected override void OnSize(ref SizePacket packet)
+    {
+        this.Dx.Resize(packet.Size);
+        base.OnSize(ref packet);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        m_dx.Dispose();
+        base.Dispose(disposing);
+    }
+}
         `} />
 
         <p>Yup! That's all there is to it.</p>
@@ -346,41 +346,41 @@ export default () => {
         <p>So, all you need to do, is derive from <code>DxWindow</code>:</p>
 
         <CodeBlock children={`
-    public sealed class MainWindow : DxWindow
+public sealed class MainWindow : DxWindow
+{
+    protected override void OnDxPaint(Dx11Component resource)
     {
-        protected override void OnDxPaint(Dx11Component resource)
+        var rand = new Random();
+
+        var size = GetClientSize();
+        var w = size.Width;
+        var h = size.Height;
+        var context = resource.D2D.Context;
+
+        context.BeginDraw();
+        context.Clear(new RawColor4(0, 0, 0, 0f));
+        var b = new SolidColorBrush(context,
+            new RawColor4(rand.NextFloat(), rand.NextFloat(), rand.NextFloat(), 0.4f));
+
+        context.FillRectangle(new RawRectangleF(200, 200, 500, 700), b);
+
+        for (var i = 0; i < 10; i++)
         {
-            var rand = new Random();
-    
-            var size = GetClientSize();
-            var w = size.Width;
-            var h = size.Height;
-            var context = resource.D2D.Context;
-    
-            context.BeginDraw();
-            context.Clear(new RawColor4(0, 0, 0, 0f));
-            var b = new SolidColorBrush(context,
-                new RawColor4(rand.NextFloat(), rand.NextFloat(), rand.NextFloat(), 0.4f));
-    
-            context.FillRectangle(new RawRectangleF(200, 200, 500, 700), b);
-    
-            for (var i = 0; i < 10; i++)
-            {
-                b.Color = new RawColor4(rand.NextFloat(), rand.NextFloat(), 
-                    rand.NextFloat(), 0.4f);
-                context.FillEllipse(
-                    new Ellipse(new RawVector2(rand.NextFloat(0, w), 
-                        rand.NextFloat(0, h)), rand.NextFloat(0, w),
-                        rand.Next(0, h)), b);
-                context.FillRectangle(
-                    new RawRectangleF(rand.NextFloat(0, w), 
-                        rand.NextFloat(0, h), rand.NextFloat(0, w),
-                        rand.NextFloat(0, h)), b);
-            }
-            b.Dispose();
-            context.EndDraw();
+            b.Color = new RawColor4(rand.NextFloat(), rand.NextFloat(), 
+                rand.NextFloat(), 0.4f);
+            context.FillEllipse(
+                new Ellipse(new RawVector2(rand.NextFloat(0, w), 
+                    rand.NextFloat(0, h)), rand.NextFloat(0, w),
+                    rand.Next(0, h)), b);
+            context.FillRectangle(
+                new RawRectangleF(rand.NextFloat(0, w), 
+                    rand.NextFloat(0, h), rand.NextFloat(0, w),
+                    rand.NextFloat(0, h)), b);
         }
+        b.Dispose();
+        context.EndDraw();
     }
+}
         `} />
 
         <p>As far as I know, this is probably the quickest way that exists to date, to start off reliable DirectX applications, and all of this with no compromise on the performance in anyway. Unless you come across errors or device loss (handling of which are also fully automatic, btw) there's really no GC allocation on the painting path, and it provides you nothing but raw performance.</p>

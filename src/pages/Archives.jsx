@@ -22,7 +22,7 @@ export const Archives = ({ data }) => {
     let itemsList = data.map(yearList => {
         let year = yearList[0];
         let items = yearList[1].map(article => (
-            <li>
+            <li key={article.url}>
                 <Link to={article.url}>{article.title}</Link>
                 {article.note && <small className="text-muted"> &raquo; Note</small>}                
                 &nbsp;&rsaquo;&nbsp;
@@ -37,7 +37,7 @@ export const Archives = ({ data }) => {
         if (!list) {
             return <h4>Nothing to see here.</h4>
         }
-        return <section><h4>{year}</h4>{list}</section>;
+        return <section key={year}><h4>{year}</h4>{list}</section>;
     });
 
     return <React.Fragment>

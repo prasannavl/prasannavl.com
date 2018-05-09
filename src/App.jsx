@@ -44,6 +44,9 @@ class App extends Component {
           this.setState({ InnerComponent: x });
           nprogress.done();
         }
+      }).catch(err => {
+        this.setState({ error: "can't resolve route", errorInfo: err });
+        nprogress.done();
       });
   }
 

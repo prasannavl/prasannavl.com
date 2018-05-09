@@ -70,61 +70,61 @@ export default () => {
         <h3>The WinForms program</h3>
 
         <CodeBlock children={`
-    public partial class Form1 : Form
+public partial class Form1 : Form
+{
+    public Form1()
     {
-        public Form1()
-        {
-            InitializeComponent();
-        }
-    
-        private int m_times;
-        private bool m_done;
-        private DateTime m_startTime;
-        private DateTime m_endTime;
-        private const int Iterations = 100000;
-        private Task m_task;
-    
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            var r = new Random();
-    
-            m_task = Task.Run(() =>
-            {
-                while (m_times < Iterations)
-                {
-                    m_times++;
-                    this.SetBounds(50, 50, 1200 - r.Next(0, 1100), 900 - r.Next(0, 800));
-                }
-                m_endTime = DateTime.Now;
-                m_done = true;
-                this.SetBounds(50, 50, 700, 500);
-            });
-            m_startTime = DateTime.Now;
-        }
-    
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            base.OnSizeChanged(e);
-    
-            // Paint only after everything's done to show
-            // the result.
-            if (!m_done) return;
-    
-            var str = $"\\r\\n{DateTime.Now}: No. of changes done: {m_times}";
-            textBox1.Text = str;
-    
-            var sb = new StringBuilder();
-    
-            sb.AppendLine($"Start Time: {m_startTime}");
-            sb.AppendLine($"End Time: {m_endTime}");
-            sb.AppendLine();
-    
-            if (m_endTime != DateTime.MinValue)
-                sb.AppendLine($"Total Time: {m_endTime - m_startTime}");
-            textBox2.Text = sb.ToString();
-        }
+        InitializeComponent();
     }
+
+    private int m_times;
+    private bool m_done;
+    private DateTime m_startTime;
+    private DateTime m_endTime;
+    private const int Iterations = 100000;
+    private Task m_task;
+
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        var r = new Random();
+
+        m_task = Task.Run(() =>
+        {
+            while (m_times < Iterations)
+            {
+                m_times++;
+                this.SetBounds(50, 50, 1200 - r.Next(0, 1100), 900 - r.Next(0, 800));
+            }
+            m_endTime = DateTime.Now;
+            m_done = true;
+            this.SetBounds(50, 50, 700, 500);
+        });
+        m_startTime = DateTime.Now;
+    }
+
+    protected override void OnSizeChanged(EventArgs e)
+    {
+        base.OnSizeChanged(e);
+
+        // Paint only after everything's done to show
+        // the result.
+        if (!m_done) return;
+
+        var str = $"\\r\\n{DateTime.Now}: No. of changes done: {m_times}";
+        textBox1.Text = str;
+
+        var sb = new StringBuilder();
+
+        sb.AppendLine($"Start Time: {m_startTime}");
+        sb.AppendLine($"End Time: {m_endTime}");
+        sb.AppendLine();
+
+        if (m_endTime != DateTime.MinValue)
+            sb.AppendLine($"Total Time: {m_endTime - m_startTime}");
+        textBox2.Text = sb.ToString();
+    }
+}
         `} />
 
         <p>That's it. Very simple! Now, lets run it and wait until it ends.</p>
@@ -170,106 +170,106 @@ export default () => {
         <p>Now the same thing with WinApi,</p>
 
         <CodeBlock children={`
-    class Program
+class Program
+{
+    static int Main(string[] args)
     {
-        static int Main(string[] args)
+        ApplicationHelpers.SetupDefaultExceptionHandlers();
+        try
         {
-            ApplicationHelpers.SetupDefaultExceptionHandlers();
-            try
+            var factory = WindowFactory.Create();
+            using (var win = factory.CreateWindow(() => new MainWindow(),
+                "Hello", constructionParams: 
+                    new FrameWindowConstructionParams()))
             {
-                var factory = WindowFactory.Create();
-                using (var win = factory.CreateWindow(() => new MainWindow(),
-                    "Hello", constructionParams: 
-                        new FrameWindowConstructionParams()))
-                {
-                    win.Show();
-                    return new EventLoop().Run(win);
-                }
+                win.Show();
+                return new EventLoop().Run(win);
             }
-            catch (Exception ex) {
-                ApplicationHelpers.ShowCriticalError(ex);
-            }
-            return 0;
         }
-    
-        public sealed class MainWindow : EventedWindowCore
+        catch (Exception ex) {
+            ApplicationHelpers.ShowCriticalError(ex);
+        }
+        return 0;
+    }
+
+    public sealed class MainWindow : EventedWindowCore
+    {
+        private const int Iterations = 100000;
+
+        private readonly HorizontalStretchLayout m_layout = 
+                new HorizontalStretchLayout();
+        private bool m_done;
+        private DateTime m_endTime;
+        private DateTime m_startTime;
+        private Task m_task;
+        private StaticBox m_textBox1;
+        private NativeWindow m_textBox2;
+        private int m_times;
+
+        protected override void OnCreate(ref CreateWindowPacket packet)
         {
-            private const int Iterations = 100000;
-    
-            private readonly HorizontalStretchLayout m_layout = 
-                    new HorizontalStretchLayout();
-            private bool m_done;
-            private DateTime m_endTime;
-            private DateTime m_startTime;
-            private Task m_task;
-            private StaticBox m_textBox1;
-            private NativeWindow m_textBox2;
-            private int m_times;
-    
-            protected override void OnCreate(ref CreateWindowPacket packet)
+
+            this.m_textBox1 = StaticBox.Create(hParent: this.Handle,
+                styles: WindowStyles.WS_CHILD | WindowStyles.WS_VISIBLE, 
+                exStyles: 0);
+
+            // You can use this to create the static box like this as well. 
+            // But there's rarely any performance benefit in doing so, and
+            // this doesn't have a WindowProc that's connected.
+            this.m_textBox2 = WindowFactory.CreateExternalWindow("static",
+                hParent: this.Handle,
+                styles: WindowStyles.WS_CHILD | WindowStyles.WS_VISIBLE,
+                exStyles: 0);
+
+            this.m_layout.ClientArea = this.GetClientRect();
+            this.m_layout.Margin = new Rectangle(10, 10, 10, 10);
+            this.m_layout.Children.Add(this.m_textBox1);
+            this.m_layout.Children.Add(this.m_textBox2);
+            this.m_layout.PerformLayout();
+
+            var r = new Random();
+
+            this.m_task = Task.Run(() =>
             {
-    
-                this.m_textBox1 = StaticBox.Create(hParent: this.Handle,
-                    styles: WindowStyles.WS_CHILD | WindowStyles.WS_VISIBLE, 
-                    exStyles: 0);
-    
-                // You can use this to create the static box like this as well. 
-                // But there's rarely any performance benefit in doing so, and
-                // this doesn't have a WindowProc that's connected.
-                this.m_textBox2 = WindowFactory.CreateExternalWindow("static",
-                    hParent: this.Handle,
-                    styles: WindowStyles.WS_CHILD | WindowStyles.WS_VISIBLE,
-                    exStyles: 0);
-    
-                this.m_layout.ClientArea = this.GetClientRect();
-                this.m_layout.Margin = new Rectangle(10, 10, 10, 10);
-                this.m_layout.Children.Add(this.m_textBox1);
-                this.m_layout.Children.Add(this.m_textBox2);
-                this.m_layout.PerformLayout();
-    
-                var r = new Random();
-    
-                this.m_task = Task.Run(() =>
+                while (this.m_times < Iterations)
                 {
-                    while (this.m_times < Iterations)
-                    {
-                        this.m_times++;
-                        this.SetPosition(50, 50,
-                            1200 - r.Next(0, 1100),
-                            900 - r.Next(0, 800));
-                    }
-                    this.m_endTime = DateTime.Now;
-                    this.m_done = true;
-                    this.SetPosition(50, 50, 700, 500);
-                });
-                this.m_startTime = DateTime.Now;
-                base.OnCreate(ref packet);
-            }
-    
-            protected override void OnSize(ref SizePacket packet)
-            {
-                var size = packet.Size;
-                this.m_layout.SetSize(ref size);
-    
-                base.OnSize(ref packet);
-    
-                if (!this.m_done) return;
-    
-                var str = $"\\r\\n{DateTime.Now}: No. of changes done: {this.m_times}";
-                this.m_textBox1.SetText(str);
-    
-                var sb = new StringBuilder();
-    
-                sb.AppendLine($"Start Time: {this.m_startTime}");
-                sb.AppendLine($"End Time: {this.m_endTime}");
-                sb.AppendLine();
-    
-                if (this.m_endTime != DateTime.MinValue) 
-                    sb.AppendLine($"Total Time: {this.m_endTime - this.m_startTime}");
-                this.m_textBox2.SetText(sb.ToString());
-            }
+                    this.m_times++;
+                    this.SetPosition(50, 50,
+                        1200 - r.Next(0, 1100),
+                        900 - r.Next(0, 800));
+                }
+                this.m_endTime = DateTime.Now;
+                this.m_done = true;
+                this.SetPosition(50, 50, 700, 500);
+            });
+            this.m_startTime = DateTime.Now;
+            base.OnCreate(ref packet);
+        }
+
+        protected override void OnSize(ref SizePacket packet)
+        {
+            var size = packet.Size;
+            this.m_layout.SetSize(ref size);
+
+            base.OnSize(ref packet);
+
+            if (!this.m_done) return;
+
+            var str = $"\\r\\n{DateTime.Now}: No. of changes done: {this.m_times}";
+            this.m_textBox1.SetText(str);
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"Start Time: {this.m_startTime}");
+            sb.AppendLine($"End Time: {this.m_endTime}");
+            sb.AppendLine();
+
+            if (this.m_endTime != DateTime.MinValue) 
+                sb.AppendLine($"Total Time: {this.m_endTime - this.m_startTime}");
+            this.m_textBox2.SetText(sb.ToString());
         }
     }
+}
 `} />
 
         <p>There we go. It does exactly what the WinForms application does. Now, lets run this and see the results.</p>

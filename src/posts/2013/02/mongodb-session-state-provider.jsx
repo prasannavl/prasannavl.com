@@ -37,49 +37,49 @@ export default () => {
         <h2>Example session document</h2>
 
         <CodeBlock children={`
-    use SessionState;
-    db.Sessions.find().pretty();
+use SessionState;
+db.Sessions.find().pretty();
 
-    {
-        "_id": "i2guetwsm0mgaibb1gqmodfq",
-        "App": "/",
-        "Created": ISODate("2013-02-21T22:27:32.091Z"),
-        "Expires": ISODate("2013-02-22T22:30:59.267Z"),
-        "LockDate": ISODate("2013-02-21T22:29:54.481Z"),
-        "LockId": 1,
-        "Timeout": 20,
-        "Locked": true,
-        "Items": "AQAAAP////8EVGVzdAgAAAABBkFkcmlhbg==",
-        "Flags": 0
-    }
+{
+    "_id": "i2guetwsm0mgaibb1gqmodfq",
+    "App": "/",
+    "Created": ISODate("2013-02-21T22:27:32.091Z"),
+    "Expires": ISODate("2013-02-22T22:30:59.267Z"),
+    "LockDate": ISODate("2013-02-21T22:29:54.481Z"),
+    "LockId": 1,
+    "Timeout": 20,
+    "Locked": true,
+    "Items": "AQAAAP////8EVGVzdAgAAAABBkFkcmlhbg==",
+    "Flags": 0
+}
         `} />
 
         <h2>Scheduled session cleanup command</h2>
 
         <CodeBlock children={`
-    db.Sessions.remove({"Expires" : {$lt : new Date() }})
+db.Sessions.remove({"Expires" : {$lt : new Date() }})
         `} />
 
         <h2>Example web.config settings</h2>
 
         <CodeBlock children={`
-    <connectionStrings>
-       <add name="SessionState" connectionString="mongodb://localhost"/>
-    </connectionStrings>
-    <system.web>
-        <sessionState 
-                mode="Custom"
-                timeout="1440"
-                cookieless="false"
-                customProvider="MongoSessionStateProvider">
-            <providers>
-                <add name="MongoSessionStateProvider"
-                    type="PVL.MongoSessionProvider"
-                    connectionStringName="SessionState"
-                    writeExceptionsToEventLog="false"/>
-            </providers>
-        </sessionState>
-    </system.web>
+<connectionStrings>
+   <add name="SessionState" connectionString="mongodb://localhost"/>
+</connectionStrings>
+<system.web>
+    <sessionState 
+            mode="Custom"
+            timeout="1440"
+            cookieless="false"
+            customProvider="MongoSessionStateProvider">
+        <providers>
+            <add name="MongoSessionStateProvider"
+                type="PVL.MongoSessionProvider"
+                connectionStringName="SessionState"
+                writeExceptionsToEventLog="false"/>
+        </providers>
+    </sessionState>
+</system.web>
         `} />
 
     </Article>

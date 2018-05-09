@@ -26,25 +26,25 @@ export default () => {
         <h2>API</h2>
 
         <CodeBlock children={`
-    Locker.Lock(lockName, callbackFunction, [priority=0]);
-    Locker.LockManual(lockName, callbackFunction, [priority=0]);
-    Locker.Release(lockName);
+Locker.Lock(lockName, callbackFunction, [priority=0]);
+Locker.LockManual(lockName, callbackFunction, [priority=0]);
+Locker.Release(lockName);
 
-    Locker.DiscardQueue(lockName);
+Locker.DiscardQueue(lockName);
 
-    Locker.LockManualIfInstant(lockName, callbackFunction, [priority=0]);
-    Locker.LockIfInstant(lockName, callbackFunction, [priority=0]);
+Locker.LockManualIfInstant(lockName, callbackFunction, [priority=0]);
+Locker.LockIfInstant(lockName, callbackFunction, [priority=0]);
         `} />
 
         <h2>Basic usage</h2>
 
         <CodeBlock children={`
-    function getALife() {
-            Locker.Lock("thebiglock", function() {
-            DoSomeWork();
-            FetchNewAjaxContentAndReplaceMyMainContent();
-        });
-    };
+function getALife() {
+        Locker.Lock("thebiglock", function() {
+        DoSomeWork();
+        FetchNewAjaxContentAndReplaceMyMainContent();
+    });
+};
         `} />
 
         <p>You could see how the above just cannot work without locking. Without this locking, executing getALife even twice in a row, basically ruins your life. Since you have no idea when you'll get the ajax request back. You have no way of knowing if they will work in order. Instead, your requests will get mangled up, and you have no way to load items in parallel without messing up the order. While this is a simple example, its uses go much further.</p>
@@ -52,13 +52,13 @@ export default () => {
         <p>The above is a auto-release lock. If you want manual control over the locks, just use the ManualLock and Release functions. It'd be incredibly useful to nest it deep down in the async callback hierarchy. Say, to couple it with jQuery animate's call back.</p>
 
         <CodeBlock children={`
-    Locker.LockManual("thebiglock", function() {
-        DoSomeWork();
-        $("MyLife").animate( "fast", function() {
-            FetchNewAjaxContentAndReplaceMyMainContent();
-            Locker.Release("thebiglock");
-        });
+Locker.LockManual("thebiglock", function() {
+    DoSomeWork();
+    $("MyLife").animate( "fast", function() {
+        FetchNewAjaxContentAndReplaceMyMainContent();
+        Locker.Release("thebiglock");
     });
+});
         `} />
 
         <p>Now this makes it work exactly as you'd except. And you can call the Locker.Release from anywhere, even from an external call or not even at all (of course, in which case your tasks are going to keep getting piled up until you do.)</p>
@@ -66,44 +66,44 @@ export default () => {
         <p>And last but not the least - Priorities.</p>
 
         <CodeBlock children={`
-    Locker.Lock("thebiglock", function() {
-        DoSomeWork();
-        FetchNewAjaxContentAndReplaceMyMainContent();
-    }, 20);
+Locker.Lock("thebiglock", function() {
+    DoSomeWork();
+    FetchNewAjaxContentAndReplaceMyMainContent();
+}, 20);
         `} />
 
         <p>The default priority of jobs is 10.  Higher the value, higher the priority.</p>
         <h2>Priority values example</h2>
 
         <CodeBlock children={`
-    var test = function(no) {
-        var priority = Math.ceil(Math.random() * 10);
-        Locker.Lock("t1", function () { 
-                console.log("Task no: " + no + ", Priority: " + priority);
-        }, priority);
-    };
+var test = function(no) {
+    var priority = Math.ceil(Math.random() * 10);
+    Locker.Lock("t1", function () { 
+            console.log("Task no: " + no + ", Priority: " + priority);
+    }, priority);
+};
 
 
-    for (var i=0; i<10; i++)
-    { 
-        test(i);
-    }
+for (var i=0; i<10; i++)
+{ 
+    test(i);
+}
         `} />
 
         <h2>Output</h2>
 
         <samp>
             <CodeBlock children={`
-    Task no: 0, Priority: 8
-    Task no: 1, Priority: 8
-    Task no: 4, Priority: 7
-    Task no: 6, Priority: 7
-    Task no: 9, Priority: 7
-    Task no: 8, Priority: 5
-    Task no: 2, Priority: 3
-    Task no: 5, Priority: 3
-    Task no: 7, Priority: 1
-    Task no: 3, Priority: 1
+Task no: 0, Priority: 8
+Task no: 1, Priority: 8
+Task no: 4, Priority: 7
+Task no: 6, Priority: 7
+Task no: 9, Priority: 7
+Task no: 8, Priority: 5
+Task no: 2, Priority: 3
+Task no: 5, Priority: 3
+Task no: 7, Priority: 1
+Task no: 3, Priority: 1
         `} /></samp>
 
         <p>As you'd expect, the locking mechanism makes it a reliable tasking system. Extend, modify and utilize it at will. Have fun!</p>

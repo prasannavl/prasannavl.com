@@ -19,88 +19,88 @@ export default () => {
         <p>A <code>Hello World</code> of Windows, in C today, would resemble something like this below.</p>
 
         <CodeBlock children={`
-    #define UNICODE
-    #define _UNICODE
-    #define WIN32_LEAN_AND_MEAN
-    
-    #include <windows.h>
-    #include <iostream>
-    
-    int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-         PWSTR pCmdLine, int nCmdShow);
-    LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam,
-         LPARAM lParam);
-    
-    int wmain()
+#define UNICODE
+#define _UNICODE
+#define WIN32_LEAN_AND_MEAN
+
+#include <windows.h>
+#include <iostream>
+
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+        PWSTR pCmdLine, int nCmdShow);
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam,
+        LPARAM lParam);
+
+int wmain()
+{
+    wWinMain(nullptr, nullptr, nullptr, 0);
+}
+
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, 
+    PWSTR pCmdLine, int nCmdShow)
+{
+    WNDCLASSEX wc = { 0 };
+    wc.hInstance = hInstance;
+    wc.lpszClassName = L"MainWindow";
+    wc.cbSize = sizeof(WNDCLASSEX);
+    wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+    wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wc.style = CS_HREDRAW | CS_VREDRAW;
+    wc.lpfnWndProc = WindowProc;
+    auto regRes = RegisterClassEx(&wc);
+    if (!regRes)
     {
-        wWinMain(nullptr, nullptr, nullptr, 0);
+        std::cerr << "window registration failed" << std::endl;
+        return regRes;
     }
-    
-    int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, 
-        PWSTR pCmdLine, int nCmdShow)
+    auto hwnd = CreateWindowEx(0, wc.lpszClassName, L"Hello", 
+        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+        CW_USEDEFAULT, nullptr, nullptr, hInstance, nullptr);
+    if (hwnd == nullptr)
     {
-        WNDCLASSEX wc = { 0 };
-        wc.hInstance = hInstance;
-        wc.lpszClassName = L"MainWindow";
-        wc.cbSize = sizeof(WNDCLASSEX);
-        wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
-        wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-        wc.style = CS_HREDRAW | CS_VREDRAW;
-        wc.lpfnWndProc = WindowProc;
-        auto regRes = RegisterClassEx(&wc);
-        if (!regRes)
-        {
-            std::cerr << "window registration failed" << std::endl;
-            return regRes;
-        }
-        auto hwnd = CreateWindowEx(0, wc.lpszClassName, L"Hello", 
-            WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-            CW_USEDEFAULT, nullptr, nullptr, hInstance, nullptr);
-        if (hwnd == nullptr)
-        {
-            std::cerr << "window couldn't be created" << std::endl;
-            return -1;
-        }
-    
-        ShowWindow(hwnd, SW_SHOWNORMAL);
-    
-        MSG msg = {};
-        while (GetMessage(&msg, nullptr, 0, 0))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-        return 0;
+        std::cerr << "window couldn't be created" << std::endl;
+        return -1;
     }
-    
-    LRESULT HandleDestroy(HWND hWnd)
+
+    ShowWindow(hwnd, SW_SHOWNORMAL);
+
+    MSG msg = {};
+    while (GetMessage(&msg, nullptr, 0, 0))
     {
-        PostQuitMessage(0);
-        return 0;
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
     }
-    
-    LRESULT HandlePaint(HWND hwnd)
+    return 0;
+}
+
+LRESULT HandleDestroy(HWND hWnd)
+{
+    PostQuitMessage(0);
+    return 0;
+}
+
+LRESULT HandlePaint(HWND hwnd)
+{
+    PAINTSTRUCT ps;
+    auto hdc = BeginPaint(hwnd, &ps);
+    FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW));
+    EndPaint(hwnd, &ps);
+    return 0;
+}
+
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg)
     {
-        PAINTSTRUCT ps;
-        auto hdc = BeginPaint(hwnd, &ps);
-        FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW));
-        EndPaint(hwnd, &ps);
-        return 0;
+    case WM_ERASEBKGND:
+        return 1;
+    case WM_DESTROY:
+        return HandleDestroy(hwnd);
+    case WM_PAINT:
+        return HandlePaint(hwnd);
     }
-    
-    LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-    {
-        switch (uMsg)
-        {
-        case WM_ERASEBKGND:
-            return 1;
-        case WM_DESTROY:
-            return HandleDestroy(hwnd);
-        case WM_PAINT:
-            return HandlePaint(hwnd);
-        }
-        return DefWindowProc(hwnd, uMsg, wParam, lParam);
-    }
+    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
         `} />
 
         <p>Unfortunately, about half the programmers I meet today never use this kind of code, and even less knew exactly what each codepath did underneath - They were simply never accustomed to writing low-level code. While the above is not assembly, it may still show some age. However, it's still the most performant and the most reliable way to run software on the Windows ecosystem. While frameworks on top it - MFC, WinForms, WPF, and the more modern Windows Runtime all provide great convenience, its the raw APIs that you end up dipping into inevitably in more than just a few scenarios. Until Windows Runtime came along, ATL/WTL has been the most fantastic of all - Not because it provides some unmatched great feature, but because it stays closest to bare metal, and yet managed to provide a very clever way of writing code, productively and with high-efficiency. It essentially translates almost exactly into code similar to the above right before compilation.</p>
@@ -110,78 +110,78 @@ export default () => {
         <p>So, here's how the same piece of code in ATL/WTL today, with modern C++:</p>
 
         <CodeBlock children={`
-    #define UNICODE
-    #define _UNICODE
-    #define WIN32_LEAN_AND_MEAN
-    #include <windows.h>
-    
-    #include <wrl.h>
-    #include <atlbase.h>
-    #include <atlapp.h>
-    #include <atlwin.h>
-    #include <atlmisc.h>
-    #include <atlcrack.h>
-    
-    class CAppWindow : public CWindowImpl<CAppWindow, CWindow, CFrameWinTraits>
+#define UNICODE
+#define _UNICODE
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
+#include <wrl.h>
+#include <atlbase.h>
+#include <atlapp.h>
+#include <atlwin.h>
+#include <atlmisc.h>
+#include <atlcrack.h>
+
+class CAppWindow : public CWindowImpl<CAppWindow, CWindow, CFrameWinTraits>
+{
+private:
+    BEGIN_MSG_MAP(CAppWindow)
+        MSG_WM_DESTROY(OnDestroy)
+        MSG_WM_PAINT(OnPaint)
+        MSG_WM_ERASEBKGND(OnEraseBkgnd)
+    END_MSG_MAP()
+
+public:
+    DECLARE_WND_CLASS_EX(nullptr, 0, -1)
+    int Run();
+
+protected:
+    void OnDestroy();
+    LRESULT OnEraseBkgnd(HDC hdc);
+    void OnPaint(HDC hdc);
+};
+
+int CAppWindow::Run()
+{
+    auto hwnd = Create(0, 0, L"Hello");
+    ShowWindow(SW_SHOWNORMAL);
+    MSG msg;
+    BOOL result;
+    while (result = GetMessage(&msg, 0, 0, 0))
     {
-    private:
-        BEGIN_MSG_MAP(CAppWindow)
-            MSG_WM_DESTROY(OnDestroy)
-            MSG_WM_PAINT(OnPaint)
-            MSG_WM_ERASEBKGND(OnEraseBkgnd)
-        END_MSG_MAP()
-    
-    public:
-        DECLARE_WND_CLASS_EX(nullptr, 0, -1)
-        int Run();
-    
-    protected:
-        void OnDestroy();
-        LRESULT OnEraseBkgnd(HDC hdc);
-        void OnPaint(HDC hdc);
-    };
-    
-    int CAppWindow::Run()
-    {
-        auto hwnd = Create(0, 0, L"Hello");
-        ShowWindow(SW_SHOWNORMAL);
-        MSG msg;
-        BOOL result;
-        while (result = GetMessage(&msg, 0, 0, 0))
-        {
-            if (result == -1)
-                return GetLastError();
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-        return 0;
+        if (result == -1)
+            return GetLastError();
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
     }
-    
-    void CAppWindow::OnDestroy()
-    {
-        PostQuitMessage(0);
-    }
-    
-    LRESULT CAppWindow::OnEraseBkgnd(HDC hdc)
-    {
-        SetMsgHandled(true);
-        return 1;
-    }
-    
-    void CAppWindow::OnPaint(HDC hdc)
-    {
-        PAINTSTRUCT ps;
-        BeginPaint(&ps);
-        FillRect(hdc, &ps.rcPaint, (HBRUSH)COLOR_WINDOW);
-        EndPaint(&ps);
-        SetMsgHandled(true);
-    }
-    
-    int wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR, int)
-    {
-        CAppWindow win;
-        return win.Run();
-    }
+    return 0;
+}
+
+void CAppWindow::OnDestroy()
+{
+    PostQuitMessage(0);
+}
+
+LRESULT CAppWindow::OnEraseBkgnd(HDC hdc)
+{
+    SetMsgHandled(true);
+    return 1;
+}
+
+void CAppWindow::OnPaint(HDC hdc)
+{
+    PAINTSTRUCT ps;
+    BeginPaint(&ps);
+    FillRect(hdc, &ps.rcPaint, (HBRUSH)COLOR_WINDOW);
+    EndPaint(&ps);
+    SetMsgHandled(true);
+}
+
+int wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR, int)
+{
+    CAppWindow win;
+    return win.Run();
+}
     `} />
 
         <p>Far better. However, it does show its age. Nonetheless, its as good as it gets when you want to stick to C/C++, and is also the approach I'd recommend today for native applications, unless you switch over to the more modern Windows Runtime.</p>
@@ -208,24 +208,24 @@ export default () => {
         <p>And soon, the above code, looked something like this:</p>
 
         <CodeBlock children={`
-    internal static class Program
+internal static class Program
+{
+    [STAThread]
+    static void Main()
     {
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
-        }
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        Application.Run(new MainWindow());
     }
-    
-    public partial class MainWindow : Form
+}
+
+public partial class MainWindow : Form
+{
+    public MainWindow()
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
+}
     `} />
 
         <p>Looks much nicer. But lets get the fact that this is not C++ out of the way first - in most scenarios the advanced capabilities really aren't required and you can always use C++ when you really need and simply PInvoke even though <code>a C# idiomatic high-performance solution almost always exists as well - with techniques like memory pooling, structs, and stackalloc</code>. Because, when you realize you need such optimizations especially memory pooling, chances are C/C++ would benefit with memory pooling as well. And <strong>once you start efficiently pooling memory and reducing the GC pressure, the performance differences between the two languages start to disappear for the most part</strong>. That aside, there are still some inherent problems.</p>
@@ -246,14 +246,14 @@ export default () => {
         <p>And that brings us to <code>WinApi</code> which ultimately lets you do this below, while solving all of the problems above:</p>
 
         <CodeBlock children={`
-    static int Main(string[] args)
+static int Main(string[] args)
+{
+    using (var win = Window.Create(text: "Hello"))
     {
-        using (var win = Window.Create(text: "Hello"))
-        {
-            win.Show();
-            return new EventLoop().Run(win);
-        }
+        win.Show();
+        return new EventLoop().Run(win);
     }
+}
     `} />
 
         <p>I'll discuss more about how it solves the problems, and how to use it in the next article.</p>

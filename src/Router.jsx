@@ -1,6 +1,6 @@
 import React from "react";
 import { trimRightSlashes } from './modules/path-utils';
-import NotFound from "./pages/NotFound";
+import { NotFoundPage, OfflinePage } from "./pages/ErrorPage";
 
 const POPSTATE_EVENT = "popstate";
 
@@ -22,16 +22,25 @@ export class Router {
     }
 
     async resolveComponent() {
-        let pathname = trimRightSlashes(location.pathname);
-        let res = await this.resolveStaticRoutes(pathname);
-        if (res != null) {
-            return res;
+        try {
+            let pathname = trimRightSlashes(location.pathname);
+            let res = await this.resolveStaticRoutes(pathname);
+            if (res != null) {
+                return res;
+            }
+            res = await this.resolvePostRoutes(pathname);
+            if (res != null) {
+                return res;
+            }
+            return NotFoundPage;
+        } catch (err) {
+            let e = err.toString();
+            if (e.startsWith("Error: Loading chunk")) {
+                console.log(err);
+                return OfflinePage;
+            }
+            throw err;
         }
-        res = await this.resolvePostRoutes(pathname);
-        if (res != null) {
-            return res;
-        }
-        return Promise.resolve(NotFound);
     }
     
     async resolveStaticRoutes(pathname) {
@@ -57,7 +66,11 @@ export class Router {
             let Post = postModule.default;
             return () => <Post component={postItemComponent} />;
         } catch (err) {
-            return null;
+            let e = err.toString();
+            if (e.startsWith("Error: Cannot find module")) {
+                return NotFoundPage;
+            }
+            throw err;
         }
     }
 }

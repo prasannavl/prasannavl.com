@@ -6,13 +6,15 @@ code {
 }
 
 pre code {
+    padding: 0;
     background-color: transparent;
     font-weight: normal;
     font-size: 0.94em;
 }
 
-pre {
+pre, pre.hljs {
+    padding: 2rem;
     white-space: pre-wrap;
     word-wrap: break-word;
-    overflow-wrap: break-word;    
+    overflow-wrap: break-word;
 }

@@ -9,7 +9,8 @@
     "test": "neutrino test",
     "generate": "node ./tools/generate-all",
     "snap": "node ./tools/snap",
-    "build-all": "yarn run generate && yarn run build && yarn run snap"
+    "build:snap": "yarn run build && yarn run snap",    
+    "build:all": "yarn run generate && yarn run build && yarn run snap"
   },
   "dependencies": {
     "@neutrinojs/jest": "^8.2.3",

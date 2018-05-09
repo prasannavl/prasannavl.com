@@ -37,11 +37,11 @@ export const Intro = () => {
 export const Articles = ({ featured, recent }) => {
   let itemsList = [recent, featured].map(val => {
     let items = val.map(x => (
-      <li>
+      <li key={x.url}>
         <Link to={x.url}>
           {x.title}
         </Link>
-        {x.note && <small className="text-muted"> &raquo; Note</small>}        
+        {x.note && <small className="text-muted"> &raquo; Note</small>}
         &nbsp;&rsaquo;&nbsp;
         <small className="no-wrap"><time dateTime={x.date}>{formatDate(new Date(x.date), "Do MMM YYYY")}</time></small>
       </li>
@@ -63,8 +63,7 @@ export const Articles = ({ featured, recent }) => {
     <section>
       <h4>Featured</h4>
       {itemsList[1]}
-    </section>
-    <section>
+    </section>    <section>
       <h4>Archive</h4>
       <p>See <Link to="/archives/">the complete list</Link> of my articles.</p>
     </section>
@@ -82,7 +81,7 @@ export const Projects = ({ data }) => {
       <h4>Most Popular</h4>
       <table className="table table-sm table-borderless">
         <tbody>
-          {data.map(x => <React.Fragment>
+          {data.map(x => <React.Fragment key={x.url}>
             <tr>
               <th><a href={x.url}>{x.name}</a></th>
               <td>{x.description}</td>
