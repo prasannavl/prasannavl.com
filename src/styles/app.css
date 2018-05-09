@@ -42,3 +42,11 @@ footer>.small {
     padding: 3rem;
     font-size: 1rem;
 }
+
+.h-link {
+    color: #333;
+}
+
+.h-link:hover {
+    color: #333;
+}

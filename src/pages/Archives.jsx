@@ -1,11 +1,11 @@
 import React from "react";
 import formatDate from "date-fns/format";
 import Layout from "./Layout";
-import { Link } from "react-router-dom";
-import loadable from "loadable-components";
+import { Link } from "../modules/router-utils";
 import Banner from "../components/Banner";
 import { Title } from "../components/Head";
 import Footer from "../components/Footer";
+import archivesData from "../static/data/archives.json";
 
 export const Page = (props) => (
     <Layout>
@@ -18,18 +18,13 @@ export const Page = (props) => (
     </Layout>
 );
 
-const PageContainer = loadable(async () => {
-    let data = await import("../static/data/archives.json");
-    return () => <Page data={data} />;
-});
-
 export const Archives = ({ data }) => {
     let itemsList = data.map(yearList => {
         let year = yearList[0];
         let items = yearList[1].map(article => (
             <li>
                 <Link to={article.url}>{article.title}</Link>
-                {article.note && <small className="text-muted"> (Note)</small>}                
+                {article.note && <small className="text-muted"> &raquo; Note</small>}                
                 &nbsp;&rsaquo;&nbsp;
                 <small className="no-wrap"><time dateTime={article.date}>{formatDate(new Date(article.date), "Do MMM YYYY")}</time></small>
             </li>
@@ -51,4 +46,4 @@ export const Archives = ({ data }) => {
     </React.Fragment>
 };
 
-export default PageContainer;
+export default () => <Page data={archivesData} />;

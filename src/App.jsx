@@ -1,22 +1,71 @@
 import React, { Component, Fragment } from 'react';
 import ReactDOM from "react-dom";
 import Head from './components/Head';
-import Home from "./pages/Home";
-import Archives from "./pages/Archives";
-import Post from "./pages/Post";
-import NotFound from "./pages/NotFound";
+import { Router } from "./Router";
 import appContext from './modules/app-context';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
+import nprogress from "nprogress";
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       error: null,
       errorInfo: null,
+      InnerComponent: null,
+    };
+    this.router = new Router();    
+    this.ephemeralState = {
+      scroll: false,
+      lastPopId: null,
     }
+    this.popState();
+  }
+
+  popState(ev) {
+    let scroll = false;
+    if (ev && ev.state && ev.state.scroll) {
+      scroll = true;
+    }
+    if (this.ephemeralState.lastPopId !== null) {
+      nprogress.set(0);
+    } else {
+      setTimeout(() => {
+        if (this.ephemeralState.lastPopId !== null) {
+          nprogress.start();
+        }
+      }, 300);
+    }
+    let popId = this.ephemeralState.lastPopId = Math.random();
+    this.router.resolveComponent()
+      .then(x => {
+        if (popId === this.ephemeralState.lastPopId) {
+          this.ephemeralState.scroll = scroll;
+          this.ephemeralState.lastPopId = null;
+          this.setState({ InnerComponent: x });
+          nprogress.done();
+        }
+      });
+  }
+
+  componentDidMount() {
+    nprogress.configure({ speed: 400, });
+    this.router.startListen(this.popState.bind(this));
+    this.scrollIfNeeded();
+  }
+
+  scrollIfNeeded() {
+    if (this.ephemeralState.scroll) {
+      window.scroll(0, 0);
+      this.ephemeralState.scroll = false;
+    }
+  }
+
+  componentDidUpdate() {
+    this.scrollIfNeeded();
+  }
+
+  componentWillUnmount() {
+    this.router.stopListen();
   }
 
   componentDidCatch(error, errorInfo) {
@@ -39,24 +88,11 @@ class App extends Component {
     </div>, document.querySelector("body"));
   }
 
-  renderRoutes() {
-    return <Fragment>
-      <Head />
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/archives" component={Archives} />
-          <Route path="/:post*" component={Post} />
-        </Switch>
-      </Router>
-    </Fragment>;
-  }
-
   render() {
-    let { error } = this.state;
+    let { error, InnerComponent } = this.state;
     return error ?
       this.renderError() :
-      this.renderRoutes();
+      InnerComponent && <InnerComponent/>;
   }
 }
 

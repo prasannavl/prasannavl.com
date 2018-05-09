@@ -1,33 +1,33 @@
 import React from 'react';
 import { hydrate, render } from 'react-dom';
-import { getState } from "loadable-components";
 import { serializeDataToWindow } from "./prerender-helper";
 
-export const renderFactory = function (Component, element, context) {
+export const renderFactory = function (renderFn, element, context) {
   const { envHelper, preRenderer } = context;
-  let Wrapper;
+  let getCompElement;
   
-  if (envHelper.devMode) {
+  if (process.env.NODE_ENV !== "production") {
     let AppContainer = require("react-hot-loader").AppContainer;
-    Wrapper = () => <AppContainer><Component /></AppContainer>;
+    getCompElement = () => <AppContainer>{renderFn()}</AppContainer>;
   } else {
-    Wrapper = Component;
+    getCompElement = renderFn;
   }
+  
+  getCompElement = renderFn;
   
   if (envHelper.snapMode) {
     return () => {
       preRenderer.startDataSink();
-      render(<Wrapper />, element);
+      render(getCompElement(), element);
       window.snapSaveState = () => {
         preRenderer.endDataSink();
-        serializeDataToWindow(getState());
         return preRenderer.snapData();
       }
     }
   } else {
     return () => {
       preRenderer.startDataSource();
-      hydrate(<Wrapper />, element, () => {
+      hydrate(getCompElement(), element, () => {
         preRenderer.endDataSource();
       });
     }

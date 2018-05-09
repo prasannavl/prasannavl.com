@@ -137,7 +137,7 @@ export default () => {
 
         <h2>Changelog</h2>
 
-        <h3>Version 2 <small class="text-muted">(17th April 2012)</small></h3>
+        <h3>Version 2 <small className="text-muted">(17th April 2012)</small></h3>
         <ul>
             <li>Fix: zipalign executable missing.</li>
             <li>Fix: Panorama mode build.prop typo (Thanks to Walter at XDA)</li>

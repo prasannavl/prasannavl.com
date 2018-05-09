@@ -3,7 +3,7 @@ import { default as Head, Title, TwitterMeta, OpenGraphMeta } from "../component
 import formatDate from "date-fns/format";
 
 export { default as CodeBlock } from "./CodeBlock";
-export { Link } from "react-router-dom";
+export { Link } from "../modules/router-utils";
 
 export const Article = (meta) => {
     const { title, date, modifiedDate, image, type, children, note } = meta;
@@ -20,7 +20,7 @@ export const Article = (meta) => {
             <p className="d-none" rel="author">{author}</p>
             <p className="small text-muted" rel="date"><time dateTime={date}>{formatDate(new Date(date), "dddd, Do MMM YYYY")}</time></p>
         </header>
-        {meta.note && <p className="note">This item is marked as a <code>note</code>. <em>Notes</em> are my personal archive of mostly tiny bits of information that serve as reference. It <em>may or may not</em> be accurate. It <em>may or may not</em> be useful to you. <b>You have been warned</b>.</p>}
+        {meta.note && <p className="note">This item is marked as a <code>note</code>. <em>Notes</em> are my personal archive of mostly tiny bits of information that serve as reference. It <strong>may or may not</strong> be accurate. <strong>You have been warned</strong>.</p>}
         {children}
     </article>
 }

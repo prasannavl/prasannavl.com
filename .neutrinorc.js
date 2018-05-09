@@ -25,6 +25,8 @@ module.exports = {
             eot: { name: "fonts/[name].[hash].[ext]" }
           },
           style: {
+            // workaround bug https://github.com/mozilla-neutrino/neutrino-dev/issues/802
+            hot: !isProduction,
             test: neutrino.regexFromExtensions(["css", "scss", "sass"]),
             loaders: [
               {

@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "../modules/router-utils";
 
 const Banner = ({ index }) => {
     let text = "Prasanna V. Loganathar";
     return (
         <header className="banner">
-            {/* <h1 id="top">{index ? text : <Link to="/" className="cursor-pointer">{text}</Link>}</h1> */}
-            {<h1 id="top">{text}</h1>}
+            <h1 id="top"><Link to="/">{text}</Link></h1>
+            {/* {<h1 id="top">{text}</h1>} */}
             {index || <Subtitle />}
             <hr />
         </header>);
