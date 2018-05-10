@@ -11,7 +11,11 @@ async function snap() {
         preconnectThirdParty: false,
         puppeteerArgs: ["--no-sandbox"],
         preProcess: (snappy) => {
-            return removeScriptTagsWithSrcAttribute(snappy)
+            return Promise.all([
+                // removeNonOriginScriptTags(snappy),
+                // deferScriptTags(snappy),
+                removeNonInlineScriptTags(snappy),
+            ]);
         },
     });
 }
@@ -34,10 +38,22 @@ const deferScriptTags = ({ page }) => {
     });
 };
 
+const removeNonOriginScriptTags = ({ page }) => {
+    return page.evaluate(() => {
+        let origin = window.location.origin;
+        Array.from(document.querySelectorAll("script"))
+            .filter(node => node.src)
+            .filter(node => !node.src.startsWith(origin))
+            .forEach(ell => {
+                ell.parentElement && ell.parentElement.removeChild(ell);
+            });
+    });
+};
+
 // This removes *only* the script tags with an `src` attribute - so that it's
 // still possible to add some script in the file like Google Analytics, etc
 // using direct `script` without the src attribute. 
-const removeScriptTagsWithSrcAttribute = ({ page }) => {
+const removeNonInlineScriptTags = ({ page }) => {
     return page.evaluate(() => {
         Array.from(document.querySelectorAll("script")).filter(node => node.src).forEach(ell => {
             ell.parentElement && ell.parentElement.removeChild(ell);
