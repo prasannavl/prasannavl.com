@@ -5,18 +5,28 @@ const path = require("path");
 
 async function snap() {
     process.chdir(path.resolve(path.join(__dirname, "./../")));
+
+    const dynamicProcessors = (snappy) => {
+        return Promise.all[
+            removeNonOriginScriptTags(snappy),
+            deferScriptTags(snappy)
+        ];
+    }
+
+    const staticProcessors = (snappy) => {
+        return Promise.all[
+            removeNonInlineScriptTags(snappy)
+        ];
+    }
+
+    const processors = dynamicProcessors;
+
     run({
         publicPath: "/",
         skipThirdPartyRequests: true,
         preconnectThirdParty: false,
         puppeteerArgs: ["--no-sandbox"],
-        preProcess: (snappy) => {
-            return Promise.all([
-                // removeNonOriginScriptTags(snappy),
-                // deferScriptTags(snappy),
-                removeNonInlineScriptTags(snappy),
-            ]);
-        },
+        preProcess: processors
     });
 }
 
