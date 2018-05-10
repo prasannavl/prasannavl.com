@@ -6,6 +6,10 @@ body {
     line-height: 1.6;
 }
 
+a:active {
+    color: indianred;
+}
+
 @import "./fonts-segoe.css";
 @import "./headings.css";
 @import "./code.css";
