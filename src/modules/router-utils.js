@@ -23,13 +23,15 @@ const linkClickHandler = (event) => {
     const path = target.href || target.getAttribute("data-href");
     const scroll = target.getAttribute("data-scroll");
     const replace = target.getAttribute("data-replace");
-    if (replace ||
-        (trimRightSlashes(path) === trimRightSlashes(window.location.href)
-            && !window.location.search
-            && !window.location.hash)) {
-        window.history.replaceState(null, undefined, path);
-    } else {
-        window.history.pushState(null, undefined, path);
-    }
-    window.dispatchEvent(new PopStateEvent('popstate', { state: { scroll } }));
+    setTimeout(() => {
+        if (replace ||
+            (trimRightSlashes(path) === trimRightSlashes(window.location.href)
+                && !window.location.search
+                && !window.location.hash)) {
+            window.history.replaceState(null, undefined, path);
+        } else {
+            window.history.pushState(null, undefined, path);
+        }
+        window.dispatchEvent(new PopStateEvent('popstate', { state: { scroll } }));
+    }, 0);
 }
