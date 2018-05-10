@@ -2,10 +2,11 @@
 body {
     margin: 40px 0;
     color: #333;
-    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, Roboto, 'Liberation Sans', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, 'Liberation Sans', sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     line-height: 1.6;
 }
 
+@import "./fonts-segoe.css";
 @import "./headings.css";
 @import "./code.css";
 @import "./quotes.css";
