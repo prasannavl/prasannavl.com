@@ -1,9 +1,8 @@
 @import "../../node_modules/bootstrap/dist/css/bootstrap.css";
-
 body {
     margin: 40px 0;
     color: #333;
-    font-family: 'Helvetica Neue', Helvetica, 'Roboto', Arial, 'Liberation Sans', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, Roboto, 'Liberation Sans', sans-serif;
     line-height: 1.6;
 }
 
@@ -11,6 +10,5 @@ body {
 @import "./code.css";
 @import "./quotes.css";
 @import "./utils.css";
-
 @import "./app.css";
 @import "./nprogress.css";
