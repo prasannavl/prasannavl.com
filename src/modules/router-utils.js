@@ -23,6 +23,7 @@ const linkClickHandler = (event) => {
     const path = target.href || target.getAttribute("data-href");
     const scroll = target.getAttribute("data-scroll");
     const replace = target.getAttribute("data-replace");
+    // use timeout to keep screen responsive on mobile/low-end devices.
     setTimeout(() => {
         if (replace ||
             (trimRightSlashes(path) === trimRightSlashes(window.location.href)
