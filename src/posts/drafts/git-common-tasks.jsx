@@ -1,7 +1,7 @@
 import { Article, CodeBlock } from "../../components/Article"; 
 
 export const meta = {
-    title: "Git - Common tasks",
+    title: "Git Notes",
     tags: ["git"],
     note: true,
     date: "2018-05-06T12:48:32.891Z",
