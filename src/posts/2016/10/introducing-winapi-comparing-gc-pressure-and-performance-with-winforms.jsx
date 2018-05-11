@@ -69,7 +69,7 @@ export default () => {
 
         <h3>The WinForms program</h3>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 public partial class Form1 : Form
 {
     public Form1()
@@ -169,7 +169,7 @@ public partial class Form1 : Form
 
         <p>Now the same thing with WinApi,</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 class Program
 {
     static int Main(string[] args)

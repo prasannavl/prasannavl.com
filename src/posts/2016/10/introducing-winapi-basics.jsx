@@ -14,7 +14,7 @@ export default () => {
 
         <p>In the previous article <Link to="/2016/10/introducing-winapi-the-evolution/">here</Link>, I discussed the evolution of programs that use the Windows API with C/C++ and C# snippets, and it ultimately ended out with this C# snippet:</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 static int Main(string[] args)
 {
     using (var win = Window.Create(text: "Hello"))
@@ -30,7 +30,7 @@ static int Main(string[] args)
 
         <p>A very raw program that uses the Windows API would look like this:</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 using System;
 using System.Runtime.InteropServices;
 using WinApi.Gdi32;
@@ -137,7 +137,7 @@ namespace Sample.Win32
 
         <p>As an example <code>User32Methods</code> has the following method defined:</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 [DllImport(LibraryName, ExactSpelling = true)]
 public static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, IntPtr lpPoints, int cPoints);
         `} />
@@ -145,7 +145,7 @@ public static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, IntPtr 
         <p>It takes all inputs in the form of <code>IntPtr</code>, which allows any kind of marshalling.</p>
         <p>At the same time, <code>User32Helpers</code> has the following implementations:</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 public static unsafe int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, ref Point point)
 {
     fixed (Point* ptr = &point)
@@ -175,7 +175,7 @@ public static unsafe int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, ref Rec
 
         <p>This is the class that is the thinnest layer of Window. It simply wraps the original <code>Win32</code> handle. And it only has a single member - an IntPtr of <code>Handle</code>, and provides a way to attach itself to any Handle, and allows nice wrappers to be used through out.</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 var win = WindowFactory.CreateWindowFromHandle(someHwnd);
 win.SetText("Hello");
 win.SetPosition(100, 200);
@@ -205,7 +205,7 @@ win.Close();
 
         <p>For example</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 public sealed class MainWindow : EventedWindowCore
 {
     protected override void OnCreate(ref CreateWindowPacket packet)
@@ -226,7 +226,7 @@ public sealed class MainWindow : EventedWindowCore
 
         <p>For example,</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 public static unsafe void ProcessMove(ref WindowMessage msg, EventedWindowCore window)
 {
     fixed (WindowMessage* ptr = &msg)
@@ -245,7 +245,7 @@ public static unsafe void ProcessMove(ref WindowMessage msg, EventedWindowCore w
 
         <p>Infact, the way <code>EventedWindowCore</code> is implemented very similar to this:</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 public class EventedWindowCore : WindowCore {
     protected override OnMessage(ref WindowMessage msg) {
         switch (msg.Id) {
@@ -277,7 +277,7 @@ public class EventedWindowCore : WindowCore {
 
         <h2>Putting it all together</h2>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 internal class Program
 {
     static int Main(string[] args)

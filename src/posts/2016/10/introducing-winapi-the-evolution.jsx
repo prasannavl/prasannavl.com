@@ -18,7 +18,7 @@ export default () => {
 
         <p>A <code>Hello World</code> of Windows, in C today, would resemble something like this below.</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="c" children={`
 #define UNICODE
 #define _UNICODE
 #define WIN32_LEAN_AND_MEAN
@@ -109,7 +109,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         <p>So, here's how the same piece of code in ATL/WTL today, with modern C++:</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="cpp" children={`
 #define UNICODE
 #define _UNICODE
 #define WIN32_LEAN_AND_MEAN
@@ -207,7 +207,7 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR, int)
 
         <p>And soon, the above code, looked something like this:</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 internal static class Program
 {
     [STAThread]
@@ -245,7 +245,7 @@ public partial class MainWindow : Form
         <p>All of this brought me to this - <strong>We need a clean, stable way to access the Windows API from .NET.</strong> And along the way, I also decided to solve the above mentioned issues with WinForms.</p>
         <p>And that brings us to <code>WinApi</code> which ultimately lets you do this below, while solving all of the problems above:</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 static int Main(string[] args)
 {
     using (var win = Window.Create(text: "Hello"))

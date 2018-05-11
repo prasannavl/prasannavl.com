@@ -26,6 +26,7 @@
     "neutrino": "^8.2.3",
     "node-sass": "^4.9.0",
     "nprogress": "^0.2.0",
+    "prismjs": "^1.14.0",
     "prop-types": "^15.6.1",
     "raw-loader": "^0.5.1",
     "react": "^16.3.2",
@@ -33,10 +34,10 @@
     "react-helmet": "^5.2.0",
     "react-hot-loader": "^4.1.2",
     "react-snap": "github:prasannavl/react-snap",
-    "react-syntax-highlighter": "^7.0.2",
     "rss": "^1.2.2",
     "sass-loader": "^7.0.1",
     "sitemap": "^1.13.0",
-    "webpack-bundle-analyzer": "^2.11.1"
+    "webpack-bundle-analyzer": "^2.11.1",
+    "workerize-loader": "^1.0.2"
   }
 }

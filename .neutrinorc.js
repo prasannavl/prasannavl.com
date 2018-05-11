@@ -75,6 +75,16 @@ module.exports = {
         .test(neutrino.regexFromExtensions(["txt"]))
         .use("raw")
         .loader("raw-loader");
+      
+      config.module
+        .rule("worker")
+        .test(/\.worker\.js$/)
+        .use("worker")
+        .loader("workerize-loader")
+        .options({
+          name: isProduction ? "js/workers/[id].[chunkhash]" : undefined,
+          chunkFilename: "chunk-[id].[chunkhash]",
+        });
 
       config.entry('vendor')
         .add('react')

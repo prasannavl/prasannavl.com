@@ -68,6 +68,7 @@ export class Router {
         } catch (err) {
             let e = err.toString();
             if (e.startsWith("Error: Cannot find module")) {
+                console.log(err);
                 return NotFoundPage;
             }
             throw err;

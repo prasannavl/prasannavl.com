@@ -36,7 +36,7 @@ export default () => {
 
         <h2>Example session document</h2>
 
-        <CodeBlock children={`
+        <CodeBlock lang="js" children={`
 use SessionState;
 db.Sessions.find().pretty();
 
@@ -56,13 +56,13 @@ db.Sessions.find().pretty();
 
         <h2>Scheduled session cleanup command</h2>
 
-        <CodeBlock children={`
+        <CodeBlock lang="js" children={`
 db.Sessions.remove({"Expires" : {$lt : new Date() }})
         `} />
 
         <h2>Example web.config settings</h2>
 
-        <CodeBlock children={`
+        <CodeBlock lang="xml" children={`
 <connectionStrings>
    <add name="SessionState" connectionString="mongodb://localhost"/>
 </connectionStrings>

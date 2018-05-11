@@ -1,8 +1,13 @@
 code {
-    color: #333;
-    background-color: #fafafa;
     padding: 0.3rem;
     font-weight: 600;
+}
+
+pre {
+    padding: 2rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 pre code {
@@ -12,9 +17,10 @@ pre code {
     font-size: 0.94em;
 }
 
-pre, pre.hljs {
-    padding: 2rem;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+code, pre {
+    font-family: Consolas, Menlo, Monaco, "Ubuntu Mono", "Andale Mono WT", "Andale Mono", "Lucida Console", "Nimbus Mono L", monospace;
+    color: #333;
+    background-color: #fafafa;
+    tab-size: 4;
+    hyphens: none;
 }

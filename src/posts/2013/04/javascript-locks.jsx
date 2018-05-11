@@ -25,7 +25,7 @@ export default () => {
 
         <h2>API</h2>
 
-        <CodeBlock children={`
+        <CodeBlock lang="js" children={`
 Locker.Lock(lockName, callbackFunction, [priority=0]);
 Locker.LockManual(lockName, callbackFunction, [priority=0]);
 Locker.Release(lockName);
@@ -38,7 +38,7 @@ Locker.LockIfInstant(lockName, callbackFunction, [priority=0]);
 
         <h2>Basic usage</h2>
 
-        <CodeBlock children={`
+        <CodeBlock lang="js" children={`
 function getALife() {
         Locker.Lock("thebiglock", function() {
         DoSomeWork();
@@ -51,7 +51,7 @@ function getALife() {
 
         <p>The above is a auto-release lock. If you want manual control over the locks, just use the ManualLock and Release functions. It'd be incredibly useful to nest it deep down in the async callback hierarchy. Say, to couple it with jQuery animate's call back.</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="js" children={`
 Locker.LockManual("thebiglock", function() {
     DoSomeWork();
     $("MyLife").animate( "fast", function() {
@@ -65,7 +65,7 @@ Locker.LockManual("thebiglock", function() {
 
         <p>And last but not the least - Priorities.</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="js" children={`
 Locker.Lock("thebiglock", function() {
     DoSomeWork();
     FetchNewAjaxContentAndReplaceMyMainContent();
@@ -75,7 +75,7 @@ Locker.Lock("thebiglock", function() {
         <p>The default priority of jobs is 10.  Higher the value, higher the priority.</p>
         <h2>Priority values example</h2>
 
-        <CodeBlock children={`
+        <CodeBlock lang="js" children={`
 var test = function(no) {
     var priority = Math.ceil(Math.random() * 10);
     Locker.Lock("t1", function () { 

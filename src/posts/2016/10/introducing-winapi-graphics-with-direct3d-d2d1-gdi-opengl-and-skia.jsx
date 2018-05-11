@@ -5,7 +5,7 @@ export const meta = {
     date: "2016-10-23T19:42:37.156Z",
     tags: ["dotnet", "windows", "graphics"],
     featured: true,
-    description: "Article on WinApi - Part 3",    
+    description: "Article on WinApi - Part 3",
 }
 
 export default () => {
@@ -22,7 +22,7 @@ export default () => {
 
         <p>Let's start with the most fundamental and built-in 2D graphics library with Windows - GDI.</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 internal class Program
 {
     static int Main(string[] args)
@@ -71,7 +71,7 @@ public class MainWindow : Window
 
         <p>With all that out of the way, I'm going to start off with a paint handler given a <code>SKSurface</code>.</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 public class SkiaPainter
 {
     public static void ProcessPaint(ref PaintPacket packet, NativePixelBuffer pixelBuffer,
@@ -118,7 +118,7 @@ public class SkiaPainter
 
         <p>Now, I can encapsulate a window that uses this:</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 public class SkiaWindowBase : EventedWindowCore
 {
     private readonly NativePixelBuffer m_pixelBuffer = new NativePixelBuffer();
@@ -140,7 +140,7 @@ public class SkiaWindowBase : EventedWindowCore
 
         <p>Yup. That's about it. You can now go ahead and use Skia to handle all the painting.</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 static int Main(string[] args)
 {
     try
@@ -195,7 +195,7 @@ public sealed class SkiaWindow : SkiaWindowBase
 
         <p>Reusing the class from there:</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 class Program
 {
     static int Main(string[] args)
@@ -264,7 +264,7 @@ public sealed class AppWindow : OpenGlWindow
 
         <p>First off, I'm going to create a window with <code>WS_EX_NOREDIRECTIONBITMAP</code> style. This works on Win 8+, designed specially for high-performance compositing to direct DWM to not allocate a redirection bitmap - The DXGI surface is shared with DWM directly on the GPU, making per-pixel alpha compositing super-performant. Internally, this is one of the things, all the modern Windows Runtime apps use, by default.</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 static int Main(string[] args)
 {
     try
@@ -296,7 +296,7 @@ static int Main(string[] args)
 
         <p>So, in all its glory, the entire management of D3D11, D2D1, DirectWrite and DComp which can usually takes up a lot of code, now simply translates into:</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 public sealed class DxWindow : EventedWindowCore
 {
     private readonly Dx11Component m_dx = new Dx11Component();
@@ -345,7 +345,7 @@ public sealed class DxWindow : EventedWindowCore
 
         <p>So, all you need to do, is derive from <code>DxWindow</code>:</p>
 
-        <CodeBlock children={`
+        <CodeBlock lang="csharp" children={`
 public sealed class MainWindow : DxWindow
 {
     protected override void OnDxPaint(Dx11Component resource)

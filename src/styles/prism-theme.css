@@ -1,0 +1,121 @@
+/*
+Name:   Base2Tone-Meadow Light
+Author: by Bram de Haan, adapted from DuoTone themes by Simurai (http://simurai.com/projects/2016/01/01/duotone-themes)
+
+http://atelierbram.github.io/Base2Tone-prism/demo/evening/light/
+Prism template for Base2Tone by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/prism/)
+Generated with Base16 Builder (https://github.com/base16-builder/base16-builder)
+*/
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #bdc3b7;
+}
+
+.token.punctuation {
+  color: #bdc3b7;
+}
+
+.token.namespace {
+  opacity: .7;
+}
+
+.token.tag,
+.token.operator,
+.token.number {
+  color: #1b6498;
+}
+
+.token.property,
+.token.function {
+  color: #66a329;
+}
+
+.token.tag-id,
+.token.selector,
+.token.atrule-id {
+  color: #4d8217;
+}
+
+code.language-javascript,
+.token.attr-name {
+  color: #66a329;
+}
+
+code.language-css,
+code.language-scss,
+.token.boolean,
+.token.string,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.language-scss .token.string,
+.style .token.string,
+.token.attr-value,
+.token.keyword,
+.token.control,
+.token.directive,
+.token.unit,
+.token.statement,
+.token.regex,
+.token.atrule {
+  color: #277fbe;
+}
+
+.token.placeholder,
+.token.variable {
+  color: #8dcefc;
+}
+
+.token.deleted {
+  text-decoration: line-through;
+}
+
+.token.inserted {
+  border-bottom: 1px dotted #4d8217;
+  text-decoration: none;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+
+.token.important {
+  color: #66a329;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+pre > code.highlight {
+  outline: .4em solid #66a329;
+  outline-offset: .4em;
+}
+
+/* overrides color-values for the Line Numbers plugin
+ * http://prismjs.com/plugins/line-numbers/
+ */
+.line-numbers .line-numbers-rows {
+  border-right-color: #e6e8e3;
+}
+
+.line-numbers-rows > span:before {
+  color: #d1d6cd;
+}
+
+/* overrides color-values for the Line Highlight plugin
+ * http://prismjs.com/plugins/line-highlight/
+ * alpha transparency in 8 digits hex notation coming to a browser near you soon:
+ * https://drafts.csswg.org/css-color/#hex-notation
+ */
+.line-highlight {
+  background: #4d821733;
+}

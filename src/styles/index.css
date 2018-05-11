@@ -17,3 +17,4 @@ a:focus {
 @import "./utils.css";
 @import "./app.css";
 @import "./nprogress.css";
+@import "./prism-theme.css";
