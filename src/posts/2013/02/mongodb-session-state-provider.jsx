@@ -8,18 +8,20 @@ export const meta = {
 }
 
 export default () => {
-    return <Article {...meta}>    
+    return <Article {...meta}>
         <table className="table table-sm table-borderless">
-            <col/>
-            <col width="100%" />    
-            <tr>
-                <th>GitHub</th>
-                <td><a href="https://github.com/prasannavl/MongoSessionProvider">MongoSessionProvider</a></td>
-            </tr>
-            <tr>
-                <th>Nuget</th>
-                <td><a href="https://nuget.org/packages/PVL.MongoSessionProvider">PVL.MongoSessionProvider</a></td>
-            </tr>
+            <col />
+            <col width="100%" />
+            <tbody>
+                <tr>
+                    <th>GitHub</th>
+                    <td><a href="https://github.com/prasannavl/MongoSessionProvider">MongoSessionProvider</a></td>
+                </tr>
+                <tr>
+                    <th>Nuget</th>
+                    <td><a href="https://nuget.org/packages/PVL.MongoSessionProvider">PVL.MongoSessionProvider</a></td>
+                </tr>
+            </tbody>
         </table>
 
         <p>I've been pretty impressed with the recent development of MongoDB, and it seems to me that their one biggest problem of data consistency has now been solved.</p>

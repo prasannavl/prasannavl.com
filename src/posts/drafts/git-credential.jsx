@@ -12,13 +12,13 @@ export default () => {
         <h2>Setup on Ubuntu</h2>
 
         <h3>Compile the keyring</h3>
-        <CodeBlock children={`
+        <CodeBlock lang="bash" children={`
 sudo apt-get install libgnome-keyring-dev
 sudo make --directory=/usr/share/doc/git/contrib/credential/gnome-keyring
         `} />
 
         <h3>Setup config</h3> 
-        <CodeBlock children={`
+        <CodeBlock lang="bash" children={`
 git config --global credential.helper /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
         `} />
 
