@@ -18,6 +18,7 @@
     "@neutrinojs/jest": "^8.2.3",
     "@neutrinojs/react": "^8.2.3",
     "bootstrap": "^4.1.0",
+    "commander": "^2.15.1",
     "date-fns": "^1.29.0",
     "fs-extra": "^6.0.0",
     "glob": "^7.1.2",
