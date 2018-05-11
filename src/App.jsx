@@ -33,7 +33,7 @@ class App extends Component {
         if (this.ephemeralState.lastPopId !== null) {
           nprogress.start();
         }
-      }, 300);
+      }, 100);
     }
     let popId = this.ephemeralState.lastPopId = Math.random();
     this.router.resolveComponent()
