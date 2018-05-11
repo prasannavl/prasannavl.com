@@ -61,7 +61,7 @@ class CodeBlock extends React.Component {
         if (this.state.code) {
             code = this.state.code;
         } else {
-            code = trimChildString(code);
+            code = this.trimChildString(code);
         }
         return <pre {...rest}><code dangerouslySetInnerHTML={{ __html: code }}/></pre>;
     }
