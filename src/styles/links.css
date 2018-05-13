@@ -1,0 +1,7 @@
+a:focus {
+    color: olivedrab;
+}
+
+a:active {
+    color: indianred;
+}

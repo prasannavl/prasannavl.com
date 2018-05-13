@@ -1,6 +1,6 @@
 import React from "react";
 import { default as Head, Title, TwitterMeta, OpenGraphMeta } from "../components/Head";
-import Layout from "./Layout";
+import Layout from "../components/Layout";
 import { Link } from "../modules/router-utils";
 
 export const ErrorPage = ({ children }) => {

@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "./Layout";
+import Layout from "../components/Layout";
 import formatDate from "date-fns/format";
 import { Link } from "../modules/router-utils";
 import Banner from "../components/Banner";

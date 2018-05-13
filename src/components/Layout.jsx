@@ -1,5 +1,4 @@
-import Head from "../components/Head";
-import "../styles/index.css";
+import Head from "./Head";
 
 const Layout = (props) => {
     return (

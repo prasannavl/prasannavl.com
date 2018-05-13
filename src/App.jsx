@@ -4,6 +4,7 @@ import Head from './components/Head';
 import { Router } from "./Router";
 import appContext from './modules/app-context';
 import nprogress from "nprogress";
+import "./styles/index.css";
 
 class App extends Component {
   constructor(props) {
@@ -13,12 +14,37 @@ class App extends Component {
       errorInfo: null,
       InnerComponent: null,
     };
-    this.router = new Router();    
+    this.router = new Router();
     this.ephemeralState = {
       scroll: false,
       lastPopId: null,
     }
     this.popState();
+  }
+
+  componentDidMount() {
+    nprogress.configure({ speed: 400, });
+    this.router.startListen(this.popState.bind(this));
+    this.scrollIfNeeded();
+  }
+
+  scrollIfNeeded() {
+    if (this.ephemeralState.scroll) {
+      window.scroll(0, 0);
+      this.ephemeralState.scroll = false;
+    }
+  }
+
+  componentDidUpdate() {
+    this.scrollIfNeeded();
+  }
+
+  componentWillUnmount() {
+    this.router.stopListen();
+  }
+
+  componentDidCatch(error, errorInfo) {
+    this.setState({ error, errorInfo });
   }
 
   popState(ev) {
@@ -50,31 +76,6 @@ class App extends Component {
       });
   }
 
-  componentDidMount() {
-    nprogress.configure({ speed: 400, });
-    this.router.startListen(this.popState.bind(this));
-    this.scrollIfNeeded();
-  }
-
-  scrollIfNeeded() {
-    if (this.ephemeralState.scroll) {
-      window.scroll(0, 0);
-      this.ephemeralState.scroll = false;
-    }
-  }
-
-  componentDidUpdate() {
-    this.scrollIfNeeded();
-  }
-
-  componentWillUnmount() {
-    this.router.stopListen();
-  }
-
-  componentDidCatch(error, errorInfo) {
-    this.setState({ error, errorInfo });
-  }
-
   renderError() {
     let { error, errorInfo } = this.state;
     let devMode = appContext.envHelper.devMode;
@@ -95,7 +96,7 @@ class App extends Component {
     let { error, InnerComponent } = this.state;
     return error ?
       this.renderError() :
-      InnerComponent && <InnerComponent/>;
+      InnerComponent && <InnerComponent />;
   }
 }
 

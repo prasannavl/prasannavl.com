@@ -1,4 +1,5 @@
 @import "../../node_modules/bootstrap/dist/css/bootstrap.css";
+
 body {
     margin: 40px 0;
     color: #333;
@@ -6,17 +7,10 @@ body {
     line-height: 1.6;
 }
 
-a:focus {
-    color: olivedrab;
-}
-
-a:active {
-    color: indianred;
-}
-
 @import "./fonts-segoe.css";
 @import "./headings.css";
 @import "./code.css";
+@import "./links.css";
 @import "./quotes.css";
 @import "./utils.css";
 @import "./app.css";
