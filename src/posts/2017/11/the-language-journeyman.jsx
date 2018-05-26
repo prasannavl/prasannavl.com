@@ -33,12 +33,12 @@ export default () => {
   
       <img className="img-fluid" src={require("./data/compaq.jpg")} alt="How my trusty Presario looked"/>
   
-      <p>Sporting the fantastic JBL speakers, a fancy looking CPU case, 10GB HDD and Intel Pentium 3 - it was top notch! Overtime, I had reinstalled Windows 98 a bunch of times (a recovery CD came along and I had to find out what it did), meddled with the BIOS, and ordered <b>Ubuntu CDs online that would ship all the way from South Africa to suburban India for free</b> (though I had to jump through hoops to see an actual desktop on my PC).</p>
+      <p>Sporting the fantastic JBL speakers, a fancy looking CPU case, 10GB HDD and Intel Pentium 3 - it was top notch! Overtime, I had reinstalled Windows 98 a bunch of times (a recovery CD came along and I had to find out what it did), meddled with the BIOS, and once Ubuntu released in 2004, ordered the very first versions of it online that would ship CDs all the way from South Africa to suburban India for free</b> (though I had to jump through hoops to see an actual desktop on my PC). I did, however stick to the Microsoft Ecosystem for a long time until Ubuntu 17.10.</p>
   
       <p>My clean install obsession aside, meddling further led me to C, and started writing simple C programs that would do basic math and crash in funny ways, and at times, even take the whole OS down with it. </p>
   
       <p className="note">
-      This is the first real language that I brought upon myself to learn. Not sure how this journey really began to this day. Note,however, I ‘really’ learned C much later in life.
+      This is the first real language that I brought upon myself to learn. Not sure how this journey really began to this day. However, I ‘really’ learned C much later in life.
       </p>
   
       <h3>Language 4: HTML/CSS (Year: Early 200x)</h3>
