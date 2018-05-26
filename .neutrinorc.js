@@ -103,6 +103,11 @@ module.exports = {
         }])
         .before("vendor-chunk");
       
+      config.plugin("fail-on-error")
+        .use(require("fail-on-errors-webpack-plugin"), [{
+          failOnErrors: true,
+          failOnWarnings: true,
+        }]);
 
       if (process.env.WEBPACK_ANALYZE) {
         enableBundleAnalyzer(config);
