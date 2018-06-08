@@ -78,7 +78,7 @@ export const Projects = ({ data }) => {
       <p>I'm currently not promoting any of my projects at this time.</p>
     </section>
     <section>
-      <h4>Most Popular</h4>
+      <h4>Most Popular <small className="h-small">&nbsp;(OSS)</small></h4>
       <table className="table table-sm table-borderless">
         <tbody>
           {data.map(x => <tr key={x.url}>
