@@ -10,7 +10,7 @@ export const meta = {
 export default () => {
   return (
     <Article {...meta}>
-      <p>As a kid, during my school days, apart from English, I learnt 3 other languages with frequent alternations due to change of school, Govt. policies (I think), etc - Tamil (my native language), Hindi, and French - all of them half-baked, and now my French completely forgotten. Fortunately, I learned from my mistakes - from this point on, I always learned every language in great detail, trying to get a high level view of every semantic nuance before using it, but alas, I can't use them to speak to people - only to machine, through electronics and computer keyboards.</p>
+      <p>As a kid, during my school days, apart from English I learnt 3 other languages with frequent alternations due to change of school, Govt. policies (I think), etc - Tamil (my native language), Hindi, and French - all of them half-baked, and now my French completely forgotten. Fortunately, I learned from my mistakes - from this point on, I always learned every language in great detail, trying to get a high level view of every semantic nuance before using it, but alas, I can't use them to speak to people - only to machine, through electronics and computer keyboards.</p>
   
       <p className="note">
         <strong>Note:</strong> This focuses largely on a walk down my childhood computing lane, and is a reflection of hopefully authentic understanding I had then. So if you’re looking for technical details, you may want to wait for the last part of my article - in which I hope to focus on my learnings from being a language journeyman, that hopefully helps you in making in the right language choices for the future.
