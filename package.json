@@ -5,13 +5,13 @@
   "license": "MIT",
   "scripts": {
     "build": "neutrino build",
-    "build:current": "yarn run build && yarn run post && yarn run snap",
-    "build:all": "yarn run pre && yarn run build:current",
+    "build:current": "yarn run postdata && yarn run build && yarn run snap",
+    "build:all": "yarn run predata && yarn run build:current",
     "build:snap": "yarn run build && yarn run snap",
     "start": "neutrino start",
     "test": "neutrino test",
-    "pre": "node ./tools/prebuild",
-    "post": "node ./tools/postbuild",
+    "predata": "node ./tools/run-predata",
+    "postdata": "node ./tools/run-postdata",
     "snap": "node ./tools/snap"
   },
   "dependencies": {
