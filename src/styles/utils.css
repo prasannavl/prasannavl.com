@@ -6,19 +6,6 @@
     white-space: nowrap;
 }
 
-.vc-container {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
-    overflow: auto;
-}
-
 ul.list-unstyled.list-dashed li::before {
     content: "- ";
 }

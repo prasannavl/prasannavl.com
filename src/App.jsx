@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import ReactDOM from "react-dom";
 import Head from './components/Head';
+import { getErrorInfo, getErrorStack } from "./modules/lang";
 import { Router } from "./Router";
 import appContext from './modules/app-context';
 import nprogress from "nprogress";
@@ -43,8 +44,8 @@ class App extends Component {
     this.router.stopListen();
   }
 
-  componentDidCatch(error, errorInfo) {
-    this.setState({ error, errorInfo });
+  componentDidCatch(obj, info) {
+    this.setState({ error: { obj, info }});
   }
 
   popState(ev) {
@@ -71,25 +72,29 @@ class App extends Component {
           nprogress.done();
         }
       }).catch(err => {
-        this.setState({ error: "can't resolve route", errorInfo: err });
+        this.setState({ error: { obj: "Can't resolve route", info: err } });
         nprogress.done();
       });
   }
 
   renderError() {
-    let { error, errorInfo } = this.state;
+    let { obj, info } = this.state.error;
     let devMode = appContext.envHelper.devMode;
-    return ReactDOM.createPortal(<div className="vc-container app-error">
+    return <div className="vc-container app-error">
       <div>
         <h1>Something went wrong.</h1>
         {devMode ?
-          <div>Error:<br />
-            {JSON.stringify(errorInfo).split("\\n").map(x => <Fragment>{x}<br /></Fragment>)}
+          <div>
+            {getErrorInfo(obj)}<br/>
+            <br />
+            {getErrorStack(obj).map((x, i) => <Fragment key={i}>{x}<br /></Fragment>)}
+            <br />
+            {getErrorStack(info).map((x, i) => <Fragment key={i}>{x}<br /></Fragment>)}
           </div>
-          : <p>Try refreshing the page to see if it helps.</p>
+          : <p>Try restarting the app to see if it helps.</p>
         }
       </div>
-    </div>, document.querySelector("body"));
+    </div>;
   }
 
   render() {
