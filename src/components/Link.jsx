@@ -25,4 +25,5 @@ const Link = ({ href, to, passHref, scroll, tag, replace, state, onClick, childr
     return React.createElement(itemTag, props, children);
 }
 
+export const Link;
 export default Link;
