@@ -65,11 +65,16 @@ export default class RouterView extends React.Component {
         let action = this.props.onChange;
         if (action) action(ev);
         if (ev.cancel) return;
+        if (this.props.autoScroll !== false && ev.scroll) {
+            window.scroll(0, 0);
+            ev.scroll = false;
+        }
         this.setState({ route: ev, transition: null });
     }
 
     render() {
         let { transition, route } = this.state;
+        let { render: renderer, autoScroll } = this.props;
         let isLoading = transition !== null;
 
         let renderProps = {
@@ -77,7 +82,19 @@ export default class RouterView extends React.Component {
             transition,
             route,
         };
-
-        return this.props.render && this.props.render(renderProps);
+        
+        if (!renderer) {
+            renderer = renderComponent;
+        }
+        return renderer(renderProps);
     }
+}
+
+export function renderComponent(renderProps) {
+    let { isLoading, route, transition } = renderProps;
+    let Component;
+    if (route) {
+        Component = route.component;
+    }
+    return Component ? <Component /> : null;
 }

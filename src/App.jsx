@@ -24,7 +24,7 @@ class App extends Component {
   }
 
   componentDidCatch(obj, info) {
-    this.setState({ error: { obj, info }});
+    this.setState({ error: { obj, info } });
   }
 
   componentWillUnmount() {
@@ -36,28 +36,19 @@ class App extends Component {
     return <ErrorPanel {...err} devMode={env.devMode} />;
   }
 
+  renderRouter() {
+    return <RouterView router={this._router}
+      onChangeStart={(ev) => { ev.state.timerId = setTimeout(() => nprogress.set(0), 0) }}
+      onChangeAbort={(ev) => { clearTimeout(ev.state.timerId) }}
+      onChange={(ev) => { setTimeout(() => nprogress.done(), 0) }} />;
+  }
+
   render() {
     let { error } = this.state;
     return error ?
-      this.renderError() :
-      <RouterView router={this._router}
-        onChangeStart={(ev) => { ev.state.timerId = setTimeout(() => nprogress.set(0), 0); }}
-        onChangeAbort={(ev) => { clearTimeout(ev.state.timerId); }}
-        onChange={(ev) => {
-          setTimeout(() => nprogress.done(), 0);
-          if (ev.scroll) {
-            window.scroll(0, 0); ev.scroll = false;
-          }
-        }}
-        render={(renderProps) => {
-          let { isLoading, route, transition } = renderProps;
-          let Component;
-          if (route) {
-            Component = route.component;
-          }
-          return Component ? <Component/> : null;
-        }} />
+      this.renderError() : this.renderRouter();
   }
+
 }
 
 export default App;
