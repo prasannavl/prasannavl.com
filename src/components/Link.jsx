@@ -1,7 +1,7 @@
 import React from "react";
-export { linkHandler } from "../modules/router";
+import { linkHandler } from "../modules/router";
 
-export const Link = ({ href, to, passHref, scroll, tag, replace, state, onClick, children, ...rest }) => {
+const Link = ({ href, to, passHref, scroll, tag, replace, state, onClick, children, ...rest }) => {
     let itemTag = tag || "a";
     const finalHref = href || to;
 
@@ -25,4 +25,5 @@ export const Link = ({ href, to, passHref, scroll, tag, replace, state, onClick,
     return React.createElement(itemTag, props, children);
 }
 
+export { Link, linkHandler };
 export default Link;
