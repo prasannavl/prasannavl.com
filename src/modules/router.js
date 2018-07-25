@@ -230,7 +230,7 @@ export function shouldDispatchDefaultClickEvent(e) {
     return (e.button !== 0 || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey);
 }
 
-export function LinkHandler(props) {
+export function linkHandler(props) {
     return function defaultLinkHandler(event) {
         if (shouldDispatchDefaultClickEvent(event)) return;
         const { scroll, replace, state, onClick, href: path } = props;

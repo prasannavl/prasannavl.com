@@ -1,5 +1,5 @@
 import React from "react";
-import { LinkHandler } from "../modules/router";
+export { linkHandler } from "../modules/router";
 
 const Link = ({ href, to, passHref, scroll, tag, replace, state, onClick, children, ...rest }) => {
     let itemTag = tag || "a";
@@ -7,7 +7,7 @@ const Link = ({ href, to, passHref, scroll, tag, replace, state, onClick, childr
 
     let props = {
         ...rest,
-        onClick: LinkHandler({ 
+        onClick: linkHandler({ 
             scroll,
             replace,
             state,
