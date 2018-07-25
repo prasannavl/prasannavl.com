@@ -30,7 +30,6 @@ class CodeBlock extends React.Component {
         if (!window.highlightWorkerState) {
             window.highlightWorkerState = { worker: new Worker(), ref: 0 };
         }
-        this.workerTask = null;
         this.workerState = window.highlightWorkerState;
         this.workerState.ref++;
         this.worker = this.workerState.worker;
@@ -48,7 +47,8 @@ class CodeBlock extends React.Component {
             this.worker.terminate();
             window.highlightWorkerState = null;
         }
-        this.workerState = null;        
+        this.workerTask = null;
+        this.workerState = null;
         this.worker = null;
     }
 
