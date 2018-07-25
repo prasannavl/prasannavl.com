@@ -50,7 +50,6 @@ export class Router extends EventEmitter {
     start() {
         this.stop();
         this._disposeListener = this.listen(this._onPopState);
-        this._onPopState(null);
     }
 
     stop() {
@@ -159,6 +158,7 @@ function defaultPathOpts() {
 }
 
 export function push(path, opts) {
+
     if (!opts) opts = defaultPathOpts();
     let { state, replace, scroll, handler } = opts;
     
@@ -172,9 +172,7 @@ export function push(path, opts) {
 
     // Prevent same state accidental pushes in history.
     if (replace == null) {
-        let cPath = getCurrentPath();
-        if (trimRightSlashes(pathString) === trimRightSlashes(cPath)
-            && history.state == finalState) {
+        if (shallowEquals(history.state, finalState)) {
             replace = true;
         }
     }
@@ -189,6 +187,15 @@ export function push(path, opts) {
         handler({ state: finalState });
     } else {
         window.dispatchEvent(new PopStateEvent('popstate', { state: finalState }));
+    }
+
+    function shallowEquals(newObj, prevObj) {
+        if (newObj == prevObj) return true;
+        for (let x in newObj) {
+            if (newObj[x] !== prevObj[x])
+                return false;
+        }
+        return true;
     }
 }
 

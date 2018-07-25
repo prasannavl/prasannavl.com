@@ -21,7 +21,7 @@
     "commander": "^2.15.1",
     "date-fns": "^1.29.0",
     "fail-on-errors-webpack-plugin": "^2.1.0",
-    "fs-extra": "^6.0.0",
+    "fs-extra": "^7.0.0",
     "glob": "^7.1.2",
     "isomorphic-unfetch": "^2.0.0",
     "lodash": "^4.17.10",

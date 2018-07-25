@@ -1,16 +1,21 @@
 import React from "react";
 import { Router } from "../modules/router";
 
-export default class RouterView extends React.PureComponent {
+export default class RouterView extends React.Component {
     constructor(props) {
         super(props);
+
+        this.onChangeStart = this.onChangeStart.bind(this);
+        this.onChangeAbort = this.onChangeAbort.bind(this);
+        this.onChange = this.onChange.bind(this);
+        
         this.state = {
             router: null,
             transition: null,
             route: null,
-            onChangeStart: this.onChangeStart.bind(this),
-            onChangeAbort: this.onChangeAbort.bind(this),
-            onChange: this.onChange.bind(this), 
+            onChangeStart: this.onChangeStart,
+            onChangeAbort: this.onChangeAbort,
+            onChange: this.onChange,
         }
     }
 
@@ -25,6 +30,7 @@ export default class RouterView extends React.PureComponent {
 
     static initRouter(props, state) {
         let r = props.router;
+        if (!r) return;
         r.on(Router.CHANGE_STARTED_EVENT, state.onChangeStart);
         r.on(Router.CHANGE_ABORTED_EVENT, state.onChangeAbort);
         r.on(Router.CHANGE_EVENT, state.onChange);
@@ -38,7 +44,7 @@ export default class RouterView extends React.PureComponent {
         r.stop();
         r.off(Router.CHANGE_STARTED_EVENT, state.onChangeStart);
         r.off(Router.CHANGE_ABORTED_EVENT, state.onChangeAbort);
-        r.off(RouteManager.CHANGE_EVENT, state.onChange);
+        r.off(Router.CHANGE_EVENT, state.onChange);
     }
 
     onChangeStart(ev) {
@@ -72,6 +78,6 @@ export default class RouterView extends React.PureComponent {
             route,
         };
 
-        return this.props.render(renderProps);
+        return this.props.render && this.props.render(renderProps);
     }
 }

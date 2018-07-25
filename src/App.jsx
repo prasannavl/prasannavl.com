@@ -4,6 +4,7 @@ import appContext from './modules/app-context';
 import nprogress from "nprogress";
 import "./styles/index.css";
 import RouterView from './components/RouterView';
+import { getCurrentPath } from "./modules/router";
 
 class App extends Component {
 
@@ -17,6 +18,7 @@ class App extends Component {
 
   componentDidMount() {
     nprogress.configure({ speed: 400, });
+    this._router.go(getCurrentPath(), { replace: true });
   }
 
   componentDidCatch(obj, info) {

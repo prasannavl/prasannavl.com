@@ -14,23 +14,23 @@ class CodeBlock extends React.Component {
 
     highlight(props) {
         let { children, lang } = props;
-        if (lang) {
-            children = this.trimChildString(children);
-            let task = this.workerTask = this.worker.highlight({
-                code: children.toString(),
-                lang,
-            }).then(code => {
-                if (task === this.workerTask) {
-                    this.setState({ code });
-                }
-            }).catch(err => console.log(err));
-        }
+        if (!lang) return;
+        children = this.trimChildString(children);
+        let task = this.workerTask = this.worker.highlight({
+            code: children.toString(),
+            lang,
+        }).then(code => {
+            if (task === this.workerTask) {
+                this.setState({ code });
+            }
+        }).catch(err => console.log(err));
     }
 
     componentWillMount() {
         if (!window.highlightWorkerState) {
             window.highlightWorkerState = { worker: new Worker(), ref: 0 };
         }
+        this.workerTask = null;
         this.workerState = window.highlightWorkerState;
         this.workerState.ref++;
         this.worker = this.workerState.worker;
