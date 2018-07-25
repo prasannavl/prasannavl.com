@@ -1,5 +1,5 @@
 import React from "react";
-import { default as Head, Title, TwitterMeta, OpenGraphMeta } from "../components/Head";
+import { Title } from "../components/Head";
 import Layout from "../components/Layout";
 import Link from "../components/Link";
 
