@@ -1913,7 +1913,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-clean-css@4.1.x, clean-css@^4.1.9:
+clean-css@4.1.11, clean-css@4.1.x:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.11.tgz#2ecdf145aba38f54740f26cefd0ff3e03e125d6a"
   dependencies:
@@ -3376,11 +3376,11 @@ expect@^21.2.1:
     jest-message-util "^21.2.1"
     jest-regex-util "^21.2.0"
 
-express-history-api-fallback@^2.2.1:
+express-history-api-fallback@2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/express-history-api-fallback/-/express-history-api-fallback-2.2.1.tgz#3a2ad27f7bebc90fc533d110d7c6d83097bcd057"
 
-express@^4.16.1, express@^4.16.2:
+express@4.16.3, express@^4.16.2:
   version "4.16.3"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.3.tgz#6af8a502350db3246ecc4becf6b5a34d22f7ed53"
   dependencies:
@@ -4335,7 +4335,7 @@ he@1.1.x:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
-highland@^2.11.1:
+highland@2.13.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/highland/-/highland-2.13.0.tgz#a4394d8dcb970cd071a79a20f0762b906258dc19"
   dependencies:
@@ -4401,7 +4401,7 @@ html-loader@^0.5.5:
     loader-utils "^1.1.0"
     object-assign "^4.1.1"
 
-html-minifier@^3.2.3, html-minifier@^3.5.5, html-minifier@^3.5.8:
+html-minifier@3.5.19, html-minifier@^3.2.3, html-minifier@^3.5.8:
   version "3.5.19"
   resolved "https://registry.yarnpkg.com/html-minifier/-/html-minifier-3.5.19.tgz#ed53c4b7326fe507bc3a1adbcc3bbb56660a2ebd"
   dependencies:
@@ -6015,7 +6015,7 @@ min-document@^2.19.0:
   dependencies:
     dom-walk "^0.1.0"
 
-minimalcss@^0.7.5:
+minimalcss@0.7.6:
   version "0.7.6"
   resolved "https://registry.yarnpkg.com/minimalcss/-/minimalcss-0.7.6.tgz#6372db6f5e9dcedef1f41b64cb475d3c5efd1a3e"
   dependencies:
@@ -7284,7 +7284,7 @@ punycode@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
 
-puppeteer@^1.2.0, puppeteer@^1.4.0:
+puppeteer@^1.4.0:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-1.6.1.tgz#ae50021bf8b2172be8f8d79224bec215f1a0c7c7"
   dependencies:
@@ -7444,19 +7444,19 @@ react-side-effect@^1.1.0:
     shallowequal "^1.0.1"
 
 "react-snap@github:prasannavl/react-snap":
-  version "1.12.2"
-  resolved "https://codeload.github.com/prasannavl/react-snap/tar.gz/64694029ab1098f9e85df305768617f95ce5f523"
+  version "1.16.0"
+  resolved "https://codeload.github.com/prasannavl/react-snap/tar.gz/ae3c938314d7fe401d99d95d9d71647371fdd098"
   dependencies:
-    clean-css "^4.1.9"
-    express "^4.16.1"
-    express-history-api-fallback "^2.2.1"
-    highland "^2.11.1"
-    html-minifier "^3.5.5"
-    minimalcss "^0.7.5"
-    mkdirp "^0.5.1"
-    puppeteer "^1.2.0"
-    serve-static "^1.13.1"
-    sourcemapped-stacktrace-node "^2.1.6"
+    clean-css "4.1.11"
+    express "4.16.3"
+    express-history-api-fallback "2.2.1"
+    highland "2.13.0"
+    html-minifier "3.5.19"
+    minimalcss "0.7.6"
+    mkdirp "0.5.1"
+    puppeteer "^1.4.0"
+    serve-static "1.13.2"
+    sourcemapped-stacktrace-node "2.1.8"
 
 react@^16.3.2:
   version "16.4.1"
@@ -8013,7 +8013,7 @@ serve-index@^1.7.2:
     mime-types "~2.1.17"
     parseurl "~1.3.2"
 
-serve-static@1.13.2, serve-static@^1.13.1:
+serve-static@1.13.2:
   version "1.13.2"
   resolved "https://registry.yarnpkg.com/serve-static/-/serve-static-1.13.2.tgz#095e8472fd5b46237db50ce486a43f4b86c6cec1"
   dependencies:
@@ -8219,7 +8219,7 @@ source-map@^0.6.1, source-map@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
 
-sourcemapped-stacktrace-node@^2.1.6:
+sourcemapped-stacktrace-node@2.1.8:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/sourcemapped-stacktrace-node/-/sourcemapped-stacktrace-node-2.1.8.tgz#96fd64263051e252ce8dabf9801bea29dc7e5990"
   dependencies:
