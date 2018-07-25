@@ -8,7 +8,7 @@ export default async function resolver(path) {
         let pathname = trimRightSlashes(path);
         let res = await resolveStaticRoutes(pathname);
         if (res != null) {
-            return result(res, pathname);
+            return result(res.default, pathname);
         }
         res = await resolvePostRoutes(pathname);
         if (res != null) {
@@ -26,14 +26,14 @@ export default async function resolver(path) {
 }
 
 async function resolveStaticRoutes(pathname) {
-    let m;
+    // NOTE: It's important that the name of the import is given manually
+    // as a string so that webpack can import the required js page.
+    // This cannot be abstracted to a dynamic string.
     switch (pathname) {
         case "/":
-            m = await import("./pages/Home");
-            return m.default;
+            return (await import("./pages/Home"));
         case "/archives":
-            m = await import("./pages/Archives");
-            return m.default;
+            return (await import("./pages/Archives"));
         default:
             return null;
     }
