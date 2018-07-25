@@ -8,7 +8,7 @@ class CodeBlock extends React.Component {
             code: null,
         }
         this.workerState = null;
-        this.workerInstanceId = null;
+        this.workerTask = null;
         this.worker = null;
     }
 
@@ -16,11 +16,14 @@ class CodeBlock extends React.Component {
         let { children, lang } = props;
         if (lang) {
             children = this.trimChildString(children);
-            this.worker.highlight({
+            let task = this.workerTask = this.worker.highlight({
                 code: children.toString(),
                 lang,
-            }).then(code => this.setState({ code }))
-                .catch(err => console.log(err));
+            }).then(code => {
+                if (task === this.workerTask) {
+                    this.setState({ code });
+                }
+            }).catch(err => console.log(err));
         }
     }
 

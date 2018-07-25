@@ -1,80 +1,30 @@
 import React, { Component, Fragment } from 'react';
-import ReactDOM from "react-dom";
-import Head from './components/Head';
 import { getErrorInfo, getErrorStack } from "./modules/lang";
-import { Router } from "./Router";
 import appContext from './modules/app-context';
 import nprogress from "nprogress";
 import "./styles/index.css";
+import RouterView from './components/RouterView';
 
 class App extends Component {
+
   constructor(props) {
     super(props);
+    this._router = appContext.router;
     this.state = {
       error: null,
-      errorInfo: null,
-      InnerComponent: null,
-    };
-    this.router = new Router();
-    this.ephemeralState = {
-      scroll: false,
-      lastPopId: null,
     }
-    this.popState();
   }
 
   componentDidMount() {
     nprogress.configure({ speed: 400, });
-    this.router.startListen(this.popState.bind(this));
-    this.scrollIfNeeded();
-  }
-
-  scrollIfNeeded() {
-    if (this.ephemeralState.scroll) {
-      window.scroll(0, 0);
-      this.ephemeralState.scroll = false;
-    }
-  }
-
-  componentDidUpdate() {
-    this.scrollIfNeeded();
-  }
-
-  componentWillUnmount() {
-    this.router.stopListen();
   }
 
   componentDidCatch(obj, info) {
     this.setState({ error: { obj, info }});
   }
 
-  popState(ev) {
-    let scroll = false;
-    if (ev && ev.state && ev.state.scroll) {
-      scroll = true;
-    }
-    if (this.ephemeralState.lastPopId !== null) {
-      nprogress.set(0);
-    } else {
-      setTimeout(() => {
-        if (this.ephemeralState.lastPopId !== null) {
-          nprogress.start();
-        }
-      }, 0);
-    }
-    let popId = this.ephemeralState.lastPopId = Math.random();
-    this.router.resolveComponent()
-      .then(x => {
-        if (popId === this.ephemeralState.lastPopId) {
-          this.ephemeralState.scroll = scroll;
-          this.ephemeralState.lastPopId = null;
-          this.setState({ InnerComponent: x });
-          nprogress.done();
-        }
-      }).catch(err => {
-        this.setState({ error: { obj: "Can't resolve route", info: err } });
-        nprogress.done();
-      });
+  componentWillUnmount() {
+    this._router.stop();
   }
 
   renderError() {
@@ -98,10 +48,26 @@ class App extends Component {
   }
 
   render() {
-    let { error, InnerComponent } = this.state;
+    let { error } = this.state;
     return error ?
       this.renderError() :
-      InnerComponent && <InnerComponent />;
+      <RouterView router={this._router}
+        onChangeStart={(ev) => { ev.state.timerId = setTimeout(() => nprogress.set(0), 0); }}
+        onChangeAbort={(ev) => { clearTimeout(ev.state.timerId); }}
+        onChange={(ev) => {
+          setTimeout(() => nprogress.done(), 0);
+          if (ev.scroll) {
+            window.scroll(0, 0); ev.scroll = false;
+          }
+        }}
+        render={(renderProps) => {
+          let { isLoading, route, transition } = renderProps;
+          let Component;
+          if (route) {
+            Component = route.component;
+          }
+          return Component ? <Component/> : null;
+        }} />
   }
 }
 

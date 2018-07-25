@@ -3,7 +3,7 @@ import { default as Head, Title, TwitterMeta, OpenGraphMeta } from "../component
 import formatDate from "date-fns/format";
 
 export { default as CodeBlock } from "./CodeBlock";
-export { Link } from "../modules/router-utils";
+export { default as Link } from "./Link";
 
 export const Article = (meta) => {
     const { title, date, modifiedDate, image, type, children, note } = meta;

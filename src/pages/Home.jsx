@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../components/Layout";
 import formatDate from "date-fns/format";
-import { Link } from "../modules/router-utils";
+import Link from "../components/Link";
 import Banner from "../components/Banner";
 import Footer from "../components/Footer";
 

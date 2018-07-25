@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "../modules/router-utils";
+import Link from "./Link";
 
 const Banner = ({ index }) => {
     let text = "Prasanna V. Loganathar";

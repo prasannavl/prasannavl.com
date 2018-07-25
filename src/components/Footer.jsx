@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Link, withRouter } from "../modules/router-utils";
+import Link from "./Link";
 
 const Footer = ({ showTwitter }) => {
     const scrollToTopJs = "javascript:window.scroll(0,0)";
