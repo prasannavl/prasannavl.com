@@ -1,16 +1,18 @@
-import React, { Component, Fragment } from 'react';
-import { getErrorInfo, getErrorStack } from "./modules/lang";
-import appContext from './modules/app-context';
+import React, { Component } from 'react';
 import nprogress from "nprogress";
-import "./styles/index.css";
 import RouterView from './components/RouterView';
-import { getCurrentPath } from "./modules/router";
+import { Router, getCurrentPath } from './modules/util/router';
+import resolver from './routes';
+import env from "./modules/shared/env";
+import ErrorPanel from "./components/ErrorPanel";
+
+import "./styles/index.css";
 
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this._router = appContext.router;
+    this._router = new Router(resolver);
     this.state = {
       error: null,
     }
@@ -30,23 +32,8 @@ class App extends Component {
   }
 
   renderError() {
-    let { obj, info } = this.state.error;
-    let devMode = appContext.envHelper.devMode;
-    return <div className="vc-container app-error">
-      <div>
-        <h1>Something went wrong.</h1>
-        {devMode ?
-          <div>
-            {getErrorInfo(obj)}<br/>
-            <br />
-            {getErrorStack(obj).map((x, i) => <Fragment key={i}>{x}<br /></Fragment>)}
-            <br />
-            {getErrorStack(info).map((x, i) => <Fragment key={i}>{x}<br /></Fragment>)}
-          </div>
-          : <p>Try restarting the app to see if it helps.</p>
-        }
-      </div>
-    </div>;
+    let err = this.state.error;
+    return <ErrorPanel {...err} devMode={env.devMode} />;
   }
 
   render() {

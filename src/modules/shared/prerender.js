@@ -1,5 +1,4 @@
-export class PrerenderHelper {
-
+export class PreRenderer {
     constructor(key = "__PRERENDER_DATA__") {
         this.key = key;
         this.dataSourceEnabled = false;
@@ -89,3 +88,5 @@ export function serializeDataToWindow(key, data) {
     tag.innerHTML = `window['${key}'] = ${JSON.stringify(data)}`;
     document.body.appendChild(tag);
 }
+
+export default new PreRenderer();

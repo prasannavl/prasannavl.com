@@ -1,5 +1,5 @@
 import React from "react";
-import { linkHandler } from "../modules/router";
+import { linkHandler } from "../modules/util/router";
 
 const Link = ({ href, to, passHref, scroll, tag, replace, state, onClick, children, ...rest }) => {
     let itemTag = tag || "a";

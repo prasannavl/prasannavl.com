@@ -9,3 +9,5 @@ export class EnvHelper {
         document.addEventListener("DOMContentLoaded", fn);
     }
 }
+
+export default new EnvHelper();

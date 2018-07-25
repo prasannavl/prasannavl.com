@@ -1,14 +1,19 @@
 import App from "./App";
-import appContext from "./modules/app-context";
+import { rendererFactory } from "./modules/util/render";
+import preRenderer from "./modules/shared/prerender";
+import env from "./modules/shared/env";
 
-appContext.envHelper.onLoaded(ev => {
-  let createRenderer = (App) => appContext.renderFactory(() => <App />, document.getElementById("root"));
+let createRenderer;
+
+env.onLoaded(ev => {
+  createRenderer = (App) => rendererFactory(() => <App />, document.getElementById("root"), preRenderer);
   createRenderer(App)();
 });
 
 if (module.hot) {
   module.hot.accept("./App", () => {
     let App = require("./App").default;
-    createRenderer(App)();
+    if (createRenderer)
+      createRenderer(App)();
   });
 }

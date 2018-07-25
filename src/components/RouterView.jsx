@@ -1,5 +1,5 @@
 import React from "react";
-import { Router } from "../modules/router";
+import { Router } from "../modules/util/router";
 
 export default class RouterView extends React.Component {
     constructor(props) {

@@ -1,4 +1,3 @@
-import { trimRightSlashes } from './path-utils';
 import { EventEmitter } from 'events';
 
 class RouteTransitionEvent {
