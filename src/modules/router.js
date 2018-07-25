@@ -116,6 +116,7 @@ export class Router extends EventEmitter {
             }
             this.state = res;
         } catch (err) {
+            console.log(err);
             transitionContextState.error = err;
             this._abortChange(transitionContextState);
             return;
