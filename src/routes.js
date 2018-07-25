@@ -18,8 +18,8 @@ async function resolveStaticRoutes(pathname) {
 }
 
 export default async function resolver(path) {
+    let pathname = trimRightSlashes(path);
     try {
-        let pathname = trimRightSlashes(path);
         let res = await resolveStaticRoutes(pathname);
         if (res != null) {
             return result(res.default, pathname);
