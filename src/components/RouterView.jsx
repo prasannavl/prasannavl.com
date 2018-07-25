@@ -74,7 +74,7 @@ export default class RouterView extends React.Component {
 
     render() {
         let { transition, route } = this.state;
-        let { render: renderer, autoScroll } = this.props;
+        let { render: renderer } = this.props;
         let isLoading = transition !== null;
 
         let renderProps = {
