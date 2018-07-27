@@ -36,5 +36,38 @@ git checkout master
 git merge better_branch
         `} />
 
+        <h2>Local change tracking</h2>
+
+        <p>Stop tracking file changes without adding to .gitignore.</p>
+
+        <CodeBlock lang="bash" children={`
+git update-index --assume-unchanged <file>
+        `} />
+        
+        <p>Revert:</p>
+        
+        <CodeBlock lang="bash" children={`
+git update-index --no-assume-unchanged <file>
+        `}/>
+
+        <p>Refresh, really:</p>
+
+        <CodeBlock lang="bash" children={`
+git update-index --really-refresh 
+        `} />
+        
+        <p>List all `assume-unchanged` files:</p>
+
+        <CodeBlock lang="bash" children={`
+git ls-files -v | grep '^h'
+        `} />
+        
+        <h3>Delete branch</h3>
+
+        <CodeBlock lang="bash" children={`
+git push --delete <remote_name> <branch_name> # remote
+git branch -d <branch_name> # local
+        `} />
+        
     </Article>
 }
