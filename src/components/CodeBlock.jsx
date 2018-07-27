@@ -1,5 +1,6 @@
 import React from "react";
 import Worker from "../modules/prism.worker";
+import cx from "classnames";
 
 class CodeBlock extends React.Component {
     constructor(props) {
@@ -60,13 +61,19 @@ class CodeBlock extends React.Component {
     }
 
     render() {
-        let { children: code, lang, ...rest } = this.props;
+        let { children: code, lang, className, ...rest } = this.props;
         if (this.state.code) {
             code = this.state.code;
         } else {
             code = this.trimChildString(code);
         }
-        return <pre {...rest}><code dangerouslySetInnerHTML={{ __html: code }}/></pre>;
+        // If it's just one line make sure an additional class is applied.
+        let singleLine = code.indexOf("\n") === -1;
+        let finalClassName = cx(className, { "single-line": singleLine });
+        let classProps;
+        if (finalClassName) classProps = { className: finalClassName }
+        else classProps = {};
+        return <pre {...rest} {...classProps}><code dangerouslySetInnerHTML={{ __html: code }} /></pre>;
     }
 }
 

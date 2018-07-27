@@ -10,6 +10,10 @@ pre {
     overflow-wrap: break-word;
 }
 
+pre.single-line {
+    padding: 1rem 2rem;
+}
+
 pre code {
     padding: 0;
     background-color: transparent;
