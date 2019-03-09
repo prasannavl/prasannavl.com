@@ -25,7 +25,7 @@ async function projectsList() {
     const projects = _(json.items)
         .map(x => { return { name: x.name, url: x.html_url, stars: x.stargazers_count, description: x.description } })
         .sortBy(x => x.stars)
-        .takeRight(5)
+        .takeRight(6)
         .reverse()
         .value();
 
