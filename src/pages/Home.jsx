@@ -27,7 +27,7 @@ export const Intro = () => {
   const encodedEmailAddress = "&#x70;&#x76;&#x6c;&#x40;&#x70;&#x72;&#x61;&#x73;&#x61;&#x6e;&#x6e;&#x61;&#x76;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;";
   const mailToHref = `mailto:${encodedEmailAddress}`;
   return <React.Fragment>
-    <p className="mb-md-0">A 20-something <a href="https://xkcd.com/242/" target="_blank">science-geek</a>, <a href="https://xkcd.com/387/" target="_blank">technology architect</a> and <a href="https://www.forbes.com/sites/kateharrison/2013/03/05/cartoon-truths-for-entrepreneurs/#286e22733af4" target="_blank">entrepreneur</a>.</p>
+    <p className="mb-md-0"><a href="https://xkcd.com/242/" target="_blank">Science-geek</a>, <a href="https://xkcd.com/387/" target="_blank">technology architect</a> and <a href="https://www.forbes.com/sites/kateharrison/2013/03/05/cartoon-truths-for-entrepreneurs/#286e22733af4" target="_blank">entrepreneur</a>.</p>
     <address> Follow me on Twitter <a href="https://www.twitter.com/prasannavl">@prasannavl</a> or reach me by email at <a href={mailToHref} dangerouslySetInnerHTML={{ __html: encodedEmailAddress }} />.
     </address>
     <p>You may also subscribe to my <a rel="alternate" type="application/rss+xml" href="/rss.xml">feed</a>, or find me on GitHub <a href="https://www.github.com/prasannavl">@prasannavl</a>.</p>
