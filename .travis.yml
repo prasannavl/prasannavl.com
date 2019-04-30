@@ -6,7 +6,7 @@ services:
 before_install:
 - export TZ='Asia/Kolkata'
 - openssl aes-256-cbc -K $encrypted_d2e2b63e72c8_key -iv $encrypted_d2e2b63e72c8_iv -in ./tools/deploy_key.enc -out ./tools/deploy_key -d
-- docker pull node:9
+- docker pull node:10
 before_script:
 - eval "$(ssh-agent -s)"
 - chmod 600 ./tools/deploy_key
