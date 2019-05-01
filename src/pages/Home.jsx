@@ -24,8 +24,6 @@ export const Page = (props) => (
 );
 
 export const Intro = () => {
-  const encodedEmailAddress = "&#x70;&#x76;&#x6c;&#x40;&#x70;&#x72;&#x61;&#x73;&#x61;&#x6e;&#x6e;&#x61;&#x76;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;";
-  const mailToHref = `mailto:${encodedEmailAddress}`;
   return <React.Fragment>
     <p className="mb-md-0">
       <a href="https://xkcd.com/387/" target="_blank">Technology architect</a>, <a href="https://xkcd.com/242/" target="_blank">science-geek</a> and <a href="https://www.forbes.com/sites/kateharrison/2013/03/05/cartoon-truths-for-entrepreneurs/#286e22733af4" target="_blank">entrepreneur</a>.
@@ -34,7 +32,7 @@ export const Intro = () => {
     <p>I'm a slow, unsafe and error prone human - wielding <a href="https://www.rust-lang.org/">@rustlang</a>, <a href="https://webassembly.org">@webassembly</a> <br className="br-on-desktop"/>and imaginatory <a href="https://starwars.fandom.com/wiki/Midi-chlorian">midi-chlorians</a>.
     </p>
     <p>
-    GitHub <a href="https://www.github.com/prasannavl">@prasannavl</a>, Twitter <a href="https://www.twitter.com/prasannavl">@prasannavl</a>, Feed <a rel="alternate" type="application/rss+xml" href="/rss.xml">RSS</a>, Email <a href={mailToHref} dangerouslySetInnerHTML={{ __html: encodedEmailAddress }} />.
+    GitHub <a href="https://www.github.com/prasannavl">@prasannavl</a>, Twitter <a href="https://www.twitter.com/prasannavl">@prasannavl</a>, Feed <a rel="alternate" type="application/rss+xml" href="/rss.xml">RSS</a>, <br className="br-on-desktop"/>Email <a href="mailto:pvl-prasannavl-com">pvl-prasannavl-com</a> (change it to be like me@me.com)
     </p>
   </React.Fragment>
 };
