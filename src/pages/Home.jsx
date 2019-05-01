@@ -24,6 +24,8 @@ export const Page = (props) => (
 );
 
 export const Intro = () => {
+  const emailUser = "pvl";
+  const emailDomain = "prasannavl.com";
   return <React.Fragment>
     <p className="mb-md-0">
       <a href="https://xkcd.com/387/" target="_blank">Technology architect</a>, <a href="https://xkcd.com/242/" target="_blank">science-geek</a> and <a href="https://www.forbes.com/sites/kateharrison/2013/03/05/cartoon-truths-for-entrepreneurs/#286e22733af4" target="_blank">entrepreneur</a>.
@@ -32,7 +34,7 @@ export const Intro = () => {
     <p>I'm a slow, unsafe and error prone human - wielding <a href="https://www.rust-lang.org/">@rustlang</a>, <a href="https://webassembly.org">@webassembly</a> <br className="br-on-desktop"/>and imaginatory <a href="https://starwars.fandom.com/wiki/Midi-chlorian">midi-chlorians</a>.
     </p>
     <p>
-    GitHub <a href="https://www.github.com/prasannavl">@prasannavl</a>, Twitter <a href="https://www.twitter.com/prasannavl">@prasannavl</a>, Feed <a rel="alternate" type="application/rss+xml" href="/rss.xml">RSS</a>, <br className="br-on-desktop"/>Email <a href="mailto:pvl-prasannavl-com">pvl-prasannavl-com</a> (change it to be like me@me.com)
+      GitHub <a href="https://www.github.com/prasannavl">@prasannavl</a>, Twitter <a href="https://www.twitter.com/prasannavl">@prasannavl</a>, Feed <a rel="alternate" type="application/rss+xml" href="/rss.xml">RSS</a>, Email <a href="#" onClick={() => { window.location.href = "mailto:" + emailUser + "@" + emailDomain }}>{emailUser}</a>.
     </p>
   </React.Fragment>
 };
