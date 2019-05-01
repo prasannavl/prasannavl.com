@@ -9,3 +9,23 @@
 ul.list-unstyled.list-dashed li::before {
     content: "- ";
 }
+
+.br-on-desktop {
+    display: none;
+}
+
+.br-on-mobile {
+    display: none;
+}
+
+@media screen and (min-width: 900px) {
+    .br-on-desktop {
+        display: unset;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .br-on-mobile {
+        display: unset;
+    }
+}
