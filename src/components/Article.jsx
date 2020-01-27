@@ -7,7 +7,7 @@ export { Link, linkHandler } from "./Link";
 
 export const Article = (meta) => {
     const { title, date, modifiedDate, image, type, children, note } = meta;
-    let author = "Prasanna V. Loganathar";
+    let author = "Prasanna Loganathar";
     let description = meta.description ||     
         (note ? "Prasanna's personal notes on " : "Prasanna's blog article published on ") + new Date(date).toUTCString();
     let isDraft = window.location.pathname.startsWith("/drafts");
