@@ -2,7 +2,7 @@ import React from "react";
 import Link from "./Link";
 
 const Banner = ({ index }) => {
-    let text = "Prasanna V. Loganathar";
+    let text = "Prasanna Loganathar";
     return (
         <header className="banner">
             <h1 id="top"><Link to="/">{text}</Link></h1>
