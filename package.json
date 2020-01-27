@@ -40,7 +40,7 @@
     "rss": "^1.2",
     "sass-loader": "^7.0",
     "sitemap": "^1.13",
-    "webpack-bundle-analyzer": "^2.11",
+    "webpack-bundle-analyzer": "^3.3",
     "workerize-loader": "^1.0"
   }
 }
