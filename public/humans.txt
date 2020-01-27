@@ -1,9 +1,9 @@
 /* TEAM */
-    Prasanna V. Loganathar
+    Prasanna Loganathar
     Twitter: https://www.twitter.com/prasannavl
     Facebook: https://www.facebook.com/prasannavl
 
 /* SITE */
-	Language: English
-	Doctype: HTML5
+    Language: English
+    Doctype: HTML5
     Technologies: HTML5, CSS3, JavaScript, Node, NeutrinoJS, React, Docker
