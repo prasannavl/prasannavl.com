@@ -15,7 +15,7 @@ const Footer = ({ showTwitter }) => {
                 </ul>
             </nav>
             <p className="small text-muted mt-1 mb-0">
-                <strong>Copyright &copy; {new Date(Date.now()).getUTCFullYear()} <a href="/">Prasanna V. Loganathar</a></strong>. Blog content, design elements or any information without a direct or indirect license is licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license">Creative Commons CC BY 4.0</a>. Similarly, any such code fragments are licensed under <a rel="license" href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a>.
+                <strong>Copyright &copy; {new Date(Date.now()).getUTCFullYear()} <a href="/">Prasanna Loganathar</a></strong>. Blog content, design elements or any information without a direct or indirect license is licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license">Creative Commons CC BY 4.0</a>. Similarly, any such code fragments are licensed under <a rel="license" href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a>.
             </p>
         </footer>
     );
