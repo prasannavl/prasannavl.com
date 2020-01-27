@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Helmet from "react-helmet";
 
-export const defaultTitle = "Prasanna V. Loganathar";
+export const defaultTitle = "Prasanna Loganathar";
 export const defaultDescription = "Prasanna Loganathar's Weblog";
 export const defaultImage = "https://www.prasannavl.com//icons/mstile-310x310.png";
 export const twitterHandle = "@prasannavl";
