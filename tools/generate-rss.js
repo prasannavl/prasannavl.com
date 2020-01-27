@@ -18,12 +18,12 @@ async function getFeed() {
     let site = "https://www.prasannavl.com";
 
     var feed = new RSS({
-        title: 'Prasanna V. Loganathar',
+        title: 'Prasanna Loganathar',
         description: "Prasanna's Weblog",
         feed_url: site + "/rss.xml",
         site_url: site,
         image_url: site + "/icons/mstile-144x144.png",
-        copyright: date.getFullYear() + " Prasanna V. Loganathar",
+        copyright: date.getFullYear() + " Prasanna Loganathar",
         language: 'en',
         pubDate: date.toISOString(),
     });
