@@ -27,7 +27,7 @@
     "isomorphic-unfetch": "^2.0",
     "lodash": "^4.17",
     "neutrino": "^8.2",
-    "node-sass": "^4.9",
+    "node-sass": "^4.13",
     "nprogress": "^0.2",
     "prismjs": "^1.21",
     "prop-types": "^15.6",
