@@ -29,7 +29,7 @@
     "neutrino": "^8.2",
     "node-sass": "^4.13",
     "nprogress": "^0.2",
-    "prismjs": "^1.21",
+    "prismjs": "^1.23",
     "prop-types": "^15.6",
     "raw-loader": "^0.5",
     "react": "^16.3",
